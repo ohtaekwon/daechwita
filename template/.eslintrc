@@ -1,0 +1,31 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "plugin:prettier/recommended",
+    "prettier",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb",
+    "airbnb/hooks"
+  ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "quotes": "off",
+    "func-names": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+    "import/extensions": "off",
+    "linebreak-style": ["error", "windows"],
+    "react/require-default-props": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".d.ts", ".ts", ".tsx", ".js", ".jsx"]
+      }
+    }
+  }
+}
