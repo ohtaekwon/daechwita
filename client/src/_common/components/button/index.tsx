@@ -1,9 +1,8 @@
 import React from "react";
-
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";
 
-const Button = function Button(
+const Button = React.forwardRef(function Button(
   {
     variant = "default",
     backgroundColor = "inherit",
@@ -44,6 +43,6 @@ const Button = function Button(
       <Styled.InnerWrapper>{children}</Styled.InnerWrapper>
     </Styled.Button>
   );
-};
+});
 
-export default React.forwardRef(Button);
+export default Button;
