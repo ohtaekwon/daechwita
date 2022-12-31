@@ -1,5 +1,5 @@
 import type { CSSProperties, ElementType, HTMLAttributes } from "react";
-import { theme } from "../../styles";
+import { theme } from "../../../styles";
 
 export interface FlexProps {
   /**
