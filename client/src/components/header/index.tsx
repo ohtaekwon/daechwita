@@ -1,8 +1,9 @@
 import { css } from "@emotion/css";
-
+import * as Styled from "./index.styles";
 import theme from "../../styles/theme";
 import Button from "../../_common/components/button";
 import Flex from "../../_common/components/flex";
+import Box from "../../_common/components/box";
 
 const Header = () => {
   return (
@@ -22,21 +23,28 @@ const Header = () => {
         width={98}
         height={23}
       />
-      <Button
-        variant="zinc_200"
-        paddingY={9}
-        paddingX={16}
-        fontSize="md"
-        lineHeight="md"
-        color="zinc_400"
-        className={css`
-          & > div {
-            align-items: flex-end;
-          }
-        `}
-      >
-        버튼
-      </Button>
+      <Flex as="div">
+        <Button
+          variant="zinc_200"
+          paddingY={9}
+          paddingX={16}
+          fontSize="md"
+          lineHeight="md"
+          color="zinc_400"
+        >
+          홈
+        </Button>
+        <Button
+          variant="zinc_200"
+          paddingY={9}
+          paddingX={16}
+          fontSize="md"
+          lineHeight="md"
+          color="zinc_400"
+        >
+          나의 글 목록
+        </Button>
+      </Flex>
     </Flex>
   );
 };
