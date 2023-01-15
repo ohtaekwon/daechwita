@@ -58,6 +58,36 @@ export interface BoxProps {
    * @default 0
    */
   marginLeft?: number;
+
+  width?: string;
+
+  /**
+   * box의 display 속성을 설정합니다.
+   *
+   * @default 'flex'
+   */
+  display?: "flex" | "inline-flex";
+
+  /**
+   * box의 flex-direction 속성을 설정합니다.
+   *
+   * @default 'row'
+   */
+  direction?: CSSProperties["flexDirection"];
+
+  /**
+   * box의 justify-content 속성을 설정합니다.
+   *
+   * @default 'flex-start'
+   */
+  justifyContent?: CSSProperties["justifyContent"];
+
+  /**
+   * box의 align-items 속성을 설정합니다.
+   *
+   * @default 'flex-start'
+   */
+  alignItems?: CSSProperties["alignItems"];
 }
 export interface Props extends HTMLAttributes<HTMLElement>, BoxProps {
   children?: ReactNode;

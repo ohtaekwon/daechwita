@@ -14,6 +14,12 @@ const Box = React.forwardRef(function Box(
     marginLeft = 0,
     gridArea = "",
     children,
+    width = "auto",
+    display = "flex",
+    direction = "row",
+    justifyContent = "flex-start",
+    alignItems = "flex-start",
+
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLDivElement>
@@ -30,6 +36,11 @@ const Box = React.forwardRef(function Box(
         marginBottom={marginBottom}
         marginLeft={marginLeft}
         marginRight={marginRight}
+        width={width}
+        display={display}
+        direction={direction}
+        justifyContent={justifyContent}
+        alignItems={alignItems}
         ref={forwardedRef}
         {...rest}
       >
