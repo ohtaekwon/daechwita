@@ -4,7 +4,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-import { auth } from "../firebase.config";
+// import { auth } from "../firebase.config";
 
 const Home = () => {
   const [registerEmail, setRegisterEmail] = React.useState("");
@@ -14,21 +14,21 @@ const Home = () => {
 
   const [user, setUser] = React.useState({});
 
-  onAuthStateChanged(auth, (currentUser: any) => {
-    setUser(currentUser);
-  });
+  // onAuthStateChanged(auth, (currentUser: any) => {
+  //   setUser(currentUser);
+  // });
 
   const register = async () => {
-    try {
-      const user = await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword
-      );
-      console.log(user);
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   const user = await createUserWithEmailAndPassword(
+    //     auth,
+    //     registerEmail,
+    //     registerPassword
+    //   );
+    //   console.log(user);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const login = async () => {};

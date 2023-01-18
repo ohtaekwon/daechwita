@@ -1,9 +1,9 @@
 import { css } from "@emotion/css";
 import * as Styled from "./index.styles";
-import theme from "../../styles/theme";
-import Button from "../../_common/components/button";
-import Flex from "../../_common/components/flex";
-import Box from "../../_common/components/box";
+import theme from "styles/theme";
+import Button from "_common/components/button";
+import Flex from "_common/components/flex";
+import Box from "_common/components/box";
 
 const Header = () => {
   return (
