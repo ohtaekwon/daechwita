@@ -1,12 +1,25 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "../pages/home";
+import Auth from "pages/auth";
+import Home from "pages/home";
 
-const DefaultRouter = () => {
+type Props = {
+  isLoggedIn: Boolean;
+};
+
+const DefaultRouter = ({ isLoggedIn }: Props) => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
+        {isLoggedIn ? (
+          <>
+            <Route path="/" element={<Home />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Auth />} />
+          </>
+        )}
       </Routes>
     </>
   );
