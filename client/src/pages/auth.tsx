@@ -1,9 +1,16 @@
 import React, { SyntheticEvent } from "react";
 import Button from "_common/components/button";
+import { signInWithGoogle } from "lib/firebase/provider";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { authService } from "lib/firebase/firebase.config";
 
 const Auth = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
+  const [newAccount, setNewAccount] = React.useState(false);
 
   const onChange = (e: SyntheticEvent) => {
     // console.log((e.target as HTMLInputElement).name);
@@ -15,9 +22,27 @@ const Auth = () => {
     } else if (name === "password") {
       setPassword(value);
     }
+    console.log(name, value);
   };
-  const onSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
+  const onSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault(); // 기본 행위 방지
+    try {
+      let data;
+      if (newAccount) {
+        // LOG IN
+        data = await signInWithEmailAndPassword(authService, email, password);
+      } else {
+        // CREATE ACCOUNT
+        data = await createUserWithEmailAndPassword(
+          authService,
+          email,
+          password
+        );
+      }
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -40,10 +65,15 @@ const Auth = () => {
           onChange={onChange}
           required
         />
-        <input type="submit" value="Log In" />
+        <input
+          type="submit"
+          value={newAccount ? "로그인하기" : "회원가입하기"}
+        />
       </form>
       <div>
-        <Button variant={"primary"}>Continue with Google</Button>
+        <Button variant={"primary"} onClick={signInWithGoogle}>
+          Continue with Google
+        </Button>
         <Button variant={"primary"}>Continue with Github</Button>
       </div>
     </>
