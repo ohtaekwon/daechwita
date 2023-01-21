@@ -4,12 +4,24 @@ import DefaultRouter from "routes/defaultRouter";
 import { authService } from "lib/firebase/firebase.config";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(authService.currentUser);
+  const [init, setInit] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  React.useEffect(() => {
+    authService.onAuthStateChanged((user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+      setInit(true);
+    });
+  }, []);
 
   return (
     <>
       <Header />
-      <DefaultRouter isLoggedIn={isLoggedIn} />
+      {init ? <DefaultRouter isLoggedIn={isLoggedIn} /> : "Iniitiallize..."}
       <footer>&copy; tk {new Date().getFullYear()}</footer>
     </>
   );
