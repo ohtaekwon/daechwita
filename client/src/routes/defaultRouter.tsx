@@ -4,7 +4,7 @@ import Auth from "pages/auth";
 import Home from "pages/home";
 
 type Props = {
-  isLoggedIn: Boolean;
+  isLoggedIn: Boolean | any;
 };
 
 const DefaultRouter = ({ isLoggedIn }: Props) => {
