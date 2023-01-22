@@ -7,10 +7,14 @@ import {
 } from "firebase/auth";
 import { authService } from "lib/firebase/firebase.config";
 
+type ErrorWithMessage = {
+  message: string;
+};
 const Auth = () => {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [newAccount, setNewAccount] = React.useState(false);
+  const [error, setError] = React.useState("");
 
   const onChange = (e: SyntheticEvent) => {
     // console.log((e.target as HTMLInputElement).name);
@@ -41,9 +45,13 @@ const Auth = () => {
       }
       console.log(data);
     } catch (error) {
-      console.log(error);
+      {
+        error instanceof Error && setError(error.message);
+      }
     }
   };
+
+  const toggleAccount = () => setNewAccount((prev) => !prev);
 
   return (
     <>
@@ -69,7 +77,11 @@ const Auth = () => {
           type="submit"
           value={newAccount ? "로그인하기" : "회원가입하기"}
         />
+        {error}
       </form>
+      <span onClick={toggleAccount}>
+        {newAccount ? "Sign in" : "Create Account"}
+      </span>
       <div>
         <Button variant={"primary"} onClick={signInWithGoogle}>
           Continue with Google
