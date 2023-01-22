@@ -1,9 +1,9 @@
+import { Link } from "react-router-dom";
 import { css } from "@emotion/css";
 import * as Styled from "./index.styles";
 import theme from "styles/theme";
 import Button from "_common/components/button";
 import Flex from "_common/components/flex";
-import Box from "_common/components/box";
 
 const Header = () => {
   return (
@@ -23,27 +23,43 @@ const Header = () => {
         width={98}
         height={23}
       />
-      <Flex as="div">
-        <Button
-          variant="zinc_200"
-          paddingY={9}
-          paddingX={16}
-          fontSize="md"
-          lineHeight="md"
-          color="zinc_400"
-        >
-          홈
-        </Button>
-        <Button
-          variant="zinc_200"
-          paddingY={9}
-          paddingX={16}
-          fontSize="md"
-          lineHeight="md"
-          color="zinc_400"
-        >
-          나의 글 목록
-        </Button>
+      <Flex as="nav">
+        <Link to="/">
+          <Button
+            variant="zinc_200"
+            paddingY={9}
+            paddingX={16}
+            fontSize="md"
+            lineHeight="md"
+            color="zinc_400"
+          >
+            홈
+          </Button>
+        </Link>
+        <Link to="/my-documents">
+          <Button
+            variant="zinc_200"
+            paddingY={9}
+            paddingX={16}
+            fontSize="md"
+            lineHeight="md"
+            color="zinc_400"
+          >
+            나의 글 목록
+          </Button>
+        </Link>
+        <Link to="/profile">
+          <Button
+            variant="zinc_200"
+            paddingY={9}
+            paddingX={16}
+            fontSize="md"
+            lineHeight="md"
+            color="zinc_400"
+          >
+            프로필
+          </Button>
+        </Link>
       </Flex>
     </Flex>
   );

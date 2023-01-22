@@ -20,7 +20,6 @@ function App() {
 
   return (
     <>
-      <Header />
       {init ? <DefaultRouter isLoggedIn={isLoggedIn} /> : "Iniitiallize..."}
       <footer>&copy; tk {new Date().getFullYear()}</footer>
     </>
