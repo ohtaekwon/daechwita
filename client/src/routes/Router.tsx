@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, redirect, Navigate } from "react-router-dom";
 import Auth from "pages/auth";
 import Home from "pages/home";
 import Header from "components/header";
@@ -10,7 +10,7 @@ type Props = {
   isLoggedIn: Boolean | any;
 };
 
-const DefaultRouter = ({ isLoggedIn }: Props) => {
+const Router = ({ isLoggedIn }: Props) => {
   return (
     <>
       {isLoggedIn && <Header />}
@@ -31,4 +31,4 @@ const DefaultRouter = ({ isLoggedIn }: Props) => {
     </>
   );
 };
-export default DefaultRouter;
+export default Router;

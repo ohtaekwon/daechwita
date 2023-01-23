@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "components/header";
-import DefaultRouter from "routes/defaultRouter";
+import Router from "routes/Router";
 import { authService } from "lib/firebase/firebase.config";
-
+import cookies from "js-cookie";
+import { getAuth } from "firebase/auth";
 function App() {
   const [init, setInit] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -18,9 +18,12 @@ function App() {
     });
   }, []);
 
+  const cookie = cookies.get("auth");
+  // console.log(JSON.parse(JSON.stringify(cookie)));
+
   return (
     <>
-      {init ? <DefaultRouter isLoggedIn={isLoggedIn} /> : "Iniitiallize..."}
+      {init ? <Router isLoggedIn={isLoggedIn} /> : "Iniitiallize..."}
       <footer>&copy; tk {new Date().getFullYear()}</footer>
     </>
   );
