@@ -3,14 +3,14 @@ import { resolve } from "path";
 
 export enum DBField {
   DOCUMENTS = "documents",
-  users = "users",
+  USERS = "users",
 }
 
 const basePath = resolve(); // 현재의 경로가 변수에 할당된다. == __dirname
 
 const filedNames = {
   [DBField.DOCUMENTS]: resolve(basePath, "./src/db/documents.json"),
-  [DBField.users]: resolve(basePath, "./src/db/users.json"),
+  [DBField.USERS]: resolve(basePath, "./src/db/users.json"),
 };
 
 export const readDB = (target: DBField) => {
