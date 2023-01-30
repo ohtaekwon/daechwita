@@ -27,12 +27,38 @@ const documentsRoute = [
       } = req;
       try {
         const users = getUsers();
-        const user = users.find((user: any) => user.id === id);
+        const user = users.find((user: any) => user.email === id);
         if (!user) throw "해당 문서가 없습니다.";
         res.send(user);
       } catch (err) {
         res.status(404).send({ error: err });
       }
+    },
+  },
+  // CREATE USERS
+  {
+    method: "post",
+    route: "/users",
+    handler: (req: express.Request, res: express.Response) => {
+      const { body, params, query } = req;
+      const docs = getUsers();
+      const newUsers = {
+        email: body.userEmail,
+        pw: body.userPw,
+        name: body.userName,
+      };
+      docs.unshift(newUsers);
+      setUsers(docs); // json db에 추가
+      res.send(newUsers); // post 응답
+    },
+  },
+  // UPDATE USERS
+  {
+    method: "put",
+    route: "/users/:id",
+    handler: (req: express.Request, res: express.Response) => {
+      const { body, params, query } = req;
+      const users = getUsers();
     },
   },
 ];
