@@ -66,15 +66,15 @@ const usersRoute = [
       } = req;
       try {
         const users = getUsers();
-        const targetIndex = users.findIndex((user: any) => user.email === id);
+        const user = users[id];
+        if (!user) throw "유저 정보를 찾을 수 없습니다.";
 
-        if (targetIndex < 0) throw "선택한 유저가 없습니다.";
-        if (users[targetIndex].userEmail !== body.userEmail) {
+        if (users.userEmail !== body.userEmail) {
           throw "사용자가 다릅니다.";
         }
-        const newUsers = { ...users[targetIndex], body: body };
-
-        // setUsers()
+        const newUsers = { ...user, body: body };
+        users[`${newUsers.email}`] = newUsers;
+        setUsers(users);
       } catch (err) {
         res.status(500).send({ error: err });
       }
