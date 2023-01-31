@@ -9,8 +9,12 @@ const itemARoute = [
   // GET ITEM_A
   {
     method: "get",
-    route: "/users",
+    route: "/itemA",
     handler: (req: express.Request, res: express.Response) => {
+      const {
+        body,
+        params: { id },
+      } = req;
       const item_A = getItems();
       res.send(item_A);
     },

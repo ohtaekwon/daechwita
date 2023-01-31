@@ -1,1 +1,9 @@
-[]
+{
+  "0000001": {
+    "email": "test@gmail.com",
+    "nickName": "테스트",
+    "pw": 1234,
+    "itemOfUser": {},
+    "subscription": 1675089175825
+  }
+}
