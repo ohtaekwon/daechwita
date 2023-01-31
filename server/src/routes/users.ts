@@ -13,6 +13,7 @@ const usersRoute = [
     route: "/users",
     handler: (req: express.Request, res: express.Response) => {
       const users = getUsers();
+      console.log(users, "-------------");
       res.send(users);
     },
   },
@@ -26,6 +27,7 @@ const usersRoute = [
         params: { id },
       } = req;
       try {
+        console.log(id);
         const users = getUsers();
         const user = users[id];
         if (!user) throw "유저 정보를 찾을 수 없습니다.";
@@ -72,7 +74,7 @@ const usersRoute = [
         if (users.userEmail !== body.userEmail) {
           throw "사용자가 다릅니다.";
         }
-        const newUsers = { ...user, body: body };
+        const newUsers = { ...user, body };
         users[`${newUsers.email}`] = newUsers;
         setUsers(users);
       } catch (err) {

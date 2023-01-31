@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import documentsRoute from "./routes/documents";
+import usersRoute from "./routes/users";
+import itemARoute from "./routes/itemA";
 
 const app: any = express();
 app.use(express.urlencoded({ extended: true }));
@@ -12,7 +14,7 @@ app.use(
   })
 );
 
-const routes = [...documentsRoute];
+const routes = [...documentsRoute, ...usersRoute, ...itemARoute];
 
 routes.forEach(({ method, route, handler }) => {
   app[method](route, handler);

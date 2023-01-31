@@ -12,8 +12,7 @@ const itemARoute = [
     route: "/users",
     handler: (req: express.Request, res: express.Response) => {
       const item_A = getItems();
-
-      res.send();
+      res.send(item_A);
     },
   },
 ];
