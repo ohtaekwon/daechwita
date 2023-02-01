@@ -1,5 +1,4 @@
 import * as express from "express";
-import { text } from "stream/consumers";
 import { v4 } from "uuid";
 import { DBField, readDB, writeDB } from "../dbController";
 
@@ -7,6 +6,7 @@ const getUsers = () => readDB(DBField.USERS);
 const setUsers = (data: any) => writeDB(DBField.USERS, data);
 
 const usersRoute = [
+  // 유저 회원 정보 관련 메서드
   // GET USERS
   {
     method: "get",
@@ -81,6 +81,21 @@ const usersRoute = [
       } catch (err) {
         res.status(500).send({ error: err });
       }
+    },
+  },
+  // 유저의 아이템 관련 메서드
+  // GET ITEMS
+  {
+    method: "get",
+    route: "/users/:id/items",
+    handler: (req: express.Request, res: express.Response) => {
+      const {
+        body,
+        params: { id },
+      } = req;
+      const userItems = getUsers();
+      const item = userItems[id]["itemOfUser"];
+      res.send(item);
     },
   },
 ];
