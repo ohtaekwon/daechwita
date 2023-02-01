@@ -16,24 +16,5 @@ const itemARoute = [
       res.send(allItemA);
     },
   },
-  // GET ITEM A
-  {
-    method: "get",
-    route: "/itemA/:id",
-    handler: (req: express.Request, res: express.Response) => {
-      const {
-        body,
-        params: { id },
-      } = req;
-      try {
-        const items = getItems();
-        const userItem = items[id];
-        if (!userItem) throw "해당 게시글이 없습니다.";
-        res.send(userItem);
-      } catch (err) {
-        res.status(404).send({ error: err });
-      }
-    },
-  },
 ];
 export default itemARoute;

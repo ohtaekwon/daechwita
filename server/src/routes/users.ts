@@ -27,7 +27,6 @@ const usersRoute = [
         params: { id },
       } = req;
       try {
-        console.log(id);
         const users = getUsers();
         const user = users[id];
         if (!user) throw "유저 정보를 찾을 수 없습니다.";
@@ -66,6 +65,8 @@ const usersRoute = [
         params: { id },
         query,
       } = req;
+      console.log(id);
+      console.log("query", query);
       try {
         const users = getUsers();
         const user = users[id];

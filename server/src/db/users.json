@@ -3,14 +3,22 @@
     "email": "test@gmail.com",
     "nickName": "테스트",
     "pw": 1234,
-    "itemOfUser": {},
+    "itemOfUser": {
+      "itemA": ["0000001"],
+      "itemB": [],
+      "itemC": []
+    },
     "subscription": 1675089175825
   },
   "test2@gmail.com": {
     "email": "test2@gmail.com",
     "nickName": "테스트2",
     "pw": 1234,
-    "itemOfUser": {},
+    "itemOfUser": {
+      "itemA": ["0000002"],
+      "itemB": [],
+      "itemC": []
+    },
     "subscription": 1675089175826
   }
 }
