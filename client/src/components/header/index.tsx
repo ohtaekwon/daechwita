@@ -17,12 +17,7 @@ const Header = () => {
         border-bottom: 1px solid ${theme.colors.zinc_200};
       `}
     >
-      <img
-        src="https://user-images.githubusercontent.com/41149744/205478176-acde0f95-baa1-4742-9c92-dace85e93e82.png"
-        alt="세일즈클루 로고"
-        width={98}
-        height={23}
-      />
+      <img src="" alt="로고 위치" width={98} height={23} />
       <Flex as="nav">
         <Link to="/">
           <Button
