@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
-import { theme } from "../../../styles";
+import { theme } from "styles";
 
 export type ButtonType =
   | "primary"

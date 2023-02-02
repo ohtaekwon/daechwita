@@ -3,14 +3,14 @@ import { css } from "@emotion/react";
 
 import { LayoutProps } from "./index.types";
 
-export const Main = styled.main<Required<LayoutProps>>`
+export const Layout = styled.main<Required<LayoutProps>>`
   margin: auto;
-  flex-direction: ${({ direction }) => direction};
+
   ${({ variant }) => {
     switch (variant) {
       case "default": {
         return css`
-          max-width: 1080px;
+          max-width: 100%;
         `;
       }
       case "sm": {
@@ -35,4 +35,7 @@ export const Main = styled.main<Required<LayoutProps>>`
       }
     }
   }}
+`;
+export const Aside = styled.aside<Required<any>>`
+  width: 20%;
 `;

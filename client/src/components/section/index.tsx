@@ -5,9 +5,10 @@ import Flex from "../../_common/components/flex";
 import Grid from "../../_common/components/grid";
 
 const Section = ({
+  as = "div",
   children,
-  sectionType,
-  variant,
+  sectionType = "flex",
+  variant = "default",
   width = 100,
   direction = "row",
   gridTemplateAreas = "",
@@ -24,6 +25,7 @@ const Section = ({
   return (
     <>
       <Styled.Section
+        as={as}
         variant={variant}
         width={width}
         paddingBottom={paddingBottom}

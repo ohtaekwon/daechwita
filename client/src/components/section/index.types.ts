@@ -1,14 +1,25 @@
-import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import type {
+  CSSProperties,
+  ElementType,
+  HTMLAttributes,
+  ReactNode,
+} from "react";
 
 export type SectionType = "default";
 
 export interface SectionProps {
   /**
+   * 엘리먼트의 타입을 설정합니다.
+   *
+   * @default div
+   */
+  as?: ElementType;
+  /**
    * section의 variant을 설정합니다.
    *
    * @required
    */
-  variant: SectionType;
+  variant?: SectionType;
 
   /**
    * section의 variant을 설정합니다.
@@ -22,7 +33,7 @@ export interface SectionProps {
    *
    * @default ''
    */
-  sectionType: "grid" | "flex" | undefined;
+  sectionType?: "grid" | "flex" | undefined;
 
   /**
    * section이 flex일 경우 direction을 설정합니다.
