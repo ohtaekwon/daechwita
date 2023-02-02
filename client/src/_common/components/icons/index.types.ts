@@ -10,4 +10,8 @@ export interface IconsProps {
   backgroundColor?: keyof typeof theme.colors;
 }
 
+export type IconsItemType = {
+  [x: string]: JSX.Element;
+};
+
 export interface Props extends HTMLAttributes<HTMLElement>, IconsProps {}

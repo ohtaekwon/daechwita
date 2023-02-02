@@ -4,6 +4,11 @@ import * as Styled from "./index.styles";
 import theme from "styles/theme";
 import Button from "_common/components/button";
 import Flex from "_common/components/flex";
+import {
+  AiOutlineHome,
+  AiOutlineUser,
+  AiOutlinePlusCircle,
+} from "react-icons/ai";
 
 const Header = () => {
   return (
@@ -21,38 +26,38 @@ const Header = () => {
       <Flex as="nav">
         <Link to="/">
           <Button
-            variant="zinc_200"
+            variant="default"
             paddingY={9}
             paddingX={16}
             fontSize="md"
             lineHeight="md"
             color="zinc_400"
           >
-            홈
+            <AiOutlineHome />
           </Button>
         </Link>
         <Link to="/my-documents">
           <Button
-            variant="zinc_200"
+            variant="default"
             paddingY={9}
             paddingX={16}
             fontSize="md"
             lineHeight="md"
-            color="zinc_400"
+            color="black"
           >
-            나의 글 목록
+            <AiOutlinePlusCircle />
           </Button>
         </Link>
         <Link to="/profile">
           <Button
-            variant="zinc_200"
+            variant="default"
             paddingY={9}
             paddingX={16}
             fontSize="md"
             lineHeight="md"
             color="zinc_400"
           >
-            프로필
+            <AiOutlineUser />
           </Button>
         </Link>
       </Flex>
