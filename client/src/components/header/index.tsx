@@ -9,6 +9,7 @@ import {
   AiOutlineUser,
   AiOutlinePlusCircle,
 } from "react-icons/ai";
+import Icons from "_common/components/icons";
 
 const Header = () => {
   return (
@@ -33,7 +34,9 @@ const Header = () => {
             lineHeight="md"
             color="zinc_400"
           >
-            <AiOutlineHome />
+            <Icons>
+              <AiOutlineHome size={20} />
+            </Icons>
           </Button>
         </Link>
         <Link to="/my-documents">
@@ -45,7 +48,9 @@ const Header = () => {
             lineHeight="md"
             color="black"
           >
-            <AiOutlinePlusCircle />
+            <Icons>
+              <AiOutlinePlusCircle size={20} />
+            </Icons>
           </Button>
         </Link>
         <Link to="/profile">
@@ -57,7 +62,9 @@ const Header = () => {
             lineHeight="md"
             color="zinc_400"
           >
-            <AiOutlineUser />
+            <Icons>
+              <AiOutlineUser size={20} />
+            </Icons>
           </Button>
         </Link>
       </Flex>

@@ -3,7 +3,7 @@ import theme from "../../../styles/theme";
 
 export interface IconsProps {
   /**
-   * Grid의 배경 색상을 설정합니다.
+   * Icon 의 배경 색상을 설정합니다.
    *
    * @default 'inherit'
    */

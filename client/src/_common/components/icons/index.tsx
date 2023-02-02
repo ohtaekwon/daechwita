@@ -2,8 +2,6 @@ import React from "react";
 import * as Styled from "./index.styles";
 import { IconsItemType, Props } from "./index.types";
 
-import { AiOutlineHome } from "react-icons/ai";
-
 const Icons = React.forwardRef(function Icons(
   {
     backgroundColor = "inherit",
