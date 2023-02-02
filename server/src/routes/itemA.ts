@@ -1,6 +1,6 @@
 import * as express from "express";
 import { v4 } from "uuid";
-import { DBField, readDB, writeDB } from "../dbController";
+import { DBField, readDB, writeDB } from "dbController";
 
 const getItems = () => readDB(DBField.ITEM_A);
 const setItems = (data: any) => writeDB(DBField.ITEM_A, data);

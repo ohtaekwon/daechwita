@@ -1,6 +1,6 @@
 import type { CSSProperties, ElementType, HTMLAttributes } from "react";
 
-import theme from "../../../styles/theme";
+import theme from "styles/theme";
 
 export interface Props {
   /**

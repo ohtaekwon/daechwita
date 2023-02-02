@@ -1,5 +1,5 @@
-import type { CSSProperties, ElementType, HTMLAttributes } from "react";
-import theme from "../../../styles/theme";
+import type { HTMLAttributes } from "react";
+import theme from "styles/theme";
 
 export interface IconsProps {
   /**

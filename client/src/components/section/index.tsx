@@ -1,8 +1,8 @@
 import React from "react";
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";
-import Flex from "../../_common/components/flex";
-import Grid from "../../_common/components/grid";
+import Flex from "_common/components/flex";
+import Grid from "_common/components/grid";
 
 const Section = ({
   as = "div",
