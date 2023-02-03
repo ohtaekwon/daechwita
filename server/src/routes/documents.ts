@@ -1,7 +1,7 @@
 import * as express from "express";
 import { text } from "stream/consumers";
 import { v4 } from "uuid";
-import { DBField, readDB, writeDB } from "dbController";
+import { DBField, readDB, writeDB } from "../dbController";
 
 const getDocuments = () => readDB(DBField.DOCUMENTS);
 const setDocuments = (data: any) => writeDB(DBField.DOCUMENTS, data);

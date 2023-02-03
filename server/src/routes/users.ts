@@ -1,6 +1,6 @@
 import * as express from "express";
+import { DBField, readDB, writeDB } from "../dbController";
 import { v4 } from "uuid";
-import { DBField, readDB, writeDB } from "dbController";
 
 const getUsers = () => readDB(DBField.USERS);
 const setUsers = (data: any) => writeDB(DBField.USERS, data);
