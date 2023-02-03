@@ -1,10 +1,12 @@
+import { ThemeType } from "./index.types";
+
 const breakpoint = {
   mobile: "320px",
   tablet: "768px",
   desktop: "1280px",
 };
 
-const theme = {
+const theme: ThemeType = {
   colors: {
     inherit: "inherit",
     current: "currentColor",

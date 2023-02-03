@@ -1,4 +1,6 @@
 import type { ElementType, HTMLAttributes, ReactNode } from "react";
+import { theme } from "styles";
+import { ThemeType } from "styles/index.types";
 
 export type LayoutType = "sm" | "md" | "lg" | "default" | "xl" | "1/2/80";
 export interface LayoutProps {
@@ -14,6 +16,15 @@ export interface LayoutProps {
    * @required
    */
   variant: LayoutType;
+
+  /**
+   * Layout의 배경 색상을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  backgroundColor?: keyof typeof theme.colors;
+
+  theme: ThemeType;
 }
 export interface Props extends HTMLAttributes<HTMLElement>, LayoutProps {
   children?: ReactNode;
