@@ -10,7 +10,7 @@ const MyDocuments = () => {
     const newDocs = (e.target as HTMLInputElement).value;
     setDocument(newDocs);
   };
-  console.log(document);
+  // console.log(document);
   return (
     <form onSubmit={onSubmit}>
       <input

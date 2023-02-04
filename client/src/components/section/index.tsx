@@ -6,7 +6,6 @@ import Grid from "_common/components/grid";
 
 const Section = ({
   as = "div",
-  children,
   sectionType = "flex",
   variant = "default",
   width = 100,
@@ -21,6 +20,10 @@ const Section = ({
   marginRight = 0,
   marginBottom = 0,
   marginLeft = 0,
+  backgroundColor = "inherit",
+
+  children,
+  ...rest
 }: React.PropsWithChildren<Props>) => {
   return (
     <>
@@ -40,6 +43,8 @@ const Section = ({
         direction={direction}
         gridTemplateAreas={gridTemplateAreas}
         gridArea={gridArea}
+        backgroundColor={backgroundColor}
+        {...rest}
       >
         {sectionType == "flex" && <Flex direction={direction}>{children}</Flex>}
         {sectionType == "grid" && (

@@ -6,7 +6,8 @@ import { theme } from "styles";
 
 export const Layout = styled.main<Required<LayoutProps>>`
   margin: auto;
-  background-color: ${({ theme, backgroundColor }) =>
+  display: flex;
+  background-color: ${({ theme: ThemeType, backgroundColor }) =>
     theme.colors[backgroundColor]};
 
   ${({ variant }) => {
@@ -14,7 +15,7 @@ export const Layout = styled.main<Required<LayoutProps>>`
       case "default": {
         return css`
           max-width: 100%;
-          background-color: ${theme.colors.amber_100};
+          background-color: ${theme.colors.neutral_100};
         `;
       }
       case "sm": {

@@ -19,7 +19,7 @@ const Header = () => {
       justifyContent="space-between"
       backgroundColor="white"
       className={css`
-        padding: 8px calc((100% - 1080px) / 2);
+        padding: 8px calc((100% - 2000px) / 2);
         border-bottom: 1px solid ${theme.colors.zinc_200};
       `}
     >

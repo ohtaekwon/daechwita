@@ -23,8 +23,6 @@ export interface LayoutProps {
    * @default 'inherit'
    */
   backgroundColor?: keyof typeof theme.colors;
-
-  theme: ThemeType;
 }
 export interface Props extends HTMLAttributes<HTMLElement>, LayoutProps {
   children?: ReactNode;
