@@ -7,9 +7,10 @@ export const Layout = React.forwardRef(function Layout(
   {
     as = "div",
     variant,
-    children,
-    className,
+    width = 100,
     backgroundColor = "inherit",
+    className,
+    children,
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLElement>
@@ -19,6 +20,7 @@ export const Layout = React.forwardRef(function Layout(
       <Styled.Layout
         as={as}
         variant={variant}
+        width={width}
         backgroundColor={backgroundColor}
         ref={forwardedRef}
         className={className}
@@ -37,10 +39,5 @@ export const LayoutElement = ({
   children?: React.ReactNode;
   className: string;
 }) => {
-  const [state, setState] = React.useState(false);
-  return (
-    <div className={className} onClick={() => setState((v) => !v)}>
-      <span> {String(state)}</span>
-    </div>
-  );
+  return <div>{children}</div>;
 };

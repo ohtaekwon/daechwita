@@ -10,7 +10,7 @@ export const Layout = styled.main<Required<LayoutProps>>`
   background-color: ${({ theme: ThemeType, backgroundColor }) =>
     theme.colors[backgroundColor]};
 
-  ${({ variant }) => {
+  ${({ variant, width }) => {
     switch (variant) {
       case "default": {
         return css`
@@ -38,6 +38,12 @@ export const Layout = styled.main<Required<LayoutProps>>`
       case "xl": {
         return css`
           max-width: 1600px;
+        `;
+      }
+      case "custom": {
+        return css`
+          margin: 0;
+          max-width: ${width};
         `;
       }
     }

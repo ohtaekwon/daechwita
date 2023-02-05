@@ -2,7 +2,7 @@ import type { ElementType, HTMLAttributes, ReactNode } from "react";
 import { theme } from "styles";
 import { ThemeType } from "styles/index.types";
 
-export type LayoutType = "sm" | "md" | "lg" | "default" | "xl" | "1/2/80";
+export type LayoutType = "sm" | "md" | "lg" | "default" | "xl" | "custom";
 export interface LayoutProps {
   /**
    * 엘리먼트의 타입을 설정합니다.
@@ -23,6 +23,13 @@ export interface LayoutProps {
    * @default 'inherit'
    */
   backgroundColor?: keyof typeof theme.colors;
+
+  /**
+   * Layout의 variant을 설정합니다.
+   *
+   * @default 100
+   */
+  width?: number;
 }
 export interface Props extends HTMLAttributes<HTMLElement>, LayoutProps {
   children?: ReactNode;

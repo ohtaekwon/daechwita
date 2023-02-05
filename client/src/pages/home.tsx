@@ -1,26 +1,45 @@
 import React from "react";
 import Section from "components/section";
 import useFetch from "hooks/useFetch";
+import Flex from "_common/components/flex";
+import { Layout, LayoutElement } from "components/layout";
+import Button from "_common/components/button";
+import { Link } from "react-router-dom";
 
-const Home = () => {
+type SideMenu = {
+  id: string;
+  name: string;
+};
+const sideNavMenu: SideMenu[] = [
+  { id: "1", name: "todo" },
+  { id: "2", name: "자소서" },
+];
+
+const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
+  const Content = LayoutElement;
+
   const { payload, loading } = useFetch("get", "/documents");
-  // console.log("payload", loading, payload);
-
+  console.log(sideNavMenu);
   return (
-    // <Layout as="main" variant="default" >
-    //   <Flex>
-    //     <Section as="aside" width={20}>
-    //       사이드 네브
-    //     </Section>
-    //     <Section as="section" width={80}>
-    //       컨텐츠
-    //     </Section>
-    //   </Flex>
-    // </Layout>
+    <>
+      <div className="homepage">
+        <Flex as="main">
+          {leftNav}
 
-    <Section as="section" width={80}>
-      <div>ㅇㅇ</div>
-    </Section>
+          <Layout
+            as="section"
+            className="centerContent"
+            variant="custom"
+            width={80}
+          >
+            asdsadasd
+          </Layout>
+        </Flex>
+      </div>
+      {sideNavMenu.map((menu: SideMenu) => (
+        <span>{menu.name}</span>
+      ))}
+    </>
   );
 };
 export default Home;

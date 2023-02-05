@@ -25,46 +25,12 @@ const sideNavMenu: SideMenu = [
 const Router = ({ isLoggedIn }: Props) => {
   return (
     <>
-      {isLoggedIn && (
-        <>
-          <Header />
-          <Layout as="main" variant="default">
-            <Section
-              as="figure"
-              width={20}
-              backgroundColor="neutral_300"
-              sectionType="flex"
-              direction="column"
-            >
-              {sideNavMenu.map((menu: any) => {
-                <Link to="/" key={menu.key}>
-                  <Button
-                    variant="default"
-                    paddingY={9}
-                    paddingX={16}
-                    fontSize="md"
-                    lineHeight="md"
-                    color="zinc_400"
-                  >
-                    {menu.name}
-                  </Button>
-                </Link>;
-              })}
-              <Button
-                variant="default"
-                paddingY={9}
-                paddingX={16}
-                fontSize="md"
-                lineHeight="md"
-                color="zinc_400"
-              >
-                ddd
-              </Button>
-            </Section>
-          </Layout>
-        </>
+      {isLoggedIn && <Header />}
+      {isLoggedIn ? (
+        <SignInRouter sideNavMenu={sideNavMenu} />
+      ) : (
+        <DefaultRouter />
       )}
-      {isLoggedIn ? <SignInRouter /> : <DefaultRouter />}
     </>
   );
 };
