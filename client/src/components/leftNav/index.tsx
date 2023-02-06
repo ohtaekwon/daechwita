@@ -13,12 +13,13 @@ type SideMenu = {
 };
 
 const sideNavMenu: any = [
-  { name: "todo", key: "todo" },
-  { name: "자소서", key: "abc" },
+  { name: "todo", key: "1" },
+  { name: "자소서", key: "2" },
+  { name: "일기", key: "3" },
+  { name: "달력", key: "4" },
 ];
 
 const LeftNav = () => {
-  console.log(sideNavMenu.map((menu: any) => console.log(menu.name)));
   return (
     <Styled.Wrapper>
       <Layout
@@ -29,7 +30,7 @@ const LeftNav = () => {
         backgroundColor="indigo_300"
       >
         <Flex direction="column">
-          {sideNavMenu.map((menu: any) => {
+          {sideNavMenu.map((menu: any) => (
             <Link to="/" key={menu.key}>
               <Button
                 variant="default"
@@ -41,33 +42,8 @@ const LeftNav = () => {
               >
                 {menu.name}
               </Button>
-            </Link>;
-          })}
-          {/* <Link to="/">
-            <Button
-              variant="default"
-              paddingY={9}
-              paddingX={16}
-              fontSize="md"
-              lineHeight="md"
-              color="zinc_400"
-            >
-              자소서
-            </Button>
-          </Link>
-
-          <Link to="/">
-            <Button
-              variant="default"
-              paddingY={9}
-              paddingX={16}
-              fontSize="md"
-              lineHeight="md"
-              color="zinc_400"
-            >
-              자소서
-            </Button>
-          </Link> */}
+            </Link>
+          ))}
         </Flex>
       </Layout>
     </Styled.Wrapper>
