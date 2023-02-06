@@ -7,4 +7,5 @@ export const Grid = styled.span<Required<GridProps>>`
   gap: ${({ gap }) => gap};
   background-color: ${({ backgroundColor, theme }) =>
     theme.colors[backgroundColor]};
+  grid-template-columns: ${({ gridTemplateColumns }) => gridTemplateColumns};
 `;

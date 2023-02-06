@@ -8,6 +8,7 @@ const Grid = React.forwardRef(function Grid(
     children,
     display = "grid",
     gridTemplateAreas = "",
+    gridTemplateColumns = "",
     gap = 0,
     backgroundColor = "inherit",
     ...rest
@@ -19,6 +20,7 @@ const Grid = React.forwardRef(function Grid(
       as={as}
       display={display}
       gridTemplateAreas={gridTemplateAreas}
+      gridTemplateColumns={gridTemplateColumns}
       gap={gap}
       backgroundColor={backgroundColor}
       ref={forwardedRef}

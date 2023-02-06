@@ -24,6 +24,13 @@ export interface GridProps {
   gridTemplateAreas?: CSSProperties["gridTemplateAreas"];
 
   /**
+   * Grid의 grid-template-column을 설정합니다.
+   *
+   * @default ''
+   */
+  gridTemplateColumns?: CSSProperties["gridTemplateColumns"];
+
+  /**
    * Grid의 gap을 설정합니다.
    *
    * @default 0

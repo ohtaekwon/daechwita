@@ -51,6 +51,12 @@ export interface SectionProps {
   gridTemplateAreas?: CSSProperties["gridTemplateAreas"];
 
   /**
+   * section이 grid일 경우 grid-template-column을 설정합니다.
+   *
+   * @default ''
+   */
+  gridTemplateColumns?: CSSProperties["gridTemplateColumns"];
+  /**
    * section이 grid일 경우 grid-areas를 설정합니다.
    *
    * @default ''

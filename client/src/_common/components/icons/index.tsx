@@ -8,7 +8,7 @@ const Icons = React.forwardRef(function Icons(
     children,
     ...rest
   }: React.PropsWithChildren<Props>,
-  forwardedRef: React.Ref<HTMLDivElement>
+  forwardedRef: React.Ref<HTMLElement>
 ) {
   return (
     <Styled.Icons
