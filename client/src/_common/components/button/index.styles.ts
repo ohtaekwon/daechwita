@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 
 import { ButtonProps } from "./index.types";
 
-export const Button = styled.button<Required<ButtonProps> | any>`
+export const Button = styled.button<Required<ButtonProps>>`
   width: ${({ width }) => width};
   padding: ${({ paddingX, paddingY }) => `${paddingY}px ${paddingX}px`};
   border-width: 1px;

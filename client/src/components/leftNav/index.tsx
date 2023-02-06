@@ -12,7 +12,7 @@ type SideMenu = {
   key: string;
 };
 
-const sideNavMenu: any = [
+const sideNavMenu: SideMenu[] = [
   { name: "todo", key: "1" },
   { name: "자소서", key: "2" },
   { name: "일기", key: "3" },
@@ -21,32 +21,30 @@ const sideNavMenu: any = [
 
 const LeftNav = () => {
   return (
-    <Styled.Wrapper>
-      <Layout
-        as="figure"
-        className="leftNav"
-        variant="custom"
-        width={20}
-        backgroundColor="indigo_300"
-      >
-        <Flex direction="column">
-          {sideNavMenu.map((menu: any) => (
-            <Link to="/" key={menu.key}>
-              <Button
-                variant="default"
-                paddingY={9}
-                paddingX={16}
-                fontSize="md"
-                lineHeight="md"
-                color="zinc_400"
-              >
-                {menu.name}
-              </Button>
-            </Link>
-          ))}
-        </Flex>
-      </Layout>
-    </Styled.Wrapper>
+    <Layout
+      as="figure"
+      className="leftNav"
+      variant="custom"
+      width={20}
+      backgroundColor="indigo_300"
+    >
+      <Flex direction="column">
+        {sideNavMenu.map((menu: SideMenu) => (
+          <Link to="/" key={menu.key}>
+            <Button
+              variant="default"
+              paddingY={9}
+              paddingX={16}
+              fontSize="md"
+              lineHeight="md"
+              color="zinc_400"
+            >
+              {menu.name}
+            </Button>
+          </Link>
+        ))}
+      </Flex>
+    </Layout>
   );
 };
 

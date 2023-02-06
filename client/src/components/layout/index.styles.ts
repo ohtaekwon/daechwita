@@ -7,10 +7,10 @@ import { theme } from "styles";
 export const Layout = styled.main<Required<LayoutProps>>`
   margin: auto;
   display: flex;
-  background-color: ${({ theme: ThemeType, backgroundColor }) =>
+  background-color: ${({ theme, backgroundColor }) =>
     theme.colors[backgroundColor]};
 
-  ${({ variant, width }) => {
+  ${({ variant, width, backgroundColor }) => {
     switch (variant) {
       case "default": {
         return css`
@@ -44,6 +44,7 @@ export const Layout = styled.main<Required<LayoutProps>>`
         return css`
           margin: 0;
           max-width: ${width};
+          background-color: ${backgroundColor};
         `;
       }
     }

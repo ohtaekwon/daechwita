@@ -19,9 +19,8 @@ const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
             className="centerContent"
             variant="custom"
             width={80}
-          >
-            asdsadasd
-          </Layout>
+            backgroundColor="neutral_100"
+          ></Layout>
         </Flex>
       </div>
     </>

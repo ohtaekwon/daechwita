@@ -10,25 +10,18 @@ export interface GridProps {
   as?: ElementType;
 
   /**
-   * Grid의 display 속성을 설정합니다.
+   * Grid 의 display 속성을 설정합니다.
    *
    * @default 'grid'
    */
   display?: "grid";
 
   /**
-   * Grid-template-areas의 속성을 설정합니다.
+   * Grid의 grid-template-areas의 속성을 설정합니다.
    *
    * @default ''
    */
   gridTemplateAreas?: CSSProperties["gridTemplateAreas"];
-
-  /**
-   * Grid의 배경 색상을 설정합니다.
-   *
-   * @default 'inherit'
-   */
-  backgroundColor?: keyof typeof theme.colors;
 
   /**
    * Grid의 gap을 설정합니다.
@@ -36,6 +29,17 @@ export interface GridProps {
    * @default 0
    */
   gap?: number;
+
+  /**
+   * Grid의 배경 색상을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  backgroundColor?: keyof typeof theme.colors;
+}
+
+export interface GridContainerProps {
+  gridArea?: CSSProperties["gridArea"];
 }
 
 export interface Props extends HTMLAttributes<HTMLElement>, GridProps {}

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { FlexProps } from "./index.types";
 
-export const Flex = styled.span<Required<FlexProps> | any>`
+export const Flex = styled.span<Required<FlexProps>>`
   display: ${({ display }) => display};
   flex-direction: ${({ direction }) => direction};
   flex-wrap: ${({ wrap }) => wrap};

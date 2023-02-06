@@ -6,7 +6,7 @@ const breakpoint = {
   desktop: "1280px",
 };
 
-const theme: ThemeType = {
+const theme = {
   colors: {
     inherit: "inherit",
     current: "currentColor",

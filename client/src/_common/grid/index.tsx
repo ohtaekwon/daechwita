@@ -7,20 +7,20 @@ const Grid = React.forwardRef(function Grid(
     as = "div",
     display = "grid",
     gridTemplateAreas = "",
-    backgroundColor = "inherit",
     gap = 0,
+    backgroundColor = "inherit",
     children,
     ...rest
   }: React.PropsWithChildren<Props>,
-  forwardedRef: React.Ref<HTMLDivElement>
+  forwardedRef: React.Ref<HTMLElement>
 ) {
   return (
     <Styled.Grid
       as={as}
       display={display}
       gridTemplateAreas={gridTemplateAreas}
-      backgroundColor={backgroundColor}
       gap={gap}
+      backgroundColor={backgroundColor}
       ref={forwardedRef}
       {...rest}
     >

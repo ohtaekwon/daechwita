@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const Wrapper = styled.header<any>`
+export const Wrapper = styled.header`
   position: fixed;
   z-index: 2;
   display: flex;
