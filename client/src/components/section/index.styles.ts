@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { theme } from "styles";
-import { ThemeType } from "styles/index.types";
 import { SectionProps } from "./index.types";
 
 export const Section = styled.section<Required<SectionProps>>`

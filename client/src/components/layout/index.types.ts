@@ -1,6 +1,5 @@
 import type { ElementType, HTMLAttributes, ReactNode } from "react";
 import { theme } from "styles";
-import { ThemeType } from "styles/index.types";
 
 export type LayoutType = "sm" | "md" | "lg" | "default" | "xl" | "custom";
 export interface LayoutProps {
