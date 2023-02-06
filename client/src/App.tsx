@@ -3,6 +3,8 @@ import Router from "routes/Router";
 import { authService } from "lib/firebase/firebase.config";
 import cookies from "js-cookie";
 import { getAuth } from "firebase/auth";
+import Footer from "components/footer";
+
 function App() {
   const [init, setInit] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -24,7 +26,7 @@ function App() {
   return (
     <>
       {init ? <Router isLoggedIn={isLoggedIn} /> : "Iniitiallize..."}
-      <footer>&copy; tk {new Date().getFullYear()}</footer>
+      <Footer />
     </>
   );
 }
