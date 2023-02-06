@@ -14,7 +14,7 @@ export interface GridProps {
    *
    * @default 'grid'
    */
-  display?: "grid";
+  display?: "grid" | "inline-grid";
 
   /**
    * Grid의 grid-template-areas의 속성을 설정합니다.
@@ -38,8 +38,8 @@ export interface GridProps {
   backgroundColor?: keyof typeof theme.colors;
 }
 
+export interface Props extends HTMLAttributes<HTMLElement>, GridProps {}
+
 export interface GridContainerProps {
   gridArea?: CSSProperties["gridArea"];
 }
-
-export interface Props extends HTMLAttributes<HTMLElement>, GridProps {}

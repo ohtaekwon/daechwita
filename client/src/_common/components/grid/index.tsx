@@ -5,11 +5,11 @@ import { Props } from "./index.types";
 const Grid = React.forwardRef(function Grid(
   {
     as = "div",
+    children,
     display = "grid",
     gridTemplateAreas = "",
     gap = 0,
     backgroundColor = "inherit",
-    children,
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLElement>

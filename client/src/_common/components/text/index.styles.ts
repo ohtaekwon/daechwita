@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
-import { Props, TextProps } from "./index.types";
+import { Props } from "./index.types";
 
-export const Text = styled.span<Required<TextProps>>`
+export const Text = styled.span<Required<Props>>`
   padding: ${({ paddingTop, paddingRight, paddingBottom, paddingLeft }) =>
     `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`};
   margin: ${({ marginTop, marginRight, marginBottom, marginLeft }) =>

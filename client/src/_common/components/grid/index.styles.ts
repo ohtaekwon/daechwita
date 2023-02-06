@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { GridProps, GridContainerProps } from "./index.types";
 
-export const Grid = styled.div<Required<GridProps>>`
+export const Grid = styled.span<Required<GridProps>>`
   display: ${({ display }) => display};
   grid-template-areas: ${({ gridTemplateAreas }) => gridTemplateAreas};
   gap: ${({ gap }) => gap};

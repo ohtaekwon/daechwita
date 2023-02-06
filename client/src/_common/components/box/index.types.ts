@@ -89,6 +89,4 @@ export interface BoxProps {
    */
   alignItems?: CSSProperties["alignItems"];
 }
-export interface Props extends HTMLAttributes<HTMLElement>, BoxProps {
-  children?: ReactNode;
-}
+export interface Props extends HTMLAttributes<HTMLElement>, BoxProps {}

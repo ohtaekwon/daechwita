@@ -19,34 +19,31 @@ const Box = React.forwardRef(function Box(
     direction = "row",
     justifyContent = "flex-start",
     alignItems = "flex-start",
-
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLDivElement>
 ) {
   return (
-    <>
-      <Styled.Box
-        gridArea={gridArea}
-        paddingTop={paddingTop}
-        paddingLeft={paddingLeft}
-        paddingRight={paddingRight}
-        paddingBottom={paddingBottom}
-        marginTop={marginTop}
-        marginBottom={marginBottom}
-        marginLeft={marginLeft}
-        marginRight={marginRight}
-        width={width}
-        display={display}
-        direction={direction}
-        justifyContent={justifyContent}
-        alignItems={alignItems}
-        ref={forwardedRef}
-        {...rest}
-      >
-        {children}
-      </Styled.Box>
-    </>
+    <Styled.Box
+      gridArea={gridArea}
+      paddingTop={paddingTop}
+      paddingLeft={paddingLeft}
+      paddingRight={paddingRight}
+      paddingBottom={paddingBottom}
+      marginTop={marginTop}
+      marginBottom={marginBottom}
+      marginLeft={marginLeft}
+      marginRight={marginRight}
+      width={width}
+      display={display}
+      direction={direction}
+      justifyContent={justifyContent}
+      alignItems={alignItems}
+      ref={forwardedRef}
+      {...rest}
+    >
+      {children}
+    </Styled.Box>
   );
 });
 export default Box;

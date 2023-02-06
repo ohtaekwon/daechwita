@@ -1,5 +1,3 @@
-import { ThemeType } from "./index.types";
-
 const breakpoint = {
   mobile: "320px",
   tablet: "768px",

@@ -10,6 +10,6 @@ export const Section = styled.section<Required<SectionProps>>`
   margin: ${({ marginTop, marginRight, marginBottom, marginLeft }) =>
     `${marginTop}px ${marginRight}px ${marginBottom}px ${marginLeft}px`};
 
-  background-color: ${({ theme: ThemeType, backgroundColor }) =>
+  background-color: ${({ theme, backgroundColor }) =>
     theme?.colors[backgroundColor]};
 `;
