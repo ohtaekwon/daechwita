@@ -10,6 +10,7 @@ import MyDocuments from "pages/my-documents";
 import Profile from "pages/profile";
 import Flex from "_common/components/flex";
 import LeftNav from "components/leftNav";
+import MyDashBoard from "pages/myDashBoard";
 
 type SideMenu = {
   [key: string]: any;
@@ -24,6 +25,10 @@ const SignInRouter = ({ sideNavMenu }: SideMenu) => {
         <Route path="/" element={<Home leftNav={<LeftNav />} />} />
         <Route path="/my-documents" element={<MyDocuments />} />
         <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/myDashboard"
+          element={<MyDashBoard leftNav={<LeftNav />} />}
+        />
       </Routes>
     </>
   );
