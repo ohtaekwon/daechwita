@@ -113,6 +113,22 @@ export interface ButtonProps {
    * @default 'auto'
    */
   width?: string;
+
+  /**
+   *  Button의 position의 타입을 설정합니다.
+   *
+   * @default static
+   */
+  position?: CSSProperties["position"];
+
+  /**
+   *  Button의 z-index 의 타입을 설정합니다.
+   *
+   * @default static
+   */
+  zIndex?: CSSProperties["zIndex"];
+
+  areaLabel?: string | undefined;
 }
 
 export interface Props

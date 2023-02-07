@@ -16,6 +16,10 @@ export const Button = styled.button<Required<ButtonProps>>`
   font-size: ${({ fontSize, theme }) => theme.fontSize[fontSize]};
   font-weight: ${({ fontWeight }) => fontWeight};
   line-height: ${({ lineHeight, theme }) => theme.lineHeight[lineHeight]};
+
+  position: ${({ position }) => position};
+  z-index: ${({ zIndex }) => zIndex};
+
   ${({ variant, theme }) => {
     switch (variant) {
       case "primary": {
@@ -292,7 +296,7 @@ export const Button = styled.button<Required<ButtonProps>>`
         `;
       }
     }
-  }}
+  }};
 `;
 
 export const InnerWrapper = styled.div`

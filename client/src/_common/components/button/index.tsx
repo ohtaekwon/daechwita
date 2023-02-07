@@ -17,6 +17,9 @@ const Button = React.forwardRef(function Button(
     paddingX = 16,
     paddingY = 8,
     width = "auto",
+    position = "static",
+    zIndex = "auto",
+    areaLabel = "",
     children,
     ...rest
   }: React.PropsWithChildren<Props>,
@@ -25,6 +28,7 @@ const Button = React.forwardRef(function Button(
   return (
     <Styled.Button
       variant={variant}
+      areaLabel={areaLabel}
       backgroundColor={backgroundColor}
       radius={radius}
       marginTop={marginTop}
@@ -37,6 +41,8 @@ const Button = React.forwardRef(function Button(
       fontSize={fontSize}
       lineHeight={lineHeight}
       fontWeight={fontWeight}
+      position={position}
+      zIndex={zIndex}
       ref={forwardedRef}
       {...rest}
     >
