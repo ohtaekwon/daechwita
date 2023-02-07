@@ -1,6 +1,45 @@
-import type { CSSProperties, HTMLAttributes, ReactNode } from "react";
+import type {
+  AriaRole,
+  Attributes,
+  CSSProperties,
+  ElementType,
+  HTMLAttributes,
+} from "react";
+import { theme } from "styles";
 
 export interface BoxProps {
+  /**
+   * 엘리먼트의 타입을 설정합니다.
+   *
+   * @default div
+   */
+  as?: ElementType;
+
+  /**
+   * 엘리먼트의 role 을 설정합니다.
+   *
+   * @default ''
+   */
+  role?: AriaRole | undefined;
+  /**
+   *  Box의 position의 타입을 설정합니다.
+   *
+   * @default static
+   */
+  position?: CSSProperties["position"];
+
+  /**
+   * Box의 배경 색상을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  backgroundColor?: keyof typeof theme.colors;
+
+  /**
+   * grid-area의 타입을 설정합니다.
+   *
+   * @default static
+   */
   gridArea?: CSSProperties["gridArea"];
 
   /**
@@ -59,6 +98,11 @@ export interface BoxProps {
    */
   marginLeft?: number;
 
+  /**
+   * box의 width 속성을 설정합니다.
+   *
+   * @default auto
+   */
   width?: string;
 
   /**
@@ -88,5 +132,12 @@ export interface BoxProps {
    * @default 'flex-start'
    */
   alignItems?: CSSProperties["alignItems"];
+
+  /**
+   * box의 cursor 속성을 설정합니다.
+   *
+   * @default 'auto'
+   */
+  cursor?: CSSProperties["cursor"];
 }
 export interface Props extends HTMLAttributes<HTMLElement>, BoxProps {}

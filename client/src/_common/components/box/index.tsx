@@ -4,6 +4,9 @@ import { Props } from "./index.types";
 
 const Box = React.forwardRef(function Box(
   {
+    as = "div",
+    role = "",
+    position = "static",
     paddingTop = 0,
     paddingRight = 0,
     paddingBottom = 0,
@@ -19,12 +22,18 @@ const Box = React.forwardRef(function Box(
     direction = "row",
     justifyContent = "flex-start",
     alignItems = "flex-start",
+    backgroundColor = "inherit",
+    cursor = "auto",
     ...rest
   }: React.PropsWithChildren<Props>,
-  forwardedRef: React.Ref<HTMLDivElement>
+  forwardedRef: React.Ref<HTMLElement>
 ) {
   return (
     <Styled.Box
+      as={as}
+      role={role}
+      position={position}
+      backgroundColor={backgroundColor}
       gridArea={gridArea}
       paddingTop={paddingTop}
       paddingLeft={paddingLeft}
@@ -39,6 +48,7 @@ const Box = React.forwardRef(function Box(
       direction={direction}
       justifyContent={justifyContent}
       alignItems={alignItems}
+      cursor={cursor}
       ref={forwardedRef}
       {...rest}
     >
