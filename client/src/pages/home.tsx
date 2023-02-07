@@ -2,12 +2,28 @@ import React from "react";
 import Section from "components/section";
 import useFetch from "hooks/useFetch";
 import Flex from "_common/components/flex";
-import { Layout, LayoutElement } from "components/layout";
+import { Layout } from "components/layout";
+import Column from "components/kanban/column";
+import { ColumnType } from "components/kanban/enums";
 
 const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
-  const Content = LayoutElement;
+  // const { payload, loading } = useFetch("get", "/item");
+  const { payload: usersPayload, loading, doFetch } = useFetch("get", "/users");
 
-  const { payload, loading } = useFetch("get", "/documents");
+  const handleClick = () => {
+    // doFetch({
+    //   method: "post",
+    //   data: {
+    //     "test4@gmail.com": {
+    //       email: "test4@gmail.com",
+    //       nickName: "테스트3",
+    //       pw: 1234,
+    //       itemOfUser: [],
+    //     },
+    //   },
+    // });
+  };
+
   return (
     <>
       <div
@@ -16,21 +32,14 @@ const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
       >
         <Flex as="main">
           {leftNav}
-          {/* <Layout
-            as="section"
-            className="centerContent"
-            variant="custom"
-            width={80}
-            backgroundColor="neutral_100"
-          >
-            sadsadsadsads
-          </Layout> */}
           <Section
             as="section"
             sectionType="grid"
             gridTemplateColumns="repeat(5, 1fr)"
           >
-            <div>섹션1</div>
+            <div style={{ backgroundColor: "rosybrown" }} onClick={handleClick}>
+              섹션1
+            </div>
             <div>섹션2</div>
             <div>섹션3</div>
             <div>섹션4</div>
@@ -39,9 +48,11 @@ const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
             <div>섹션7</div>
             <div>섹션8</div>
             <div>섹션9</div>
-            <div>섹션10</div>
+            <div style={{ backgroundColor: "rosybrown" }}>섹션10</div>
             <div>섹션11</div>
             <div>섹션12</div>
+            {/* <>{!!!loading && usersPayload["test@gmail.com"].itemOfUser}</> */}
+            <Column column={ColumnType.TO_DO} />
           </Section>
         </Flex>
       </div>

@@ -3,22 +3,29 @@
     "email": "test@gmail.com",
     "nickName": "테스트",
     "pw": 1234,
-    "itemOfUser": {
-      "itemA": ["0000001"],
-      "itemB": [],
-      "itemC": []
-    },
+    "itemOfUser": ["0000002", "0000001"],
     "subscription": 1675089175825
   },
   "test2@gmail.com": {
     "email": "test2@gmail.com",
     "nickName": "테스트2",
     "pw": 1234,
-    "itemOfUser": {
-      "itemA": ["0000002"],
-      "itemB": [],
-      "itemC": []
-    },
+    "itemOfUser": [],
+
     "subscription": 1675089175826
+  },
+  "test3@gmail.com": {
+    "email": "test3@gmail.com",
+    "nickName": "테스트3",
+    "pw": 1234,
+    "itemOfUser": [],
+    "subscription": 1675665280725
+  },
+  "test4@gmail.com": {
+    "email": "test4@gmail.com",
+    "nickName": "테스트3",
+    "pw": 1234,
+    "itemOfUser": [],
+    "subscription": 1675665383488
   }
 }

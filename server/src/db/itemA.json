@@ -1,28 +1,30 @@
-{
-  "0000001": {
-    "userEmail": "test@gmail.com",
-    "userName": "테스트",
-    "series": "시리즈 제목",
-    "contents": [
-      {
-        "title": "이것은 타이틀 제목",
-        "text": "이것은 테스트 글입니다.",
-        "tag": ["테스트"]
-      }
-    ],
-    "subscription": 1675089175825
-  },
-  "0000002": {
-    "userEmail": "test@gmail.com",
-    "userName": "테스트",
-    "series": "시리즈 제목",
-    "contents": [
-      {
-        "title": "이것은 타이틀 제목",
-        "text": "이것은 테스트2 글입니다.",
-        "tag": ["테스트2"]
-      }
-    ],
-    "subscription": 1675089175826
+[
+  {
+    "0000001": {
+      "userEmail": "test@gmail.com",
+      "userName": "테스트",
+      "series": "시리즈 제목",
+      "contents": [
+        {
+          "title": "이것은 타이틀 제목",
+          "text": "이것은 테스트 글입니다.",
+          "tag": ["테스트"]
+        }
+      ],
+      "subscription": 1675089175825
+    },
+    "0000002": {
+      "userEmail": "test@gmail.com",
+      "userName": "테스트",
+      "series": "시리즈 제목",
+      "contents": [
+        {
+          "title": "이것은 타이틀 제목",
+          "text": "이것은 테스트2 글입니다.",
+          "tag": ["테스트2"]
+        }
+      ],
+      "subscription": 1675089175826
+    }
   }
-}
+]

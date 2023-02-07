@@ -10,13 +10,12 @@ import { Layout } from "components/layout";
 type SideMenu = {
   name: string;
   key: string;
+  route: string;
 };
 
 const sideNavMenu: SideMenu[] = [
-  { name: "todo", key: "1" },
-  { name: "자소서", key: "2" },
-  { name: "일기", key: "3" },
-  { name: "달력", key: "4" },
+  { name: "todo", key: "1", route: "/myDashboard" },
+  { name: "자소서", key: "2", route: "/myDocuments" },
 ];
 
 const LeftNav = () => {
@@ -29,8 +28,8 @@ const LeftNav = () => {
       backgroundColor="indigo_300"
     >
       <Flex direction="column">
-        {sideNavMenu.map((menu: SideMenu) => (
-          <Link to="/" key={menu.key}>
+        {sideNavMenu.map(({ name, key, route }: SideMenu) => (
+          <Link to={route} key={key}>
             <Button
               variant="default"
               paddingY={9}
@@ -39,7 +38,7 @@ const LeftNav = () => {
               lineHeight="md"
               color="zinc_400"
             >
-              {menu.name}
+              {name}
             </Button>
           </Link>
         ))}
