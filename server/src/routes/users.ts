@@ -42,14 +42,17 @@ const usersRoute = [
     route: "/users",
     handler: (req: express.Request, res: express.Response) => {
       const { body, params, query } = req;
+      const email = Object.keys(body)[0];
       const users = getUsers();
+
       const newUsers = {
-        email: body.userEmail,
-        pw: body.userPw,
-        name: body.userName,
-        itemOfUser: {},
+        email: body[email].email,
+        nickName: body[email].nickName,
+        pw: body[email].pw,
+        itemOfUser: body[email].itemOfUser,
         subscription: Date.now(),
       };
+
       users[`${newUsers.email}`] = newUsers;
       setUsers(users); // json db에 추가
       res.send(newUsers); // post 응답
