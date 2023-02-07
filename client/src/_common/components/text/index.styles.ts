@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
+import { Props, TextProps } from "./index.types";
 
-import { Props } from "./index.types";
-
-export const Text = styled.span<Required<Props>>`
+export const Text = styled.span<Required<TextProps>>`
   padding: ${({ paddingTop, paddingRight, paddingBottom, paddingLeft }) =>
     `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`};
   margin: ${({ marginTop, marginRight, marginBottom, marginLeft }) =>
@@ -14,4 +13,5 @@ export const Text = styled.span<Required<Props>>`
   opacity: ${({ opacity }) => opacity};
   text-align: ${({ textAlign }) => textAlign};
   ${({ as }) => as === "span" && `display: inline-block;`}
+  letter-spacing:${({ letterSpacing }) => letterSpacing}
 `;

@@ -2,7 +2,7 @@ import type { CSSProperties, ElementType, HTMLAttributes } from "react";
 
 import theme from "styles/theme";
 
-export interface Props {
+export interface TextProps {
   /**
    * 엘리먼트의 타입을 설정합니다.
    *
@@ -107,10 +107,18 @@ export interface Props {
    * @default 'left'
    */
   textAlign: CSSProperties["textAlign"];
+
+  /**
+   * 텍스트의 글 간격을 설정합니다.
+   *
+   * @default 'auto'
+   */
+
+  letterSpacing: CSSProperties["letterSpacing"];
 }
 
-export interface TextProps
-  extends Partial<Props>,
+export interface Props
+  extends Partial<TextProps>,
     Omit<
       HTMLAttributes<
         HTMLHeadingElement | HTMLParagraphElement | HTMLSpanElement

@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as Styled from "./index.styles";
-import { TextProps } from "./index.types";
+import { Props, TextProps } from "./index.types";
 
 const Text = React.forwardRef(function Text(
   {
@@ -21,8 +21,9 @@ const Text = React.forwardRef(function Text(
     paddingLeft = 0,
     opacity = 1,
     textAlign = "left",
+    letterSpacing = "inherit",
     ...rest
-  }: React.PropsWithChildren<TextProps>,
+  }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLElement>
 ) {
   return (
@@ -42,6 +43,7 @@ const Text = React.forwardRef(function Text(
       paddingLeft={paddingLeft}
       opacity={opacity}
       textAlign={textAlign}
+      letterSpacing={letterSpacing}
       ref={forwardedRef}
       {...rest}
     >
