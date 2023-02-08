@@ -7,6 +7,7 @@ import { BadgeType } from "_common/components/badge/index.types";
 import Button from "_common/components/button";
 import { TaskModel } from "./models";
 import Task from "./task";
+import useColumnTasks from "hooks/useColumnTasks";
 
 const ColumnColorSchema: Record<ColumnType, BadgeType> = {
   Todo: "gray",
@@ -22,8 +23,17 @@ const mockTasks: TaskModel[] = [
 ];
 
 const Column = ({ column }: { column: ColumnType }) => {
-  const ColumnTasks = mockTasks.map((task, index) => (
-    <Task key={task.id} task={task} index={index} />
+  const { tasks, addEmptyTask, updateTask, deleteTask } =
+    useColumnTasks(column);
+
+  const ColumnTasks = tasks.map((task, index) => (
+    <Task
+      key={task.id}
+      task={task}
+      index={index}
+      onDelete={deleteTask}
+      onUpdate={updateTask}
+    />
   ));
 
   return (
@@ -38,10 +48,12 @@ const Column = ({ column }: { column: ColumnType }) => {
       <Text fontSize="md" letterSpacing="3px">
         <Badge variant={ColumnColorSchema[column]}>{column}</Badge>
       </Text>
-      <Button variant={"primary"}>추가하기</Button>
+      <Button variant="default" areaLabel="add-task" onClick={addEmptyTask}>
+        추가하기
+      </Button>
       <Box
         width="100%"
-        height="300px"
+        height="100%"
         display="flex"
         direction="column"
         justifyContent="center"

@@ -9,8 +9,24 @@ import { ColumnType } from "./enums";
 type TaskProps = {
   index: number;
   task: TaskModel;
+  onDelete: (id: TaskModel["id"]) => void;
+  onUpdate: (id: TaskModel["id"], updatedTask: TaskModel) => void;
 };
-const Task = ({ index, task }: TaskProps) => {
+const Task = ({
+  index,
+  task,
+  onDelete: handleDelete,
+  onUpdate: handleUpdate,
+}: TaskProps) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newTitle = e.target.value;
+    handleUpdate(task.id, { ...task, title: newTitle });
+  };
+
+  const handleDeleteClick = () => {
+    handleDelete(task.id);
+  };
+
   return (
     <Box
       as="div"
@@ -18,6 +34,7 @@ const Task = ({ index, task }: TaskProps) => {
       position="relative"
       display="flex"
       width="200px"
+      height="70px"
       backgroundColor={task.color}
       cursor="grab"
     >
@@ -29,6 +46,7 @@ const Task = ({ index, task }: TaskProps) => {
         areaLabel="delete"
         top={0}
         right={0}
+        onClick={handleDeleteClick}
       >
         <RiDeleteBin6Line />
       </Button>
@@ -40,6 +58,7 @@ const Task = ({ index, task }: TaskProps) => {
           margin: "auto",
         }}
         value={task.title}
+        onChange={handleChange}
       >
         {task.title}
       </textarea>
