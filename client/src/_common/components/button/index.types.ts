@@ -128,7 +128,37 @@ export interface ButtonProps {
    */
   zIndex?: CSSProperties["zIndex"];
 
+  /**
+   *  Button의 area-label을 설정합니다.
+   *
+   * @default static
+   */
   areaLabel?: string | undefined;
+
+  /**
+   *  Button의 top을 설정합니다.
+   *
+   * @default static
+   */
+  top?: CSSProperties["top"];
+  /**
+   *  Button의 bottom을 설정합니다.
+   *
+   * @default static
+   */
+  bottom?: CSSProperties["bottom"];
+  /**
+   *  Button의 right을 설정합니다.
+   *
+   * @default static
+   */
+  right?: CSSProperties["right"];
+  /**
+   *  Button의 left을 설정합니다.
+   *
+   * @default static
+   */
+  left?: CSSProperties["left"];
 }
 
 export interface Props

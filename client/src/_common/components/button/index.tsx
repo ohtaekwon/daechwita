@@ -20,6 +20,10 @@ const Button = React.forwardRef(function Button(
     position = "static",
     zIndex = "auto",
     areaLabel = "",
+    top = "inherit",
+    left = "inherit",
+    bottom = "inherit",
+    right = "inherit",
     children,
     ...rest
   }: React.PropsWithChildren<Props>,
@@ -43,6 +47,10 @@ const Button = React.forwardRef(function Button(
       fontWeight={fontWeight}
       position={position}
       zIndex={zIndex}
+      top={top}
+      bottom={bottom}
+      right={right}
+      left={left}
       ref={forwardedRef}
       {...rest}
     >

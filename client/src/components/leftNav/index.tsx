@@ -14,6 +14,7 @@ type SideMenu = {
 };
 
 const sideNavMenu: SideMenu[] = [
+  { name: "칸반페이지", key: "3", route: "/kanban" },
   { name: "todo", key: "1", route: "/myDashboard" },
   { name: "자소서", key: "2", route: "/myDocuments" },
 ];

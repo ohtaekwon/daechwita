@@ -17,7 +17,8 @@ const Box = React.forwardRef(function Box(
     marginLeft = 0,
     gridArea = "",
     children,
-    width = "auto",
+    width = "inherit",
+    height = "inherit",
     display = "flex",
     direction = "row",
     justifyContent = "flex-start",
@@ -44,6 +45,7 @@ const Box = React.forwardRef(function Box(
       marginLeft={marginLeft}
       marginRight={marginRight}
       width={width}
+      height={height}
       display={display}
       direction={direction}
       justifyContent={justifyContent}

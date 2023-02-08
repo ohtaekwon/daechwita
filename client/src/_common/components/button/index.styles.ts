@@ -20,6 +20,11 @@ export const Button = styled.button<Required<ButtonProps>>`
   position: ${({ position }) => position};
   z-index: ${({ zIndex }) => zIndex};
 
+  top: ${({ top }) => top};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+  left: ${({ left }) => left};
+
   ${({ variant, theme }) => {
     switch (variant) {
       case "primary": {

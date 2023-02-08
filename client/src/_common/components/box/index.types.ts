@@ -101,9 +101,15 @@ export interface BoxProps {
   /**
    * box의 width 속성을 설정합니다.
    *
-   * @default auto
+   * @default inherit
    */
-  width?: string;
+  width?: CSSProperties["width"];
+  /**
+   * box의 bottom 속성을 설정합니다.
+   *
+   * @default inherit
+   */
+  height?: CSSProperties["height"];
 
   /**
    * box의 display 속성을 설정합니다.

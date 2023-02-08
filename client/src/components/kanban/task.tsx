@@ -16,19 +16,33 @@ const Task = ({ index, task }: TaskProps) => {
       as="div"
       role="group"
       position="relative"
+      display="flex"
       width="200px"
       backgroundColor={task.color}
       cursor="grab"
     >
       <Button
+        aria-label="delete-task"
         variant="default"
         position="absolute"
         zIndex={100}
         areaLabel="delete"
+        top={0}
+        right={0}
       >
         <RiDeleteBin6Line />
       </Button>
-      <textarea>asdsad</textarea>
+      <textarea
+        style={{
+          width: "180px",
+          height: "30px",
+          textAlign: "center",
+          margin: "auto",
+        }}
+        value={task.title}
+      >
+        {task.title}
+      </textarea>
     </Box>
   );
 };

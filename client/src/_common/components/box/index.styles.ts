@@ -4,6 +4,7 @@ import { BoxProps } from "./index.types";
 
 export const Box = styled.span<Required<BoxProps>>`
   width: ${({ width }) => width};
+  height: ${({ height }) => height};
   position: ${({ position }) => position};
   display: ${({ display }) => display};
   flex-direction: ${({ direction }) => direction};
