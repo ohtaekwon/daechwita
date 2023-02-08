@@ -24,7 +24,7 @@ const documentsRoute = [
       const {
         body,
         params: { id },
-      } = req;
+      } = req.signedCookies;
       try {
         const docs = getDocuments();
         const doc = docs.find((doc: any) => doc.id === id);

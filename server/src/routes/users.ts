@@ -25,7 +25,7 @@ const usersRoute = [
       const {
         body,
         params: { id },
-      } = req;
+      } = req.signedCookies;
       try {
         const users = getUsers();
         const user = users[id];
@@ -41,7 +41,7 @@ const usersRoute = [
     method: "post",
     route: "/users",
     handler: (req: express.Request, res: express.Response) => {
-      const { body, params, query } = req;
+      const { body, params, query } = req.signedCookies;
       const email = Object.keys(body)[0];
       const users = getUsers();
 
@@ -67,7 +67,7 @@ const usersRoute = [
         body,
         params: { id },
         query,
-      } = req;
+      } = req.signedCookies;
       console.log(id);
       console.log("query", query);
       try {
@@ -95,7 +95,7 @@ const usersRoute = [
       const {
         body,
         params: { id },
-      } = req;
+      } = req.signedCookies;
       const userItems = getUsers();
       const item = userItems[id]["itemOfUser"];
       res.send(item);
