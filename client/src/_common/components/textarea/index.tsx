@@ -4,6 +4,7 @@ import { Props } from "./index.types";
 
 const Textarea = React.forwardRef(function Textarea(
   {
+    value = "",
     children,
     fontSize = "md",
     color = "blackText_1",
@@ -20,12 +21,16 @@ const Textarea = React.forwardRef(function Textarea(
     opacity = 1,
     textAlign = "left",
     letterSpacing = "inherit",
+    width = "inherit",
+    height = "inherit",
+    margin = "inherit",
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLTextAreaElement>
 ) {
   return (
-    <Styled.Text
+    <Styled.TextArea
+      value={value}
       color={color}
       fontSize={fontSize}
       fontWeight={fontWeight}
@@ -41,11 +46,14 @@ const Textarea = React.forwardRef(function Textarea(
       opacity={opacity}
       textAlign={textAlign}
       letterSpacing={letterSpacing}
+      width={width}
+      height={height}
+      margin={margin}
       ref={forwardedRef}
       {...rest}
     >
       {children}
-    </Styled.Text>
+    </Styled.TextArea>
   );
 });
 

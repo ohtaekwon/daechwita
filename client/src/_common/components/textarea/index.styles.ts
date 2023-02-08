@@ -1,7 +1,10 @@
 import styled from "@emotion/styled";
 import { TextareaProps } from "./index.types";
 
-export const Text = styled.textarea<Required<TextareaProps>>`
+export const TextArea = styled.textarea<Required<TextareaProps>>`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  margin: ${({ margin }) => margin};
   padding: ${({ paddingTop, paddingRight, paddingBottom, paddingLeft }) =>
     `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`};
   margin: ${({ marginTop, marginRight, marginBottom, marginLeft }) =>
@@ -12,6 +15,5 @@ export const Text = styled.textarea<Required<TextareaProps>>`
   line-height: ${({ lineHeight, theme }) => theme.lineHeight[lineHeight]};
   opacity: ${({ opacity }) => opacity};
   text-align: ${({ textAlign }) => textAlign};
-  ${({ as }) => as === "span" && `display: inline-block;`}
-  letter-spacing:${({ letterSpacing }) => letterSpacing}
+  letter-spacing: ${({ letterSpacing }) => letterSpacing};
 `;

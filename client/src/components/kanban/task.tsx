@@ -6,6 +6,7 @@ import { TaskModel } from "./models";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Column from "./column";
 import { ColumnType } from "./enums";
+import Textarea from "_common/components/textarea";
 type TaskProps = {
   index: number;
   task: TaskModel;
@@ -50,18 +51,16 @@ const Task = ({
       >
         <RiDeleteBin6Line />
       </Button>
-      <textarea
-        style={{
-          width: "180px",
-          height: "30px",
-          textAlign: "center",
-          margin: "auto",
-        }}
+      <Textarea
+        width="100px"
+        height="30px"
+        margin="auto"
+        textAlign="center"
         value={task.title}
         onChange={handleChange}
       >
         {task.title}
-      </textarea>
+      </Textarea>
     </Box>
   );
 };

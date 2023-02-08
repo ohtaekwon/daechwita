@@ -4,112 +4,143 @@ import theme from "styles/theme";
 
 export interface TextareaProps {
   /**
-   * 텍스트 폰트 사이즈를 설정합니다.
+   * TextArea의 value 속성을 설정합니다.
+   *
+   * @default '''
+   */
+  value: string | number;
+
+  /**
+   * TextArea의 폰트 사이즈를 설정합니다.
    *
    * @default 'regular'
    */
   fontSize: keyof typeof theme.fontSize;
 
   /**
-   * 텍스트 폰트 높이를 설정합니다.
+   * TextArea의 폰트 높이를 설정합니다.
    *
    * @default 'regular'
    */
   lineHeight: keyof typeof theme.lineHeight;
 
   /**
-   * 텍스트의 색상을 설정합니다.
+   * TextArea의 폰트 색상을 설정합니다.
    *
    * @default 'zinc_700'
    */
   color: keyof typeof theme.colors;
 
   /**
-   * 텍스트 폰트 두께를 설정합니다.
+   * TextArea의 폰트 두께를 설정합니다.
    *
    * @default 400
    */
   fontWeight: CSSProperties["fontWeight"];
 
   /**
-   * margin 상단을 설정합니다.
+   * TextArea의 margin 상단을 설정합니다.
    *
    * @default 0
    */
   marginTop: number;
 
   /**
-   * margin 우측을 설정합니다.
+   * TextArea의 margin 우측을 설정합니다.
    *
    * @default 0
    */
   marginRight: number;
 
   /**
-   * margin 하단을 설정합니다.
+   * TextArea의 margin 하단을 설정합니다.
    *
    * @default 0
    */
   marginBottom: number;
 
   /**
-   * margin 좌측을 설정합니다.
+   * TextArea의 margin 좌측을 설정합니다.
    *
    * @default 0
    */
   marginLeft: number;
 
   /**
-   * padding 상단을 설정합니다.
+   * TextArea의 padding 상단을 설정합니다.
    *
    * @default 0
    */
   paddingTop: number;
 
   /**
-   * padding 우측을 설정합니다.
+   * TextArea의 padding 우측을 설정합니다.
    *
    * @default 0
    */
   paddingRight: number;
 
   /**
-   * padding 하단을 설정합니다.
+   * TextArea의 padding 하단을 설정합니다.
    *
    * @default 0
    */
   paddingBottom: number;
 
   /**
-   * padding 좌측을 설정합니다.
+   * TextArea의 padding 좌측을 설정합니다.
    *
    * @default 0
    */
   paddingLeft: number;
 
   /**
-   * 텍스트의 투명도를 설정합니다.
+   * TextArea의 텍스트의 투명도를 설정합니다.
    *
    * @default 1
    */
   opacity: number;
 
   /**
-   * 텍스트의 정렬을 설정합니다.
+   * TextArea의 텍스트의 정렬을 설정합니다.
    *
    * @default 'left'
    */
   textAlign: CSSProperties["textAlign"];
 
   /**
-   * 텍스트의 글 간격을 설정합니다.
+   * TextArea의 텍스트의 글 간격을 설정합니다.
    *
    * @default 'auto'
    */
 
   letterSpacing: CSSProperties["letterSpacing"];
-}
 
+  /**
+   * TextArea의 width 속성을 설정합니다.
+   *
+   * @default inherit
+   */
+  width?: CSSProperties["width"];
+  /**
+   * TextArea의 bottom 속성을 설정합니다.
+   *
+   * @default inherit
+   */
+  height?: CSSProperties["height"];
+
+  /**
+   * TextArea의 bottom 속성을 설정합니다.
+   *
+   * @default inherit
+   */
+  margin: CSSProperties["margin"];
+}
 export interface Props
   extends Partial<TextareaProps>,
-    Omit<HTMLAttributes<HTMLTextAreaElement>, "color"> {}
+    Omit<
+      HTMLAttributes<
+        HTMLHeadingElement | HTMLParagraphElement | HTMLTextAreaElement
+      >,
+      "color"
+    > {}
