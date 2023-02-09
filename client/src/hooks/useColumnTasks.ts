@@ -9,7 +9,9 @@ const MAX_TASK_PER_COLUMN = 100;
 
 function useColumnTasks(column: ColumnType) {
   const [tasks, setTasks] = useTaskCollection();
+  // console.log("column", column);
 
+  // console.log("tasks", tasks);
   const addEmptyTask = React.useCallback(() => {
     console.log(`Adding new Empty task to ${column} column`);
 
@@ -24,10 +26,15 @@ function useColumnTasks(column: ColumnType) {
       const newColumnTask: TaskModel = {
         id: uuid(),
         title: `New ${column} tasks`,
-        color: pickRandomColor("_300"),
+        color: pickRandomColor("_500"),
         column,
       };
+      console.log("여기", {
+        ...allTasks,
+        [column]: [newColumnTask, ...columnTasks],
+      });
 
+      console.log("allTasks", allTasks);
       return {
         ...allTasks,
         [column]: [newColumnTask, ...columnTasks],

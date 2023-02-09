@@ -52,7 +52,7 @@ const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
             <div>섹션11</div>
             <div>섹션12</div>
             {/* <>{!!!loading && usersPayload["test@gmail.com"].itemOfUser}</> */}
-            <Column column={ColumnType.TO_DO} />
+            {/* <Column column={ColumnType.TO_DO} /> */}
           </Section>
         </Flex>
       </div>
