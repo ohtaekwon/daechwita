@@ -18,13 +18,6 @@ export interface TextareaProps {
   fontSize: keyof typeof theme.fontSize;
 
   /**
-   * TextArea의 폰트 높이를 설정합니다.
-   *
-   * @default 'regular'
-   */
-  lineHeight: keyof typeof theme.lineHeight;
-
-  /**
    * TextArea의 폰트 색상을 설정합니다.
    *
    * @default 'zinc_700'

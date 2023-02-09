@@ -8,7 +8,6 @@ const Textarea = React.forwardRef(function Textarea(
     children,
     fontSize = "md",
     color = "blackText_1",
-    lineHeight = "md",
     fontWeight = 400,
     marginTop = 0,
     marginRight = 0,
@@ -34,7 +33,6 @@ const Textarea = React.forwardRef(function Textarea(
       color={color}
       fontSize={fontSize}
       fontWeight={fontWeight}
-      lineHeight={lineHeight}
       marginTop={marginTop}
       marginRight={marginRight}
       marginBottom={marginBottom}

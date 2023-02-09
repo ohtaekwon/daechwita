@@ -3,7 +3,7 @@ import { TextareaProps } from "./index.types";
 
 export const TextArea = styled.textarea<Required<TextareaProps>>`
   width: ${({ width }) => width};
-  height: ${({ height }) => height};
+  height: ${({ height }) => `${height}px`};
   margin: ${({ margin }) => margin};
   padding: ${({ paddingTop, paddingRight, paddingBottom, paddingLeft }) =>
     `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`};
@@ -12,7 +12,6 @@ export const TextArea = styled.textarea<Required<TextareaProps>>`
   color: ${({ theme, color }) => theme.colors[color]};
   font-size: ${({ fontSize, theme }) => theme.fontSize[fontSize]};
   font-weight: ${({ fontWeight }) => fontWeight};
-  line-height: ${({ lineHeight, theme }) => theme.lineHeight[lineHeight]};
   opacity: ${({ opacity }) => opacity};
   text-align: ${({ textAlign }) => textAlign};
   letter-spacing: ${({ letterSpacing }) => letterSpacing};
