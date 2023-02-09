@@ -15,15 +15,27 @@ function useLocalStorage<T>(key: string, initialValue: T) {
   });
   const setValue = (value: T | ((val: T) => T)) => {
     try {
+      const localStorageData = window.localStorage.getItem(key);
+
+      if (!localStorageData) throw new Error("No saved localStorage data");
+
       const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
+        value instanceof Function ? value(JSON.parse(localStorageData)) : value;
+      console.log("storevalue", storedValue);
+
+      console.log("valueToStore", valueToStore);
+
       setStoredValue(valueToStore);
+
+      console.log("stroedValue", storedValue);
       if (typeof window !== "undefined") {
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        console.log("로컬에 저장후 상태", storedValue);
       }
     } catch (error) {
       console.log(error);
     }
+    console.log("STORE", storedValue);
   };
   return [storedValue, setValue] as const;
 }
