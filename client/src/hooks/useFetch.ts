@@ -1,15 +1,10 @@
 import React from "react";
-import axios, { AxiosResponse } from "axios";
 import request from "lib/api/axiosInstance";
 
-type TypeUseFetch = {
-  method: "get" | "post" | "put" | "delete" | "patch";
-  url: string;
-  data: any;
-};
+type method = "get" | "post" | "put" | "delete" | "patch";
 
-const useFetch = (method: string, url: string, data: any = null) => {
-  const [payload, setPayload] = React.useState<any>([]);
+function useFetch<T>(method: method, url: string, data?: T | T[]) {
+  const [payload, setPayload] = React.useState<T[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<unknown>(null);
   const [options, setOptions] = React.useState({});
@@ -17,7 +12,7 @@ const useFetch = (method: string, url: string, data: any = null) => {
   const handleCallUrl = async () => {
     try {
       setLoading(true);
-      const response = await request({ method, url, data });
+      const response: T[] = await request({ method, url, data });
       setPayload(response);
     } catch (error) {
       setError(error);
@@ -30,12 +25,12 @@ const useFetch = (method: string, url: string, data: any = null) => {
     handleCallUrl();
   }, [url]);
 
-  const doFetch = async (options: any = {}) => {
+  const doFetch = async <T>(options: any = {}) => {
     const { method, data } = options;
     console.log(method, data);
     try {
       setLoading(true);
-      const response = await request({ method, url, data });
+      const response: any = await request({ method, url, data });
       setPayload(response);
     } catch (error) {
       setError(error);
@@ -48,5 +43,5 @@ const useFetch = (method: string, url: string, data: any = null) => {
   }, [options]);
 
   return { payload, loading, error, doFetch };
-};
+}
 export default useFetch;
