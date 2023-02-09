@@ -145,5 +145,12 @@ export interface BoxProps {
    * @default 'auto'
    */
   cursor?: CSSProperties["cursor"];
+
+  /**
+   * box의 opacity 속성을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  opacity?: CSSProperties["opacity"];
 }
 export interface Props extends HTMLAttributes<HTMLElement>, BoxProps {}

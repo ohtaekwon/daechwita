@@ -20,4 +20,5 @@ export const Box = styled.span<Required<BoxProps>>`
     theme.colors[backgroundColor]};
 
   cursor: ${({ cursor }) => cursor};
+  opacity: ${({ opacity }) => opacity};
 `;

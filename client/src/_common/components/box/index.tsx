@@ -24,6 +24,7 @@ const Box = React.forwardRef(function Box(
     justifyContent = "flex-start",
     alignItems = "flex-start",
     backgroundColor = "inherit",
+    opacity = "inherit",
     cursor = "auto",
     ...rest
   }: React.PropsWithChildren<Props>,
@@ -51,6 +52,7 @@ const Box = React.forwardRef(function Box(
       justifyContent={justifyContent}
       alignItems={alignItems}
       cursor={cursor}
+      opacity={opacity}
       ref={forwardedRef}
       {...rest}
     >
