@@ -8,6 +8,7 @@ import Button from "_common/components/button";
 import { TaskModel } from "./models";
 import Task from "./task";
 import useColumnTasks from "hooks/useColumnTasks";
+import useColumnDrop from "hooks/useColumnDrop";
 
 const ColumnColorSchema: Record<ColumnType, BadgeType> = {
   Todo: "gray",
@@ -23,18 +24,28 @@ const mockTasks: TaskModel[] = [
 ];
 
 const Column = ({ column }: { column: ColumnType }) => {
-  const { tasks, addEmptyTask, updateTask, deleteTask } =
-    useColumnTasks(column);
+  const {
+    tasks,
+    addEmptyTask,
+    updateTask,
+    deleteTask,
+    dropTaskFrom,
+    swapTasks,
+  } = useColumnTasks(column);
+
+  const { isOver, dropRef } = useColumnDrop(column, dropTaskFrom);
 
   const ColumnTasks = tasks.map((task, index) => (
     <Task
       key={task.id}
       task={task}
       index={index}
+      onDropHover={swapTasks}
       onDelete={deleteTask}
       onUpdate={updateTask}
     />
   ));
+  React.useEffect(() => {}, []);
 
   return (
     <Box
@@ -52,12 +63,15 @@ const Column = ({ column }: { column: ColumnType }) => {
         추가하기
       </Button>
       <Box
-        width="100%"
+        ref={dropRef}
+        width="300px"
         height="100%"
         display="flex"
         direction="column"
         justifyContent="center"
         alignItems="center"
+        opacity={isOver ? 0.85 : 1}
+        backgroundColor="gray_100"
       >
         {ColumnTasks}
       </Box>

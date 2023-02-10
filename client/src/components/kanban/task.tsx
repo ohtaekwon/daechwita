@@ -13,17 +13,22 @@ type TaskProps = {
   task: TaskModel;
   onDelete: (id: TaskModel["id"]) => void;
   onUpdate: (id: TaskModel["id"], updatedTask: TaskModel) => void;
+  onDropHover: (i: number, j: number) => void;
 };
 const Task = ({
   index,
   task,
   onDelete: handleDelete,
   onUpdate: handleUpdate,
+  onDropHover: handleDropHover,
 }: TaskProps) => {
-  const { ref, isDragging } = useTaskDragAndDrop<HTMLElement>({
-    task,
-    index,
-  });
+  const { ref, isDragging } = useTaskDragAndDrop<HTMLElement>(
+    {
+      task,
+      index,
+    },
+    handleDropHover
+  );
 
   const {
     textAreaRef,
@@ -52,7 +57,9 @@ const Task = ({
       position="relative"
       display="flex"
       width="200px"
-      height="70px"
+      height="120px"
+      marginTop={20}
+      marginBottom={20}
       backgroundColor={task.color}
       cursor="grab"
       opacity={isDragging ? 0.5 : 1}
@@ -70,8 +77,8 @@ const Task = ({
         <RiDeleteBin6Line />
       </Button>
       <Textarea
-        width="100px"
-        height={lineHeight * 27 + 60}
+        width="150px"
+        height={lineHeight * 27 + 90}
         margin="auto"
         textAlign="center"
         ref={textAreaRef}
