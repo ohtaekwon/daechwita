@@ -25,8 +25,8 @@ const LeftNav = () => {
       as="figure"
       className="leftNav"
       variant="custom"
-      width={20}
-      backgroundColor="indigo_300"
+      width={50}
+      backgroundColor="gray_300"
     >
       <Flex direction="column">
         {sideNavMenu.map(({ name, key, route }: SideMenu) => (

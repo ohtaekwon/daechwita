@@ -2,9 +2,6 @@ import React from "react";
 import Section from "components/section";
 import useFetch from "hooks/useFetch";
 import Flex from "_common/components/flex";
-import { Layout } from "components/layout";
-import Column from "components/kanban/column";
-import { ColumnType } from "components/kanban/enums";
 
 const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
   // const { payload, loading } = useFetch("get", "/item");
@@ -26,10 +23,7 @@ const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
 
   return (
     <>
-      <div
-        className="homepage"
-        style={{ width: "100%", backgroundColor: "#eaeaea" }}
-      >
+      <div className="homepage">
         <Flex as="main">
           {leftNav}
           <Section
@@ -51,8 +45,6 @@ const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
             <div style={{ backgroundColor: "rosybrown" }}>섹션10</div>
             <div>섹션11</div>
             <div>섹션12</div>
-            {/* <>{!!!loading && usersPayload["test@gmail.com"].itemOfUser}</> */}
-            {/* <Column column={ColumnType.TO_DO} /> */}
           </Section>
         </Flex>
       </div>

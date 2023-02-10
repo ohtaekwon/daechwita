@@ -13,7 +13,13 @@ const Kanban = ({ leftNav }: { leftNav: React.ReactNode }) => {
     <div className="KanbanPage">
       <Flex as="main">
         {leftNav}
-        <Box as="main" display="flex" direction="column" width="100%">
+        <Box
+          as="main"
+          display="flex"
+          direction="column"
+          width="100%"
+          height="100%"
+        >
           <Text fontSize="md" textAlign="center">
             칸반페이지
           </Text>
