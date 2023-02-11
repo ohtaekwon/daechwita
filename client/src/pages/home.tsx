@@ -1,6 +1,6 @@
 import React from "react";
 import Section from "components/section";
-import useFetch from "hooks/useFetch";
+import useFetch from "hooks/app/useFetch";
 import Flex from "_common/components/flex";
 
 const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {

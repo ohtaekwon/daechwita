@@ -1,7 +1,7 @@
 import React, { SyntheticEvent } from "react";
 import Button from "_common/components/button";
 
-const MyDocuments = () => {
+const MyDocuments = ({ leftNav }: { leftNav: React.ReactNode }) => {
   const [document, setDocument] = React.useState<string>("");
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();

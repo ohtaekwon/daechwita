@@ -8,7 +8,7 @@ import Flex from "_common/components/flex";
 import Text from "_common/components/text";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-const Kanban = ({ leftNav }: { leftNav: React.ReactNode }) => {
+const MyTodo = ({ leftNav }: { leftNav: React.ReactNode }) => {
   return (
     <div className="KanbanPage">
       <Flex as="main">
@@ -41,4 +41,4 @@ const Kanban = ({ leftNav }: { leftNav: React.ReactNode }) => {
   );
 };
 
-export default Kanban;
+export default MyTodo;
