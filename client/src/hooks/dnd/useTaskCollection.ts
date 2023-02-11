@@ -2,7 +2,7 @@ import React from "react";
 import { v4 as uuid } from "uuid";
 
 import { ColumnType, TaskModel } from "types/index.types";
-import useLocalStorage from "./useLocalStorage";
+import useLocalStorage from "hooks/app/useLocalStorage";
 
 function useTaskCollection() {
   return useLocalStorage<{
