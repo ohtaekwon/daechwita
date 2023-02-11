@@ -4,6 +4,7 @@ import { Props } from "./index.types";
 const Flex = React.forwardRef(function Flex(
   {
     as = "div",
+    width = "auto",
     display = "flex",
     direction = "row",
     wrap = "nowrap",
@@ -22,6 +23,7 @@ const Flex = React.forwardRef(function Flex(
     <Styled.Flex
       as={as}
       display={display}
+      width={width}
       direction={direction}
       wrap={wrap}
       justifyContent={justifyContent}

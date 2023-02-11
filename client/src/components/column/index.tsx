@@ -3,7 +3,7 @@ import * as Styled from "./index.styles";
 import { Props } from "./index.types";
 
 import useColumnTasks from "hooks/useColumnTasks";
-import useColumnDrop from "hooks/useColumnDrop";
+import useColumnDrop from "hooks/dnd/useColumnDrop";
 
 import Text from "_common/components/text";
 import Badge from "_common/components/badge";

@@ -64,6 +64,13 @@ export interface FlexProps {
    * @default 0
    */
   gap?: number;
+
+  /**
+   * Flex의 width을 설정합니다.
+   *
+   * @default auto
+   */
+  width?:CSSProperties['width']
 }
 
 export interface Props extends HTMLAttributes<HTMLElement>, FlexProps {}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Props } from "./index.types";
 
-import useAutoHeightTextarea from "hooks/useAutoHeightTextarea";
+import useAutoHeightTextarea from "hooks/auto/useAutoHeightTextarea";
 import useTaskDragAndDrop from "hooks/useTaskDragAndDrop";
 
 import { RiDeleteBin6Line } from "react-icons/ri";
