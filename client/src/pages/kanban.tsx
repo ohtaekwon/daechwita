@@ -1,7 +1,7 @@
 import React from "react";
 import { DndProvider } from "react-dnd";
-import Column from "components/kanban/column";
-import { ColumnType } from "components/kanban/enums";
+import Column from "example/react-dnd/column";
+import { ColumnType } from "example/react-dnd/enums";
 import Section from "components/section";
 import Box from "_common/components/box";
 import Flex from "_common/components/flex";

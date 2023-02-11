@@ -1,5 +1,5 @@
 import Section from "components/section";
-import TodoExample from "example/kanban/todoExample";
+import TodoExample from "example/beautiful-dnd/todoExample";
 import React from "react";
 import Flex from "_common/components/flex";
 
