@@ -18,6 +18,12 @@ export const Layout = styled.main<Required<LayoutProps>>`
           background-color: ${theme.colors.neutral_100};
         `;
       }
+      case "xs": {
+        return css`
+          max-width: 320px;
+          background-color: ${theme.colors.indigo_50};
+        `;
+      }
       case "sm": {
         return css`
           max-width: 670px;
@@ -43,7 +49,7 @@ export const Layout = styled.main<Required<LayoutProps>>`
       case "custom": {
         return css`
           margin: 0;
-          max-width: ${width};
+          max-width:${width}%
           background-color: ${backgroundColor};
         `;
       }

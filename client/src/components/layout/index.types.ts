@@ -1,7 +1,14 @@
 import type { ElementType, HTMLAttributes, ReactNode } from "react";
 import { theme } from "styles";
 
-export type LayoutType = "sm" | "md" | "lg" | "default" | "xl" | "custom";
+export type LayoutType =
+  | "sm"
+  | "md"
+  | "lg"
+  | "default"
+  | "xl"
+  | "custom"
+  | "xs";
 export interface LayoutProps {
   /**
    * 엘리먼트의 타입을 설정합니다.

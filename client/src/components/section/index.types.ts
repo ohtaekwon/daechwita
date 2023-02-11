@@ -117,7 +117,12 @@ export interface SectionProps {
    * @default 0
    */
   marginLeft?: number;
-
+  /**
+   * margin을 설정합니다.
+   *
+   * @default inherit
+   */
+  margin?: CSSProperties["margin"];
   /**
    * Section 의 배경 색상을 설정합니다.
    *
