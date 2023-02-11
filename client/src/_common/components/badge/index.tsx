@@ -7,6 +7,7 @@ const Badge = React.forwardRef(function Badge(
     as = "div",
     role = "",
     variant = "default",
+    className,
     children,
     position = "static",
     paddingTop = 0,
@@ -28,6 +29,7 @@ const Badge = React.forwardRef(function Badge(
     <Styled.Badge
       as={as}
       role={role}
+      className={className}
       variant={variant}
       position={position}
       paddingTop={paddingTop}

@@ -3,6 +3,19 @@ import { authService } from "lib/firebase/firebase.config";
 import { useNavigate } from "react-router-dom";
 import Button from "_common/components/button";
 import useUser from "lib/firebase/useUser";
+import Column from "components/column";
+import { ColumnType } from "components/column/index.types";
+import { BadgeType } from "_common/components/badge/index.types";
+import Section from "components/section";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
+const ColumnColorSchema: Record<ColumnType, BadgeType> = {
+  Todo: "gray",
+  "In Progress": "blue",
+  Blocked: "red",
+  Completed: "green",
+};
 
 const Profile = () => {
   const { logout } = useUser();
@@ -10,6 +23,7 @@ const Profile = () => {
     authService.signOut();
     logout();
   };
+
   return (
     <>
       <Button
@@ -23,6 +37,38 @@ const Profile = () => {
       >
         로그아웃
       </Button>
+      <DndProvider backend={HTML5Backend}>
+        <Section
+          as="section"
+          sectionType="grid"
+          gridTemplateColumns="repeat(4, 1fr)"
+        >
+          <Column
+            className={`KanBan__${ColumnType.TO_DO}`}
+            column={ColumnType.TO_DO}
+            columnColorSchema={ColumnColorSchema}
+            type={"dd"}
+          />
+          <Column
+            className={`KanBan__${ColumnType.IN_PROGRESS}`}
+            column={ColumnType.IN_PROGRESS}
+            columnColorSchema={ColumnColorSchema}
+            type={"dd"}
+          />
+          <Column
+            className={`KanBan__${ColumnType.BLOCKED}`}
+            column={ColumnType.BLOCKED}
+            columnColorSchema={ColumnColorSchema}
+            type={"dd"}
+          />
+          <Column
+            className={`KanBan__${ColumnType.COMPLETED}`}
+            column={ColumnType.COMPLETED}
+            columnColorSchema={ColumnColorSchema}
+            type={"dd"}
+          />
+        </Section>
+      </DndProvider>
     </>
   );
 };

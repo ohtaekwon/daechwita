@@ -17,12 +17,6 @@ const ColumnColorSchema: Record<ColumnType, BadgeType> = {
   Completed: "green",
 };
 
-const mockTasks: TaskModel[] = [
-  { id: "1", title: "Task1", column: ColumnType.TO_DO, color: "red_300" },
-  { id: "2", title: "Task2", column: ColumnType.TO_DO, color: "blue_300" },
-  { id: "3", title: "Task3", column: ColumnType.TO_DO, color: "green_300" },
-];
-
 const Column = ({ column }: { column: ColumnType }) => {
   const {
     tasks,
@@ -32,7 +26,6 @@ const Column = ({ column }: { column: ColumnType }) => {
     dropTaskFrom,
     swapTasks,
   } = useColumnTasks(column);
-
   const { isOver, dropRef } = useColumnDrop(column, dropTaskFrom);
 
   const ColumnTasks = tasks.map((task, index) => (
@@ -45,7 +38,6 @@ const Column = ({ column }: { column: ColumnType }) => {
       onUpdate={updateTask}
     />
   ));
-  React.useEffect(() => {}, []);
 
   return (
     <Box
