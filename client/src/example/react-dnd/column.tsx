@@ -8,7 +8,7 @@ import Button from "_common/components/button";
 import { TaskModel } from "./models";
 import Task from "./task";
 import useColumnTasks from "hooks/useColumnTasks";
-import useColumnDrop from "hooks/useColumnDrop";
+import useColumnDrop from "hooks/dnd/useColumnDrop";
 
 const ColumnColorSchema: Record<ColumnType, BadgeType> = {
   Todo: "gray",

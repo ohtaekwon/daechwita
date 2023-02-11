@@ -1,4 +1,4 @@
-import { TItems, TItemStatus } from "pages/myDashBoard";
+import { TItems, TItemStatus } from "pages/my-dashBoard";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import registDND from "./todoExample.drag";
 

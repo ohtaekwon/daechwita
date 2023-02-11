@@ -1,4 +1,4 @@
-import { TItems, TItemStatus } from "pages/myDashBoard";
+import { TItems, TItemStatus } from "pages/my-dashBoard";
 import { useEffect, useState } from "react";
 import {
   DragDropContext,

@@ -5,7 +5,7 @@ import { TaskModel } from "./models";
 
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Textarea from "_common/components/textarea";
-import useAutoHeightTextarea from "hooks/useAutoHeightTextarea";
+import useAutoHeightTextarea from "hooks/auto/useAutoHeightTextarea";
 import useTaskDragAndDrop from "hooks/useTaskDragAndDrop";
 
 type TaskProps = {
