@@ -1,15 +1,15 @@
 import React from "react";
-
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";
+
+import useColumnTasks from "hooks/useColumnTasks";
+import useColumnDrop from "hooks/useColumnDrop";
 
 import Text from "_common/components/text";
 import Badge from "_common/components/badge";
 import Button from "_common/components/button";
-import useColumnTasks from "hooks/useColumnTasks";
 import Box from "_common/components/box";
-import useColumnDrop from "hooks/useColumnDrop";
-import Task from "components/kanban/task";
+import Card from "components/card";
 
 export const Column = ({
   as = "div",
@@ -32,7 +32,7 @@ export const Column = ({
   const { isOver, dropRef } = useColumnDrop(column, dropTaskFrom);
 
   const ColumnTasks = tasks.map((task, index) => (
-    <Task
+    <Card
       key={task.id}
       task={task}
       index={index}

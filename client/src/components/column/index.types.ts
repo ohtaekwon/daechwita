@@ -1,15 +1,8 @@
 import React, { ElementType } from "react";
 import { HTMLAttributes } from "react";
+import { ColumnType } from "types/index.types";
+import { BadgeType } from "_common/components/badge/index.types";
 
-export enum ColumnType {
-  TO_DO = "Todo",
-  IN_PROGRESS = "In Progress",
-  BLOCKED = "Blocked",
-  COMPLETED = "Completed",
-}
-export enum ItemType {
-  TASK = "Task",
-}
 export interface ColumnProps {
   /**
    * 엘리먼트의 타입을 설정합니다.
@@ -20,7 +13,7 @@ export interface ColumnProps {
 }
 export interface Props extends HTMLAttributes<HTMLDivElement>, ColumnProps {
   children?: React.ReactNode;
-  column?: any;
-  columnColorSchema?: any;
+  column: ColumnType;
+  columnColorSchema?: Record<ColumnType, BadgeType>;
   type?: string;
 }

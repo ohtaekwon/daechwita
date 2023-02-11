@@ -1,7 +1,6 @@
 import React from "react";
 import { useDrag, useDrop, XYCoord } from "react-dnd";
-import { ItemType } from "components/kanban/enums";
-import { DragItem, TaskModel } from "components/kanban/models";
+import { ItemType, TaskModel, DragItem } from "types/index.types";
 
 /**
  * useDrag 정리

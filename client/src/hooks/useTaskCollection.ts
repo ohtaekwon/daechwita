@@ -1,8 +1,7 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { ColumnType } from "components/kanban/enums";
-import { TaskModel } from "components/kanban/models";
-// import { useLocalStorage } from "usehooks-ts";
+
+import { ColumnType, TaskModel } from "types/index.types";
 import useLocalStorage from "./useLocalStorage";
 
 function useTaskCollection() {

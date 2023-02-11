@@ -1,10 +1,10 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { ColumnType } from "components/kanban/enums";
-import { TaskModel } from "components/kanban/models";
+
 import useTaskCollection from "./useTaskCollection";
 import pickRandomColor from "utils/helpers/random";
 import { swap } from "utils/helpers/swap";
+import { ColumnType, TaskModel } from "types/index.types";
 
 const MAX_TASK_PER_COLUMN = 100;
 

@@ -1,7 +1,7 @@
 import React from "react";
+
 import { useDrop } from "react-dnd";
-import { ColumnType, ItemType } from "components/kanban/enums";
-import { DragItem, TaskModel } from "components/kanban/models";
+import { ColumnType, ItemType, TaskModel, DragItem } from "types/index.types";
 
 /**
  * useDrop 정리

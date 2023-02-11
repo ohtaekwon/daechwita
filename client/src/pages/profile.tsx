@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import Button from "_common/components/button";
 import useUser from "lib/firebase/useUser";
 import Column from "components/column";
-import { ColumnType } from "components/column/index.types";
 import { BadgeType } from "_common/components/badge/index.types";
 import Section from "components/section";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { ColumnType } from "types/index.types";
 
 const ColumnColorSchema: Record<ColumnType, BadgeType> = {
   Todo: "gray",
