@@ -12,7 +12,19 @@ export type BadgeType =
   | "gray"
   | "red"
   | "green"
-  | "blue";
+  | "blue"
+  | "stone"
+  | "neutral"
+  | "zinc"
+  | "red"
+  | "orange"
+  | "amber"
+  | "yellow"
+  | "green"
+  | "teal"
+  | "sky"
+  | "indigo"
+  | "purple";
 
 export interface BadgeProps {
   /**
