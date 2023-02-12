@@ -23,7 +23,7 @@ const Router = ({ isLoggedIn }: Props) => {
       {isLoggedIn && <Header />}
       {isLoggedIn ? (
         <>
-          <SignInRouter sideNavMenu={sideNavMenu} />
+          <SignInRouter />
         </>
       ) : (
         <DefaultRouter />

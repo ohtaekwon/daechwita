@@ -1,7 +1,18 @@
-import { TItems, TItemStatus } from "pages/my-dashBoard";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import registDND from "./todoExample.drag";
 
+export type TItemStatus = "todo" | "doing";
+
+export type TItem = {
+  id: string;
+  status: TItemStatus;
+  title: string;
+  index: number;
+};
+
+export type TItems = {
+  [key in TItemStatus]: TItem[];
+};
 export default function TodoExample({
   items,
   setItems,

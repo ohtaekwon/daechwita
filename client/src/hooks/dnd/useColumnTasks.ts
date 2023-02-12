@@ -4,24 +4,36 @@ import { v4 as uuid } from "uuid";
 import useTaskCollection from "./useTaskCollection";
 import pickRandomColor from "utils/helpers/random";
 import { swap } from "utils/helpers/swap";
-import { ColumnType, TaskModel } from "types/index.types";
+import {
+  AllTasksModel,
+  ColumnType,
+  ScheduleType,
+  TaskModel,
+} from "types/index.types";
+import Task from "example/react-dnd/task";
 
 const MAX_TASK_PER_COLUMN = 100;
 
-function useColumnTasks(column: ColumnType) {
-  const [tasks, setTasks] = useTaskCollection();
+function useColumnTasks<T>(key: string, column: ColumnType) {
+  const [tasks, setTasks] = useTaskCollection(key);
 
   const addEmptyTask = React.useCallback(() => {
     console.log(`Adding new Empty task to ${column} column`);
 
     setTasks((allTasks) => {
+      // console.log(keyof typeof allTa)
       const columnTasks = allTasks[column];
 
       if (columnTasks.length > MAX_TASK_PER_COLUMN) {
         console.log("Task가 너무 많습니다.");
         return allTasks;
       }
-
+      //   allTasks: {
+      //     Todo: TaskModel[];
+      //     "In Progress": TaskModel[];
+      //     Blocked: TaskModel[];
+      //     Completed: TaskModel[];
+      // }
       const newColumnTask: TaskModel = {
         id: uuid(),
         title: `New ${column} tasks`,

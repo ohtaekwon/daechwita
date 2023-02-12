@@ -2,7 +2,7 @@ import React from "react";
 import { Props } from "./index.types";
 
 import useAutoHeightTextarea from "hooks/auto/useAutoHeightTextarea";
-import useTaskDragAndDrop from "hooks/useTaskDragAndDrop";
+import useTaskDragAndDrop from "hooks/dnd/useTaskDragAndDrop";
 
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Box from "_common/components/box";
@@ -81,7 +81,7 @@ const Card = ({
         ref={textAreaRef}
         value={task.title}
         onChange={handleChange}
-        onKeyDown={() => checkItemEnterHandler}
+        onKeyDown={checkItemEnterHandler}
       >
         {task.title}
       </Textarea>

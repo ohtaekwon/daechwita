@@ -38,10 +38,8 @@ function useAutoHeightTextarea() {
   };
 
   // 너비 초과로 인한 줄바꿈 말고 사용자가 엔터를 입력했을 때의 줄바꿈 처리
-  const checkItemEnterHandler = (
-    event: React.KeyboardEventHandler<
-      HTMLTextAreaElement | HTMLHeadingElement | HTMLParagraphElement
-    >
+  const checkItemEnterHandler: (e: any) => void = (
+    event: React.KeyboardEventHandler<HTMLTextAreaElement>
   ) => {
     if ((event as any).key === "Enter") {
       // textarea 높이는 checkItemChangeHandler에서 변경됨

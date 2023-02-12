@@ -7,8 +7,9 @@ import { BadgeType } from "_common/components/badge/index.types";
 import Button from "_common/components/button";
 import { TaskModel } from "./models";
 import Task from "./task";
-import useColumnTasks from "hooks/useColumnTasks";
+import useColumnTasks from "hooks/dnd/useColumnTasks";
 import useColumnDrop from "hooks/dnd/useColumnDrop";
+import useMouseMove from "hooks/app/useMouseMove";
 
 const ColumnColorSchema: Record<ColumnType, BadgeType> = {
   Todo: "gray",
@@ -25,7 +26,7 @@ const Column = ({ column }: { column: ColumnType }) => {
     deleteTask,
     dropTaskFrom,
     swapTasks,
-  } = useColumnTasks(column);
+  } = useColumnTasks("todo", column);
   const { isOver, dropRef } = useColumnDrop(column, dropTaskFrom);
 
   const ColumnTasks = tasks.map((task, index) => (
@@ -39,6 +40,9 @@ const Column = ({ column }: { column: ColumnType }) => {
     />
   ));
 
+  const coords = useMouseMove();
+
+  console.log(coords);
   return (
     <Box
       width="100%"
