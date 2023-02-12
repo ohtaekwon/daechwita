@@ -1,6 +1,6 @@
 import React, { ElementType } from "react";
 import { HTMLAttributes } from "react";
-import { ColumnType } from "types/index.types";
+import { ColumnType, ScheduleType } from "types/index.types";
 import { BadgeType } from "_common/components/badge/index.types";
 
 export interface ColumnProps {
@@ -14,6 +14,7 @@ export interface ColumnProps {
 export interface Props extends HTMLAttributes<HTMLDivElement>, ColumnProps {
   children?: React.ReactNode;
   column: ColumnType;
-  columnColorSchema?: Record<ColumnType, BadgeType>;
+  columnColorSchema?: Record<ColumnType | ScheduleType, BadgeType>;
   type?: string;
+  key: string;
 }

@@ -2,7 +2,7 @@ import React from "react";
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";
 
-import useColumnTasks from "hooks/useColumnTasks";
+import useColumnTasks from "hooks/dnd/useColumnTasks";
 import useColumnDrop from "hooks/dnd/useColumnDrop";
 
 import Text from "_common/components/text";
@@ -13,6 +13,7 @@ import Card from "components/card";
 
 export const Column = ({
   as = "div",
+  key,
   className,
   type,
   column,
@@ -27,7 +28,7 @@ export const Column = ({
     deleteTask,
     dropTaskFrom,
     swapTasks,
-  } = useColumnTasks(column);
+  } = useColumnTasks(key, column);
 
   const { isOver, dropRef } = useColumnDrop(column, dropTaskFrom);
 
