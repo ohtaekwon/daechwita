@@ -1,12 +1,13 @@
 import React from "react";
 import { DndProvider } from "react-dnd";
-import Column from "example/react-dnd/column";
-import { ColumnType } from "example/react-dnd/enums";
 import Section from "components/section";
 import Box from "_common/components/box";
 import Flex from "_common/components/flex";
 import Text from "_common/components/text";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import Column from "components/column";
+import { ColumnType } from "types/index.types";
+import { ColumnColorSchema } from "types/schema.types";
 
 const MyTodo = ({ leftNav }: { leftNav: React.ReactNode }) => {
   return (
@@ -29,10 +30,34 @@ const MyTodo = ({ leftNav }: { leftNav: React.ReactNode }) => {
               sectionType="grid"
               gridTemplateColumns="repeat(4, 1fr)"
             >
-              <Column column={ColumnType.TO_DO} />
-              <Column column={ColumnType.IN_PROGRESS} />
-              <Column column={ColumnType.BLOCKED} />
-              <Column column={ColumnType.COMPLETED} />
+              <Column
+                column={ColumnType.TO_DO}
+                key="todo"
+                className={`KanBan__${ColumnType.TO_DO}`}
+                columnColorSchema={ColumnColorSchema}
+                type="dd"
+              />
+              <Column
+                column={ColumnType.IN_PROGRESS}
+                key="todo"
+                className={`KanBan__${ColumnType.IN_PROGRESS}`}
+                columnColorSchema={ColumnColorSchema}
+                type="dd"
+              />
+              <Column
+                column={ColumnType.BLOCKED}
+                key="todo"
+                className={`KanBan__${ColumnType.BLOCKED}`}
+                columnColorSchema={ColumnColorSchema}
+                type="dd"
+              />
+              <Column
+                column={ColumnType.COMPLETED}
+                key="todo"
+                className={`KanBan__${ColumnType.COMPLETED}`}
+                columnColorSchema={ColumnColorSchema}
+                type="dd"
+              />
             </Section>
           </DndProvider>
         </Box>

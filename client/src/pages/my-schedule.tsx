@@ -8,15 +8,9 @@ import { BadgeType } from "_common/components/badge/index.types";
 import Section from "components/section";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { ColumnType } from "types/index.types";
+import { ColumnType, ScheduleType } from "types/index.types";
 import Flex from "_common/components/flex";
-
-const ColumnColorSchema: Record<ColumnType, BadgeType> = {
-  Todo: "gray",
-  "In Progress": "blue",
-  Blocked: "red",
-  Completed: "green",
-};
+import { ColumnColorSchema } from "types/schema.types";
 
 const MySchedule = ({ leftNav }: { leftNav: React.ReactNode }) => {
   const { logout } = useUser();
@@ -47,24 +41,28 @@ const MySchedule = ({ leftNav }: { leftNav: React.ReactNode }) => {
             gridTemplateColumns="repeat(4, 1fr)"
           >
             <Column
+              key="schedule"
               className={`KanBan__${ColumnType.TO_DO}`}
               column={ColumnType.TO_DO}
               columnColorSchema={ColumnColorSchema}
               type={"dd"}
             />
             <Column
+              key="schedule"
               className={`KanBan__${ColumnType.IN_PROGRESS}`}
               column={ColumnType.IN_PROGRESS}
               columnColorSchema={ColumnColorSchema}
               type={"dd"}
             />
             <Column
+              key="schedule"
               className={`KanBan__${ColumnType.BLOCKED}`}
               column={ColumnType.BLOCKED}
               columnColorSchema={ColumnColorSchema}
               type={"dd"}
             />
             <Column
+              key="schedule"
               className={`KanBan__${ColumnType.COMPLETED}`}
               column={ColumnType.COMPLETED}
               columnColorSchema={ColumnColorSchema}
