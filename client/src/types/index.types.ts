@@ -1,13 +1,38 @@
 import { theme } from "styles";
 
+/**
+ * 1. 칸반의 Column을 구성하는 타입
+ */
+
+/**
+ * Todo 칸반의 Column의 상수를 설정합니다.
+ *
+ * 컬럼은 Todo, In Progress, Blocked, Completed로 구성됩니다.
+ */
 export enum ColumnType {
-  /**
-   * Column의 상수를 설정합니다.
-   */
   TO_DO = "Todo",
   IN_PROGRESS = "In Progress",
   BLOCKED = "Blocked",
   COMPLETED = "Completed",
+}
+
+/**
+ * Schedule 칸반의 Column의 상수를 설정합니다.
+ *
+ * 컬럼은 서류전형, 1차전형, 2차전형, 3차전형(최종발표)로 구성됩니다.
+ */
+export enum ScheduleType {
+  DOCUMENT_ROUND = "document screening",
+  ONE_ROUND = "first test",
+  TWO_ROUND = "second test",
+  THIRD_ROUND = "third test",
+}
+
+export interface AllTasksModel {
+  [ColumnType.TO_DO]: TaskModel[];
+  [ColumnType.COMPLETED]: TaskModel[];
+  [ColumnType.BLOCKED]: TaskModel[];
+  [ColumnType.IN_PROGRESS]: TaskModel[];
 }
 export enum ItemType {
   /**
@@ -15,6 +40,14 @@ export enum ItemType {
    */
   TASK = "Task",
 }
+
+/**
+ * Todo컬럼안의 item의 타입을 설정합니다.
+ *
+ * id, title, column, color로 구성됩니다.
+ *
+ * color는 칸반 아이템의 배경색상을 나타냅니다.
+ */
 
 export interface TaskModel {
   /**
