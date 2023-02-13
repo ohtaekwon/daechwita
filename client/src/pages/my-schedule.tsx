@@ -11,14 +11,20 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { ColumnType, ScheduleType } from "types/index.types";
 import Flex from "_common/components/flex";
 import { ColumnColorSchema } from "types/schema.types";
+import useFetch from "hooks/app/useFetch";
+import { getUserFromCookie } from "lib/firebase/userCookies";
 
 const MySchedule = ({ leftNav }: { leftNav: React.ReactNode }) => {
+  const { payload, loading, doFetch } = useFetch("get", "/schedules");
+  const cookie = getUserFromCookie();
+
+  console.log("adasd", cookie);
   const { logout } = useUser();
   const onLogOutClick = () => {
     authService.signOut();
     logout();
   };
-
+  console.log(payload);
   return (
     <div className="mySchedulePage">
       <Flex as="main">

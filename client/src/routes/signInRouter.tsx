@@ -8,6 +8,7 @@ import MyDashBoard from "pages/my-dashBoard";
 import MyTodo from "pages/todo";
 import MySchedule from "pages/my-schedule";
 import MyInterview from "pages/my-interview";
+import Profile from "pages/profile";
 
 const SignInRouter = () => {
   return (
@@ -29,6 +30,7 @@ const SignInRouter = () => {
           element={<MyDashBoard leftNav={<LeftNav />} />}
         />
         <Route path="/my-interview" element={<MyInterview />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </>
   );

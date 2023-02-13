@@ -5,12 +5,12 @@ import Flex from "_common/components/flex";
 
 const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
   // const { payload, loading } = useFetch("get", "/item");
-  const { payload: usersPayload, loading, doFetch } = useFetch("get", "/users");
-  const {
-    payload: ttsPayload,
-    loading: ttsLoading,
-    doFetch: ttsDoFetch,
-  } = useFetch("get", "/tts");
+  const { payload, loading, doFetch } = useFetch("get", "/schedules");
+  // const {
+  //   payload: ttsPayload,
+  //   loading: ttsLoading,
+  //   doFetch: ttsDoFetch,
+  // } = useFetch("get", "/tts");
 
   const handleClick = () => {
     // doFetch({
@@ -27,10 +27,12 @@ const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
   };
 
   const handleSpeech = () => {
-    ttsDoFetch({
-      method: "get",
-    });
+    // ttsDoFetch({
+    //   method: "get",
+    // });
   };
+
+  console.log(payload, payload);
 
   return (
     <>

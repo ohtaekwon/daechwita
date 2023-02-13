@@ -14,6 +14,7 @@ function useFetch<T>(method: method, url: string, data?: T | T[]) {
       setLoading(true);
       const response: T[] = await request({ method, url, data });
       setPayload(response);
+      console.log(response);
     } catch (error) {
       setError(error);
     } finally {

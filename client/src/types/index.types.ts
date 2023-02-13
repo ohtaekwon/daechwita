@@ -23,9 +23,9 @@ export enum ColumnType {
  */
 export enum ScheduleType {
   DOCUMENT_ROUND = "document screening",
-  ONE_ROUND = "first test",
-  TWO_ROUND = "second test",
-  THIRD_ROUND = "third test",
+  ONE_ROUND = "first round",
+  TWO_ROUND = "second round",
+  THIRD_ROUND = "final pass",
 }
 
 export interface AllTasksModel {

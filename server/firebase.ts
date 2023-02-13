@@ -1,10 +1,6 @@
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  GithubAuthProvider,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import "dotenv/config";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -18,5 +14,5 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 
-// auth
-// export const authService = getAuth(app);
+export default app;
+export const db = getFirestore(app);
