@@ -8,15 +8,6 @@ type Props = {
   isLoggedIn: Boolean;
 };
 
-type SideMenu = {
-  [key: string]: any;
-};
-
-const sideNavMenu: SideMenu[] = [
-  { name: "todo", key: "todo" },
-  { name: "자소서", key: "abc" },
-];
-
 const Router = ({ isLoggedIn }: Props) => {
   return (
     <>

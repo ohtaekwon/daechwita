@@ -6,6 +6,7 @@ import { signInWithGoogle } from "lib/firebase/provider";
 
 const FirebaseAuth = ({
   as = "div",
+  className = "",
   email = "",
   password = "",
   handleSubmit,
@@ -19,7 +20,7 @@ const FirebaseAuth = ({
   ...rest
 }: React.PropsWithChildren<Props>) => {
   return (
-    <Styled.Wrapper as={as} {...rest}>
+    <Styled.Wrapper as={as} className={className} {...rest}>
       {renderAuth ? (
         <>
           <form onSubmit={handleSubmit}>

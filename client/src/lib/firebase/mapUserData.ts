@@ -1,14 +1,15 @@
-export const mapUserData = (user:any) => {
+export const mapUserData = (user: any) => {
   /**
    * uid : 각 아이디가 가지고 있는 고유의 uid
    * xa : 토큰
    */
-  const { uid, email, xa, displayName, photoUrl } = user;
+  const { uid, email, accessToken, displayName, photoURL, phoneNumber } = user;
   return {
-    id: uid,
+    uid,
     email,
-    token: xa,
+    token: accessToken,
     name: displayName,
-    profilePic: photoUrl,
+    profilePic: photoURL,
+    phoneNumber,
   };
 };
