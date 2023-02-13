@@ -1,11 +1,12 @@
 import express from "express";
+import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import documentsRoute from "./routes/documents";
 import usersRoute from "./routes/users";
-import itemARoute from "./routes/itemA";
 import ttsARoute from "./routes/tts";
+import schedulesRoute from "./routes/schedules";
 
 export const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -17,9 +18,10 @@ app.use(
     credentials: true,
   })
 );
+app.use(bodyParser.json());
 app.use(cookieParser(process.env.COOKIE_SECRET)); // get요청이 오면 uri변수들이 파싱되어 req.cookies객체에 저장된다.
 
-const routes = [...documentsRoute, ...usersRoute, ...itemARoute, ...ttsARoute];
+const routes = [...documentsRoute, ...usersRoute, ...schedulesRoute];
 
 routes.forEach(({ method, route, handler }) => {
   app[method as Method](route, handler);
