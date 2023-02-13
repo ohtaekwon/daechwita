@@ -41,28 +41,32 @@ const MySchedule = ({ leftNav }: { leftNav: React.ReactNode }) => {
             gridTemplateColumns="repeat(4, 1fr)"
           >
             <Column
-              key="schedule"
+              key={`${"schedule"}-1`}
+              localStorageKey="schedule"
               className={`KanBan__${ColumnType.TO_DO}`}
               column={ColumnType.TO_DO}
               columnColorSchema={ColumnColorSchema}
               type={"dd"}
             />
             <Column
-              key="schedule"
+              key={`${"schedule"}-2`}
+              localStorageKey="schedule"
               className={`KanBan__${ColumnType.IN_PROGRESS}`}
               column={ColumnType.IN_PROGRESS}
               columnColorSchema={ColumnColorSchema}
               type={"dd"}
             />
             <Column
-              key="schedule"
+              key={`${"schedule"}-3`}
+              localStorageKey="schedule"
               className={`KanBan__${ColumnType.BLOCKED}`}
               column={ColumnType.BLOCKED}
               columnColorSchema={ColumnColorSchema}
               type={"dd"}
             />
             <Column
-              key="schedule"
+              key={`${"schedule"}-4`}
+              localStorageKey="schedule"
               className={`KanBan__${ColumnType.COMPLETED}`}
               column={ColumnType.COMPLETED}
               columnColorSchema={ColumnColorSchema}

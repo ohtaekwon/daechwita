@@ -1,5 +1,4 @@
 import * as express from "express";
-import { text } from "stream/consumers";
 import { v4 } from "uuid";
 import { DBField, readDB, writeDB } from "../dbController";
 

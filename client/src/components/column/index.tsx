@@ -13,7 +13,7 @@ import Card from "components/card";
 
 export const Column = ({
   as = "div",
-  key,
+  localStorageKey,
   className,
   type,
   column,
@@ -28,7 +28,7 @@ export const Column = ({
     deleteTask,
     dropTaskFrom,
     swapTasks,
-  } = useColumnTasks(key, column);
+  } = useColumnTasks(localStorageKey, column);
 
   const { isOver, dropRef } = useColumnDrop(column, dropTaskFrom);
 

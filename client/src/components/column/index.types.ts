@@ -16,5 +16,5 @@ export interface Props extends HTMLAttributes<HTMLDivElement>, ColumnProps {
   column: ColumnType;
   columnColorSchema?: Record<ColumnType | ScheduleType, BadgeType>;
   type?: string;
-  key: string;
+  localStorageKey: string;
 }

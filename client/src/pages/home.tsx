@@ -6,6 +6,11 @@ import Flex from "_common/components/flex";
 const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
   // const { payload, loading } = useFetch("get", "/item");
   const { payload: usersPayload, loading, doFetch } = useFetch("get", "/users");
+  const {
+    payload: ttsPayload,
+    loading: ttsLoading,
+    doFetch: ttsDoFetch,
+  } = useFetch("get", "/tts");
 
   const handleClick = () => {
     // doFetch({
@@ -19,6 +24,12 @@ const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
     //     },
     //   },
     // });
+  };
+
+  const handleSpeech = () => {
+    ttsDoFetch({
+      method: "get",
+    });
   };
 
   return (
@@ -45,6 +56,7 @@ const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
             <div style={{ backgroundColor: "rosybrown" }}>섹션10</div>
             <div>섹션11</div>
             <div>섹션12</div>
+            <button onClick={handleSpeech}>버튼</button>
           </Section>
         </Flex>
       </div>

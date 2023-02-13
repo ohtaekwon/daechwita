@@ -7,6 +7,8 @@ export enum DBField {
   ITEM_A = "itemA",
   ITEM_B = "itemB",
   ITEM_C = "itemC",
+
+  STREAM = "stream",
 }
 
 const basePath = resolve(); // 현재의 경로가 변수에 할당된다. == __dirname
@@ -17,6 +19,7 @@ const filedNames = {
   [DBField.ITEM_A]: resolve(basePath, "./src/db/itemA.json"),
   [DBField.ITEM_B]: resolve(basePath, "./src/db/itemB.json"),
   [DBField.ITEM_C]: resolve(basePath, "./src/db/itemC.json"),
+  [DBField.STREAM]: resolve(basePath, "./src/db/stream.json"),
 };
 
 export const readDB = (target: DBField) => {
@@ -34,5 +37,12 @@ export const writeDB = (target: DBField, data: any) => {
     fs.writeFileSync(filedNames[target], JSON.stringify(data, null, "  "));
   } catch (err) {
     console.log("write", err);
+  }
+};
+export const writeStream = (target: DBField) => {
+  try {
+    fs.createWriteStream("./tts1.mp3");
+  } catch (err) {
+    console.warn(err);
   }
 };

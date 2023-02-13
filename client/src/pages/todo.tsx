@@ -31,29 +31,33 @@ const MyTodo = ({ leftNav }: { leftNav: React.ReactNode }) => {
               gridTemplateColumns="repeat(4, 1fr)"
             >
               <Column
+                key={`${"todo"}-1`}
                 column={ColumnType.TO_DO}
-                key="todo"
+                localStorageKey="todo"
                 className={`KanBan__${ColumnType.TO_DO}`}
                 columnColorSchema={ColumnColorSchema}
                 type="dd"
               />
               <Column
+                key={`${"todo"}-2`}
                 column={ColumnType.IN_PROGRESS}
-                key="todo"
+                localStorageKey="todo"
                 className={`KanBan__${ColumnType.IN_PROGRESS}`}
                 columnColorSchema={ColumnColorSchema}
                 type="dd"
               />
               <Column
+                key={`${"todo"}-3`}
                 column={ColumnType.BLOCKED}
-                key="todo"
+                localStorageKey="todo"
                 className={`KanBan__${ColumnType.BLOCKED}`}
                 columnColorSchema={ColumnColorSchema}
                 type="dd"
               />
               <Column
+                key={`${"todo"}-4`}
                 column={ColumnType.COMPLETED}
-                key="todo"
+                localStorageKey="todo"
                 className={`KanBan__${ColumnType.COMPLETED}`}
                 columnColorSchema={ColumnColorSchema}
                 type="dd"

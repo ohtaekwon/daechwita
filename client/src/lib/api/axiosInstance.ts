@@ -5,6 +5,9 @@ const BASE_URL = "http://localhost:8000";
 // axios 인스턴스 생성
 const request = axios.create({
   baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 // 요청 타임아웃 설정
