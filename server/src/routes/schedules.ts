@@ -52,8 +52,6 @@ const schedulesRoute = [
       });
       const newData = data;
 
-      console.log(data);
-
       setSchedules(newData);
       res.send(data);
       return data;
@@ -61,7 +59,7 @@ const schedulesRoute = [
   },
   {
     method: "get",
-    route: "/schedule/:id",
+    route: "/schedules/:id",
     handler: async (req: express.Request, res: express.Response) => {
       const {
         body: { uid },
@@ -69,6 +67,34 @@ const schedulesRoute = [
       } = req;
       const schedulesSnapshot = await getDoc(doc(db, "schedule", uid));
       res.send(schedulesSnapshot);
+      return {
+        ...schedulesSnapshot.data(),
+        id: schedulesSnapshot.id,
+      };
+    },
+  },
+  // CREATE SCHEDULES
+  {
+    method: "post",
+    route: "/schedules",
+    handler: async (req: express.Request, res: express.Response) => {
+      const { body, params } = req;
+
+      const { apply, column, text, title, uid } = body;
+      const newSchedule = {
+        apply,
+        column,
+        text,
+        title,
+        uid,
+        createdAt: serverTimestamp(),
+      };
+
+      const addSchedule = await addDoc(collection(db, "schedule"), newSchedule);
+      const schedulesSnapshot = await getDoc(addSchedule);
+
+      res.send(schedulesSnapshot);
+
       return {
         ...schedulesSnapshot.data(),
         id: schedulesSnapshot.id,
