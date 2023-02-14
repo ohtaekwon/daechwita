@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import * as Styled from "./index.styles";
+
+import { Link } from "react-router-dom";
 
 import Button from "_common/components/button";
 import Flex from "_common/components/flex";
-
 import Section from "components/section";
 
 type SideMenu = {

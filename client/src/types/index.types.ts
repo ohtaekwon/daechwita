@@ -76,3 +76,21 @@ export interface DragItem {
   id: TaskModel["id"];
   from: ColumnType;
 }
+
+type ApplyType = {
+  department: string;
+  company: string;
+};
+type CreatedAt = {
+  seconds: number;
+  nanoseconds: number;
+};
+export interface SchedulesType {
+  id: string;
+  uid: string;
+  column: string;
+  apply: ApplyType;
+  text: string;
+  title: string;
+  createdAt: CreatedAt;
+}

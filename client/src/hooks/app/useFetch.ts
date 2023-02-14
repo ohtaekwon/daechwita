@@ -1,5 +1,5 @@
+import authFetch from "lib/apis/utils/interceptors";
 import React from "react";
-import request from "lib/api/axiosInstance";
 
 type method = "get" | "post" | "put" | "delete" | "patch";
 
@@ -12,7 +12,7 @@ function useFetch<T>(method: method, url: string, data?: T | T[]) {
   const handleCallUrl = async () => {
     try {
       setLoading(true);
-      const response: T[] = await request({ method, url, data });
+      const response: T[] = await authFetch({ method, url, data });
       setPayload(response);
       console.log(response);
     } catch (error) {
@@ -31,7 +31,7 @@ function useFetch<T>(method: method, url: string, data?: T | T[]) {
     console.log(method, data);
     try {
       setLoading(true);
-      const response: any = await request({ method, url, data });
+      const response: any = await authFetch({ method, url, data });
       setPayload(response);
     } catch (error) {
       setError(error);

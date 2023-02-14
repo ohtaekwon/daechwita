@@ -5,7 +5,7 @@ import Box from "_common/components/box";
 import Flex from "_common/components/flex";
 import Text from "_common/components/text";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import Column from "components/column";
+import { LocalStorageColumn as Column } from "components/column";
 import { ColumnType } from "types/index.types";
 import { ColumnColorSchema } from "types/schema.types";
 
@@ -36,7 +36,7 @@ const MyTodo = ({ leftNav }: { leftNav: React.ReactNode }) => {
                 localStorageKey="todo"
                 className={`KanBan__${ColumnType.TO_DO}`}
                 columnColorSchema={ColumnColorSchema}
-                type="dd"
+                type="localStorage"
               />
               <Column
                 key={`${"todo"}-2`}
@@ -44,7 +44,7 @@ const MyTodo = ({ leftNav }: { leftNav: React.ReactNode }) => {
                 localStorageKey="todo"
                 className={`KanBan__${ColumnType.IN_PROGRESS}`}
                 columnColorSchema={ColumnColorSchema}
-                type="dd"
+                type="localStorage"
               />
               <Column
                 key={`${"todo"}-3`}
@@ -52,7 +52,7 @@ const MyTodo = ({ leftNav }: { leftNav: React.ReactNode }) => {
                 localStorageKey="todo"
                 className={`KanBan__${ColumnType.BLOCKED}`}
                 columnColorSchema={ColumnColorSchema}
-                type="dd"
+                type="localStorage"
               />
               <Column
                 key={`${"todo"}-4`}
@@ -60,7 +60,7 @@ const MyTodo = ({ leftNav }: { leftNav: React.ReactNode }) => {
                 localStorageKey="todo"
                 className={`KanBan__${ColumnType.COMPLETED}`}
                 columnColorSchema={ColumnColorSchema}
-                type="dd"
+                type="localStorage"
               />
             </Section>
           </DndProvider>

@@ -1,38 +1,11 @@
 import React from "react";
 import Section from "components/section";
-import useFetch from "hooks/app/useFetch";
 import Flex from "_common/components/flex";
 
 const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
-  // const { payload, loading } = useFetch("get", "/item");
-  const { payload, loading, doFetch } = useFetch("get", "/schedules");
-  // const {
-  //   payload: ttsPayload,
-  //   loading: ttsLoading,
-  //   doFetch: ttsDoFetch,
-  // } = useFetch("get", "/tts");
+  const handleClick = () => {};
 
-  const handleClick = () => {
-    // doFetch({
-    //   method: "post",
-    //   data: {
-    //     "test4@gmail.com": {
-    //       email: "test4@gmail.com",
-    //       nickName: "테스트3",
-    //       pw: 1234,
-    //       itemOfUser: [],
-    //     },
-    //   },
-    // });
-  };
-
-  const handleSpeech = () => {
-    // ttsDoFetch({
-    //   method: "get",
-    // });
-  };
-
-  console.log(payload, payload);
+  const handleSpeech = () => {};
 
   return (
     <>

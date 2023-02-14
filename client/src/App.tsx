@@ -1,10 +1,10 @@
 import React from "react";
+import "./lib/apis/utils/global";
+
 import Router from "routes/Router";
 import { authService } from "lib/firebase/firebase.config";
-import { getUserFromCookie } from "lib/firebase/userCookies";
 
 import Footer from "components/footer";
-import { getAuth } from "firebase/auth";
 
 function App() {
   const [init, setInit] = React.useState(false);

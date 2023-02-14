@@ -1,17 +1,1 @@
-[
-  {
-    "id": "gc6PopL7LHm4YaUSibxE",
-    "createdAt": {
-      "seconds": 1676265181,
-      "nanoseconds": 943000000
-    },
-    "column": "document screening",
-    "apply": {
-      "company": "삼성",
-      "department": "경영지원"
-    },
-    "uid": "yk8sXL267QgnhD1r2npNseEfZ4W2",
-    "title": "임시제목",
-    "text": "임시 글"
-  }
-]
+[]

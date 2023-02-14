@@ -1,45 +1,20 @@
 import React from "react";
-import { authService } from "lib/firebase/firebase.config";
-import { useNavigate } from "react-router-dom";
-import Button from "_common/components/button";
-import useUser from "lib/firebase/useUser";
-import Column from "components/column";
-import { BadgeType } from "_common/components/badge/index.types";
+import { FirebaseColumn as Column } from "components/column";
 import Section from "components/section";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { ColumnType, ScheduleType } from "types/index.types";
+import { ScheduleType } from "types/index.types";
 import Flex from "_common/components/flex";
 import { ColumnColorSchema } from "types/schema.types";
-import useFetch from "hooks/app/useFetch";
-import { getUserFromCookie } from "lib/firebase/userCookies";
+import { getSchedules } from "lib/apis/api/schedules";
+import { getSchedulesList } from "lib/apis/service/getSchedulesList";
 
 const MySchedule = ({ leftNav }: { leftNav: React.ReactNode }) => {
-  const { payload, loading, doFetch } = useFetch("get", "/schedules");
-  const cookie = getUserFromCookie();
-
-  console.log("adasd", cookie);
-  const { logout } = useUser();
-  const onLogOutClick = () => {
-    authService.signOut();
-    logout();
-  };
-  console.log(payload);
   return (
     <div className="mySchedulePage">
       <Flex as="main">
         {leftNav}
-        {/* <Button
-        variant="zinc_200"
-        paddingY={9}
-        paddingX={16}
-        fontSize="md"
-        lineHeight="md"
-        color="zinc_400"
-        onClick={onLogOutClick}
-      >
-        로그아웃
-      </Button> */}
+
         <DndProvider backend={HTML5Backend}>
           <Section
             as="section"
@@ -49,34 +24,34 @@ const MySchedule = ({ leftNav }: { leftNav: React.ReactNode }) => {
             <Column
               key={`${"schedule"}-1`}
               localStorageKey="schedule"
-              className={`KanBan__${ColumnType.TO_DO}`}
-              column={ColumnType.TO_DO}
+              className={`KanBan__${ScheduleType.DOCUMENT_ROUND}`}
+              column={ScheduleType.DOCUMENT_ROUND}
               columnColorSchema={ColumnColorSchema}
-              type={"dd"}
+              type={"firebase"}
             />
             <Column
               key={`${"schedule"}-2`}
               localStorageKey="schedule"
-              className={`KanBan__${ColumnType.IN_PROGRESS}`}
-              column={ColumnType.IN_PROGRESS}
+              className={`KanBan__${ScheduleType.ONE_ROUND}`}
+              column={ScheduleType.ONE_ROUND}
               columnColorSchema={ColumnColorSchema}
-              type={"dd"}
+              type={"firebase"}
             />
             <Column
               key={`${"schedule"}-3`}
               localStorageKey="schedule"
-              className={`KanBan__${ColumnType.BLOCKED}`}
-              column={ColumnType.BLOCKED}
+              className={`KanBan__${ScheduleType.TWO_ROUND}`}
+              column={ScheduleType.TWO_ROUND}
               columnColorSchema={ColumnColorSchema}
-              type={"dd"}
+              type={"firebase"}
             />
             <Column
               key={`${"schedule"}-4`}
               localStorageKey="schedule"
-              className={`KanBan__${ColumnType.COMPLETED}`}
-              column={ColumnType.COMPLETED}
+              className={`KanBan__${ScheduleType.THIRD_ROUND}`}
+              column={ScheduleType.THIRD_ROUND}
               columnColorSchema={ColumnColorSchema}
-              type={"dd"}
+              type={"firebase"}
             />
           </Section>
         </DndProvider>
