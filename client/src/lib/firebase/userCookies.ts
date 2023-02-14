@@ -6,7 +6,7 @@ export const getUserFromCookie = () => {
     return;
   }
 
-  return JSON.parse(JSON.stringify(cookie));
+  return JSON.parse(JSON.parse(JSON.stringify(cookie)));
 };
 
 export const setUserCookie = (user: any) => {

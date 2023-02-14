@@ -5,7 +5,7 @@ import { mapUserData } from "./mapUserData";
 import { getUserFromCookie, removeUserCookie } from "./userCookies";
 
 type User = {
-  uid: any;
+  uid: string;
   email: string;
   token: string;
   name: string;
@@ -42,11 +42,6 @@ const useUser = () => {
 
     setUser(userFromCookie);
 
-    if (!userFromCookie) {
-      // 쿠키가 없을시에 리다이렉트
-      navigate("/");
-      return;
-    }
     return () => {
       cancelAuthListener();
     };

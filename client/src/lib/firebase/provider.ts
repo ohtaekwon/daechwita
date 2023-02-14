@@ -6,7 +6,7 @@ import {
 } from "firebase/auth";
 import { app } from "./firebase.config";
 
-export const authService = getAuth(app);
+export const authService = getAuth();
 
 export const googleProvider = new GoogleAuthProvider();
 export const signInWithGoogle = () => {
