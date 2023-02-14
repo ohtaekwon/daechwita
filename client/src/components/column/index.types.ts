@@ -13,7 +13,7 @@ export interface ColumnProps {
 }
 export interface Props extends HTMLAttributes<HTMLDivElement>, ColumnProps {
   children?: React.ReactNode;
-  column: ColumnType;
+  column: ColumnType | ScheduleType;
   columnColorSchema?: Record<ColumnType | ScheduleType, BadgeType>;
   type?: string;
   localStorageKey: string;

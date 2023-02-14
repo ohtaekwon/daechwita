@@ -10,8 +10,11 @@ import Badge from "_common/components/badge";
 import Button from "_common/components/button";
 import Box from "_common/components/box";
 import Card from "components/card";
+import { ColumnType } from "types/index.types";
+import { getSchedules } from "lib/apis/api/schedules";
+import { getSchedulesList } from "lib/apis/service/getSchedulesList";
 
-export const Column = ({
+export const LocalStorageColumn = ({
   as = "div",
   localStorageKey,
   className,
@@ -28,9 +31,9 @@ export const Column = ({
     deleteTask,
     dropTaskFrom,
     swapTasks,
-  } = useColumnTasks(localStorageKey, column);
+  } = useColumnTasks(localStorageKey, column as ColumnType);
 
-  const { isOver, dropRef } = useColumnDrop(column, dropTaskFrom);
+  const { isOver, dropRef } = useColumnDrop(column as ColumnType, dropTaskFrom);
 
   const ColumnTasks = tasks.map((task, index) => (
     <Card
@@ -77,4 +80,56 @@ export const Column = ({
     </>
   );
 };
-export default Column;
+
+export const FirebaseColumn = ({
+  as = "div",
+  localStorageKey,
+  className,
+  type,
+  column,
+  columnColorSchema,
+  children,
+  ...rest
+}: React.PropsWithChildren<Props>) => {
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    getSchedules()
+      .then(getSchedulesList)
+      .then((res) => setData(res));
+  }, []);
+  console.log(data);
+
+  return (
+    <>
+      <Styled.Wrapper as={as} className={className} {...rest}>
+        <Text fontSize="md" letterSpacing="3px">
+          {columnColorSchema && (
+            <Badge
+              className="badge"
+              variant={columnColorSchema[column]}
+              children={column}
+            />
+          )}
+        </Text>
+        {type && (
+          <Button variant="default" areaLabel="add-task">
+            추가하기
+          </Button>
+        )}
+        <Box
+          width="300px"
+          height="100%"
+          display="flex"
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          // opacity={isOver ? 0.85 : 1}
+          backgroundColor="gray_100"
+        >
+          {/* {ColumnTasks} */}
+        </Box>
+      </Styled.Wrapper>
+    </>
+  );
+};
