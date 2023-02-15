@@ -94,3 +94,13 @@ export interface SchedulesType {
   title: string;
   createdAt: CreatedAt;
 }
+
+export interface DocumentsType {
+  id: string;
+  uid: string;
+  apply: ApplyType;
+  text: string;
+  title: string;
+  createdAt: CreatedAt;
+  tag: string;
+}

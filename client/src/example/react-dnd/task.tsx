@@ -51,6 +51,7 @@ const Task = ({
   // console.log(lineHeight * 30);
   return (
     <Box
+      variant="default"
       ref={ref}
       as="div"
       role="group"

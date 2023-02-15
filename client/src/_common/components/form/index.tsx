@@ -2,11 +2,9 @@ import React from "react";
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";
 
-const Box = React.forwardRef(function Box(
+const Form = React.forwardRef(function Form(
   {
-    as = "div",
     role = "",
-    variant = "default",
     position = "static",
     paddingTop = 0,
     paddingRight = 0,
@@ -30,13 +28,11 @@ const Box = React.forwardRef(function Box(
     cursor = "auto",
     ...rest
   }: React.PropsWithChildren<Props>,
-  forwardedRef: React.Ref<HTMLElement>
+  forwardedRef: React.Ref<HTMLFormElement>
 ) {
   return (
-    <Styled.Box
-      as={as}
+    <Styled.Form
       role={role}
-      variant={variant}
       position={position}
       backgroundColor={backgroundColor}
       gridArea={gridArea}
@@ -61,7 +57,7 @@ const Box = React.forwardRef(function Box(
       {...rest}
     >
       {children}
-    </Styled.Box>
+    </Styled.Form>
   );
 });
-export default Box;
+export default Form;

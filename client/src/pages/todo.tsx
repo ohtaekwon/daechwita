@@ -16,6 +16,7 @@ const MyTodo = ({ leftNav }: { leftNav: React.ReactNode }) => {
         {leftNav}
         <Box
           as="main"
+          variant="default"
           display="flex"
           direction="column"
           width="100%"

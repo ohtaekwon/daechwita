@@ -45,6 +45,7 @@ const Column = ({ column }: { column: ColumnType }) => {
   console.log(coords);
   return (
     <Box
+      variant="default"
       width="100%"
       height="100%"
       display="flex"
@@ -59,6 +60,7 @@ const Column = ({ column }: { column: ColumnType }) => {
         추가하기
       </Button>
       <Box
+        variant="default"
         ref={dropRef}
         width="300px"
         height="100%"

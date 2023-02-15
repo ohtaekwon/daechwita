@@ -40,7 +40,6 @@ const Auth = () => {
       }
 
       const userData = mapUserData(data.user);
-      console.log("userData", userData);
       setUserCookie(userData);
     } catch (error) {
       {

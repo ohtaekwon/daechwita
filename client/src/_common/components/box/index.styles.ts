@@ -19,6 +19,54 @@ export const Box = styled.span<Required<BoxProps>>`
   background-color: ${({ backgroundColor, theme }) =>
     theme.colors[backgroundColor]};
 
+  border-style: solid;
+
+  border-radius: ${({ radius }) => `${radius}px`};
+
   cursor: ${({ cursor }) => cursor};
   opacity: ${({ opacity }) => opacity};
+  ${({ variant, theme }) => {
+    switch (variant) {
+      case "primary": {
+        return css`
+          border-color: ${theme.colors.tdgreen_400};
+          background-color: ${theme.colors.tdgreen_400};
+          color: ${theme.colors.white};
+          transition: background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.tdgreen_500};
+            background-color: ${theme.colors.tdgreen_500};
+            color: ${theme.colors.white};
+          }
+        `;
+      }
+      case "gray_200_border": {
+        return css`
+          border-color: ${theme.colors.gray_200};
+          background-color: ${theme.colors.gray_100};
+          color: ${theme.colors.white};
+          transition: background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.tdgreen_500};
+            background-color: ${theme.colors.tdgreen_500};
+            color: ${theme.colors.white};
+          }
+        `;
+      }
+      default: {
+        return css`
+          border-color: ${theme.colors.transparent};
+          background-color: ${theme.colors.transparent};
+          color: ${theme.colors.blackText_1_fill};
+          transition: border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.transparent};
+            color: ${theme.colors.blackText_1_fill};
+          }
+        `;
+      }
+    }
+  }}
 `;
