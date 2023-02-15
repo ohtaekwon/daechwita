@@ -27,11 +27,10 @@ const schedulesRoute = [
     method: "get",
     route: "/schedules",
     handler: async (req: express.Request, res: express.Response) => {
-      const { body, params } = req;
       const targetIndex = req.rawHeaders.findIndex(
         (item) => item === "Authorization"
       );
-      const uid = req.rawHeaders[targetIndex + 1].split("+")[1].trim();
+      const uid = req.rawHeaders[targetIndex + 1].split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
       const schedules = await collection(db, "schedule");

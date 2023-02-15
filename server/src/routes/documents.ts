@@ -1,6 +1,23 @@
 import * as express from "express";
 import { v4 } from "uuid";
 import { DBField, readDB, writeDB } from "../dbController";
+import { db } from "../../firebase";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  DocumentData,
+  getDoc,
+  getDocs,
+  increment,
+  orderBy,
+  query,
+  QueryDocumentSnapshot,
+  serverTimestamp,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 const getDocuments = () => readDB(DBField.DOCUMENTS);
 const setDocuments = (data: any) => writeDB(DBField.DOCUMENTS, data);
@@ -10,9 +27,35 @@ const documentsRoute = [
   {
     method: "get",
     route: "/documents",
-    handler: (req: express.Request, res: express.Response) => {
-      const docs = getDocuments();
-      res.send(docs);
+    handler: async (req: express.Request, res: express.Response) => {
+      const { body } = req;
+      // 토큰에서 uid 가져오기
+      const targetIndex = req.rawHeaders.findIndex(
+        (item) => item === "Authorization"
+      );
+      const uid = req.rawHeaders[targetIndex + 1].split(" ")[1].trim();
+      console.log(uid);
+      if (!uid) throw Error("유저 아이디가 없습니다.");
+      const documents = await collection(db, "documents");
+      const queryOptions: any = [orderBy("createdAt", "desc")];
+      queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
+      const q = query(documents, ...queryOptions);
+      const documentsSnapshot = await getDocs(q);
+      const data: DocumentData[] = [];
+
+      documentsSnapshot.forEach((doc) => {
+        const d = doc.data();
+        data.push({
+          id: doc.id,
+          ...d,
+        });
+      });
+      const newData = data;
+      console.log(newData);
+      setDocuments(newData);
+      res.send(newData);
+
+      return data;
     },
   },
   // GET DOCUMENT
@@ -38,18 +81,29 @@ const documentsRoute = [
   {
     method: "post",
     route: "/documents",
-    handler: (req: express.Request, res: express.Response) => {
+    handler: async (req: express.Request, res: express.Response) => {
       const { body, params, query } = req;
-      const docs = getDocuments();
-      const newDocs = {
-        id: v4,
-        text: body.text,
-        userId: body.userId,
-        timestamp: Date.now(),
+      const { apply, tag, text, title, uid } = body;
+      const newDocument = {
+        apply,
+        tag,
+        text,
+        title,
+        uid,
+        createdAt: serverTimestamp(),
       };
-      docs.unshift(newDocs);
-      setDocuments(docs); // json db에 추가
-      res.send(newDocs); // post 응답
+      const addDocument = await addDoc(
+        collection(db, "documents"),
+        newDocument
+      );
+      const documentsSnapshot = await getDoc(addDocument);
+
+      res.send(documentsSnapshot);
+
+      return {
+        ...documentsSnapshot.data(),
+        id: documentsSnapshot.id,
+      };
     },
   },
   // UPDATE DOCUMENTS
