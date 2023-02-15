@@ -24,7 +24,7 @@ const authApi = (url: string, options?: any): AxiosInstance => {
     baseURL: url,
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer + ${uid}`,
+      Authorization: `Bearer ${uid}`,
     },
     ...options,
   });

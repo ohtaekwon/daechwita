@@ -23,7 +23,7 @@ export const createDocuments = async (payload: any) => {
 
 export const updateDocuments = async (id: string, payload: any) => {
   try {
-    const response = await authInstance.post(`${BASE_URL}/:${id}`, payload);
+    const response = await authInstance.put(`${BASE_URL}/:${id}`, payload);
     return response;
   } catch (error) {
     console.error(error);
