@@ -9,10 +9,12 @@ import Text from "_common/components/text";
 import Badge from "_common/components/badge";
 import Button from "_common/components/button";
 import Box from "_common/components/box";
-import Card from "components/card";
-import { ColumnType } from "types/index.types";
-import { getSchedules } from "lib/apis/api/schedules";
+import { TodoCard as TCard, ScheduleCard as SCard } from "components/card";
+import { ColumnType, ScheduleType } from "types/index.types";
+import { getSchedules, createSchedules } from "lib/apis/api/schedules";
 import { getSchedulesList } from "lib/apis/service/getSchedulesList";
+import useColumnManager from "hooks/useColumnManager";
+import useUser from "lib/firebase/useUser";
 
 export const LocalStorageColumn = ({
   as = "div",
@@ -36,7 +38,7 @@ export const LocalStorageColumn = ({
   const { isOver, dropRef } = useColumnDrop(column as ColumnType, dropTaskFrom);
 
   const ColumnTasks = tasks.map((task, index) => (
-    <Card
+    <TCard
       key={task.id}
       task={task}
       index={index}
@@ -64,6 +66,7 @@ export const LocalStorageColumn = ({
           </Button>
         )}
         <Box
+          variant="gray_200_border"
           ref={dropRef}
           width="300px"
           height="100%"
@@ -91,14 +94,33 @@ export const FirebaseColumn = ({
   children,
   ...rest
 }: React.PropsWithChildren<Props>) => {
-  const [data, setData] = React.useState([]);
+  const { user } = useUser();
+  const { tasks } = useColumnManager(column as ScheduleType);
+  // const [data, setData] = React.useState([]);
 
-  React.useEffect(() => {
-    getSchedules()
-      .then(getSchedulesList)
-      .then((res) => setData(res));
-  }, []);
-  console.log(data);
+  // React.useEffect(() => {
+  //   getSchedules()
+  //     .then(getSchedulesList)
+  //     .then((res) => setData(res));
+  // }, []);
+  console.log(tasks);
+
+  const ColumnTasks = tasks.map((task, index) => (
+    <SCard key={index} task={task} index={index} />
+  ));
+
+  const handleAddSchedule = () => {
+    createSchedules({
+      apply: {
+        company: "SK",
+        department: "경영",
+      },
+      column: "second round",
+      text: "임시글",
+      title: "임시제목",
+      uid: user?.uid,
+    });
+  };
 
   return (
     <>
@@ -113,11 +135,16 @@ export const FirebaseColumn = ({
           )}
         </Text>
         {type && (
-          <Button variant="default" areaLabel="add-task">
+          <Button
+            variant="default"
+            areaLabel="add-task"
+            onClick={handleAddSchedule}
+          >
             추가하기
           </Button>
         )}
         <Box
+          variant="gray_200_border"
           width="300px"
           height="100%"
           display="flex"
@@ -127,7 +154,7 @@ export const FirebaseColumn = ({
           // opacity={isOver ? 0.85 : 1}
           backgroundColor="gray_100"
         >
-          {/* {ColumnTasks} */}
+          {ColumnTasks}
         </Box>
       </Styled.Wrapper>
     </>
