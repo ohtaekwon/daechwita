@@ -11,6 +11,7 @@ import {
   getDoc,
   getDocs,
   increment,
+  limit,
   orderBy,
   query,
   QueryDocumentSnapshot,
@@ -19,6 +20,7 @@ import {
   where,
 } from "firebase/firestore";
 
+const PAGE_SIZE = 20;
 const getDocuments = () => readDB(DBField.DOCUMENTS);
 const setDocuments = (data: any) => writeDB(DBField.DOCUMENTS, data);
 
@@ -28,18 +30,19 @@ const documentsRoute = [
     method: "get",
     route: "/documents",
     handler: async (req: express.Request, res: express.Response) => {
-      const { body } = req;
+      const {
+        query: { title, tag },
+      } = req;
+
+      console.log("-------------------", title, tag);
       // 토큰에서 uid 가져오기
-      const targetIndex = req.rawHeaders.findIndex(
-        (item) => item === "Authorization"
-      );
-      const uid = req.rawHeaders[targetIndex + 1].split(" ")[1].trim();
-      console.log(uid);
+      const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
+
       const documents = await collection(db, "documents");
       const queryOptions: any = [orderBy("createdAt", "desc")];
       queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
-      const q = query(documents, ...queryOptions);
+      const q = query(documents, ...queryOptions, limit(PAGE_SIZE));
       const documentsSnapshot = await getDocs(q);
       const data: DocumentData[] = [];
 
@@ -82,8 +85,16 @@ const documentsRoute = [
     method: "post",
     route: "/documents",
     handler: async (req: express.Request, res: express.Response) => {
-      const { body, params, query } = req;
-      const { apply, tag, text, title, uid } = body;
+      const {
+        body: { apply, tag, text, title },
+        params,
+        query,
+      } = req;
+
+      const uid = req.headers.authorization?.split(" ")[1].trim();
+
+      if (!uid) throw Error("유저 아이디가 없습니다.");
+
       const newDocument = {
         apply,
         tag,
