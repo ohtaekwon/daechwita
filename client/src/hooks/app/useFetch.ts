@@ -1,11 +1,13 @@
 import { AxiosResponse } from "axios";
+import { getDocumentsList } from "lib/apis/service/getDocumentsList";
 import { authInstance } from "lib/apis/utils/instance";
-import authFetch from "lib/apis/utils/interceptors";
 import React from "react";
 
 type method = "get" | "post" | "put" | "delete" | "patch";
 
-function useFetch<T>(url: string) {
+type URL = "documents" | "schedules";
+
+function useFetch<T>(url: URL) {
   const [payload, setPayload] = React.useState<T[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<unknown>(null);
@@ -13,15 +15,16 @@ function useFetch<T>(url: string) {
   const handleFetch = async () => {
     try {
       setLoading(true);
-      const response = await authInstance
-        .get(url)
+
+      await authInstance
+        .get(`/${url}`)
         .then((res: AxiosResponse) => {
-          if (!res) {
-            throw res;
+          if (res.status !== 200) {
+            throw Error("응답을 받을 수 없습니다.");
           }
-          setPayload(res.data);
-        });
-      console.log(response);
+          return res.data;
+        })
+        .then((res) => setPayload(res as any));
     } catch (error) {
       setError(error);
     } finally {

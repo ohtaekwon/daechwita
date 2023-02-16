@@ -74,7 +74,7 @@ const MyDocuments = ({ leftNav }: { leftNav: React.ReactNode }) => {
       .then((res) => setDocuments(res as any));
 
     console.log(documents);
-  }, [reFetch]);
+  }, []);
 
   return (
     <>

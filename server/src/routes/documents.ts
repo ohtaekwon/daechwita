@@ -34,10 +34,10 @@ const documentsRoute = [
         query: { title, tag },
       } = req;
 
-      console.log("-------------------", title, tag);
       // 토큰에서 uid 가져오기
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
+      console.log("-------------------", title, tag, uid);
 
       const documents = await collection(db, "documents");
       const queryOptions: any = [orderBy("createdAt", "desc")];
