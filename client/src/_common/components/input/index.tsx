@@ -1,10 +1,12 @@
 import React from "react";
-import Button from "../button";
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";
 
-const Form = React.forwardRef(function Form(
+const Input = React.forwardRef(function Input(
   {
+    type,
+    name,
+    value,
     role = "",
     position = "static",
     paddingTop = 0,
@@ -27,14 +29,15 @@ const Form = React.forwardRef(function Form(
     radius = 8,
     opacity = "inherit",
     cursor = "auto",
-    onClick,
-    onSubmit,
     ...rest
   }: React.PropsWithChildren<Props>,
-  forwardedRef: React.Ref<HTMLFormElement>
+  forwardedRef: React.Ref<HTMLInputElement>
 ) {
   return (
-    <Styled.Form
+    <Styled.Input
+      type={type}
+      name={name}
+      value={value}
       role={role}
       position={position}
       backgroundColor={backgroundColor}
@@ -57,14 +60,10 @@ const Form = React.forwardRef(function Form(
       opacity={opacity}
       radius={radius}
       ref={forwardedRef}
-      onSubmit={onSubmit}
       {...rest}
     >
       {children}
-      <Button type="submit" variant={"zinc_200"} onClick={onClick}>
-        확인
-      </Button>
-    </Styled.Form>
+    </Styled.Input>
   );
 });
-export default Form;
+export default Input;

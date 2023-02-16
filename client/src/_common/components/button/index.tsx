@@ -25,6 +25,7 @@ const Button = React.forwardRef(function Button(
     bottom = "inherit",
     right = "inherit",
     children,
+    type = "button",
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLButtonElement>
@@ -51,6 +52,7 @@ const Button = React.forwardRef(function Button(
       bottom={bottom}
       right={right}
       left={left}
+      type={type}
       ref={forwardedRef}
       {...rest}
     >

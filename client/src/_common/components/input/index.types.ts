@@ -7,7 +7,7 @@ import type {
 } from "react";
 import { theme } from "styles";
 
-export interface FormProps {
+export interface InputProps {
   /**
    * 엘리먼트의 role 을 설정합니다.
    *
@@ -153,7 +153,25 @@ export interface FormProps {
    */
   radius?: number;
 }
-export interface Props extends HTMLAttributes<HTMLFormElement>, FormProps {
-  onClick?: () => void;
-  onSubmit?: React.FormEventHandler<HTMLFormElement> | undefined;
+export interface Props extends HTMLAttributes<HTMLInputElement>, InputProps {
+  /**
+   * input의 HTML속성 type을 설정합니다.
+   *
+   * @required '''
+   */
+  type: string;
+
+  /**
+   * input의 HTML속성 name을 설정합니다.
+   *
+   * @required '''
+   */
+  name: string;
+
+  /**
+   * input의 HTML속성 value을 설정합니다.
+   *
+   * @required '''
+   */
+  value: any;
 }

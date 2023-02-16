@@ -6,7 +6,6 @@ import { createPortal } from "react-dom";
 import { MdCancel } from "react-icons/md";
 
 import Button from "_common/components/button";
-import { Form } from "react-router-dom";
 
 const ModalPortal = ({
   elementId,
@@ -40,20 +39,11 @@ const Modal = ({
     <ModalPortal elementId={elementId}>
       <Styled.Wrapper show={show}>
         <Styled.Inner className="modal__inner">
-          <Styled.Content>
+          <Styled.Content className="modal__content">
             <Button onClick={cancel} variant={"default"} marginBottom={30}>
               <MdCancel size={30} />
             </Button>
-            <form style={{ display: "flex" }}>
-              <input
-                type="text"
-                id="title"
-                style={{ border: "1px solid #000" }}
-              />
-              <input type="text" style={{ border: "1px solid #000" }} />
-              <input type="text" style={{ border: "1px solid #000" }} />
-              <input type="text" style={{ border: "1px solid #000" }} />
-            </form>
+            {children}
           </Styled.Content>
         </Styled.Inner>
       </Styled.Wrapper>

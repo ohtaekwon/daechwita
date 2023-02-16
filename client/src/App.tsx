@@ -5,16 +5,16 @@ import Router from "routes/Router";
 import { authService } from "lib/firebase/firebase.config";
 
 import Footer from "components/footer";
+import useUser from "lib/firebase/useUser";
+import { getUserFromCookie, setUserCookie } from "lib/firebase/userCookies";
 
 function App() {
   const [init, setInit] = React.useState(false);
-  const [cookie, setCookie] = React.useState<string>();
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        setCookie(user?.uid);
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
@@ -22,19 +22,9 @@ function App() {
       setInit(true);
     });
   }, []);
-
-  // React.useEffect(() => {
-  //   setCookie(user?.uid);
-  // }, [user]);
-  // console.log("cookie", cookie);
-  // console.log(init, isLoggedIn);
   return (
     <>
-      {init ? (
-        <Router isLoggedIn={isLoggedIn} cookie={cookie} />
-      ) : (
-        "Iniitiallize..."
-      )}
+      {init ? <Router isLoggedIn={isLoggedIn} /> : "Iniitiallize..."}
       <Footer />
     </>
   );

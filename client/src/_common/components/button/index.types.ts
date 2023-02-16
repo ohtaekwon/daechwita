@@ -163,4 +163,6 @@ export interface ButtonProps {
 
 export interface Props
   extends ButtonHTMLAttributes<HTMLButtonElement>,
-    ButtonProps {}
+    ButtonProps {
+  type?: "button" | "submit" | "reset" | undefined;
+}

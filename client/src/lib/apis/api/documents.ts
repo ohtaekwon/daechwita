@@ -2,11 +2,23 @@ import { authInstance } from "../utils/instance";
 
 const BASE_URL = "/documents";
 
-export const getDocuments = async () => {
+type Query = {
+  title?: string;
+  tag?: string;
+};
+export const getDocuments = async (query: Query = {}) => {
   try {
-    const response = await authInstance.get(BASE_URL);
-    const { data } = response;
-    return data;
+    if (!query) {
+      const response = await authInstance.get(BASE_URL);
+      const { data } = response;
+      return data;
+    } else {
+      const response = await authInstance.get(
+        `${BASE_URL}?title=${query.title}&tag=${query.tag}`
+      );
+      const { data } = response;
+      return data;
+    }
   } catch (error) {
     console.error(error);
   }

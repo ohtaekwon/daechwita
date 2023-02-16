@@ -9,6 +9,7 @@ import MyTodo from "pages/todo";
 import MySchedule from "pages/my-schedule";
 import MyInterview from "pages/my-interview";
 import Profile from "pages/profile";
+import AddDocument from "pages/add-document";
 
 const SignInRouter = () => {
   return (
@@ -23,6 +24,10 @@ const SignInRouter = () => {
         <Route
           path="/my-documents"
           element={<MyDocuments leftNav={<LeftNav />} />}
+        />
+        <Route
+          path="/add-document"
+          element={<AddDocument leftNav={<LeftNav />} />}
         />
 
         <Route

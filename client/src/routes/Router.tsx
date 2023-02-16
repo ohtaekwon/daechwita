@@ -8,14 +8,21 @@ import { getUserFromCookie } from "lib/firebase/userCookies";
 
 type Props = {
   isLoggedIn: Boolean;
-  cookie: any;
 };
 
-const Router = ({ isLoggedIn, cookie }: Props) => {
+const Router = ({ isLoggedIn }: Props) => {
+  const [uid, setUid] = React.useState<string>("");
+
+  React.useEffect(() => {
+    const cookie = getUserFromCookie();
+    setUid(cookie?.uid);
+  }, [isLoggedIn]);
+
+  console.log(isLoggedIn && uid);
   return (
     <>
       {isLoggedIn && <Header />}
-      {cookie && isLoggedIn ? (
+      {isLoggedIn && uid ? (
         <>
           <SignInRouter />
         </>
