@@ -5,25 +5,24 @@ import Router from "routes/Router";
 import { authService } from "lib/firebase/firebase.config";
 
 import Footer from "components/footer";
-import useUser from "lib/firebase/useUser";
-import { getUserFromCookie, setUserCookie } from "lib/firebase/userCookies";
+import { getUserFromCookie } from "lib/firebase/userCookies";
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  const [uid, setUid] = React.useState<string | undefined>("");
+  const navigate = useNavigate();
   const [init, setInit] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   const handleAuthStatus = async (cookie: any) => {
     if (!cookie) {
       await authService.signOut();
-      setUid(undefined);
+      navigate("/");
     }
   };
 
   React.useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
