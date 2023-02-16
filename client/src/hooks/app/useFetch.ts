@@ -1,19 +1,26 @@
+import { AxiosResponse } from "axios";
+import { authInstance } from "lib/apis/utils/instance";
 import authFetch from "lib/apis/utils/interceptors";
 import React from "react";
 
 type method = "get" | "post" | "put" | "delete" | "patch";
 
-function useFetch<T>(method: method, url: string, data?: T | T[]) {
+function useFetch<T>(url: string) {
   const [payload, setPayload] = React.useState<T[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [error, setError] = React.useState<unknown>(null);
-  const [options, setOptions] = React.useState({});
 
-  const handleCallUrl = async () => {
+  const handleFetch = async () => {
     try {
       setLoading(true);
-      const response: T[] = await authFetch({ method, url, data });
-      setPayload(response);
+      const response = await authInstance
+        .get(url)
+        .then((res: AxiosResponse) => {
+          if (!res) {
+            throw res;
+          }
+          setPayload(res.data);
+        });
       console.log(response);
     } catch (error) {
       setError(error);
@@ -23,26 +30,9 @@ function useFetch<T>(method: method, url: string, data?: T | T[]) {
   };
 
   React.useEffect(() => {
-    handleCallUrl();
+    handleFetch();
   }, [url]);
 
-  const doFetch = async <T>(options: any = {}) => {
-    const { method, data } = options;
-    console.log(method, data);
-    try {
-      setLoading(true);
-      const response: any = await authFetch({ method, url, data });
-      setPayload(response);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  React.useEffect(() => {
-    doFetch();
-  }, [options]);
-
-  return { payload, loading, error, doFetch };
+  return [payload, loading, error];
 }
 export default useFetch;

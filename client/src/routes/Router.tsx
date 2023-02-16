@@ -11,18 +11,17 @@ type Props = {
 };
 
 const Router = ({ isLoggedIn }: Props) => {
-  const [uid, setUid] = React.useState<string>("");
+  // const [uid, setUid] = React.useState<string>("");
 
-  React.useEffect(() => {
-    const cookie = getUserFromCookie();
-    setUid(cookie?.uid);
-  }, [isLoggedIn]);
+  // React.useEffect(() => {
+  //   const cookie = getUserFromCookie();
+  //   setUid(cookie?.uid);
+  // }, [isLoggedIn]);
 
-  console.log(isLoggedIn && uid);
   return (
     <>
       {isLoggedIn && <Header />}
-      {isLoggedIn && uid ? (
+      {isLoggedIn ? (
         <>
           <SignInRouter />
         </>

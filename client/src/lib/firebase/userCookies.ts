@@ -3,7 +3,7 @@ import cookies from "js-cookie";
 export const getUserFromCookie = () => {
   const cookie = cookies.get("Daechwita");
   if (!cookie) {
-    return;
+    return undefined;
   }
 
   return JSON.parse(JSON.parse(JSON.stringify(cookie)));
