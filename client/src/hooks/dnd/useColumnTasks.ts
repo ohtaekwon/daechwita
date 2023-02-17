@@ -4,18 +4,13 @@ import { v4 as uuid } from "uuid";
 import useTaskCollection from "./useTaskCollection";
 import pickRandomColor from "utils/helpers/random";
 import { swap } from "utils/helpers/swap";
-import {
-  AllTasksModel,
-  ColumnType,
-  ScheduleType,
-  TaskModel,
-} from "types/index.types";
-import Task from "example/react-dnd/task";
+import { ColumnType, TaskModel } from "types/index.types";
 
 const MAX_TASK_PER_COLUMN = 100;
 
 function useColumnTasks<T>(key: string, column: ColumnType) {
   const [tasks, setTasks] = useTaskCollection(key);
+  const columnTasks = tasks[column];
 
   const addEmptyTask = React.useCallback(() => {
     console.log(`Adding new Empty task to ${column} column`);
@@ -34,7 +29,7 @@ function useColumnTasks<T>(key: string, column: ColumnType) {
       //     Blocked: TaskModel[];
       //     Completed: TaskModel[];
       // }
-      const newColumnTask: TaskModel = {
+      const newColumnTask = {
         id: uuid(),
         title: `New ${column} tasks`,
         color: pickRandomColor("_500"),
@@ -121,7 +116,7 @@ function useColumnTasks<T>(key: string, column: ColumnType) {
     [column, setTasks]
   );
   return {
-    tasks: tasks[column],
+    tasks: columnTasks,
     addEmptyTask,
     updateTask,
     deleteTask,

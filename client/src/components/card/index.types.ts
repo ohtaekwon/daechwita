@@ -9,7 +9,9 @@ export interface CardProps {
    */
   as?: ElementType;
 }
-export interface TodoProps extends HTMLAttributes<HTMLDivElement>, CardProps {
+export interface TodoCardProps
+  extends HTMLAttributes<HTMLDivElement>,
+    CardProps {
   /**
    * Card Item의 인덱스의 타입을 설정합니다.
    */
@@ -33,7 +35,7 @@ export interface TodoProps extends HTMLAttributes<HTMLDivElement>, CardProps {
   children?: React.ReactNode;
 }
 
-export interface ScheduleProps
+export interface ScheduleCardProps
   extends HTMLAttributes<HTMLDivElement>,
     CardProps {
   /**
@@ -48,7 +50,7 @@ export interface ScheduleProps
   children?: React.ReactNode;
 }
 
-export interface DocumentProps
+export interface DocumentCardProps
   extends HTMLAttributes<HTMLDivElement>,
     CardProps {
   /**

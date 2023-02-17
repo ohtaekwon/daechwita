@@ -1,6 +1,6 @@
 import React from "react";
 import * as Styled from "./index.styles";
-import { Props } from "./index.types";
+import { FirebaseColumnProps, LocalStorageColumnProps } from "./index.types";
 
 import useColumnTasks from "hooks/dnd/useColumnTasks";
 import useColumnDrop from "hooks/dnd/useColumnDrop";
@@ -10,9 +10,8 @@ import Badge from "_common/components/badge";
 import Button from "_common/components/button";
 import Box from "_common/components/box";
 import { TodoCard as TCard, ScheduleCard as SCard } from "components/card";
-import { ColumnType, ScheduleType } from "types/index.types";
-import { getSchedules, createSchedules } from "lib/apis/api/schedules";
-import { getSchedulesList } from "lib/apis/service/getSchedulesList";
+import { ColumnType, ScheduleType, TaskModel } from "types/index.types";
+import { createSchedules } from "lib/apis/api/schedules";
 import useColumnManager from "hooks/useColumnManager";
 import useUser from "lib/firebase/useUser";
 
@@ -25,7 +24,7 @@ export const LocalStorageColumn = ({
   columnColorSchema,
   children,
   ...rest
-}: React.PropsWithChildren<Props>) => {
+}: React.PropsWithChildren<LocalStorageColumnProps>) => {
   const {
     tasks,
     addEmptyTask,
@@ -33,9 +32,9 @@ export const LocalStorageColumn = ({
     deleteTask,
     dropTaskFrom,
     swapTasks,
-  } = useColumnTasks(localStorageKey, column as ColumnType);
+  } = useColumnTasks(localStorageKey, column);
 
-  const { isOver, dropRef } = useColumnDrop(column as ColumnType, dropTaskFrom);
+  const { isOver, dropRef } = useColumnDrop(column, dropTaskFrom);
 
   const ColumnTasks = tasks.map((task, index) => (
     <TCard
@@ -47,7 +46,8 @@ export const LocalStorageColumn = ({
       onUpdate={updateTask}
     />
   ));
-
+  // console.log(tasks.map((task, index) => task));
+  console.log(tasks);
   return (
     <>
       <Styled.Wrapper as={as} className={className} {...rest}>
@@ -86,16 +86,15 @@ export const LocalStorageColumn = ({
 
 export const FirebaseColumn = ({
   as = "div",
-  localStorageKey,
   className,
   type,
   column,
   columnColorSchema,
   children,
   ...rest
-}: React.PropsWithChildren<Props>) => {
+}: React.PropsWithChildren<FirebaseColumnProps>) => {
   const { user } = useUser();
-  const { tasks } = useColumnManager(column as ScheduleType);
+  const { tasks } = useColumnManager(column);
   // const [data, setData] = React.useState([]);
 
   // React.useEffect(() => {
@@ -121,7 +120,6 @@ export const FirebaseColumn = ({
       uid: user?.uid,
     });
   };
-
   return (
     <>
       <Styled.Wrapper as={as} className={className} {...rest}>

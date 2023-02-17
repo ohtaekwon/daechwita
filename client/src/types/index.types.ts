@@ -85,6 +85,7 @@ type CreatedAt = {
   seconds: number;
   nanoseconds: number;
 };
+
 export interface SchedulesType {
   id: string;
   uid: string;

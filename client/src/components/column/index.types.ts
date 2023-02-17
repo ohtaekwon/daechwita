@@ -11,10 +11,19 @@ export interface ColumnProps {
    */
   as?: ElementType;
 }
-export interface Props extends HTMLAttributes<HTMLDivElement>, ColumnProps {
+export interface CommonProps
+  extends HTMLAttributes<HTMLDivElement>,
+    ColumnProps {
   children?: React.ReactNode;
-  column: ColumnType | ScheduleType;
-  columnColorSchema?: Record<ColumnType | ScheduleType, BadgeType>;
   type?: string;
+}
+
+export interface LocalStorageColumnProps extends CommonProps {
+  column: ColumnType;
+  columnColorSchema?: Record<ColumnType, BadgeType>;
   localStorageKey: string;
+}
+export interface FirebaseColumnProps extends CommonProps {
+  column: ScheduleType;
+  columnColorSchema?: Record<ScheduleType, BadgeType>;
 }

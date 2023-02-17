@@ -32,33 +32,33 @@ const MyTodo = ({ leftNav }: { leftNav: React.ReactNode }) => {
               gridTemplateColumns="repeat(4, 1fr)"
             >
               <Column
-                key={`${"todo"}-1`}
+                // key={`${ColumnType.TO_DO}-1`}
                 column={ColumnType.TO_DO}
-                localStorageKey="todo"
+                localStorageKey="myTodo"
                 className={`KanBan__${ColumnType.TO_DO}`}
                 columnColorSchema={ColumnColorSchema}
                 type="localStorage"
               />
               <Column
-                key={`${"todo"}-2`}
+                // key={`${ColumnType.IN_PROGRESS}-2`}
                 column={ColumnType.IN_PROGRESS}
-                localStorageKey="todo"
+                localStorageKey="myTodo"
                 className={`KanBan__${ColumnType.IN_PROGRESS}`}
                 columnColorSchema={ColumnColorSchema}
                 type="localStorage"
               />
               <Column
-                key={`${"todo"}-3`}
+                // key={`${ColumnType.BLOCKED}-3`}
                 column={ColumnType.BLOCKED}
-                localStorageKey="todo"
+                localStorageKey="myTodo"
                 className={`KanBan__${ColumnType.BLOCKED}`}
                 columnColorSchema={ColumnColorSchema}
                 type="localStorage"
               />
               <Column
-                key={`${"todo"}-4`}
+                // key={`${ColumnType.COMPLETED}-4`}
                 column={ColumnType.COMPLETED}
-                localStorageKey="todo"
+                localStorageKey="myTodo"
                 className={`KanBan__${ColumnType.COMPLETED}`}
                 columnColorSchema={ColumnColorSchema}
                 type="localStorage"

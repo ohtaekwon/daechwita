@@ -1,5 +1,9 @@
 import React from "react";
-import { DocumentProps, ScheduleProps, TodoProps } from "./index.types";
+import {
+  DocumentCardProps,
+  ScheduleCardProps,
+  TodoCardProps,
+} from "./index.types";
 
 import useAutoHeightTextarea from "hooks/auto/useAutoHeightTextarea";
 import useTaskDragAndDrop from "hooks/dnd/useTaskDragAndDrop";
@@ -17,12 +21,9 @@ export const TodoCard = ({
   onUpdate: handleUpdate,
   onDropHover: handleDropHover,
   children,
-}: React.PropsWithChildren<TodoProps>) => {
+}: React.PropsWithChildren<TodoCardProps>) => {
   const { ref, isDragging } = useTaskDragAndDrop<HTMLElement>(
-    {
-      task,
-      index,
-    },
+    { task, index: index },
     handleDropHover
   );
 
@@ -39,7 +40,6 @@ export const TodoCard = ({
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newTitle = e.target.value;
     handleUpdate(task.id, { ...task, title: newTitle });
-    console.log(e.target.value.length);
     checkItemChangeHandler(e);
   };
 
@@ -95,7 +95,7 @@ export const ScheduleCard = ({
   index,
   task,
   children,
-}: React.PropsWithChildren<ScheduleProps>) => {
+}: React.PropsWithChildren<ScheduleCardProps>) => {
   /**
    * text area의 자동 크기 조절 기능을 담당
    */
@@ -154,7 +154,7 @@ export const DocumentCard = ({
   text,
   title,
   id,
-}: React.PropsWithChildren<DocumentProps>) => {
+}: React.PropsWithChildren<DocumentCardProps>) => {
   return (
     <Box
       as="div"

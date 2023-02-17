@@ -6,8 +6,8 @@ export const ColumnColorSchema: Record<ColumnType | ScheduleType, BadgeType> = {
   [ColumnType.IN_PROGRESS]: "blue",
   [ColumnType.BLOCKED]: "red",
   [ColumnType.COMPLETED]: "green",
-  [ScheduleType.DOCUMENT_ROUND]: "primary",
-  [ScheduleType.ONE_ROUND]: "teal",
+  [ScheduleType.DOCUMENT_ROUND]: "yellow",
+  [ScheduleType.ONE_ROUND]: "purple",
   [ScheduleType.TWO_ROUND]: "sky",
   [ScheduleType.THIRD_ROUND]: "indigo",
 };

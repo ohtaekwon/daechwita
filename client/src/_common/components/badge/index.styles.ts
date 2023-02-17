@@ -86,6 +86,62 @@ export const Badge = styled.span<Required<BadgeProps>>`
           }
         `;
       }
+      case "yellow": {
+        return css`
+          border-color: ${theme.colors.yellow_300};
+          background-color: ${theme.colors.yellow_300};
+          color: ${theme.colors.white};
+          transition: background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.yellow_700};
+            background-color: ${theme.colors.yellow_700};
+            color: ${theme.colors.white};
+          }
+        `;
+      }
+      case "purple": {
+        return css`
+          border-color: ${theme.colors.purple_300};
+          background-color: ${theme.colors.purple_300};
+          color: ${theme.colors.white};
+          transition: background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.purple_700};
+            background-color: ${theme.colors.purple_700};
+            color: ${theme.colors.white};
+          }
+        `;
+      }
+      case "sky": {
+        return css`
+          border-color: ${theme.colors.sky_300};
+          background-color: ${theme.colors.sky_300};
+          color: ${theme.colors.white};
+          transition: background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.sky_700};
+            background-color: ${theme.colors.sky_700};
+            color: ${theme.colors.white};
+          }
+        `;
+      }
+      case "indigo": {
+        return css`
+          border-color: ${theme.colors.indigo_300};
+          background-color: ${theme.colors.indigo_300};
+          color: ${theme.colors.white};
+          transition: background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.indigo_700};
+            background-color: ${theme.colors.indigo_700};
+            color: ${theme.colors.white};
+          }
+        `;
+      }
 
       default: {
         return css`

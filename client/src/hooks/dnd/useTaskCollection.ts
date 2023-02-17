@@ -1,7 +1,7 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
 
-import { ColumnType, ScheduleType, TaskModel } from "types/index.types";
+import { ColumnType, TaskModel } from "types/index.types";
 import useLocalStorage from "hooks/app/useLocalStorage";
 
 function useTaskCollection(key: string) {

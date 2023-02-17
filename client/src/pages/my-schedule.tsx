@@ -23,7 +23,6 @@ const MySchedule = ({ leftNav }: { leftNav: React.ReactNode }) => {
           >
             <Column
               key={`${"schedule"}-1`}
-              localStorageKey="schedule"
               className={`KanBan__${ScheduleType.DOCUMENT_ROUND}`}
               column={ScheduleType.DOCUMENT_ROUND}
               columnColorSchema={ColumnColorSchema}
@@ -31,7 +30,6 @@ const MySchedule = ({ leftNav }: { leftNav: React.ReactNode }) => {
             />
             <Column
               key={`${"schedule"}-2`}
-              localStorageKey="schedule"
               className={`KanBan__${ScheduleType.ONE_ROUND}`}
               column={ScheduleType.ONE_ROUND}
               columnColorSchema={ColumnColorSchema}
@@ -39,7 +37,6 @@ const MySchedule = ({ leftNav }: { leftNav: React.ReactNode }) => {
             />
             <Column
               key={`${"schedule"}-3`}
-              localStorageKey="schedule"
               className={`KanBan__${ScheduleType.TWO_ROUND}`}
               column={ScheduleType.TWO_ROUND}
               columnColorSchema={ColumnColorSchema}
@@ -47,7 +44,6 @@ const MySchedule = ({ leftNav }: { leftNav: React.ReactNode }) => {
             />
             <Column
               key={`${"schedule"}-4`}
-              localStorageKey="schedule"
               className={`KanBan__${ScheduleType.THIRD_ROUND}`}
               column={ScheduleType.THIRD_ROUND}
               columnColorSchema={ColumnColorSchema}

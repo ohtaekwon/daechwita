@@ -36,6 +36,6 @@ function useFetch<T>(url: URL) {
     handleFetch();
   }, [url]);
 
-  return [payload, loading, error];
+  return { payload, loading, error };
 }
 export default useFetch;
