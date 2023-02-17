@@ -86,6 +86,7 @@ const MyDocuments = ({ leftNav }: { leftNav: React.ReactNode }) => {
             as="section"
             sectionType="grid"
             gridTemplateColumns="repeat(5, 1fr)"
+            width={100}
           >
             {/* <Box as="div" variant="gray_200_border" width="100%" height="100%"> */}
             <Button width="100%" onClick={showModal} variant={"zinc_200"}>

@@ -23,11 +23,18 @@ export interface SectionProps {
   variant?: SectionType;
 
   /**
-   * section의 variant을 설정합니다.
+   * section의 width을 설정합니다.
    *
-   * @default 100
+   * @default auto
    */
-  width?: number;
+  width?: CSSProperties["width"];
+
+  /**
+   * section의 height을 설정합니다.
+   *
+   * @default auto
+   */
+  height?: CSSProperties["height"];
 
   /**
    * section의 sectionType을 설정합니다.
@@ -62,6 +69,13 @@ export interface SectionProps {
    * @default ''
    */
   gridArea?: CSSProperties["gridArea"];
+  /**
+   * padding 상단을 설정합니다.
+   *
+   * @default 16px
+   */
+  padding?: CSSProperties["padding"];
+
   /**
    * padding 상단을 설정합니다.
    *

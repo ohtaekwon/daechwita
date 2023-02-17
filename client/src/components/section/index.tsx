@@ -9,13 +9,15 @@ const Section = React.forwardRef(function Section(
     as = "section",
     children,
     className,
-    width = 100,
+    width = "auto",
+    height = "auto",
     variant = "default",
     sectionType = "flex",
     direction = "row",
     gridTemplateAreas = "",
     gridTemplateColumns = "",
     gridArea = "",
+    padding = "16px",
     paddingBottom = 0,
     paddingLeft = 0,
     paddingRight = 0,
@@ -36,7 +38,9 @@ const Section = React.forwardRef(function Section(
         as={as}
         className={className}
         variant={variant}
+        height={height}
         width={width}
+        padding={padding}
         paddingBottom={paddingBottom}
         paddingLeft={paddingLeft}
         paddingRight={paddingRight}

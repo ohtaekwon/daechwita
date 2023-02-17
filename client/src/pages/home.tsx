@@ -15,7 +15,12 @@ const Home = ({ leftNav }: { leftNav: React.ReactNode }) => {
           <Section
             as="section"
             sectionType="grid"
+            width={100}
             gridTemplateColumns="repeat(5, 1fr)"
+            paddingBottom={10}
+            paddingRight={10}
+            paddingLeft={10}
+            paddingTop={10}
           >
             <div style={{ backgroundColor: "rosybrown" }} onClick={handleClick}>
               섹션1

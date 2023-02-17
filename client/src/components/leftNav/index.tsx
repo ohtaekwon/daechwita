@@ -22,41 +22,35 @@ const sideNavMenu: SideMenu[] = [
 ];
 
 const LeftNav = () => {
+  const leftMenu = sideNavMenu.map(({ name, key, route }: SideMenu) => (
+    <Link to={route} key={key}>
+      <Button
+        variant="default"
+        paddingY={9}
+        paddingX={16}
+        fontSize="md"
+        lineHeight="md"
+        color="zinc_400"
+        width="200px"
+        marginTop={3}
+        marginRight={3}
+        marginLeft={3}
+        marginBottom={3}
+      >
+        {name}
+      </Button>
+    </Link>
+  ));
   return (
     <Section
       as="figure"
       className="leftNav"
+      height="100vh"
       sectionType="flex"
       direction="column"
-      width={20}
       backgroundColor="gray_100"
     >
-      <Flex
-        direction="column"
-        width="100%"
-        justifyContent="center"
-        alignItems="center"
-      >
-        {sideNavMenu.map(({ name, key, route }: SideMenu) => (
-          <Link to={route} key={key}>
-            <Button
-              variant="default"
-              paddingY={9}
-              paddingX={16}
-              fontSize="md"
-              lineHeight="md"
-              color="zinc_400"
-              width="200px"
-              marginTop={3}
-              marginRight={3}
-              marginLeft={3}
-              marginBottom={3}
-            >
-              {name}
-            </Button>
-          </Link>
-        ))}
-      </Flex>
+      {leftMenu}
     </Section>
   );
 };

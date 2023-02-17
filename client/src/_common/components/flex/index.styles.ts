@@ -11,4 +11,5 @@ export const Flex = styled.span<Required<FlexProps>>`
   background-color: ${({ backgroundColor, theme }) =>
     theme.colors[backgroundColor]};
   gap: ${({ gap }) => gap};
+  box-sizing: border-box;
 `;

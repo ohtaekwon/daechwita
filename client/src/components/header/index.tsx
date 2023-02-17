@@ -18,6 +18,7 @@ const Header = () => {
       alignItems="center"
       justifyContent="space-between"
       backgroundColor="white"
+      style={{ padding: "16px" }}
       className={css`
         padding: 8px calc((100% - 2000px) / 2);
         border-bottom: 1px solid ${theme.colors.zinc_200};
