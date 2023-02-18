@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { FlexProps } from "./index.types";
 
 export const Flex = styled.span<Required<FlexProps>>`
+  width: ${({ width }) => width};
   display: ${({ display }) => display};
   flex-direction: ${({ direction }) => direction};
   flex-wrap: ${({ wrap }) => wrap};

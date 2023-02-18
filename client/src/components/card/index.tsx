@@ -13,6 +13,11 @@ import Box from "_common/components/box";
 import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Text from "_common/components/text";
+import Flex from "_common/components/flex";
+import Modal from "components/modal";
+import Input from "_common/components/input";
+import Form from "_common/components/form";
+import useInput from "hooks/app/useInput";
 
 export const TodoCard = ({
   index,
@@ -51,42 +56,51 @@ export const TodoCard = ({
     <Box
       ref={ref}
       as="div"
-      variant="default"
+      variant="blue_200_border"
       role="group"
       position="relative"
       display="flex"
-      width="200px"
-      height="120px"
+      width="300px"
+      height="auto"
       marginTop={20}
       marginBottom={20}
       backgroundColor={task.color}
       cursor="grab"
       opacity={isDragging ? 0.5 : 1}
     >
-      <Button
-        aria-label="delete-task"
-        variant="default"
-        position="absolute"
-        zIndex={100}
-        areaLabel="delete"
-        top={0}
-        right={0}
-        onClick={handleDeleteClick}
-      >
-        <RiDeleteBin6Line />
-      </Button>
-      <Textarea
-        width="150px"
-        height={lineHeight * 27 + 90}
-        margin="auto"
-        textAlign="center"
-        ref={textAreaRef}
-        value={task.title}
-        onChange={handleChange}
-        onKeyDown={checkItemEnterHandler}
-      >
-        {task.title}
-      </Textarea>
+      <Flex direction="column" width="100%">
+        <Box>
+          <Button
+            aria-label="delete-task"
+            variant="zinc_700_fill"
+            position="absolute"
+            top={0}
+            right={0}
+            zIndex={100}
+            areaLabel="delete"
+            onClick={handleDeleteClick}
+          >
+            <RiDeleteBin6Line />
+          </Button>
+        </Box>
+        <Textarea
+          width="100%"
+          height={lineHeight * 27 + 150}
+          margin="auto"
+          textAlign="center"
+          paddingBottom={10}
+          paddingLeft={10}
+          paddingRight={10}
+          paddingTop={30}
+          fontSize="xxl"
+          ref={textAreaRef}
+          value={task.title}
+          onChange={handleChange}
+          onKeyDown={checkItemEnterHandler}
+        >
+          {task.title}
+        </Textarea>
+      </Flex>
     </Box>
   );
 };
@@ -155,20 +169,88 @@ export const DocumentCard = ({
   title,
   id,
 }: React.PropsWithChildren<DocumentCardProps>) => {
+  const [Ctitle, handleTitleChange] = useInput(title);
+  const [Ctext, handleTextChange] = useInput(text);
+  const [Ctag, handleTagChange] = useInput(tag);
+
+  // 모달 state
+  const [modalShown, toggleModal] = React.useState(false);
+
+  const showModal = () => {
+    toggleModal(true);
+  };
+
+  const cancel = () => {
+    toggleModal(false);
+  };
+
+  console.log(modalShown);
   return (
-    <Box
-      as="div"
-      role="alert"
-      variant="gray_200_border"
-      position="relative"
-      display="flex"
-      width="100%"
-      height="120px"
-      marginTop={20}
-      marginBottom={20}
-      cursor="grab"
-    >
-      <Text>{title}</Text>
-    </Box>
+    <>
+      <Box
+        as="div"
+        role="alert"
+        variant="gray_200_border"
+        position="relative"
+        display="flex"
+        width="100%"
+        height="250px"
+        marginTop={20}
+        marginBottom={20}
+        cursor="grab"
+        gap={10}
+      >
+        <Flex direction="column">
+          <Text>{title}</Text>
+          <Text>{tag}</Text>
+          <Text>{company}</Text>
+        </Flex>
+        <button onClick={showModal}>수정하기</button>
+      </Box>
+
+      <Modal elementId="modal" show={modalShown} cancel={cancel}>
+        <Form width={"100%"} height={"100%"}>
+          <Box variant={"default"} display="flex" direction="column">
+            <Input
+              type="title"
+              id="title"
+              name="title"
+              width="100%"
+              value={Ctitle}
+              defaultValue={Ctitle}
+              onChange={handleTitleChange}
+              placeholder="제목을 입력해주세요"
+            />
+            <Input
+              type="text"
+              id="text"
+              name="text"
+              value={Ctext}
+              defaultValue={Ctext}
+              onChange={handleTextChange}
+              width="100%"
+              placeholder="본문을 입력해주세요"
+            />
+            <Input
+              type="text"
+              id="tag"
+              name="tag"
+              value={Ctag}
+              defaultValue={Ctag}
+              onChange={handleTagChange}
+              width="100%"
+              placeholder="tag를 입력해주세요"
+            />
+
+            <select name="order" form="myForm">
+              <option value="americano">아메리</option>
+              <option value="caffe latte">카페라테</option>
+              <option value="cafe au lait">카페오레</option>
+              <option value="espresso">에스프레소</option>
+            </select>
+          </Box>
+        </Form>
+      </Modal>
+    </>
   );
 };

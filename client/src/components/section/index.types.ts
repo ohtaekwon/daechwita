@@ -69,6 +69,14 @@ export interface SectionProps {
    * @default ''
    */
   gridArea?: CSSProperties["gridArea"];
+
+  /**
+   * section이 grid일 경우 grid-template-row를 설정합니다.
+   *
+   * @default ''
+   */
+
+  gridTemplateRows?: CSSProperties["gridTemplateRows"];
   /**
    * padding 상단을 설정합니다.
    *

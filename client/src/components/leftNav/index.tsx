@@ -4,7 +4,6 @@ import * as Styled from "./index.styles";
 import { Link } from "react-router-dom";
 
 import Button from "_common/components/button";
-import Flex from "_common/components/flex";
 import Section from "components/section";
 
 type SideMenu = {
@@ -48,6 +47,7 @@ const LeftNav = () => {
       height="100vh"
       sectionType="flex"
       direction="column"
+      // style={{ backgroundColor: "linear-gradient(to right, #f3f4f6 20%,#fff)" }}
       backgroundColor="gray_100"
     >
       {leftMenu}

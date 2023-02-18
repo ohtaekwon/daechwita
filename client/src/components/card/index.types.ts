@@ -66,7 +66,7 @@ export interface DocumentCardProps
   text: string;
   title: string;
   id: string;
-
+  // onClick: any;
   // task: SchedulesType;
   children?: React.ReactNode;
 }

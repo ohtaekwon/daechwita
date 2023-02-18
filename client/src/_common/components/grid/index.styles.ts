@@ -8,4 +8,8 @@ export const Grid = styled.span<Required<GridProps>>`
   background-color: ${({ backgroundColor, theme }) =>
     theme.colors[backgroundColor]};
   grid-template-columns: ${({ gridTemplateColumns }) => gridTemplateColumns};
+  grid-template-rows: ${({ gridTemplateRows }) => gridTemplateRows};
+  grid-gap: 1rem;
+  height: 100%;
+  box-sizing: border-box;
 `;

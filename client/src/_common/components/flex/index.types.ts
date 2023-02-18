@@ -70,7 +70,7 @@ export interface FlexProps {
    *
    * @default auto
    */
-  width?:CSSProperties['width']
+  width?: CSSProperties["width"];
 }
 
 export interface Props extends HTMLAttributes<HTMLElement>, FlexProps {}

@@ -18,6 +18,7 @@ const Box = React.forwardRef(function Box(
     marginLeft = 0,
     gridArea = "",
     children,
+    gap = 0,
     width = "inherit",
     height = "inherit",
     display = "flex",
@@ -40,6 +41,7 @@ const Box = React.forwardRef(function Box(
       position={position}
       backgroundColor={backgroundColor}
       gridArea={gridArea}
+      gap={gap}
       paddingTop={paddingTop}
       paddingLeft={paddingLeft}
       paddingRight={paddingRight}

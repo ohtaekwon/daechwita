@@ -46,8 +46,6 @@ export const LocalStorageColumn = ({
       onUpdate={updateTask}
     />
   ));
-  // console.log(tasks.map((task, index) => task));
-  console.log(tasks);
   return (
     <>
       <Styled.Wrapper as={as} className={className} {...rest}>
@@ -66,16 +64,16 @@ export const LocalStorageColumn = ({
           </Button>
         )}
         <Box
-          variant="gray_200_border"
+          // variant="gray_200_border"
           ref={dropRef}
-          width="300px"
+          width="100%"
           height="100%"
           display="flex"
           direction="column"
           justifyContent="center"
           alignItems="center"
           opacity={isOver ? 0.85 : 1}
-          backgroundColor="gray_100"
+          backgroundColor="yellow_50"
         >
           {ColumnTasks}
         </Box>

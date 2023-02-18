@@ -16,7 +16,8 @@ const Section = React.forwardRef(function Section(
     direction = "row",
     gridTemplateAreas = "",
     gridTemplateColumns = "",
-    gridArea = "",
+    gridTemplateRows = "auto",
+    gridArea = "none",
     padding = "16px",
     paddingBottom = 0,
     paddingLeft = 0,
@@ -54,6 +55,7 @@ const Section = React.forwardRef(function Section(
         direction={direction}
         gridTemplateAreas={gridTemplateAreas}
         gridTemplateColumns={gridTemplateColumns}
+        gridTemplateRows={gridTemplateRows}
         gridArea={gridArea}
         backgroundColor={backgroundColor}
         ref={forwardedRef}
@@ -66,6 +68,7 @@ const Section = React.forwardRef(function Section(
           <Grid
             gridTemplateAreas={gridTemplateAreas}
             gridTemplateColumns={gridTemplateColumns}
+            gridTemplateRows={gridTemplateRows}
           >
             {children}
           </Grid>

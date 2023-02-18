@@ -15,4 +15,5 @@ export const TextArea = styled.textarea<Required<TextareaProps>>`
   opacity: ${({ opacity }) => opacity};
   text-align: ${({ textAlign }) => textAlign};
   letter-spacing: ${({ letterSpacing }) => letterSpacing};
+  box-sizing: border-box;
 `;

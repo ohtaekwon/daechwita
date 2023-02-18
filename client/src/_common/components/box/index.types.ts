@@ -7,7 +7,11 @@ import type {
 } from "react";
 import { theme } from "styles";
 
-export type BoxType = "primary" | "default" | "gray_200_border";
+export type BoxType =
+  | "primary"
+  | "default"
+  | "gray_200_border"
+  | "blue_200_border";
 
 export interface BoxProps {
   /**
@@ -21,7 +25,7 @@ export interface BoxProps {
    *
    * @required
    */
-  variant: BoxType;
+  variant?: BoxType;
 
   /**
    * 엘리먼트의 role 을 설정합니다.
@@ -167,5 +171,11 @@ export interface BoxProps {
    * @default 8
    */
   radius?: number;
+  /**
+   * Box의 gap 설정합니다.
+   *
+   * @default 0
+   */
+  gap?: CSSProperties["gap"];
 }
 export interface Props extends HTMLAttributes<HTMLElement>, BoxProps {}

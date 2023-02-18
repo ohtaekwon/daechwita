@@ -22,7 +22,7 @@ export const Box = styled.span<Required<BoxProps>>`
   border-style: solid;
 
   border-radius: ${({ radius }) => `${radius}px`};
-
+  box-sizing: border-box;
   cursor: ${({ cursor }) => cursor};
   opacity: ${({ opacity }) => opacity};
   ${({ variant, theme }) => {
@@ -55,6 +55,21 @@ export const Box = styled.span<Required<BoxProps>>`
           }
         `;
       }
+      case "blue_200_border": {
+        return css`
+          border-color: ${theme.colors.blue_200};
+          background-color: ${theme.colors.blue_200};
+          color: ${theme.colors.white};
+          transition: background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.blue_500};
+            background-color: ${theme.colors.blue_500};
+            color: ${theme.colors.white};
+          }
+        `;
+      }
+
       default: {
         return css`
           border-color: ${theme.colors.transparent};
