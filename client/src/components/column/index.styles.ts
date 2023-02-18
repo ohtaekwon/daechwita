@@ -4,12 +4,15 @@ import { ColumnProps } from "./index.types";
 export const Wrapper = styled.div<Required<ColumnProps>>`
   width: 100%;
   height: 100%;
+  padding: 16px;
+
   display: "flex";
-  direction: "column";
+  flex-direction: column;
+
   justify-content: "center";
   align-items: center;
+
   box-sizing: border-box;
-  padding: 16px;
   /* border-bottom: 1px solid ${({ theme }) => theme.colors.zinc_200}; */
-  background-color: ${({ theme }) => theme.colors.lime_100};
+  /* background-color: ${({ theme }) => theme.colors.lime_100}; */
 `;

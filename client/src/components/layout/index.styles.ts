@@ -7,15 +7,16 @@ import { theme } from "styles";
 export const Layout = styled.main<Required<LayoutProps>>`
   margin: auto;
   display: flex;
+  width: ${({ width }) => width};
   background-color: ${({ theme, backgroundColor }) =>
     theme.colors[backgroundColor]};
-
   ${({ variant, width, backgroundColor }) => {
     switch (variant) {
       case "default": {
         return css`
-          max-width: 100%;
-          background-color: ${theme.colors.neutral_100};
+          width: 100%;
+          height: 100%;
+          background-color: ${theme.colors.white};
         `;
       }
       case "xs": {

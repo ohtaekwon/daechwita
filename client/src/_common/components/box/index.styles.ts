@@ -49,8 +49,8 @@ export const Box = styled.span<Required<BoxProps>>`
           transition: background-color 0.15s ease-in-out,
             border-color 0.15s ease-in-out, color 0.15s ease-in-out;
           &:hover {
-            border-color: ${theme.colors.tdgreen_500};
-            background-color: ${theme.colors.tdgreen_500};
+            border-color: ${theme.colors.stone_500};
+            background-color: ${theme.colors.stone_500};
             color: ${theme.colors.white};
           }
         `;

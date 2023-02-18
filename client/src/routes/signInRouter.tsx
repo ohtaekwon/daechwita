@@ -10,25 +10,19 @@ import MySchedule from "pages/my-schedule";
 import MyInterview from "pages/my-interview";
 import Profile from "pages/profile";
 import AddDocument from "pages/add-document";
+import { Layout } from "components/layout";
 
 const SignInRouter = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home leftNav={<LeftNav />} />} />
-        <Route path="/todo" element={<MyTodo leftNav={<LeftNav />} />} />
-        <Route
-          path="/my-schedule"
-          element={<MySchedule leftNav={<LeftNav />} />}
-        />
-        <Route
-          path="/my-documents"
-          element={<MyDocuments leftNav={<LeftNav />} />}
-        />
-        <Route
-          path="/add-document"
-          element={<AddDocument leftNav={<LeftNav />} />}
-        />
+        <Route path="/" element={<Layout variant="default" />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/todo" element={<MyTodo />} />
+          <Route path="/my-schedule" element={<MySchedule />} />
+          <Route path="/my-documents" element={<MyDocuments />} />
+          <Route path="/add-document" element={<AddDocument />} />
+        </Route>
 
         <Route
           path="/my-dashboard"

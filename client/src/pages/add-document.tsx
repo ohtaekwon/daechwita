@@ -4,7 +4,7 @@ import { getDocuments } from "lib/apis/api/documents";
 import { getDocumentsList } from "lib/apis/service/getDocumentsList";
 import React from "react";
 
-const AddDocument = ({ leftNav }: { leftNav: React.ReactNode }) => {
+const AddDocument = () => {
   const { payload } = useFetch("documents");
 
   const [documents, setDocuments] = React.useState([]);

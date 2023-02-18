@@ -45,9 +45,7 @@ const LeftNav = () => {
       as="figure"
       className="leftNav"
       height="100vh"
-      sectionType="flex"
       direction="column"
-      // style={{ backgroundColor: "linear-gradient(to right, #f3f4f6 20%,#fff)" }}
       backgroundColor="gray_100"
     >
       {leftMenu}

@@ -1,3 +1,4 @@
+import { CSSProperties } from "@emotion/serialize";
 import type { ElementType, HTMLAttributes, ReactNode } from "react";
 import { theme } from "styles";
 
@@ -33,9 +34,9 @@ export interface LayoutProps {
   /**
    * Layout의 variant을 설정합니다.
    *
-   * @default 100
+   * @default auto
    */
-  width?: number;
+  width?: CSSProperties["width"];
 }
 export interface Props extends HTMLAttributes<HTMLElement>, LayoutProps {
   children?: ReactNode;

@@ -14,6 +14,8 @@ import { ColumnType, ScheduleType, TaskModel } from "types/index.types";
 import { createSchedules } from "lib/apis/api/schedules";
 import useColumnManager from "hooks/useColumnManager";
 import useUser from "lib/firebase/useUser";
+import { theme } from "styles";
+import Flex from "_common/components/flex";
 
 export const LocalStorageColumn = ({
   as = "div",
@@ -49,22 +51,30 @@ export const LocalStorageColumn = ({
   return (
     <>
       <Styled.Wrapper as={as} className={className} {...rest}>
-        <Text fontSize="md" letterSpacing="3px">
-          {columnColorSchema && (
-            <Badge
-              className="badge"
-              variant={columnColorSchema[column]}
-              children={column}
-            />
+        <Flex direction="column" justifyContent="center" alignItems="center">
+          <Text fontSize="md" letterSpacing="3px">
+            {columnColorSchema && (
+              <Badge
+                className="badge"
+                variant={columnColorSchema[column]}
+                children={column}
+                marginBottom={10}
+                marginTop={10}
+              />
+            )}
+          </Text>
+          {type && (
+            <Button
+              variant="skyblue_300_fill"
+              areaLabel="add-task"
+              onClick={addEmptyTask}
+            >
+              추가하기
+            </Button>
           )}
-        </Text>
-        {type && (
-          <Button variant="default" areaLabel="add-task" onClick={addEmptyTask}>
-            추가하기
-          </Button>
-        )}
+        </Flex>
         <Box
-          // variant="gray_200_border"
+          variant="gray_200_border"
           ref={dropRef}
           width="100%"
           height="100%"
@@ -73,7 +83,7 @@ export const LocalStorageColumn = ({
           justifyContent="center"
           alignItems="center"
           opacity={isOver ? 0.85 : 1}
-          backgroundColor="yellow_50"
+          // backgroundColor="stone_300"
         >
           {ColumnTasks}
         </Box>

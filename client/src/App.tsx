@@ -39,7 +39,7 @@ function App() {
   return (
     <>
       {init ? <Router isLoggedIn={isLoggedIn} /> : "Iniitiallize..."}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

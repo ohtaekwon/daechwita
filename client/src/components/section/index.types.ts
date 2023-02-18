@@ -6,8 +6,6 @@ import type {
 } from "react";
 import { theme } from "styles";
 
-export type SectionType = "default";
-
 export interface SectionProps {
   /**
    * 엘리먼트의 타입을 설정합니다.
@@ -20,7 +18,6 @@ export interface SectionProps {
    *
    * @required
    */
-  variant?: SectionType;
 
   /**
    * section의 width을 설정합니다.
@@ -37,11 +34,16 @@ export interface SectionProps {
   height?: CSSProperties["height"];
 
   /**
+   * section의 display을 설정합니다.
+   *
+   * @default inline
+   */
+  display?: CSSProperties["display"];
+  /**
    * section의 sectionType을 설정합니다.
    *
    * @default ''
    */
-  sectionType?: "grid" | "flex" | undefined;
 
   /**
    * section이 flex일 경우 direction을 설정합니다.
@@ -155,4 +157,5 @@ export interface SectionProps {
 
 export interface Props extends HTMLAttributes<HTMLElement>, SectionProps {
   children?: ReactNode;
+  pageTitle?: ReactNode;
 }

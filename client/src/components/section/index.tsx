@@ -1,8 +1,6 @@
 import React from "react";
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";
-import Flex from "_common/components/flex";
-import Grid from "_common/components/grid";
 
 const Section = React.forwardRef(function Section(
   {
@@ -11,8 +9,7 @@ const Section = React.forwardRef(function Section(
     className,
     width = "auto",
     height = "auto",
-    variant = "default",
-    sectionType = "flex",
+    display = "inline",
     direction = "row",
     gridTemplateAreas = "",
     gridTemplateColumns = "",
@@ -29,6 +26,7 @@ const Section = React.forwardRef(function Section(
     marginBottom = 0,
     marginLeft = 0,
     backgroundColor = "inherit",
+    pageTitle,
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLElement>
@@ -38,9 +36,15 @@ const Section = React.forwardRef(function Section(
       <Styled.Section
         as={as}
         className={className}
-        variant={variant}
+        display={display}
+        direction={direction}
         height={height}
         width={width}
+        gridTemplateAreas={gridTemplateAreas}
+        gridTemplateColumns={gridTemplateColumns}
+        gridTemplateRows={gridTemplateRows}
+        gridArea={gridArea}
+        backgroundColor={backgroundColor}
         padding={padding}
         paddingBottom={paddingBottom}
         paddingLeft={paddingLeft}
@@ -51,17 +55,18 @@ const Section = React.forwardRef(function Section(
         marginLeft={marginLeft}
         marginRight={marginRight}
         marginTop={marginTop}
-        sectionType={sectionType}
-        direction={direction}
-        gridTemplateAreas={gridTemplateAreas}
-        gridTemplateColumns={gridTemplateColumns}
-        gridTemplateRows={gridTemplateRows}
-        gridArea={gridArea}
-        backgroundColor={backgroundColor}
         ref={forwardedRef}
         {...rest}
       >
-        {sectionType === "flex" && (
+        {children}
+      </Styled.Section>
+    </>
+  );
+});
+export default Section;
+
+{
+  /* {sectionType === "flex" && (
           <Flex direction={direction}>{children}</Flex>
         )}
         {sectionType === "grid" && (
@@ -73,9 +78,5 @@ const Section = React.forwardRef(function Section(
             {children}
           </Grid>
         )}
-        {sectionType === undefined && <>{children}</>}
-      </Styled.Section>
-    </>
-  );
-});
-export default Section;
+        {!sectionType && <>{children}</>} */
+}
