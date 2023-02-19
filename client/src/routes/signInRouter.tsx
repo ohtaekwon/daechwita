@@ -21,15 +21,15 @@ const SignInRouter = () => {
           <Route path="/todo" element={<MyTodo />} />
           <Route path="/my-schedule" element={<MySchedule />} />
           <Route path="/my-documents" element={<MyDocuments />} />
-          <Route path="/add-document" element={<AddDocument />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
+        <Route path="/add-document" element={<AddDocument />} />
 
         <Route
           path="/my-dashboard"
           element={<MyDashBoard leftNav={<LeftNav />} />}
         />
         <Route path="/my-interview" element={<MyInterview />} />
-        <Route path="/profile" element={<Profile />} />
       </Routes>
     </>
   );

@@ -37,9 +37,6 @@ const MyDashBoard = ({ leftNav }: { leftNav: React.ReactNode }) => {
         <Flex as="main">
           {leftNav}
           <Section as="section">
-            {/* <div className="min-h-[700px]">
-              <TodoLibraryExample items={items} setItems={setItems} />
-            </div> */}
             <div className="min-h-[700px]">
               <TodoExample items={items} setItems={setItems} />
             </div>

@@ -7,6 +7,7 @@ import documentsRoute from "./routes/documents";
 import usersRoute from "./routes/users";
 import ttsARoute from "./routes/tts";
 import schedulesRoute from "./routes/schedules";
+import applicationsRoute from "./routes/applications";
 
 export const app = express();
 app.use(express.json()); // application/json 파싱을 위해서
@@ -20,7 +21,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET)); // get요청이 오면 uri변수들이 파싱되어 req.cookies객체에 저장된다.
 app.use(bodyParser.json());
 
-const routes = [...documentsRoute, ...usersRoute, ...schedulesRoute];
+const routes = [
+  ...documentsRoute,
+  ...usersRoute,
+  ...schedulesRoute,
+  ...applicationsRoute,
+];
 
 routes.forEach(({ method, route, handler }) => {
   app[method as Method](route, handler);
