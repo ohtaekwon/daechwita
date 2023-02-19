@@ -1,23 +1,17 @@
-import Section from "components/section";
-import useFetch from "hooks/app/useFetch";
-import { getDocuments } from "lib/apis/api/documents";
-import { getDocumentsList } from "lib/apis/service/getDocumentsList";
 import React from "react";
+import Section from "components/section";
 
 const AddDocument = () => {
-  const { payload } = useFetch("documents");
-
-  const [documents, setDocuments] = React.useState([]);
-
-  const newData = getDocumentsList(payload as any);
-  // console.log(newData);
-
   return (
     <>
-      <Section>
-        {newData.map((data) => (
-          <div>{data.text}</div>
-        ))}
+      <Section
+        width="100vw"
+        paddingBottom={10}
+        paddingRight={10}
+        paddingLeft={10}
+        paddingTop={10}
+      >
+        ddd
       </Section>
     </>
   );

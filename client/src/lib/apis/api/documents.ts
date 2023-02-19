@@ -43,7 +43,7 @@ export const updateDocuments = async (id: string, payload: any) => {
 };
 export const deleteDocuments = async (id: string) => {
   try {
-    const response = await authInstance.delete(`${BASE_URL}/:${id}`);
+    const response = await authInstance.delete(`${BASE_URL}/${id}`);
     return response;
   } catch (error) {
     console.error(error);

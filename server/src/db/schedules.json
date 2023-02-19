@@ -1,33 +1,33 @@
 [
   {
     "id": "TvqMHaae4bnqd5NC5Zvt",
-    "apply": {
-      "company": "SK",
-      "department": "경영"
-    },
+    "text": "임시글",
+    "title": "임시제목",
     "createdAt": {
       "seconds": 1676385496,
       "nanoseconds": 128000000
     },
     "uid": "yk8sXL267QgnhD1r2npNseEfZ4W2",
-    "title": "임시제목",
-    "text": "임시글",
-    "column": "second round"
+    "column": "second round",
+    "apply": {
+      "company": "SK",
+      "department": "경영"
+    }
   },
   {
     "id": "oKNZ3ISp8gaNotPaIAZ1",
+    "uid": "yk8sXL267QgnhD1r2npNseEfZ4W2",
+    "title": "임시제목",
     "createdAt": {
       "seconds": 1676385307,
       "nanoseconds": 791000000
     },
     "text": "임시글",
     "apply": {
-      "company": "현대",
-      "department": "경영"
+      "department": "경영",
+      "company": "현대"
     },
-    "uid": "yk8sXL267QgnhD1r2npNseEfZ4W2",
-    "column": "first round",
-    "title": "임시제목"
+    "column": "first round"
   },
   {
     "id": "gc6PopL7LHm4YaUSibxE",
@@ -35,13 +35,13 @@
       "seconds": 1676265181,
       "nanoseconds": 943000000
     },
-    "uid": "yk8sXL267QgnhD1r2npNseEfZ4W2",
-    "column": "document screening",
-    "title": "임시제목",
     "apply": {
       "company": "삼성",
       "department": "경영지원"
     },
+    "title": "임시제목",
+    "uid": "yk8sXL267QgnhD1r2npNseEfZ4W2",
+    "column": "document screening",
     "text": "임시 글"
   }
 ]

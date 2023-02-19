@@ -36,7 +36,7 @@ const Header = () => {
             color="zinc_400"
           >
             <Icons>
-              <AiOutlineHome size={20} />
+              <AiOutlineHome size={20} title="홈버튼" />
             </Icons>
           </Button>
         </Link>
@@ -50,7 +50,7 @@ const Header = () => {
             color="black"
           >
             <Icons>
-              <AiOutlinePlusCircle size={20} />
+              <AiOutlinePlusCircle size={20} title="자소서 쓰기" />
             </Icons>
           </Button>
         </Link>
@@ -64,7 +64,7 @@ const Header = () => {
             color="zinc_400"
           >
             <Icons>
-              <AiOutlineUser size={20} />
+              <AiOutlineUser size={20} title="회원 정보" />
             </Icons>
           </Button>
         </Link>

@@ -37,12 +37,12 @@ const documentsRoute = [
       // 토큰에서 uid 가져오기
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
-      // console.log("-------------------", title, tag, uid);
-      console.log('--------테스트--------', uid)
 
       const documents = await collection(db, "documents");
       const queryOptions: any = [orderBy("createdAt", "desc")];
       queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
+      // queryOptions.unshift(where("createdAt", "!=", null));
+      console.log(queryOptions);
       const q = query(documents, ...queryOptions, limit(PAGE_SIZE));
       const documentsSnapshot = await getDocs(q);
       const data: DocumentData[] = [];
@@ -127,6 +127,7 @@ const documentsRoute = [
         body,
         params: { id },
       } = req;
+
       try {
         const docs = getDocuments();
         const targetIndex = docs.findIndex((doc: any) => doc.id === id);
@@ -148,26 +149,34 @@ const documentsRoute = [
   {
     method: "delete",
     route: "/documents/:id",
-    handler: (req: express.Request, res: express.Response) => {
+    handler: async (req: express.Request, res: express.Response) => {
       const {
-        body,
         params: { id },
       } = req;
 
-      try {
-        const docs = getDocuments();
-        const targetIndex = docs.findIndex((doc: any) => doc.id === id);
+      // 토큰에서 uid 가져오기
+      const uid = req.headers.authorization?.split(" ")[1].trim();
+      if (!uid) throw Error("유저 아이디가 없습니다.");
 
-        if (targetIndex < 0) throw "선택한 문서가 없습니다.";
-        if (docs[targetIndex].userId !== body.userId)
-          throw "사용자가 다릅니다.";
+      const documentRef = doc(db, "documents", id);
+      if (!documentRef) throw Error("선택한 문서가 없습니다. ");
+      await deleteDoc(documentRef);
+      return id;
 
-        docs.splice(targetIndex, 1);
-        setDocuments(docs);
-        res.send(id);
-      } catch (err) {
-        res.status(500).send({ error: err });
-      }
+      // try {
+      //   const docs = getDocuments();
+      //   const targetIndex = docs.findIndex((doc: any) => doc.id === id);
+
+      //   if (targetIndex < 0) throw "선택한 문서가 없습니다.";
+      //   if (docs[targetIndex].userId !== body.userId)
+      //     throw "사용자가 다릅니다.";
+
+      //   docs.splice(targetIndex, 1);
+      //   setDocuments(docs);
+      //   res.send(id);
+      // } catch (err) {
+      //   res.status(500).send({ error: err });
+      // }
     },
   },
 ];

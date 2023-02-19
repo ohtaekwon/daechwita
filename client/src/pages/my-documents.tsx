@@ -10,6 +10,7 @@ import { DocumentCard as Card } from "components/card";
 
 import Text from "_common/components/text";
 import Button from "_common/components/button";
+import useFetch from "hooks/app/useFetch";
 
 type Document = {
   id: string;
@@ -25,8 +26,10 @@ type Document = {
 
 const MyDocuments = () => {
   const navigate = useNavigate();
+  const { payload } = useFetch("documents");
+  const newData = getDocumentsList(payload as any);
 
-  const [documents, setDocuments] = React.useState([]);
+  const [documents, setDocuments] = React.useState(newData);
   const [reFetch, setReFetch] = React.useState(false);
 
   const handleAdd = (e: React.SyntheticEvent) => {
@@ -45,11 +48,11 @@ const MyDocuments = () => {
     // setReFetch(!reFetch);
   };
 
-  React.useEffect(() => {
-    getDocuments()
-      .then(getDocumentsList)
-      .then((res) => setDocuments(res as any));
-  }, []);
+  // React.useEffect(() => {
+  //   getDocuments()
+  //     .then(getDocumentsList)
+  //     .then((res) => setDocuments(res as any));
+  // }, []);
 
   return (
     <>
@@ -80,7 +83,7 @@ const MyDocuments = () => {
         >
           <AiOutlinePlusSquare size={80} />
         </Button>
-        {documents.map(
+        {newData.map(
           (
             { id, uid, department, company, tag, text, title }: Document,
             index: number

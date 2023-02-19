@@ -18,6 +18,7 @@ import Modal from "components/modal";
 import Input from "_common/components/input";
 import Form from "_common/components/form";
 import useInput from "hooks/app/useInput";
+import { deleteDocuments } from "lib/apis/api/documents";
 
 export const TodoCard = ({
   index,
@@ -184,6 +185,11 @@ export const DocumentCard = ({
     toggleModal(false);
   };
 
+  const handleDelete = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    await deleteDocuments(id);
+  };
+
   console.log(modalShown);
   return (
     <>
@@ -206,6 +212,7 @@ export const DocumentCard = ({
           <Text>{company}</Text>
         </Flex>
         <button onClick={showModal}>수정하기</button>
+        <button onClick={handleDelete}>삭제하기</button>
       </Box>
 
       <Modal elementId="modal" show={modalShown} cancel={cancel}>
