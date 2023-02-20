@@ -64,19 +64,3 @@ const Section = React.forwardRef(function Section(
   );
 });
 export default Section;
-
-{
-  /* {sectionType === "flex" && (
-          <Flex direction={direction}>{children}</Flex>
-        )}
-        {sectionType === "grid" && (
-          <Grid
-            gridTemplateAreas={gridTemplateAreas}
-            gridTemplateColumns={gridTemplateColumns}
-            gridTemplateRows={gridTemplateRows}
-          >
-            {children}
-          </Grid>
-        )}
-        {!sectionType && <>{children}</>} */
-}

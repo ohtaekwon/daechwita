@@ -8,7 +8,7 @@ export interface TextareaProps {
    *
    * @default '''
    */
-  value: string | number;
+  value?: string | number;
 
   /**
    * TextArea의 폰트 사이즈를 설정합니다.
@@ -29,77 +29,77 @@ export interface TextareaProps {
    *
    * @default 400
    */
-  fontWeight: CSSProperties["fontWeight"];
+  fontWeight?: CSSProperties["fontWeight"];
 
   /**
    * TextArea의 margin 상단을 설정합니다.
    *
    * @default 0
    */
-  marginTop: number;
+  marginTop?: number;
 
   /**
    * TextArea의 margin 우측을 설정합니다.
    *
    * @default 0
    */
-  marginRight: number;
+  marginRight?: number;
 
   /**
    * TextArea의 margin 하단을 설정합니다.
    *
    * @default 0
    */
-  marginBottom: number;
+  marginBottom?: number;
 
   /**
    * TextArea의 margin 좌측을 설정합니다.
    *
    * @default 0
    */
-  marginLeft: number;
+  marginLeft?: number;
 
   /**
    * TextArea의 padding 상단을 설정합니다.
    *
    * @default 0
    */
-  paddingTop: number;
+  paddingTop?: number;
 
   /**
    * TextArea의 padding 우측을 설정합니다.
    *
    * @default 0
    */
-  paddingRight: number;
+  paddingRight?: number;
 
   /**
    * TextArea의 padding 하단을 설정합니다.
    *
    * @default 0
    */
-  paddingBottom: number;
+  paddingBottom?: number;
 
   /**
    * TextArea의 padding 좌측을 설정합니다.
    *
    * @default 0
    */
-  paddingLeft: number;
+  paddingLeft?: number;
 
   /**
    * TextArea의 텍스트의 투명도를 설정합니다.
    *
    * @default 1
    */
-  opacity: number;
+  opacity?: number;
 
   /**
    * TextArea의 텍스트의 정렬을 설정합니다.
    *
    * @default 'left'
    */
-  textAlign: CSSProperties["textAlign"];
+  textAlign?: CSSProperties["textAlign"];
 
   /**
    * TextArea의 텍스트의 글 간격을 설정합니다.
@@ -107,7 +107,7 @@ export interface TextareaProps {
    * @default 'auto'
    */
 
-  letterSpacing: CSSProperties["letterSpacing"];
+  letterSpacing?: CSSProperties["letterSpacing"];
 
   /**
    * TextArea의 width 속성을 설정합니다.
@@ -127,7 +127,7 @@ export interface TextareaProps {
    *
    * @default inherit
    */
-  margin: CSSProperties["margin"];
+  margin?: CSSProperties["margin"];
 }
 export interface Props
   extends Partial<TextareaProps>,

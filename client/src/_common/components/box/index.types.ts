@@ -81,7 +81,12 @@ export interface BoxProps {
    * @default 0
    */
   paddingLeft?: number;
-
+  /**
+   * margin  설정합니다.
+   *
+   * @default auto
+   */
+  margin?: CSSProperties["margin"];
   /**
    * margin 상단을 설정합니다.
    *

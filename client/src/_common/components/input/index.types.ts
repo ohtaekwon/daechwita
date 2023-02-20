@@ -15,19 +15,26 @@ export interface InputProps {
    */
   role?: AriaRole | undefined;
   /**
-   *  Box의 position의 타입을 설정합니다.
+   * input의 position의 타입을 설정합니다.
    *
    * @default static
    */
   position?: CSSProperties["position"];
 
   /**
-   * Box의 배경 색상을 설정합니다.
+   * input의 배경 색상을 설정합니다.
    *
    * @default 'inherit'
    */
   backgroundColor?: keyof typeof theme.colors;
 
+  /**
+   * input의 border 색상을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+
+  borderColor?: keyof typeof theme.colors;
   /**
    * grid-area의 타입을 설정합니다.
    *

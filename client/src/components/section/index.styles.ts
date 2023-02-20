@@ -24,8 +24,10 @@ export const Section = styled.section<Required<SectionProps>>`
     padding
       ? padding
       : `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`};
-  margin: ${({ marginTop, marginRight, marginBottom, marginLeft }) =>
-    `${marginTop}px ${marginRight}px ${marginBottom}px ${marginLeft}px`};
+  margin: ${({ margin, marginTop, marginRight, marginBottom, marginLeft }) =>
+    margin
+      ? margin
+      : `${marginTop}px ${marginRight}px ${marginBottom}px ${marginLeft}px`};
   background-color: ${({ theme, backgroundColor }) =>
     theme?.colors[backgroundColor]};
 

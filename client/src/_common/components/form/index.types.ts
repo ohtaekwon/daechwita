@@ -4,10 +4,14 @@ import type {
   CSSProperties,
   ElementType,
   HTMLAttributes,
+  HtmlHTMLAttributes,
 } from "react";
 import { theme } from "styles";
 
 export interface FormProps {
+  /**
+   * 1️⃣ form 태그의 HTML 속성을 설정합니다.
+   */
   /**
    * 엘리먼트의 role 을 설정합니다.
    *
@@ -15,14 +19,25 @@ export interface FormProps {
    */
   role?: AriaRole | undefined;
   /**
-   *  Box의 position의 타입을 설정합니다.
+   * form 태그의 action 을 설정합니다.
+   *
+   * @default ''
+   */
+  action?: string;
+
+  /**
+   * 2️⃣ form 컴포넌트의 style 을 설정합니다.
+   */
+
+  /**
+   *  form의 position의 타입을 설정합니다.
    *
    * @default static
    */
   position?: CSSProperties["position"];
 
   /**
-   * Box의 배경 색상을 설정합니다.
+   * form의 배경 색상을 설정합니다.
    *
    * @default 'inherit'
    */
@@ -36,56 +51,50 @@ export interface FormProps {
   gridArea?: CSSProperties["gridArea"];
 
   /**
-   * padding 상단을 설정합니다.
+   * Form의 padding 상단을 설정합니다.
    *
    * @default 0
    */
   paddingTop?: number;
-
   /**
-   * padding 우측을 설정합니다.
+   * Form의 padding 우측을 설정합니다.
    *
    * @default 0
    */
   paddingRight?: number;
-
   /**
-   * padding 하단을 설정합니다.
+   * Form의 padding 하단을 설정합니다.
    *
    * @default 0
    */
   paddingBottom?: number;
-
   /**
-   * padding 좌측을 설정합니다.
+   * Form의 padding 좌측을 설정합니다.
    *
    * @default 0
    */
   paddingLeft?: number;
 
   /**
-   * margin 상단을 설정합니다.
+   * Form의 margin 상단을 설정합니다.
    *
    * @default 0
    */
   marginTop?: number;
-
   /**
-   * margin 우측을 설정합니다.
+   * Form의 margin 우측을 설정합니다.
    *
    * @default 0
    */
   marginRight?: number;
-
   /**
-   * margin 하단을 설정합니다.
+   * Form의 margin 하단을 설정합니다.
    *
    * @default 0
    */
   marginBottom?: number;
-
   /**
-   * margin 좌측을 설정합니다.
+   * Form의 margin 좌측을 설정합니다.
    *
    * @default 0
    */
@@ -147,7 +156,7 @@ export interface FormProps {
   opacity?: CSSProperties["opacity"];
 
   /**
-   * Box의 radius 설정합니다.
+   * Form의 radius 설정합니다.
    *
    * @default 8
    */

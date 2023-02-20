@@ -24,4 +24,5 @@ export const Input = styled.input<Required<InputProps>>`
 
   cursor: ${({ cursor }) => cursor};
   opacity: ${({ opacity }) => opacity};
+  border-color: ${({ borderColor }) => borderColor};
 `;

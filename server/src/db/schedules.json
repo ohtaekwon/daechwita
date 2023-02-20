@@ -1,47 +1,17 @@
 [
   {
-    "id": "TvqMHaae4bnqd5NC5Zvt",
-    "text": "임시글",
-    "title": "임시제목",
-    "createdAt": {
-      "seconds": 1676385496,
-      "nanoseconds": 128000000
-    },
-    "uid": "yk8sXL267QgnhD1r2npNseEfZ4W2",
-    "column": "second round",
-    "apply": {
-      "company": "SK",
-      "department": "경영"
-    }
-  },
-  {
     "id": "oKNZ3ISp8gaNotPaIAZ1",
-    "uid": "yk8sXL267QgnhD1r2npNseEfZ4W2",
-    "title": "임시제목",
     "createdAt": {
       "seconds": 1676385307,
       "nanoseconds": 791000000
     },
+    "apply": {
+      "company": "현대",
+      "department": "경영"
+    },
     "text": "임시글",
-    "apply": {
-      "department": "경영",
-      "company": "현대"
-    },
-    "column": "first round"
-  },
-  {
-    "id": "gc6PopL7LHm4YaUSibxE",
-    "createdAt": {
-      "seconds": 1676265181,
-      "nanoseconds": 943000000
-    },
-    "apply": {
-      "company": "삼성",
-      "department": "경영지원"
-    },
     "title": "임시제목",
-    "uid": "yk8sXL267QgnhD1r2npNseEfZ4W2",
-    "column": "document screening",
-    "text": "임시 글"
+    "column": "first round",
+    "uid": "yk8sXL267QgnhD1r2npNseEfZ4W2"
   }
 ]

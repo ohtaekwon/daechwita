@@ -6,6 +6,7 @@ import { Props } from "./index.types";
 const Form = React.forwardRef(function Form(
   {
     role = "",
+    action = "",
     position = "static",
     paddingTop = 0,
     paddingRight = 0,
@@ -36,6 +37,8 @@ const Form = React.forwardRef(function Form(
   return (
     <Styled.Form
       role={role}
+      action={action}
+      onSubmit={onSubmit}
       position={position}
       backgroundColor={backgroundColor}
       gridArea={gridArea}
@@ -57,13 +60,12 @@ const Form = React.forwardRef(function Form(
       opacity={opacity}
       radius={radius}
       ref={forwardedRef}
-      onSubmit={onSubmit}
       {...rest}
     >
       {children}
-      <Button type="submit" variant={"zinc_200"} onClick={onClick}>
+      {/* <Button type="submit" variant={"zinc_200"} onClick={onClick}>
         확인
-      </Button>
+      </Button> */}
     </Styled.Form>
   );
 });
