@@ -12,6 +12,7 @@ import Input from "_common/components/input";
 import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import form from "_common/components/form";
+import { createApplications } from "lib/apis/api/applications";
 
 type FormListType = {
   [key in string]: FormData[];
@@ -20,6 +21,8 @@ const AddDocument = () => {
   const [formList, setFormList] = React.useState<FormListType>([]);
 
   const addForm = React.useCallback(() => {
+    console.log("Form을 추가합니다.");
+
     setFormList((allForms: any) => {
       // const newFormData = {
       //   [uuid()]: new FormData(),
@@ -30,24 +33,40 @@ const AddDocument = () => {
 
   const deleteForm = React.useCallback(
     (id: string) => {
-      console.log(`Form을 삭제 중입니다.  ${id}...`);
+      console.log(`Form ${id} 을 삭제 중입니다...`);
 
       setFormList((allForms) => {
         const newData = [...allForms];
         const targetIndex = newData.findIndex(
           (data) => Object.keys(data)[0] === id
         );
+        if (targetIndex < 0) throw Error("없습니다.");
         newData.splice(targetIndex, 1);
-
         return newData;
       });
     },
     [formList, setFormList]
   );
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    let formData: any = new FormData();
+    const list: any = document.getElementsByClassName("form__item");
 
-  console.dir(formList);
+    for await (const data of list) {
+      for (let i = 0; i < data.length; i++) {
+        formData.append(data[i].name, JSON.stringify(data[i].value));
+      }
+      console.log("----------pass------");
+      await createApplications(formData);
+    }
+
+    // for (const value of formData.entries()) {
+    //   console.log(value[0], value[1]);
+    // }
+
+    // console.dir(formData);
+  };
+
   return (
     <>
       <Section
@@ -67,6 +86,10 @@ const AddDocument = () => {
         <Button variant={"zinc_200"} onClick={addForm}>
           추가하기
         </Button>
+        <Button variant={"zinc_200"} onClick={handleSubmit}>
+          저장하기
+        </Button>
+
         <FormList list={formList} deleteForm={deleteForm} />
       </Section>
     </>
@@ -81,9 +104,6 @@ const FormList = ({
   list: any;
   deleteForm: (id: string) => void;
 }) => {
-  // const formRef = countList.map(() => React.createRef<HTMLInputElement>());
-  console.log(list);
-
   return (
     <>
       {list &&
@@ -104,29 +124,20 @@ const FormItem = ({
   const [tag, handleTagChange] = useInput("");
   const [title, handleTitleChange] = useInput("");
   const [text, handleTextChange] = useInput("");
-
   const formKey = Object.keys(item)[0];
 
   const handleDelete = () => {
     onDelete(formKey);
   };
 
-  // console.log(formKey);
-  // const onDelete = () => {
-  //   const targetIndex = countList.findIndex((count) => count === item);
-  //   console.log("targetIndex", targetIndex);
-
-  //   let countArr = [...countList];
-  //   console.log(countArr);
-  //   console.log(countArr.length);
-  //   if (countArr.length === 1) return;
-  //   countArr.splice(targetIndex, 1);
-  //   setCountList(countArr);
-  // };
   return (
     <>
       <Box width="100%" height="600px" margin="auto">
-        <Form action="" style={{ position: "relative" }}>
+        <Form
+          action=""
+          style={{ position: "relative" }}
+          className={`form__item`}
+        >
           <Box display="flex" direction="column">
             <Input
               type="text"
@@ -150,6 +161,7 @@ const FormItem = ({
               borderColor="slate_700"
             />
             <Textarea
+              name="text"
               width="100%"
               height={400}
               margin="auto"

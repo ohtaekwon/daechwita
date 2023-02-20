@@ -5,6 +5,7 @@ import { Props } from "./index.types";
 const Textarea = React.forwardRef(function Textarea(
   {
     value = "",
+    name = "",
     children,
     fontSize = "md",
     color = "blackText_1",
@@ -30,6 +31,7 @@ const Textarea = React.forwardRef(function Textarea(
   return (
     <Styled.TextArea
       value={value}
+      name={name}
       color={color}
       fontSize={fontSize}
       fontWeight={fontWeight}

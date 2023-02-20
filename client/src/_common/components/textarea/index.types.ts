@@ -11,6 +11,13 @@ export interface TextareaProps {
   value?: string | number;
 
   /**
+   * TextArea의 name 속성을 설정합니다.
+   *
+   * @default '''
+   */
+  name?: string;
+
+  /**
    * TextArea의 폰트 사이즈를 설정합니다.
    *
    * @default 'regular'

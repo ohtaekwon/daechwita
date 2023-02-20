@@ -1,4 +1,6 @@
 import * as express from "express";
+import { v4 as uuid } from "uuid";
+
 import { db } from "../../firebase";
 import {
   addDoc,
@@ -54,6 +56,44 @@ const applicationsRoute = [
       const newData = data;
       res.send(newData.map((data) => data.documents));
       return data;
+    },
+  },
+  // CREATE DOCUMENTS
+  {
+    method: "post",
+    route: "/applications",
+    handler: async (req: express.Request, res: express.Response) => {
+      const { body } = req;
+
+      console.log("------------body----------", body);
+
+      // 토큰에서 uid 가져오기
+      const uid = req.headers.authorization?.split(" ")[1].trim();
+      // if (!uid) throw Error("유저 아이디가 없습니다.");
+
+      // console.log("-----pass------", uid);
+
+      const newApplications = {
+        apply: {
+          company: "네이버",
+          department: "프론트엔드",
+        },
+        documents: [body],
+        uid,
+        createdAt: serverTimestamp(),
+      };
+      // console.log("------------여기 패스-------------", newApplications);
+
+      const addApplication = await addDoc(
+        collection(db, "applications"),
+        newApplications
+      );
+      const snapShot = await getDoc(addApplication);
+
+      return {
+        ...snapShot.data(),
+        id: snapShot.id,
+      };
     },
   },
 ];

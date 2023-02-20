@@ -2,14 +2,15 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
 import documentsRoute from "./routes/documents";
 import usersRoute from "./routes/users";
-import ttsARoute from "./routes/tts";
 import schedulesRoute from "./routes/schedules";
 import applicationsRoute from "./routes/applications";
 
 export const app = express();
+
+const multipart = require("connect-multiparty");
+
 app.use(express.json()); // application/json 파싱을 위해서
 app.use(
   cors({
@@ -17,8 +18,9 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET)); // get요청이 오면 uri변수들이 파싱되어 req.cookies객체에 저장된다.
+app.use(express.urlencoded({ extended: true }));
+app.use(multipart()); //formdata를 파싱해줌
 app.use(bodyParser.json());
 
 const routes = [
