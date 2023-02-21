@@ -24,8 +24,8 @@ app.use(multipart()); //formdata를 파싱해줌
 app.use(bodyParser.json());
 
 const routes = [
-  ...documentsRoute,
   ...usersRoute,
+  ...documentsRoute,
   ...schedulesRoute,
   ...applicationsRoute,
 ];

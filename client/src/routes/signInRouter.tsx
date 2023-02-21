@@ -23,7 +23,7 @@ const SignInRouter = () => {
           <Route path="/my-documents" element={<MyDocuments />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
-        <Route path="/add-document" element={<AddDocument />} />
+        <Route path="/add/:id" element={<AddDocument />} />
 
         <Route
           path="/my-dashboard"

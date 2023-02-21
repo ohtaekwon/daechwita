@@ -5,7 +5,7 @@ import React from "react";
 
 type method = "get" | "post" | "put" | "delete" | "patch";
 
-type URL = "documents" | "schedules";
+type URL = "documents" | "schedules" | "applications" | "users";
 
 function useFetch<T>(url: URL) {
   const [payload, setPayload] = React.useState<T[]>([]);

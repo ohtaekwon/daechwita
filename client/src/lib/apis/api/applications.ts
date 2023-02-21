@@ -26,11 +26,19 @@ export const getApplications = async (query: Query = {}) => {
 
 export const createApplications = async (payload: any) => {
   try {
-    const response = await authInstance.post(BASE_URL, payload, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const { data: user } = await authInstance.get("/users");
+    if (!user) throw Error("유저 정보를 불러올 수 없습니다.");
+    const count = (user[0].numberOfPublishing += 1);
+    console.log();
+    const [response, _] = await Promise.all([
+      authInstance.post(BASE_URL, {
+        ...payload,
+        id: `${payload.id}-${count}`,
+      }),
+      authInstance.put(`/users/${user[0].id}`, { numberOfPublishing: count }),
+    ]);
+    console.log("rseponmse", response);
+
     return response;
   } catch (error) {
     console.error(error);
@@ -39,7 +47,11 @@ export const createApplications = async (payload: any) => {
 
 export const updateApplications = async (id: string, payload: any) => {
   try {
-    const response = await authInstance.put(`${BASE_URL}/:${id}`, payload);
+    const response = await authInstance.put(`${BASE_URL}/${id}`, payload, {
+      // headers: {
+      //   "Content-Type": "multipart/form-data",
+      // },
+    });
     return response;
   } catch (error) {
     console.error(error);

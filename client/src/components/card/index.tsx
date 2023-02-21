@@ -190,7 +190,7 @@ export const DocumentCard = ({
     await deleteDocuments(id);
   };
 
-  console.log(modalShown);
+  // console.log(modalShown);
   return (
     <>
       <Box

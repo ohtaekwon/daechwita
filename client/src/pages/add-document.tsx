@@ -12,12 +12,19 @@ import Input from "_common/components/input";
 import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import form from "_common/components/form";
-import { createApplications } from "lib/apis/api/applications";
+import {
+  createApplications,
+  updateApplications,
+} from "lib/apis/api/applications";
+import { useParams } from "react-router-dom";
 
 type FormListType = {
   [key in string]: FormData[];
 }[];
 const AddDocument = () => {
+  const params = useParams();
+  const { id } = params;
+
   const [formList, setFormList] = React.useState<FormListType>([]);
 
   const addForm = React.useCallback(() => {
@@ -49,24 +56,38 @@ const AddDocument = () => {
   );
 
   const handleSubmit = async () => {
-    let formData: any = new FormData();
     const list: any = document.getElementsByClassName("form__item");
+    const dataList: any = [];
 
-    for await (const data of list) {
-      for (let i = 0; i < data.length; i++) {
-        formData.append(data[i].name, JSON.stringify(data[i].value));
+    for (let i = 0; i < list.length; i++) {
+      let newObj: any = {};
+      for (let j = 0; j < 3; j++) {
+        newObj[list[i][j].name] = list[i][j].value;
       }
-      console.log("----------pass------");
-      await createApplications(formData);
+      dataList.push(newObj);
     }
+    await updateApplications(id!, { documents: dataList });
 
-    // for (const value of formData.entries()) {
-    //   console.log(value[0], value[1]);
+    // const formDataList = Array.from({ length: list.length }, () => {
+    //   const formData = new FormData();
+    //   return formData;
+    // });
+
+    // for (let i = 0; i < formDataList.length; i++) {
+    //   for (let j = 0; j < 3; j++) {
+    //     formDataList[i].append(list[i][j].name, list[i][j].value);
+    //   }
     // }
-
-    // console.dir(formData);
+    // await updateApplications(id!, formDataList);
+    // for await (const data of list) {
+    //   for (let i = 0; i < data.length; i++) {
+    //     formData.append(data[i].name, JSON.stringify(data[i].value));
+    //   }
+    // }
+    // console.log(formDataList);
   };
 
+  // console.log(id, typeof Number(id));
   return (
     <>
       <Section
@@ -133,16 +154,13 @@ const FormItem = ({
   return (
     <>
       <Box width="100%" height="600px" margin="auto">
-        <Form
-          action=""
-          style={{ position: "relative" }}
-          className={`form__item`}
-        >
+        <Form action="" style={{ position: "relative" }} className="form__item">
           <Box display="flex" direction="column">
             <Input
               type="text"
               id="tag"
               name="tag"
+              className="input__tag"
               width="100%"
               height="50px"
               value={tag}
@@ -153,6 +171,7 @@ const FormItem = ({
               type="title"
               id="title"
               name="title"
+              className="input__title"
               value={title}
               onChange={handleTitleChange}
               placeholder="제목을 입력해주세요"
@@ -163,6 +182,7 @@ const FormItem = ({
             <Textarea
               name="text"
               width="100%"
+              className="input__text"
               height={400}
               margin="auto"
               paddingBottom={10}

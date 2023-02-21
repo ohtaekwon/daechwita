@@ -11,6 +11,9 @@ import { DocumentCard as Card } from "components/card";
 import Text from "_common/components/text";
 import Button from "_common/components/button";
 import useFetch from "hooks/app/useFetch";
+import { createApplications } from "lib/apis/api/applications";
+import useUser from "lib/firebase/useUser";
+import { authInstance } from "lib/apis/utils/instance";
 
 type Document = {
   id: string;
@@ -25,16 +28,19 @@ type Document = {
 };
 
 const MyDocuments = () => {
+  const { user } = useUser();
+
   const navigate = useNavigate();
-  const { payload } = useFetch("documents");
-  const newData = getDocumentsList(payload as any);
+  const { payload: documentsPayload } = useFetch("documents");
+  const { payload: usersPayload } = useFetch("users");
+  const newData = getDocumentsList(documentsPayload as any);
 
   const [documents, setDocuments] = React.useState(newData);
+  const [userData, setUserData] = React.useState<any>([]);
   const [reFetch, setReFetch] = React.useState(false);
 
   const handleAdd = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    navigate("/add-document");
     // createDocuments({
     //   apply: {
     //     company: "LG",
@@ -48,12 +54,30 @@ const MyDocuments = () => {
     // setReFetch(!reFetch);
   };
 
-  // React.useEffect(() => {
-  //   getDocuments()
-  //     .then(getDocumentsList)
-  //     .then((res) => setDocuments(res as any));
-  // }, []);
+  const handleAddClick = async () => {
+    navigate(`/add/${userData?.numberOfPublishing + 1}`);
+    await createApplications({ id: user?.uid });
+  };
 
+  // const handleUser = async () => {
+  //   const { data } = await authInstance.get("/users");
+  //   console.log(data[0].numberOfPublishing);
+  // };
+  // // console.log(user?.uid);
+
+  // const handleUpdate = async () => {
+  //   await authInstance.put(`users/${user?.uid}`, {
+  //     numberOfPublishing: 2,
+  //   });
+  // };
+  // React.useEffect(() => {
+  //   handleUser();
+  // }, []);
+  // console.log(applications);
+
+  React.useEffect(() => {
+    setUserData(usersPayload[0]);
+  });
   return (
     <>
       <Section
@@ -76,11 +100,7 @@ const MyDocuments = () => {
         >
           나의 자소서 목록
         </Text>
-        <Button
-          width="100%"
-          variant={"zinc_200"}
-          onClick={() => navigate("/add-document")}
-        >
+        <Button width="100%" variant={"zinc_200"} onClick={handleAddClick}>
           <AiOutlinePlusSquare size={80} />
         </Button>
         {newData.map(

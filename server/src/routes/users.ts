@@ -1,6 +1,25 @@
 import * as express from "express";
 import { DBField, readDB, writeDB } from "../dbController";
-import { v4 } from "uuid";
+import { v4 as uuid } from "uuid";
+
+import { db } from "../../firebase";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  DocumentData,
+  getDoc,
+  getDocs,
+  increment,
+  limit,
+  orderBy,
+  query,
+  QueryDocumentSnapshot,
+  serverTimestamp,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 const getUsers = () => readDB(DBField.USERS);
 const setUsers = (data: any) => writeDB(DBField.USERS, data);
@@ -11,29 +30,56 @@ const usersRoute = [
   {
     method: "get",
     route: "/users",
-    handler: (req: express.Request, res: express.Response) => {
-      const users = getUsers();
-      console.log(users, "-------------");
-      res.send(users);
+    handler: async (req: express.Request, res: express.Response) => {
+      const uid = req.headers.authorization?.split(" ")[1].trim();
+      if (!uid) throw Error("유저 아이디가 없습니다.");
+
+      const users = await collection(db, "users");
+      const q = query(users, where("uid", "==", uid));
+      const usersSnapshot = await getDocs(q);
+      const data: DocumentData[] = [];
+      usersSnapshot.forEach((doc) => {
+        const d = doc.data();
+        data.push({
+          id: doc.id,
+          ...d,
+        });
+      });
+      const newData = data;
+      res.send(newData);
+
+      return {
+        data,
+      };
     },
   },
   // GET USER
   {
     method: "get",
     route: "/users/:id",
-    handler: (req: express.Request, res: express.Response) => {
+    handler: async (req: express.Request, res: express.Response) => {
       const {
-        body,
         params: { id },
-      } = req.signedCookies;
-      try {
-        const users = getUsers();
-        const user = users[id];
-        if (!user) throw "유저 정보를 찾을 수 없습니다.";
-        res.send(user);
-      } catch (err) {
-        res.status(404).send({ error: err });
-      }
+      } = req;
+
+      const uid = req.headers.authorization?.split(" ")[1].trim();
+      if (!uid) throw Error("유저 아이디가 없습니다.");
+
+      console.log("---------pass------", id);
+      const users = await collection(db, "users");
+      const q = query(users, where("uid", "==", id));
+      const usersSnapshot = await getDocs(q);
+      const data: DocumentData[] = [];
+      usersSnapshot.forEach((doc) => {
+        const d = doc.data();
+        data.push({
+          id: doc.id,
+          ...d,
+        });
+      });
+      const newData = data;
+      res.send(newData);
+      return data;
     },
   },
   // CREATE USERS
@@ -62,43 +108,25 @@ const usersRoute = [
   {
     method: "put",
     route: "/users/:id",
-    handler: (req: express.Request, res: express.Response) => {
+    handler: async (req: express.Request, res: express.Response) => {
       const {
         body,
         params: { id },
-        query,
-      } = req.signedCookies;
-      console.log(id);
-      console.log("query", query);
-      try {
-        const users = getUsers();
-        const user = users[id];
-        if (!user) throw "유저 정보를 찾을 수 없습니다.";
+      } = req;
 
-        if (users.userEmail !== body.userEmail) {
-          throw "사용자가 다릅니다.";
-        }
-        const newUsers = { ...user, body };
-        users[`${newUsers.email}`] = newUsers;
-        setUsers(users);
-      } catch (err) {
-        res.status(500).send({ error: err });
-      }
-    },
-  },
-  // 유저의 아이템 관련 메서드
-  // GET ITEMS
-  {
-    method: "get",
-    route: "/users/:id/items",
-    handler: (req: express.Request, res: express.Response) => {
-      const {
-        body,
-        params: { id },
-      } = req.signedCookies;
-      const userItems = getUsers();
-      const item = userItems[id]["itemOfUser"];
-      res.send(item);
+      console.log("-------여기 지남-----", id, body);
+      const userRef = doc(db, "users", id);
+      if (!userRef) throw Error("상품이 없습니다.");
+      await updateDoc(userRef, {
+        ...body,
+        createdAt: serverTimestamp(),
+      });
+      const snapShot = await getDoc(userRef);
+
+      return {
+        id: snapShot.id,
+        ...snapShot.data(),
+      };
     },
   },
 ];

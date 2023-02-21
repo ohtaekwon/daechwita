@@ -10,12 +10,11 @@ import {
   DocumentData,
   getDoc,
   getDocs,
-  increment,
   limit,
   orderBy,
   query,
-  QueryDocumentSnapshot,
   serverTimestamp,
+  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -23,20 +22,14 @@ import {
 const PAGE_SIZE = 20;
 
 const applicationsRoute = [
-  // GET DOCUMENTS
+  // GET APPLICATIONS
   {
     method: "get",
     route: "/applications",
     handler: async (req: express.Request, res: express.Response) => {
-      const {
-        query: { title, tag },
-      } = req;
-
       // 토큰에서 uid 가져오기
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
-
-      console.log("-----pass------", uid);
 
       const applications = await collection(db, "applications");
       const queryOptions: any = [orderBy("createdAt", "desc")];
@@ -58,41 +51,88 @@ const applicationsRoute = [
       return data;
     },
   },
-  // CREATE DOCUMENTS
+  // CREATE APPLICATIONS
   {
     method: "post",
     route: "/applications",
     handler: async (req: express.Request, res: express.Response) => {
       const { body } = req;
 
-      console.log("------------body----------", body);
+      // 토큰에서 uid 가져오기
+      const uid = req.headers.authorization?.split(" ")[1].trim();
+      if (!uid) throw Error("유저 아이디가 없습니다.");
+
+      const newApplications = {
+        apply: {
+          company: "",
+          department: "",
+        },
+        documents: [],
+        uid,
+        publishing: false,
+        createdAt: serverTimestamp(),
+      };
+
+      // const addApplication = await addDoc(
+      //   collection(db, "applications"),
+      //   newApplications
+      // );
+
+      const addApplication = await setDoc(
+        doc(db, "applications", body.id),
+        newApplications
+      );
+
+      // const snapShot = await getDoc(addApplication);
+
+      return {
+        id: body.id,
+        // ...snapShot.data(),
+      };
+    },
+  },
+  // UPDATE APPLICATIONS
+  {
+    method: "put",
+    route: "/applications/:id",
+    handler: async (req: express.Request, res: express.Response) => {
+      const {
+        body,
+        params: { id },
+      } = req;
 
       // 토큰에서 uid 가져오기
       const uid = req.headers.authorization?.split(" ")[1].trim();
       // if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      // console.log("-----pass------", uid);
+      // const newApplications = {
+      //   apply: {
+      //     company: "네이버",
+      //     department: "프론트엔드",
+      //   },
+      //   documents: body,
+      //   uid,
+      //   createdAt: serverTimestamp(),
+      // };
+      console.log("------pass----------", `${uid}-${id}`);
+      console.log(body);
+      const applicationsRef = doc(db, "applications", `${uid}-${id}`);
+      if (!applicationsRef) throw Error("상품이 없습니다.");
 
-      const newApplications = {
+      await updateDoc(applicationsRef, {
+        ...body,
         apply: {
           company: "네이버",
           department: "프론트엔드",
         },
-        documents: [body],
-        uid,
         createdAt: serverTimestamp(),
-      };
-      // console.log("------------여기 패스-------------", newApplications);
+      });
 
-      const addApplication = await addDoc(
-        collection(db, "applications"),
-        newApplications
-      );
-      const snapShot = await getDoc(addApplication);
+      const snapShot = await getDoc(applicationsRef);
 
       return {
-        ...snapShot.data(),
         id: snapShot.id,
+        ...snapShot.data(),
       };
     },
   },
