@@ -3,33 +3,58 @@ import { css } from "@emotion/react";
 import { BoxProps } from "./index.types";
 
 export const Box = styled.span<Required<BoxProps>>`
+  /**
+  * 넓이/높이 설정
+  */
   width: ${({ width }) => width};
   height: ${({ height }) => height};
+  /**
+  * 배치 설정
+  */
   position: ${({ position }) => position};
   display: ${({ display }) => display};
   flex-direction: ${({ direction }) => direction};
   justify-content: ${({ justifyContent }) => justifyContent};
-
   align-items: ${({ alignItems }) => alignItems};
   grid-area: ${({ gridArea }) => gridArea};
-  padding: ${({ paddingTop, paddingRight, paddingBottom, paddingLeft }) =>
+  /**
+  * padding 설정
+  */
+  padding: ${({
+    padding,
+    paddingTop,
+    paddingRight,
+    paddingBottom,
+    paddingLeft,
+  }) =>
+    padding ||
     `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`};
+  /**
+  * margin 설정
+  */
   margin: ${({ margin, marginTop, marginRight, marginBottom, marginLeft }) =>
-    margin
-      ? margin
-      : `${marginTop}px ${marginRight}px ${marginBottom}px ${marginLeft}px`};
+    margin ||
+    `${marginTop}px ${marginRight}px ${marginBottom}px ${marginLeft}px`};
+  /**
+  * 배경/테두리 스타일 설정
+  */
   background-color: ${({ backgroundColor, theme }) =>
     theme.colors[backgroundColor]};
-
-  border-style: solid;
-
   border-radius: ${({ radius }) => `${radius}px`};
-  box-sizing: border-box;
+  /**
+  * 기타 옵션 설정
+  */
   cursor: ${({ cursor }) => cursor};
   opacity: ${({ opacity }) => opacity};
+
+  border-style: solid;
+  box-sizing: border-box;
   ${({ variant, theme }) => {
     switch (variant) {
       case "primary": {
+        /**
+         * green 테두리 box, hover시 진한 green 색상
+         */
         return css`
           border-color: ${theme.colors.tdgreen_400};
           background-color: ${theme.colors.tdgreen_400};
@@ -44,6 +69,9 @@ export const Box = styled.span<Required<BoxProps>>`
         `;
       }
       case "gray_200_border": {
+        /**
+         * gray 테두리 box, hover시 stone 색상
+         */
         return css`
           border-color: ${theme.colors.gray_200};
           background-color: ${theme.colors.gray_100};
@@ -58,6 +86,9 @@ export const Box = styled.span<Required<BoxProps>>`
         `;
       }
       case "blue_200_border": {
+        /**
+         * blue 테두리 box, hover시 진한 blue 색상
+         */
         return css`
           border-color: ${theme.colors.blue_200};
           background-color: ${theme.colors.blue_200};

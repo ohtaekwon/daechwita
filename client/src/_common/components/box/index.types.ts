@@ -8,31 +8,33 @@ import type {
 import { theme } from "styles";
 
 export type BoxType =
-  | "primary"
-  | "default"
-  | "gray_200_border"
-  | "blue_200_border";
+  /**
+   *  Box의 variant에 따른 디자인된 BOX를 설정합니다.
+   */
+  "primary" | "default" | "gray_200_border" | "blue_200_border";
 
 export interface BoxProps {
   /**
-   * 엘리먼트의 타입을 설정합니다.
+   * 1️⃣ Box의 HTML 속성을 설정합니다.
+   */
+  /**
+   * Box컴포넌트의 엘리먼트의 타입을 설정합니다.
    *
    * @default div
    */
   as?: ElementType;
+
   /**
-   * 버튼의 variant을 설정합니다.
+   * 2️⃣ Box 컴포넌트의 style 을 설정합니다.
+   */
+
+  /**
+   * Box의 variant을 설정합니다.
    *
    * @required
    */
   variant?: BoxType;
 
-  /**
-   * 엘리먼트의 role 을 설정합니다.
-   *
-   * @default ''
-   */
-  role?: AriaRole | undefined;
   /**
    *  Box의 position의 타입을 설정합니다.
    *
@@ -48,81 +50,85 @@ export interface BoxProps {
   backgroundColor?: keyof typeof theme.colors;
 
   /**
-   * grid-area의 타입을 설정합니다.
+   * Box의 display가 grid일 때, grid-area의 타입을 설정합니다.
    *
    * @default static
    */
   gridArea?: CSSProperties["gridArea"];
 
   /**
-   * padding 상단을 설정합니다.
+   * Box의 padding  설정합니다.
+   *
+   * @default auto
+   */
+  padding?: CSSProperties["padding"];
+  /**
+   * Box의 padding top(상단)을 설정합니다.
    *
    * @default 0
    */
   paddingTop?: number;
-
   /**
-   * padding 우측을 설정합니다.
+   * Box의 padding bottom(우측)을 설정합니다.
    *
    * @default 0
    */
   paddingRight?: number;
-
   /**
-   * padding 하단을 설정합니다.
+   * Box의 padding right(하단)을 설정합니다.
    *
    * @default 0
    */
   paddingBottom?: number;
-
   /**
-   * padding 좌측을 설정합니다.
+   * Box의 padding left(좌측)을 설정합니다.
    *
    * @default 0
    */
   paddingLeft?: number;
+
   /**
-   * margin  설정합니다.
+   * Box의 margin  설정합니다.
    *
    * @default auto
    */
   margin?: CSSProperties["margin"];
   /**
-   * margin 상단을 설정합니다.
+   * Box의 margin top(상단)을 설정합니다.
    *
    * @default 0
    */
   marginTop?: number;
 
   /**
-   * margin 우측을 설정합니다.
+   * Box의 margin right(우측)을 설정합니다.
    *
    * @default 0
    */
   marginRight?: number;
 
   /**
-   * margin 하단을 설정합니다.
+   * Box의 margin bottom(하단)을 설정합니다.
    *
    * @default 0
    */
   marginBottom?: number;
 
   /**
-   * margin 좌측을 설정합니다.
+   * Box의 margin left(좌측)을 설정합니다.
    *
    * @default 0
    */
   marginLeft?: number;
 
   /**
-   * box의 width 속성을 설정합니다.
+   * box의 너비 속성을 설정합니다.
    *
    * @default inherit
    */
   width?: CSSProperties["width"];
   /**
-   * box의 bottom 속성을 설정합니다.
+   * box의 높이 속성을 설정합니다.
    *
    * @default inherit
    */
@@ -131,12 +137,12 @@ export interface BoxProps {
   /**
    * box의 display 속성을 설정합니다.
    *
-   * @default 'flex'
+   * @default 'block'
    */
-  display?: "flex" | "inline-flex";
+  display?: CSSProperties["display"];
 
   /**
-   * box의 flex-direction 속성을 설정합니다.
+   * box가 display가 flex일 때, flex-direction 속성을 설정합니다.
    *
    * @default 'row'
    */
@@ -171,11 +177,12 @@ export interface BoxProps {
   opacity?: CSSProperties["opacity"];
 
   /**
-   * Box의 radius 설정합니다.
+   * Box 테두리의 radius 설정합니다.
    *
    * @default 8
    */
   radius?: number;
+
   /**
    * Box의 gap 설정합니다.
    *
@@ -183,4 +190,11 @@ export interface BoxProps {
    */
   gap?: CSSProperties["gap"];
 }
-export interface Props extends HTMLAttributes<HTMLElement>, BoxProps {}
+export interface Props extends HTMLAttributes<HTMLElement>, BoxProps {
+  /**
+   * Box컴포넌트의 엘리먼트 role 을 설정합니다.
+   *
+   * @default ''
+   */
+  role?: AriaRole | undefined;
+}

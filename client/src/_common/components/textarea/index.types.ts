@@ -4,20 +4,6 @@ import theme from "styles/theme";
 
 export interface TextareaProps {
   /**
-   * TextArea의 value 속성을 설정합니다.
-   *
-   * @default '''
-   */
-  value?: string | number;
-
-  /**
-   * TextArea의 name 속성을 설정합니다.
-   *
-   * @default '''
-   */
-  name?: string;
-
-  /**
    * TextArea의 폰트 사이즈를 설정합니다.
    *
    * @default 'regular'
@@ -143,4 +129,18 @@ export interface Props
         HTMLHeadingElement | HTMLParagraphElement | HTMLTextAreaElement
       >,
       "color"
-    > {}
+    > {
+  /**
+   * TextArea의 value 속성을 설정합니다.
+   *
+   * @default '''
+   */
+  value?: string | number;
+
+  /**
+   * TextArea의 name 속성을 설정합니다.
+   *
+   * @default '''
+   */
+  name?: string;
+}

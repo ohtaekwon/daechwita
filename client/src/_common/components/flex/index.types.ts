@@ -71,6 +71,12 @@ export interface FlexProps {
    * @default auto
    */
   width?: CSSProperties["width"];
+  /**
+   * Flex의 height을 설정합니다.
+   *
+   * @default auto
+   */
+  height?: CSSProperties["height"];
 }
 
 export interface Props extends HTMLAttributes<HTMLElement>, FlexProps {}

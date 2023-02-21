@@ -4,51 +4,90 @@ import { Props } from "./index.types";
 
 const Textarea = React.forwardRef(function Textarea(
   {
+    /**
+     * HTML태그 설정
+     */
     value = "",
     name = "",
-    children,
+    /**
+     * 넓이/높이 설정
+     */
+    width = "inherit",
+    height = "inherit",
+    /**
+     * font 스타일 설정
+     */
     fontSize = "md",
-    color = "blackText_1",
     fontWeight = 400,
+    color = "blackText_1",
+    textAlign = "left",
+    letterSpacing = "inherit",
+    /**
+     * margin 설정
+     */
+    margin = "inherit",
     marginTop = 0,
     marginRight = 0,
     marginBottom = 0,
     marginLeft = 0,
+    /**
+     * padding 설정
+     */
     paddingTop = 0,
     paddingRight = 0,
     paddingBottom = 0,
     paddingLeft = 0,
+    /**
+     * 기타 옵션 설정정
+     */
     opacity = 1,
-    textAlign = "left",
-    letterSpacing = "inherit",
-    width = "inherit",
-    height = "inherit",
-    margin = "inherit",
+    children,
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLTextAreaElement>
 ) {
   return (
     <Styled.TextArea
+      /**
+       * HTML태그 설정
+       */
       value={value}
       name={name}
+      /**
+       * 넓이/높이 설정
+       */
+      width={width}
+      height={height}
+      /**
+       * font 스타일 설정
+       */
       color={color}
       fontSize={fontSize}
       fontWeight={fontWeight}
+      textAlign={textAlign}
+      letterSpacing={letterSpacing}
+      /**
+       * margin 설정
+       */
+      margin={margin}
       marginTop={marginTop}
       marginRight={marginRight}
       marginBottom={marginBottom}
       marginLeft={marginLeft}
+      /**
+       * padding 설정
+       */
       paddingTop={paddingTop}
       paddingRight={paddingRight}
       paddingBottom={paddingBottom}
       paddingLeft={paddingLeft}
+      /**
+       * 기타 옵션 설정정
+       */
       opacity={opacity}
-      textAlign={textAlign}
-      letterSpacing={letterSpacing}
-      width={width}
-      height={height}
-      margin={margin}
+      /**
+       * ref 설정
+       */
       ref={forwardedRef}
       {...rest}
     >

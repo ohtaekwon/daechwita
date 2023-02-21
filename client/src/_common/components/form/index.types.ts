@@ -12,6 +12,7 @@ export interface FormProps {
   /**
    * 1️⃣ form 태그의 HTML 속성을 설정합니다.
    */
+
   /**
    * 엘리먼트의 role 을 설정합니다.
    *
@@ -44,11 +45,18 @@ export interface FormProps {
   backgroundColor?: keyof typeof theme.colors;
 
   /**
-   * grid-area의 타입을 설정합니다.
+   * form의 display가 grid일 때, grid-area의 타입을 설정합니다.
    *
    * @default static
    */
   gridArea?: CSSProperties["gridArea"];
+
+  /**
+   * Form의 padding을 설정합니다.
+   *
+   * @default auto
+   */
+  padding?: CSSProperties["padding"];
 
   /**
    * Form의 padding 상단을 설정합니다.
@@ -75,6 +83,12 @@ export interface FormProps {
    */
   paddingLeft?: number;
 
+  /**
+   * Form의 margin을 설정합니다.
+   *
+   * @default auto
+   */
+  margin?: CSSProperties["margin"];
   /**
    * Form의 margin 상단을 설정합니다.
    *
@@ -163,6 +177,23 @@ export interface FormProps {
   radius?: number;
 }
 export interface Props extends HTMLAttributes<HTMLFormElement>, FormProps {
-  onClick?: () => void;
+  /**
+   * form 컴포넌트의 엘리먼트의 role 을 설정합니다.
+   *
+   * @default ''
+   */
+  role?: AriaRole | undefined;
+  /**
+   * form 태그의 action 을 설정합니다.
+   *
+   * @default ''
+   */
+  action?: string;
+  /**
+   * form 컴포넌트의 onSubmit 이벤트 핸들러를 설정합니다.
+   *
+   * @default ''
+   */
   onSubmit?: React.FormEventHandler<HTMLFormElement> | undefined;
+  onClick?: () => void;
 }

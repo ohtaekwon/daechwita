@@ -4,27 +4,43 @@ import { css } from "@emotion/react";
 import { ButtonProps } from "./index.types";
 
 export const Button = styled.button<Required<ButtonProps>>`
+  /**
+  * 넓이/높이 설정
+  */
   width: ${({ width }) => width};
-  padding: ${({ paddingX, paddingY }) => `${paddingY}px ${paddingX}px`};
-  border-width: 1px;
-  border-style: solid;
-  margin: ${({ marginTop, marginRight, marginBottom, marginLeft }) =>
-    `${marginTop}px ${marginRight}px ${marginBottom}px ${marginLeft}px`};
-  background-color: ${({ theme, backgroundColor }) =>
-    theme.colors[backgroundColor]};
-  border-radius: ${({ radius }) => `${radius}px`};
-  font-size: ${({ fontSize, theme }) => theme.fontSize[fontSize]};
-  font-weight: ${({ fontWeight }) => fontWeight};
-  line-height: ${({ lineHeight, theme }) => theme.lineHeight[lineHeight]};
-
+  height: ${({ height }) => height};
+  /**
+  * 배치 설정
+  */
   position: ${({ position }) => position};
-  z-index: ${({ zIndex }) => zIndex};
-
   top: ${({ top }) => top};
   bottom: ${({ bottom }) => bottom};
   right: ${({ right }) => right};
   left: ${({ left }) => left};
-
+  z-index: ${({ zIndex }) => zIndex};
+  /**
+   * font 스타일 설정
+  */
+  font-size: ${({ fontSize, theme }) => theme.fontSize[fontSize]};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  line-height: ${({ lineHeight, theme }) => theme.lineHeight[lineHeight]};
+  /**
+  * padding 설정
+  */
+  padding: ${({ paddingX, paddingY }) => `${paddingY}px ${paddingX}px`};
+  /**
+  * margin 설정
+  */
+  margin: ${({ marginTop, marginRight, marginBottom, marginLeft }) =>
+    `${marginTop}px ${marginRight}px ${marginBottom}px ${marginLeft}px`};
+  /**
+  * 배경/테두리 스타일 설정
+  */
+  background-color: ${({ theme, backgroundColor }) =>
+    theme.colors[backgroundColor]};
+  border-radius: ${({ radius }) => `${radius}px`};
+  border-width: 1px;
+  border-style: solid;
   ${({ variant, theme }) => {
     switch (variant) {
       case "primary": {

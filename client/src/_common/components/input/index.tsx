@@ -4,63 +4,112 @@ import { Props } from "./index.types";
 
 const Input = React.forwardRef(function Input(
   {
+    /**
+     * HTML태그 설정
+     */
     type,
     name,
     value,
     role = "",
+    /**
+     * 넓이/높이 설정
+     */
+    width = "inherit",
+    height = "inherit",
+    /**
+     * 배치 설정
+     */
     position = "static",
+    display = "block",
+    direction = "row",
+    justifyContent = "flex-start",
+    alignItems = "flex-start",
+    gridArea = "",
+    /**
+     * padding 설정
+     */
+    padding = "auto",
     paddingTop = 0,
     paddingRight = 0,
     paddingBottom = 0,
     paddingLeft = 0,
+    /**
+     * margin 설정
+     */
+    margin = "auto",
     marginTop = 0,
     marginRight = 0,
     marginBottom = 0,
     marginLeft = 0,
-    gridArea = "",
-    children,
-    width = "inherit",
-    height = "inherit",
-    display = "flex",
-    direction = "row",
-    justifyContent = "flex-start",
-    alignItems = "flex-start",
+    /**
+     * 배경/테두리 스타일 설정
+     */
     backgroundColor = "inherit",
     borderColor = "inherit",
     radius = 8,
+    /**
+     * 기타 옵션 설정
+     */
     opacity = "inherit",
     cursor = "auto",
+    children,
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLInputElement>
 ) {
   return (
     <Styled.Input
+      /**
+       * HTML태그 설정
+       */
       type={type}
+      role={role}
       name={name}
       value={value}
-      role={role}
+      /**
+       * 넓이/높이 설정
+       */
+      width={width}
+      height={height}
+      /**
+       * 배치 설정
+       */
       position={position}
-      borderColor={borderColor}
-      backgroundColor={backgroundColor}
+      display={display}
+      direction={direction}
       gridArea={gridArea}
+      justifyContent={justifyContent}
+      alignItems={alignItems}
+      /**
+       * padding 설정
+       */
+      padding={padding}
       paddingTop={paddingTop}
       paddingLeft={paddingLeft}
       paddingRight={paddingRight}
       paddingBottom={paddingBottom}
+      /**
+       * margin 설정
+       */
+      margin={margin}
       marginTop={marginTop}
       marginBottom={marginBottom}
       marginLeft={marginLeft}
       marginRight={marginRight}
-      width={width}
-      height={height}
-      display={display}
-      direction={direction}
-      justifyContent={justifyContent}
-      alignItems={alignItems}
+      /**
+       * 배경/테두리 스타일 설정
+       */
+      borderColor={borderColor}
+      backgroundColor={backgroundColor}
+      radius={radius}
+      /**
+       * 기타 옵션 설정
+       */
       cursor={cursor}
       opacity={opacity}
-      radius={radius}
+      /**
+       * ref 설정
+       */
       ref={forwardedRef}
       {...rest}
     >

@@ -7,6 +7,9 @@ import type {
 import { theme } from "styles";
 
 export type BadgeType =
+  /**
+   * Badge의 색상 타입을 설정합니다.
+   */
   | "primary"
   | "default"
   | "gray"
@@ -33,89 +36,98 @@ export interface BadgeProps {
    * @default div
    */
   as?: ElementType;
+  /**
+   * Badge의 유형 설정
+   */
   variant?: BadgeType;
   /**
-   * 엘리먼트의 role 을 설정합니다.
-   *
-   * @default ''
-   */
-  role?: AriaRole | undefined;
-  /**
-   *  Box의 position의 타입을 설정합니다.
+   *  Badge의 position의 타입을 설정합니다.
    *
    * @default static
    */
   position?: CSSProperties["position"];
 
   /**
-   * Box의 배경 색상을 설정합니다.
+   * Badge의 배경 색상을 설정합니다.
    *
    * @default 'inherit'
    */
   backgroundColor?: keyof typeof theme.colors;
-
   /**
-   * padding 상단을 설정합니다.
+   * Badge의 padding을 설정합니다.
+   *
+   * @default 0
+   */
+  padding?: CSSProperties["padding"];
+  /**
+   * Badge의 padding 상단을 설정합니다.
    *
    * @default 0
    */
   paddingTop?: number;
 
   /**
-   * padding 우측을 설정합니다.
+   * Badge의 padding 우측을 설정합니다.
    *
    * @default 0
    */
   paddingRight?: number;
-
   /**
-   * padding 하단을 설정합니다.
+   * Badge의 padding 하단을 설정합니다.
    *
    * @default 0
    */
   paddingBottom?: number;
 
   /**
-   * padding 좌측을 설정합니다.
+   * Badge의 padding 좌측을 설정합니다.
    *
    * @default 0
    */
   paddingLeft?: number;
-
   /**
-   * margin 상단을 설정합니다.
+   * Badge의 margin을 설정합니다.
+   *
+   * @default 0
+   */
+  margin?: CSSProperties["margin"];
+  /**
+   * Badge의 margin 상단을 설정합니다.
    *
    * @default 0
    */
   marginTop?: number;
 
   /**
-   * margin 우측을 설정합니다.
+   * Badge의 margin 우측을 설정합니다.
    *
    * @default 0
    */
   marginRight?: number;
-
   /**
-   * margin 하단을 설정합니다.
+   * Badge의 margin 하단을 설정합니다.
    *
    * @default 0
    */
   marginBottom?: number;
-
   /**
-   * margin 좌측을 설정합니다.
+   * Badge의 margin 좌측을 설정합니다.
    *
    * @default 0
    */
   marginLeft?: number;
-
   /**
    * Badge의 width 속성을 설정합니다.
    *
    * @default auto
    */
   width?: string;
+  /**
+   * Badge의 height 속성을 설정합니다.
+   *
+   * @default auto
+   */
+  height?: CSSProperties["height"];
 
   /**
    * Badge의 cursor 속성을 설정합니다.
@@ -124,4 +136,11 @@ export interface BadgeProps {
    */
   cursor?: CSSProperties["cursor"];
 }
-export interface Props extends HTMLAttributes<HTMLElement>, BadgeProps {}
+export interface Props extends HTMLAttributes<HTMLElement>, BadgeProps {
+  /**
+   * 엘리먼트의 role 을 설정합니다.
+   *
+   * @default ''
+   */
+  role?: AriaRole | undefined;
+}

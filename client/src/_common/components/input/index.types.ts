@@ -9,12 +9,6 @@ import { theme } from "styles";
 
 export interface InputProps {
   /**
-   * 엘리먼트의 role 을 설정합니다.
-   *
-   * @default ''
-   */
-  role?: AriaRole | undefined;
-  /**
    * input의 position의 타입을 설정합니다.
    *
    * @default static
@@ -43,12 +37,18 @@ export interface InputProps {
   gridArea?: CSSProperties["gridArea"];
 
   /**
+   * padding을 설정합니다.
+   *
+   * @default auto
+   */
+  padding?: CSSProperties["padding"];
+
+  /**
    * padding 상단을 설정합니다.
    *
    * @default 0
    */
   paddingTop?: number;
-
   /**
    * padding 우측을 설정합니다.
    *
@@ -71,19 +71,23 @@ export interface InputProps {
   paddingLeft?: number;
 
   /**
+   * margin을 설정합니다.
+   *
+   * @default auto
+   */
+  margin?: CSSProperties["margin"];
+  /**
    * margin 상단을 설정합니다.
    *
    * @default 0
    */
   marginTop?: number;
-
   /**
    * margin 우측을 설정합니다.
    *
    * @default 0
    */
   marginRight?: number;
-
   /**
    * margin 하단을 설정합니다.
    *
@@ -114,9 +118,9 @@ export interface InputProps {
   /**
    * Form의 display 속성을 설정합니다.
    *
-   * @default 'flex'
+   * @default 'block'
    */
-  display?: "flex" | "inline-flex";
+  display?: CSSProperties["display"];
 
   /**
    * Form의 flex-direction 속성을 설정합니다.
@@ -160,25 +164,52 @@ export interface InputProps {
    */
   radius?: number;
 }
+
+export type InputType =
+  /**
+   * 텍스트 입력 (text, textarea)
+   * 비밀번호 입력 (password)
+   * 라디오 버튼 (radio)
+   * 체크 박스 (checkbox)
+   * 파일 선택 (file)
+   * 선택 입력 (select)
+   * 버튼 (button)
+   * 전송 (submit)
+   * 필드셋 (fieldset)
+   */
+  | "text"
+  | "textarea"
+  | "password"
+  | "radio"
+  | "checkbox"
+  | "file"
+  | "select"
+  | "button"
+  | "submit"
+  | "fieldset";
 export interface Props extends HTMLAttributes<HTMLInputElement>, InputProps {
+  /**
+   * input의 HTML속성 role 을 설정합니다.
+   *
+   * @default ''
+   */
+  role?: AriaRole | undefined;
   /**
    * input의 HTML속성 type을 설정합니다.
    *
    * @required '''
    */
-  type: string;
-
+  type: InputType;
   /**
    * input의 HTML속성 name을 설정합니다.
    *
    * @required '''
    */
   name: string;
-
   /**
-   * input의 HTML속성 value을 설정합니다.
+   * input의 HTML속성 value를 설정합니다.
    *
-   * @required '''
+   * @required ''
    */
   value: any;
 }

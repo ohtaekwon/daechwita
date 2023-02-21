@@ -1,11 +1,8 @@
 import { AxiosResponse } from "axios";
-import { getDocumentsList } from "lib/apis/service/getDocumentsList";
 import { authInstance } from "lib/apis/utils/instance";
 import React from "react";
 
-type method = "get" | "post" | "put" | "delete" | "patch";
-
-type URL = "documents" | "schedules" | "applications" | "users";
+type URL = "documents" | "schedules" | "applications" | "users" | string;
 
 function useFetch<T>(url: URL) {
   const [payload, setPayload] = React.useState<T[]>([]);

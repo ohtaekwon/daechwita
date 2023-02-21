@@ -219,7 +219,7 @@ export const DocumentCard = ({
         <Form width={"100%"} height={"100%"}>
           <Box variant={"default"} display="flex" direction="column">
             <Input
-              type="title"
+              type="text"
               id="title"
               name="title"
               width="100%"
@@ -248,13 +248,6 @@ export const DocumentCard = ({
               width="100%"
               placeholder="tag를 입력해주세요"
             />
-
-            <select name="order" form="myForm">
-              <option value="americano">아메리</option>
-              <option value="caffe latte">카페라테</option>
-              <option value="cafe au lait">카페오레</option>
-              <option value="espresso">에스프레소</option>
-            </select>
           </Box>
         </Form>
       </Modal>

@@ -13,11 +13,6 @@ export interface SectionProps {
    * @default div
    */
   as?: ElementType;
-  /**
-   * section의 variant을 설정합니다.
-   *
-   * @required
-   */
 
   /**
    * section의 width을 설정합니다.
@@ -36,14 +31,9 @@ export interface SectionProps {
   /**
    * section의 display을 설정합니다.
    *
-   * @default inline
+   * @default block
    */
   display?: CSSProperties["display"];
-  /**
-   * section의 sectionType을 설정합니다.
-   *
-   * @default ''
-   */
 
   /**
    * section이 flex일 경우 direction을 설정합니다.
@@ -77,7 +67,6 @@ export interface SectionProps {
    *
    * @default ''
    */
-
   gridTemplateRows?: CSSProperties["gridTemplateRows"];
   /**
    * padding 상단을 설정합니다.

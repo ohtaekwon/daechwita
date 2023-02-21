@@ -113,7 +113,6 @@ export interface TextProps {
    *
    * @default 'auto'
    */
-
   letterSpacing: CSSProperties["letterSpacing"];
 }
 

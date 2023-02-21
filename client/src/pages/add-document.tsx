@@ -14,18 +14,20 @@ import Textarea from "_common/components/textarea";
 import form from "_common/components/form";
 import {
   createApplications,
+  getApplications,
   updateApplications,
 } from "lib/apis/api/applications";
 import { useParams } from "react-router-dom";
+import useFetch from "hooks/app/useFetch";
 
 type FormListType = {
   [key in string]: FormData[];
 }[];
 const AddDocument = () => {
-  const params = useParams();
-  const { id } = params;
-
+  const { id } = useParams();
+  const { payload } = useFetch(`applications/${id}`);
   const [formList, setFormList] = React.useState<FormListType>([]);
+  const [toggle, setToggle] = React.useState(false);
 
   const addForm = React.useCallback(() => {
     console.log("Form을 추가합니다.");
@@ -67,6 +69,7 @@ const AddDocument = () => {
       dataList.push(newObj);
     }
     await updateApplications(id!, { documents: dataList });
+    await setToggle(!toggle);
 
     // const formDataList = Array.from({ length: list.length }, () => {
     //   const formData = new FormData();
@@ -87,7 +90,11 @@ const AddDocument = () => {
     // console.log(formDataList);
   };
 
-  // console.log(id, typeof Number(id));
+  React.useEffect(() => {
+    // setApplications(payload);
+  }, [, toggle]);
+  console.log(payload);
+
   return (
     <>
       <Section
@@ -110,13 +117,37 @@ const AddDocument = () => {
         <Button variant={"zinc_200"} onClick={handleSubmit}>
           저장하기
         </Button>
-
+        <Box height="200px">
+          <CompanySelect />
+        </Box>
         <FormList list={formList} deleteForm={deleteForm} />
       </Section>
     </>
   );
 };
 export default AddDocument;
+
+const CompanySelect = () => {
+  const [company, handleCompanyChange] = useInput("");
+  const [department, handleDepartmentChange] = useInput("");
+
+  return (
+    <>
+      <Input
+        type="text"
+        name="company"
+        value={company}
+        onChange={handleCompanyChange}
+      />
+      <Input
+        type="text"
+        name="department"
+        value={department}
+        onChange={handleDepartmentChange}
+      />
+    </>
+  );
+};
 
 const FormList = ({
   list,
@@ -168,7 +199,7 @@ const FormItem = ({
               placeholder="tag를 입력해주세요"
             />
             <Input
-              type="title"
+              type="text"
               id="title"
               name="title"
               className="input__title"

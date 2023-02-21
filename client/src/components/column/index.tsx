@@ -18,6 +18,9 @@ import { theme } from "styles";
 import Flex from "_common/components/flex";
 
 export const LocalStorageColumn = ({
+  /**
+   * LocalStorage에 저장하는 todo에서 쓰이는 column 컴포넌트
+   */
   as = "div",
   localStorageKey,
   className,
@@ -93,6 +96,9 @@ export const LocalStorageColumn = ({
 };
 
 export const FirebaseColumn = ({
+  /**
+   * firebase에서 연동하는 Apply Schedule에서 쓰이는 column 컴포넌트
+   */
   as = "div",
   className,
   type,

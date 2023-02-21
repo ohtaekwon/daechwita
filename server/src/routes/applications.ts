@@ -51,6 +51,29 @@ const applicationsRoute = [
       return data;
     },
   },
+  // GET APPLICATION
+  {
+    method: "get",
+    route: "/applications/:id",
+    handler: async (req: express.Request, res: express.Response) => {
+      const {
+        params: { id },
+      } = req;
+      // 토큰에서 uid 가져오기
+      const uid = req.headers.authorization?.split(" ")[1].trim();
+      if (!uid) throw Error("유저 아이디가 없습니다.");
+
+      console.log("--------pass---------", `${uid}-${id}`);
+
+      const applicationsRef = await doc(db, "applications", `${uid}-${id}`);
+      const snapShot = await getDoc(applicationsRef);
+      res.send(snapShot.data());
+      return {
+        id: snapShot.id,
+        ...snapShot.data(),
+      };
+    },
+  },
   // CREATE APPLICATIONS
   {
     method: "post",
@@ -114,8 +137,6 @@ const applicationsRoute = [
       //   uid,
       //   createdAt: serverTimestamp(),
       // };
-      console.log("------pass----------", `${uid}-${id}`);
-      console.log(body);
       const applicationsRef = doc(db, "applications", `${uid}-${id}`);
       if (!applicationsRef) throw Error("상품이 없습니다.");
 

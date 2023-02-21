@@ -4,55 +4,109 @@ import { Props } from "./index.types";
 
 const Button = React.forwardRef(function Button(
   {
+    /**
+     * HTML태그 설정
+     */
+    type = "button",
+    areaLabel = "",
+    /**
+     * Button의 유형 설정
+     */
     variant = "default",
-    backgroundColor = "inherit",
-    fontSize = "md",
-    lineHeight = "md",
-    fontWeight = 400,
-    radius = 8,
-    marginTop = 0,
-    marginRight = 0,
-    marginBottom = 0,
-    marginLeft = 0,
-    paddingX = 16,
-    paddingY = 8,
+    /**
+     * 넓이/높이 설정
+     */
     width = "auto",
+    height = "auto",
+    /**
+     * 배치 설정
+     */
     position = "static",
     zIndex = "auto",
-    areaLabel = "",
     top = "inherit",
     left = "inherit",
     bottom = "inherit",
     right = "inherit",
+    /**
+     * 배경/테두리 스타일 설정
+     */
+    backgroundColor = "inherit",
+    radius = 8,
+    /**
+     * padding 설정
+     */
+    paddingX = 16,
+    paddingY = 8,
+    /**
+     * font 스타일 설정
+     */
+    fontSize = "md",
+    lineHeight = "md",
+    fontWeight = 400,
+    /**
+     * margin 설정
+     */
+    marginTop = 0,
+    marginRight = 0,
+    marginBottom = 0,
+    marginLeft = 0,
+
     children,
-    type = "button",
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLButtonElement>
 ) {
   return (
     <Styled.Button
+      /**
+       * HTML태그 설정
+       */
+      type={type}
+      aria-label={areaLabel}
+      /**
+       * Button의 유형 설정
+       */
       variant={variant}
-      areaLabel={areaLabel}
-      backgroundColor={backgroundColor}
-      radius={radius}
-      marginTop={marginTop}
-      marginRight={marginRight}
-      marginBottom={marginBottom}
-      marginLeft={marginLeft}
-      paddingX={paddingX}
-      paddingY={paddingY}
+      /**
+       * 넓이/높이 설정
+       */
       width={width}
-      fontSize={fontSize}
-      lineHeight={lineHeight}
-      fontWeight={fontWeight}
+      height={height}
+      /**
+       * 배치 설정
+       */
       position={position}
-      zIndex={zIndex}
       top={top}
       bottom={bottom}
       right={right}
       left={left}
-      type={type}
+      zIndex={zIndex}
+      /**
+       * font 스타일 설정
+       */
+      fontSize={fontSize}
+      lineHeight={lineHeight}
+      fontWeight={fontWeight}
+      /**
+       * margin 설정
+       */
+      marginTop={marginTop}
+      marginRight={marginRight}
+      marginBottom={marginBottom}
+      marginLeft={marginLeft}
+      /**
+       * padding 설정
+       */
+      paddingX={paddingX}
+      paddingY={paddingY}
+      /**
+       * 배경/테두리 스타일 설정
+       */
+      backgroundColor={backgroundColor}
+      radius={radius}
+      /**
+       * ref 설정
+       */
       ref={forwardedRef}
       {...rest}
     >

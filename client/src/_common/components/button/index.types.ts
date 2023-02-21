@@ -112,8 +112,13 @@ export interface ButtonProps {
    *
    * @default 'auto'
    */
-  width?: string;
-
+  width?: CSSProperties["width"];
+  /**
+   * Button의 width를 설정합니다.
+   *
+   * @default 'auto'
+   */
+  height?: CSSProperties["height"];
   /**
    *  Button의 position의 타입을 설정합니다.
    *
@@ -127,14 +132,6 @@ export interface ButtonProps {
    * @default static
    */
   zIndex?: CSSProperties["zIndex"];
-
-  /**
-   *  Button의 area-label을 설정합니다.
-   *
-   * @default static
-   */
-  areaLabel?: string | undefined;
-
   /**
    *  Button의 top을 설정합니다.
    *
@@ -164,5 +161,16 @@ export interface ButtonProps {
 export interface Props
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     ButtonProps {
+  /**
+   * Button의 area-label을 설정합니다.
+   *
+   * @default static
+   */
+  areaLabel?: string;
+  /**
+   *  Button의 type을 설정합니다.
+   *
+   * @default static
+   */
   type?: "button" | "submit" | "reset" | undefined;
 }
