@@ -1,6 +1,8 @@
 import { DocumentsType } from "types/index.types";
 
-// 데이터 정제
+/**
+ * GET Documents의 데이터 정제
+ */
 export const getDocumentsList = (rowData: DocumentsType[]) => {
   return rowData.map(
     ({

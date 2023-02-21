@@ -1,6 +1,10 @@
 import { SchedulesType } from "types/index.types";
 
-// 데이터 정제
+/**
+ * GE Schedule의 데이터 정제
+ *
+ * 수정 예정 ✅
+ */
 export const getSchedulesList = (rowData: SchedulesType[] | any) => {
   return rowData.map(
     ({

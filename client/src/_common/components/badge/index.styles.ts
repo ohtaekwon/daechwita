@@ -10,7 +10,7 @@ export const Badge = styled.span<Required<BadgeProps>>`
   height: ${({ height }) => height};
   /**
   * 배치 설정
-   */
+  */
   position: ${({ position }) => position};
   /**
   * padding 설정

@@ -1,5 +1,8 @@
 import axios from "axios";
 
+/**
+ * axios global 설정
+ */
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_BASE_URL;
 axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
 axios.defaults.headers.common["Accept"] = "application/json";

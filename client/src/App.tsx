@@ -1,12 +1,10 @@
 import React from "react";
-import "./lib/apis/utils/global";
+import { useNavigate } from "react-router-dom";
 
 import Router from "routes/Router";
+import "./lib/apis/utils/global";
 import { authService } from "lib/firebase/firebase.config";
-
-import Footer from "components/footer";
 import { getUserFromCookie } from "lib/firebase/userCookies";
-import { useNavigate } from "react-router-dom";
 
 function App() {
   const navigate = useNavigate();
