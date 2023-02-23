@@ -1,6 +1,7 @@
 import { authInstance } from "../utils/instance";
-const BASE_URL = "/applications";
-
+import { requestDelete, requestGet, requestPost } from "../utils/methods";
+import { getUsers, updateUsers } from "./users";
+import { BASE_URL, BASE_URL_APPLICATIONS } from "utils/constants/url";
 /**
  * GET /applications
  *
@@ -13,23 +14,12 @@ const BASE_URL = "/applications";
  * GET /applications
  *
  */
-export const getApplications = async (
-  query: { title?: string; tag?: string } = {}
-) => {
+export const getApplications = async () => {
   try {
-    if (!query) {
-      const response = await authInstance.get(BASE_URL);
-      const { data } = response;
-      return data;
-    } else {
-      const response = await authInstance.get(
-        `${BASE_URL}?title=${query.title}&tag=${query.tag}`
-      );
-      const { data } = response;
-      return data;
-    }
-  } catch (error) {
-    console.error(error);
+    const response = await requestGet(BASE_URL_APPLICATIONS);
+    return response;
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -39,19 +29,23 @@ export const getApplications = async (
  * 추가 버튼 클릭 시, user의 numberOfPublishing에서 +1이 추가되며,
  * 추가된 숫자의 params로 추가 페이지로 이동
  */
+
 export const createApplications = async (payload: any) => {
   try {
-    const { data: user } = await authInstance.get("/users");
-    if (!user) throw Error("유저 정보를 불러올 수 없습니다.");
-    const count = (user[0].numberOfPublishing += 1);
-    const [response, _] = await Promise.all([
-      authInstance.post(BASE_URL, {
-        ...payload,
-        id: `${payload.id}-${count}`,
-      }),
-      authInstance.put(`/users/${user[0].id}`, { numberOfPublishing: count }),
+    const users = await getUsers();
+    if (!users) throw Error("유저 정보를 불러올 수 없습니다.");
+    const user = users[0];
+    const count = (user.numberOfPublishing += 1);
+
+    const newApplication = {
+      ...payload,
+      id: `${payload.id}-${count}`,
+    };
+
+    return await Promise.all([
+      requestPost(BASE_URL_APPLICATIONS, newApplication),
+      updateUsers(user.id, { numberOfPublishing: count }),
     ]);
-    return response;
   } catch (error) {
     console.error(error);
   }
@@ -64,12 +58,16 @@ export const createApplications = async (payload: any) => {
  */
 export const updateApplications = async (id: string, payload: any) => {
   try {
-    const response = await authInstance.put(`${BASE_URL}/${id}`, payload, {
-      // formData를 요청할 경우 헤더에 작성
-      // headers: {
-      //   "Content-Type": "multipart/form-data",
-      // },
-    });
+    const response = await authInstance.put(
+      `${BASE_URL_APPLICATIONS}/${id}`,
+      payload,
+      {
+        // formData를 요청할 경우 헤더에 작성
+        // headers: {
+        //   "Content-Type": "multipart/form-data",
+        // },
+      }
+    );
     return response;
   } catch (error) {
     console.error(error);
@@ -78,7 +76,7 @@ export const updateApplications = async (id: string, payload: any) => {
 
 export const deleteApplications = async (id: string) => {
   try {
-    const response = await authInstance.delete(`${BASE_URL}/${id}`);
+    const response = await requestDelete(`${BASE_URL_APPLICATIONS}/${id}`);
     return response;
   } catch (error) {
     console.error(error);

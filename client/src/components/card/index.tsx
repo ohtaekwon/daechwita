@@ -170,9 +170,9 @@ export const DocumentCard = ({
   title,
   id,
 }: React.PropsWithChildren<DocumentCardProps>) => {
-  const [Ctitle, handleTitleChange] = useInput(title);
-  const [Ctext, handleTextChange] = useInput(text);
-  const [Ctag, handleTagChange] = useInput(tag);
+  const { value: Ctitle, onChange: handleTitleChange } = useInput(title);
+  const { value: Ctext, onChange: handleTextChange } = useInput(text);
+  const { value: Ctag, onChange: handleTagChange } = useInput(tag);
 
   // 모달 state
   const [modalShown, toggleModal] = React.useState(false);

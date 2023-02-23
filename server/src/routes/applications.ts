@@ -63,8 +63,6 @@ const applicationsRoute = [
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      console.log("--------pass---------", `${uid}-${id}`);
-
       const applicationsRef = await doc(db, "applications", `${uid}-${id}`);
       const snapShot = await getDoc(applicationsRef);
       res.send(snapShot.data());
@@ -96,15 +94,7 @@ const applicationsRoute = [
         createdAt: serverTimestamp(),
       };
 
-      // const addApplication = await addDoc(
-      //   collection(db, "applications"),
-      //   newApplications
-      // );
-
-      const addApplication = await setDoc(
-        doc(db, "applications", body.id),
-        newApplications
-      );
+      await setDoc(doc(db, "applications", body.id), newApplications);
 
       // const snapShot = await getDoc(addApplication);
 
@@ -126,26 +116,13 @@ const applicationsRoute = [
 
       // 토큰에서 uid 가져오기
       const uid = req.headers.authorization?.split(" ")[1].trim();
-      // if (!uid) throw Error("유저 아이디가 없습니다.");
+      if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      // const newApplications = {
-      //   apply: {
-      //     company: "네이버",
-      //     department: "프론트엔드",
-      //   },
-      //   documents: body,
-      //   uid,
-      //   createdAt: serverTimestamp(),
-      // };
       const applicationsRef = doc(db, "applications", `${uid}-${id}`);
       if (!applicationsRef) throw Error("상품이 없습니다.");
 
       await updateDoc(applicationsRef, {
         ...body,
-        apply: {
-          company: "네이버",
-          department: "프론트엔드",
-        },
         createdAt: serverTimestamp(),
       });
 

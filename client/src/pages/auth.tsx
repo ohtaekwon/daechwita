@@ -14,8 +14,8 @@ type ErrorWithMessage = {
   message: string;
 };
 const Auth = () => {
-  const [email, handleEmailChange] = useInput("");
-  const [password, handlePasswordChange] = useInput("");
+  const { value: email, onChange: handleEmailChange } = useInput("");
+  const { value: password, onChange: handlePasswordChange } = useInput("");
 
   const [newAccount, setNewAccount] = React.useState(false);
   const [error, setError] = React.useState("");

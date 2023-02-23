@@ -23,7 +23,12 @@ export interface TextareaProps {
    * @default 400
    */
   fontWeight?: CSSProperties["fontWeight"];
-
+  /**
+   * TextArea의 bottom 속성을 설정합니다.
+   *
+   * @default inherit
+   */
+  margin?: CSSProperties["margin"];
   /**
    * TextArea의 margin 상단을 설정합니다.
    *
@@ -116,11 +121,25 @@ export interface TextareaProps {
   height?: CSSProperties["height"];
 
   /**
-   * TextArea의 bottom 속성을 설정합니다.
+   * input의 배경 색상을 설정합니다.
    *
-   * @default inherit
+   * @default 'inherit'
    */
-  margin?: CSSProperties["margin"];
+  backgroundColor?: keyof typeof theme.colors;
+
+  /**
+   * input의 border 색상을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+
+  borderColor?: keyof typeof theme.colors;
+  /**
+   * Box의 radius 설정합니다.
+   *
+   * @default 8
+   */
+  radius?: number;
 }
 export interface Props
   extends Partial<TextareaProps>,

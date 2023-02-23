@@ -1,44 +1,71 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
+import { useParams } from "react-router-dom";
 
-import useInput from "hooks/app/useInput";
+import { updateApplications } from "lib/apis/api/applications";
+import useFetch from "hooks/app/useFetch";
 
 import Section from "components/section";
-
 import Text from "_common/components/text";
 import Form from "_common/components/form";
 import Box from "_common/components/box";
 import Input from "_common/components/input";
 import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
-import form from "_common/components/form";
-import {
-  createApplications,
-  getApplications,
-  updateApplications,
-} from "lib/apis/api/applications";
-import { useParams } from "react-router-dom";
-import useFetch from "hooks/app/useFetch";
+import Grid from "_common/components/grid";
+import { requestGet } from "lib/apis/utils/methods";
+import { useUserFormInput } from "hooks/app/useFormInput";
 
-type FormListType = {
-  [key in string]: FormData[];
+type FormList = {
+  id: string;
+  title: string;
+  text: string;
+  tag: string;
 }[];
 const AddDocument = () => {
   const { id } = useParams();
-  const { payload } = useFetch(`applications/${id}`);
-  const [formList, setFormList] = React.useState<FormListType>([]);
-  const [toggle, setToggle] = React.useState(false);
+  const { payload: data } = useFetch(`applications/${id}`);
+  const [formList, setFormList] = React.useState<FormList>([]);
+  const initalState = {
+    company: "",
+    department: "",
+  };
+  const [companyInfo, setCompanyInfo] = useUserFormInput(initalState);
+
+  React.useEffect(() => {
+    requestGet(`applications/${id}`).then((res) => {
+      setFormList(res.documents);
+    });
+  }, []);
 
   const addForm = React.useCallback(() => {
     console.log("Form을 추가합니다.");
 
     setFormList((allForms: any) => {
-      // const newFormData = {
-      //   [uuid()]: new FormData(),
-      // };
-      return [...allForms, { [uuid()]: new FormData() }];
+      return [
+        ...allForms,
+        {
+          id: uuid(),
+          text: "",
+          title: "",
+          tag: "",
+        },
+      ];
     });
   }, [formList, setFormList]);
+
+  const updateForm = React.useCallback(
+    (id: string, data = {}) => {
+      setFormList((allForms: any) => {
+        const newData = [...allForms];
+        const targetIndex = newData.findIndex((data) => data.id === id);
+        if (targetIndex < 0) throw Error("없습니다.");
+        newData.splice(targetIndex, 1, data);
+        return newData;
+      });
+    },
+    [formList, setFormList]
+  );
 
   const deleteForm = React.useCallback(
     (id: string) => {
@@ -46,9 +73,7 @@ const AddDocument = () => {
 
       setFormList((allForms) => {
         const newData = [...allForms];
-        const targetIndex = newData.findIndex(
-          (data) => Object.keys(data)[0] === id
-        );
+        const targetIndex = newData.findIndex((data) => data.id === id);
         if (targetIndex < 0) throw Error("없습니다.");
         newData.splice(targetIndex, 1);
         return newData;
@@ -57,48 +82,41 @@ const AddDocument = () => {
     [formList, setFormList]
   );
 
-  const handleSubmit = async () => {
-    const list: any = document.getElementsByClassName("form__item");
-    const dataList: any = [];
-
-    for (let i = 0; i < list.length; i++) {
-      let newObj: any = {};
-      for (let j = 0; j < 3; j++) {
-        newObj[list[i][j].name] = list[i][j].value;
-      }
-      dataList.push(newObj);
-    }
-    await updateApplications(id!, { documents: dataList });
-    await setToggle(!toggle);
-
-    // const formDataList = Array.from({ length: list.length }, () => {
-    //   const formData = new FormData();
-    //   return formData;
-    // });
-
-    // for (let i = 0; i < formDataList.length; i++) {
+  const updateDocuments = async () => {
+    // const inputs: any = Array.from(document.querySelectorAll("input"));
+    // const forms: any = document.getElementsByClassName("form__item");
+    // let apply: any = {};
+    // let documents: any = [];
+    // /**
+    //  * company, department 입력
+    //  */
+    // for await (let inputItem of inputs.slice(0, 2)) {
+    //   apply[inputItem.name] = inputItem.value;
+    // }
+    // /**
+    //  * title, text, tag 입력
+    //  */
+    // for (let i = 0; i < forms.length; i++) {
+    //   let newObj: any = {};
     //   for (let j = 0; j < 3; j++) {
-    //     formDataList[i].append(list[i][j].name, list[i][j].value);
+    //     newObj.id = forms[i].id;
+    //     newObj[forms[i][j].name] = forms[i][j].value;
     //   }
+    //   documents.push(newObj);
     // }
-    // await updateApplications(id!, formDataList);
-    // for await (const data of list) {
-    //   for (let i = 0; i < data.length; i++) {
-    //     formData.append(data[i].name, JSON.stringify(data[i].value));
-    //   }
-    // }
-    // console.log(formDataList);
+
+    // console.log("update", apply, documents);
+    await updateApplications(id!, { apply: companyInfo, documents: formList });
   };
 
-  React.useEffect(() => {
-    // setApplications(payload);
-  }, [, toggle]);
-  console.log(payload);
+  const handleSubmit = async () => {
+    await updateApplications(id!, { apply: companyInfo, documents: formList });
+  };
 
   return (
     <>
       <Section
-        width="1280px"
+        width="100%"
         height="100vh"
         margin="auto"
         display="flex"
@@ -111,56 +129,96 @@ const AddDocument = () => {
         <Text fontSize="xxxl" fontWeight={700} textAlign="center">
           자소서 쓰기
         </Text>
-        <Button variant={"zinc_200"} onClick={addForm}>
-          추가하기
-        </Button>
-        <Button variant={"zinc_200"} onClick={handleSubmit}>
-          저장하기
-        </Button>
-        <Box height="200px">
-          <CompanySelect />
+        <Box width="100%" height="50px" display="flex">
+          <Button variant={"zinc_200"} onClick={addForm}>
+            추가하기
+          </Button>
+          <Button variant={"zinc_200"} onClick={handleSubmit}>
+            저장하기
+          </Button>
         </Box>
-        <FormList list={formList} deleteForm={deleteForm} />
+        <Box width="200px" height="50px" display="flex" margin="0">
+          <CompanySelect
+            company={companyInfo.company}
+            department={companyInfo.department}
+            setCompanyInfo={setCompanyInfo}
+          />
+        </Box>
+        <Grid gridTemplateColumns="repeat(2, 1fr)">
+          <FormList
+            list={formList}
+            deleteForm={deleteForm}
+            updateForm={updateForm}
+          />
+        </Grid>
       </Section>
     </>
   );
 };
 export default AddDocument;
 
-const CompanySelect = () => {
-  const [company, handleCompanyChange] = useInput("");
-  const [department, handleDepartmentChange] = useInput("");
-
+const CompanySelect = ({
+  company,
+  department,
+  setCompanyInfo,
+}: {
+  company: string;
+  department: string;
+  setCompanyInfo: any;
+}) => {
   return (
     <>
-      <Input
-        type="text"
-        name="company"
-        value={company}
-        onChange={handleCompanyChange}
-      />
-      <Input
-        type="text"
-        name="department"
-        value={department}
-        onChange={handleDepartmentChange}
-      />
+      <Form className="form__select">
+        <Input
+          type="text"
+          name="company"
+          placeholder="회사를 입력해주세요"
+          className="input__company"
+          // 스타일
+          width="500px"
+          backgroundColor="white"
+          borderColor="vigreen_500"
+          radius={8}
+          value={company}
+          onChange={setCompanyInfo}
+        />
+        <Input
+          type="text"
+          name="department"
+          placeholder="부서를 입력해주세요"
+          className="input__department"
+          // 스타일
+          width="500px"
+          backgroundColor="white"
+          borderColor="vigreen_500"
+          radius={8}
+          value={department}
+          onChange={setCompanyInfo}
+        />
+      </Form>
     </>
   );
 };
 
 const FormList = ({
   list,
+  updateForm,
   deleteForm,
 }: {
   list: any;
+  updateForm: (id: string, data: any) => void;
   deleteForm: (id: string) => void;
 }) => {
   return (
     <>
       {list &&
-        list.map((item: any, i: React.Key) => (
-          <FormItem key={i} item={item} onDelete={deleteForm} />
+        list.map((item: any, key: React.Key) => (
+          <FormItem
+            key={key}
+            item={item}
+            onDelete={deleteForm}
+            onUpdate={updateForm}
+          />
         ))}
     </>
   );
@@ -168,80 +226,114 @@ const FormList = ({
 
 const FormItem = ({
   item,
+  onUpdate,
   onDelete,
 }: {
-  item: any;
+  item: { title: string; text: string; tag: string; id: string };
+  onUpdate: (id: string, data: any) => void;
   onDelete: (id: string) => void;
 }) => {
-  const [tag, handleTagChange] = useInput("");
-  const [title, handleTitleChange] = useInput("");
-  const [text, handleTextChange] = useInput("");
-  const formKey = Object.keys(item)[0];
+  const initalDocumentState = {
+    id: item.id,
+    tag: item.tag,
+    title: item.title,
+    text: item.text,
+  };
+  const [documentInfo, setDocumentInfo] = useUserFormInput(initalDocumentState);
 
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDocumentInfo(e);
+    onUpdate(item.id, {
+      id: item.id,
+      tag: documentInfo.tag,
+      title: documentInfo.title,
+      text: documentInfo.text,
+    });
+  };
+  // 삭제 버튼
   const handleDelete = () => {
-    onDelete(formKey);
+    onDelete(item.id);
   };
 
   return (
     <>
-      <Box width="100%" height="600px" margin="auto">
-        <Form action="" style={{ position: "relative" }} className="form__item">
-          <Box display="flex" direction="column">
+      <Box width="100%" height="100%" margin="auto">
+        <Form
+          id={item.id}
+          action=""
+          className="form__item"
+          style={{ position: "relative" }}
+          height="auto"
+        >
+          <Box display="flex" height="100%" direction="column">
             <Input
               type="text"
               id="tag"
               name="tag"
               className="input__tag"
+              value={documentInfo.tag}
+              onChange={onChange}
+              placeholder="tag를 입력해주세요"
+              // 스타일
               width="100%"
               height="50px"
-              value={tag}
-              onChange={handleTagChange}
-              placeholder="tag를 입력해주세요"
+              backgroundColor="white"
+              borderColor="vigreen_500"
+              radius={8}
             />
             <Input
               type="text"
               id="title"
               name="title"
               className="input__title"
-              value={title}
-              onChange={handleTitleChange}
+              value={documentInfo.title}
+              onChange={onChange}
               placeholder="제목을 입력해주세요"
+              // 스타일
               width="100%"
               height="50px"
-              borderColor="slate_700"
+              backgroundColor="white"
+              borderColor="vigreen_500"
+              radius={8}
             />
             <Textarea
               name="text"
-              width="100%"
               className="input__text"
+              value={documentInfo.text}
+              onChange={onChange}
+              placeholder="본문을 입력해주세요"
+              // 스타일
+              width="100%"
               height={400}
               margin="auto"
+              fontSize="lg"
+              fontWeight={500}
               paddingBottom={10}
               paddingLeft={10}
               paddingRight={10}
               paddingTop={30}
-              fontSize="md"
-              placeholder="본문을 입력해주세요"
-              onChange={handleTextChange}
-              fontWeight={500}
-              value={text}
+              backgroundColor="white"
+              borderColor="vigreen_500"
             >
-              {text}
+              {documentInfo.text}
             </Textarea>
-            {/* <Button type="submit" variant={"zinc_200"}>
-              확인
-            </Button> */}
+            {documentInfo.text.length} 자
+            <Button
+              type="button"
+              variant="skyblue_300_fill"
+              onClick={handleDelete}
+            >
+              삭제하기
+            </Button>
           </Box>
         </Form>
-        <Button
-          type="button"
-          variant="skyblue_300_fill"
-          // position="absolute"
-          onClick={handleDelete}
-        >
-          삭제하기
-        </Button>
       </Box>
     </>
   );
 };
+
+// const { value: tag, onChange: handleTagChange } = useInput(item.tag || "");
+// const { value: title, onChange: handleTitleChange } = useInput(
+//   item.title || ""
+// );
+// const { value: text, onChange: handleTextChange } = useInput(item.text || "");

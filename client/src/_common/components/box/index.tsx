@@ -27,6 +27,10 @@ const Box = React.forwardRef(function Box(
     gridArea = "",
     justifyContent = "flex-start",
     alignItems = "flex-start",
+    top = "inherit",
+    left = "inherit",
+    bottom = "inherit",
+    right = "inherit",
     /**
      * padding 설정
      */
@@ -87,6 +91,10 @@ const Box = React.forwardRef(function Box(
       justifyContent={justifyContent}
       alignItems={alignItems}
       gridArea={gridArea}
+      top={top}
+      bottom={bottom}
+      right={right}
+      left={left}
       /**
        * margin 설정
        */

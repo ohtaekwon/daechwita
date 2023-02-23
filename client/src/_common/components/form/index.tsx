@@ -41,6 +41,7 @@ const Form = React.forwardRef(function Form(
      * 배경/테두리 스타일 설정
      */
     backgroundColor = "inherit",
+    borderColor = "inherit",
     radius = 8,
     opacity = "inherit",
     cursor = "auto",
@@ -96,6 +97,7 @@ const Form = React.forwardRef(function Form(
        * 배경/테두리 스타일 설정
        */
       backgroundColor={backgroundColor}
+      borderColor={borderColor}
       radius={radius}
       /**
        * 기타 옵션 설정

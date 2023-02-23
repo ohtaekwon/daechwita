@@ -1,17 +1,27 @@
 import React from "react";
 import Section from "components/section";
 import Flex from "_common/components/flex";
+import useFetch from "hooks/app/useFetch";
+import { getUsers } from "lib/apis/api/users";
 
 const Home = () => {
+  const [data, setData] = React.useState<any>();
+
   const handleClick = () => {};
 
   const handleSpeech = () => {};
+
+  React.useEffect(() => {
+    getUsers().then((res) => setData(res));
+  }, []);
+  console.log(data);
 
   return (
     <>
       <Section
         as="section"
         width="100vw"
+        height="100vh"
         display="grid"
         gridTemplateColumns="repeat(5, 1fr)"
         paddingBottom={10}

@@ -40,8 +40,10 @@ export const Form = styled.form<Required<FormProps>>`
   */
   background-color: ${({ backgroundColor, theme }) =>
     theme.colors[backgroundColor]};
-  border-style: solid;
+  border-color: ${({ borderColor, theme }) => theme.colors[borderColor]};
   border-radius: ${({ radius }) => `${radius}px`};
+
+  border-style: solid;
   /**
   * 기타 옵션 설정
   */

@@ -38,6 +38,13 @@ const Textarea = React.forwardRef(function Textarea(
     paddingBottom = 0,
     paddingLeft = 0,
     /**
+     * 배경/테두리 스타일 설정
+     */
+    backgroundColor = "inherit",
+    borderColor = "inherit",
+    radius = 8,
+
+    /**
      * 기타 옵션 설정정
      */
     opacity = 1,
@@ -81,6 +88,12 @@ const Textarea = React.forwardRef(function Textarea(
       paddingRight={paddingRight}
       paddingBottom={paddingBottom}
       paddingLeft={paddingLeft}
+      /**
+       * 배경/테두리 스타일 설정
+       */
+      backgroundColor={backgroundColor}
+      borderColor={borderColor}
+      radius={radius}
       /**
        * 기타 옵션 설정정
        */

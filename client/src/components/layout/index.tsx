@@ -64,7 +64,7 @@ export const Layout = React.forwardRef(function Layout(
         <Section
           as="aside"
           className="left__navigation"
-          // height="100vh"
+          height="100vh"
           display="flex"
           direction="column"
           backgroundColor="gray_100"

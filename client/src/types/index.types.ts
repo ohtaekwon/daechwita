@@ -77,7 +77,7 @@ export interface DragItem {
   from: ColumnType;
 }
 
-type ApplyType = {
+type Apply = {
   department: string;
   company: string;
 };
@@ -90,7 +90,7 @@ export interface SchedulesType {
   id: string;
   uid: string;
   column: string;
-  apply: ApplyType;
+  apply: Apply;
   text: string;
   title: string;
   createdAt: CreatedAt;
@@ -99,9 +99,27 @@ export interface SchedulesType {
 export interface DocumentsType {
   id: string;
   uid: string;
-  apply: ApplyType;
+  apply: Apply;
   text: string;
   title: string;
   createdAt: CreatedAt;
   tag: string;
+}
+
+export interface ApplicationType {
+  apply: {
+    department: string;
+    company: string;
+  };
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
+  publishing: boolean;
+  uid: string;
+  documents: {
+    text: string;
+    title: string;
+    tag: string;
+  }[];
 }

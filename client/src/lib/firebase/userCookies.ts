@@ -20,7 +20,7 @@ export const setUserCookie = (user: any) => {
     /**
      * firebase id tokens이 만료가 일치하도록 쿠키만료를 설정
      */
-    expires: 3 / 24, // 3시간 설정
+    expires: 24 / 24, // 24시간 설정
   });
 };
 

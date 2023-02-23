@@ -45,6 +45,13 @@ export interface FormProps {
   backgroundColor?: keyof typeof theme.colors;
 
   /**
+   * form의 border 색상을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+
+  borderColor?: keyof typeof theme.colors;
+  /**
    * form의 display가 grid일 때, grid-area의 타입을 설정합니다.
    *
    * @default static

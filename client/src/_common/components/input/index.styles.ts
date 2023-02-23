@@ -40,8 +40,13 @@ export const Input = styled.input<Required<InputProps>>`
   */
   background-color: ${({ backgroundColor, theme }) =>
     theme.colors[backgroundColor]};
-  border-color: ${({ borderColor }) => borderColor};
+  border-color: ${({ borderColor, theme }) => theme.colors[borderColor]};
   border-radius: ${({ radius }) => `${radius}px`};
+  border-style: solid;
+  border-width: 1px;
+
+  /* border-width: inherit; */
+
   /**
   * 기타 옵션 설정
   */

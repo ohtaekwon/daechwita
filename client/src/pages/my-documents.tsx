@@ -33,11 +33,7 @@ const MyDocuments = () => {
   const navigate = useNavigate();
   const { payload: documentsPayload } = useFetch("documents");
   const { payload: usersPayload } = useFetch("users");
-  const newData = getDocumentsList(documentsPayload as any);
-
-  const [documents, setDocuments] = React.useState(newData);
   const [userData, setUserData] = React.useState<any>([]);
-  const [reFetch, setReFetch] = React.useState(false);
 
   const handleAdd = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -55,7 +51,7 @@ const MyDocuments = () => {
   };
 
   const handleAddClick = async () => {
-    navigate(`/add/${userData?.numberOfPublishing + 1}`);
+    navigate(`/add/${(usersPayload[0] as any).numberOfPublishing + 1}`);
     await createApplications({ id: user?.uid });
   };
 
@@ -103,7 +99,7 @@ const MyDocuments = () => {
         <Button width="100%" variant={"zinc_200"} onClick={handleAddClick}>
           <AiOutlinePlusSquare size={80} />
         </Button>
-        {newData.map(
+        {getDocumentsList(documentsPayload as any).map(
           (
             { id, uid, department, company, tag, text, title }: Document,
             index: number

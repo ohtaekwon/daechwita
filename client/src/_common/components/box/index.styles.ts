@@ -17,6 +17,10 @@ export const Box = styled.span<Required<BoxProps>>`
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
   grid-area: ${({ gridArea }) => gridArea};
+  top: ${({ top }) => top};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+  left: ${({ left }) => left};
   /**
   * padding 설정
   */

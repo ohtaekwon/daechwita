@@ -29,6 +29,18 @@ export const TextArea = styled.textarea<Required<TextareaProps>>`
   margin: ${({ margin, marginTop, marginRight, marginBottom, marginLeft }) =>
     margin ||
     `${marginTop}px ${marginRight}px ${marginBottom}px ${marginLeft}px`};
+
+  /**
+  * 배경/테두리 스타일 설정
+  */
+  background-color: ${({ backgroundColor, theme }) =>
+    theme.colors[backgroundColor]};
+  border-color: ${({ borderColor, theme }) => theme.colors[borderColor]};
+  border-radius: ${({ radius }) => `${radius}px`};
+  border-style: solid;
+  border-width: 1px;
+  /* border-width: inherit; */
+
   /**
   * 기타 옵션 설정정
   */

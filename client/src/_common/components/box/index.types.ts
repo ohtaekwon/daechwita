@@ -133,6 +133,30 @@ export interface BoxProps {
    * @default inherit
    */
   height?: CSSProperties["height"];
+  /**
+   * box의 top을 설정합니다.
+   *
+   * @default inherit
+   */
+  top?: CSSProperties["top"];
+  /**
+   *  Box의 bottom을 설정합니다.
+   *
+   * @default static
+   */
+  bottom?: CSSProperties["bottom"];
+  /**
+   *  Box의 right을 설정합니다.
+   *
+   * @default static
+   */
+  right?: CSSProperties["right"];
+  /**
+   *  Box의 left을 설정합니다.
+   *
+   * @default static
+   */
+  left?: CSSProperties["left"];
 
   /**
    * box의 display 속성을 설정합니다.
