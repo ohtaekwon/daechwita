@@ -15,6 +15,8 @@ import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
 import { requestGet } from "lib/apis/utils/methods";
 import { useUserFormInput } from "hooks/app/useFormInput";
+import { debounceFunction } from "utils/helpers/debounce";
+import useInput from "hooks/app/useInput";
 
 type FormList = {
   id: string;
@@ -22,14 +24,15 @@ type FormList = {
   text: string;
   tag: string;
 }[];
+const initalState = {
+  company: "",
+  department: "",
+};
+
 const AddDocument = () => {
   const { id } = useParams();
   const { payload: data } = useFetch(`applications/${id}`);
   const [formList, setFormList] = React.useState<FormList>([]);
-  const initalState = {
-    company: "",
-    department: "",
-  };
   const [companyInfo, setCompanyInfo] = useUserFormInput(initalState);
 
   React.useEffect(() => {
@@ -40,7 +43,6 @@ const AddDocument = () => {
 
   const addForm = React.useCallback(() => {
     console.log("Form을 추가합니다.");
-
     setFormList((allForms: any) => {
       return [
         ...allForms,
@@ -70,48 +72,32 @@ const AddDocument = () => {
   const deleteForm = React.useCallback(
     (id: string) => {
       console.log(`Form ${id} 을 삭제 중입니다...`);
-
       setFormList((allForms) => {
         const newData = [...allForms];
         const targetIndex = newData.findIndex((data) => data.id === id);
         if (targetIndex < 0) throw Error("없습니다.");
         newData.splice(targetIndex, 1);
+        // setToggle(!toggle);
         return newData;
       });
+      onSave();
     },
     [formList, setFormList]
   );
 
-  const updateDocuments = async () => {
-    // const inputs: any = Array.from(document.querySelectorAll("input"));
-    // const forms: any = document.getElementsByClassName("form__item");
-    // let apply: any = {};
-    // let documents: any = [];
-    // /**
-    //  * company, department 입력
-    //  */
-    // for await (let inputItem of inputs.slice(0, 2)) {
-    //   apply[inputItem.name] = inputItem.value;
-    // }
-    // /**
-    //  * title, text, tag 입력
-    //  */
-    // for (let i = 0; i < forms.length; i++) {
-    //   let newObj: any = {};
-    //   for (let j = 0; j < 3; j++) {
-    //     newObj.id = forms[i].id;
-    //     newObj[forms[i][j].name] = forms[i][j].value;
-    //   }
-    //   documents.push(newObj);
-    // }
-
-    // console.log("update", apply, documents);
-    await updateApplications(id!, { apply: companyInfo, documents: formList });
+  const onSave = async () => {
+    console.log({ companyInfo, formList });
+    await updateApplications(id!, {
+      apply: companyInfo,
+      documents: formList,
+    });
   };
 
-  const handleSubmit = async () => {
-    await updateApplications(id!, { apply: companyInfo, documents: formList });
+  const handleSubmit = () => {
+    onSave();
   };
+
+  // console.log(formList);
 
   return (
     <>
@@ -243,6 +229,14 @@ const FormItem = ({
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDocumentInfo(e);
+    // handleUpdate();
+  };
+  // 삭제 버튼
+  const handleDelete = () => {
+    onDelete(item.id);
+  };
+
+  const handleUpdate = () => {
     onUpdate(item.id, {
       id: item.id,
       tag: documentInfo.tag,
@@ -250,10 +244,10 @@ const FormItem = ({
       text: documentInfo.text,
     });
   };
-  // 삭제 버튼
-  const handleDelete = () => {
-    onDelete(item.id);
-  };
+
+  React.useEffect(() => {
+    handleUpdate();
+  }, [documentInfo]);
 
   return (
     <>
@@ -337,3 +331,30 @@ const FormItem = ({
 //   item.title || ""
 // );
 // const { value: text, onChange: handleTextChange } = useInput(item.text || "");
+
+// const updateDocuments = async () => {
+//   const inputs: any = Array.from(document.querySelectorAll("input"));
+//   const forms: any = document.getElementsByClassName("form__item");
+//   let apply: any = {};
+//   let documents: any = [];
+//   /**
+//    * company, department 입력
+//    */
+//   for await (let inputItem of inputs.slice(0, 2)) {
+//     apply[inputItem.name] = inputItem.value;
+//   }
+//   /**
+//    * title, text, tag 입력
+//    */
+//   for (let i = 0; i < forms.length; i++) {
+//     let newObj: any = {};
+//     for (let j = 0; j < 3; j++) {
+//       newObj.id = forms[i].id;
+//       newObj[forms[i][j].name] = forms[i][j].value;
+//     }
+//     documents.push(newObj);
+//   }
+
+//   console.log("update", apply, documents);
+//   await updateApplications(id!, { apply: companyInfo, documents: formList });
+// };

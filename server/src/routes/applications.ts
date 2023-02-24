@@ -11,6 +11,7 @@ import {
   getDoc,
   getDocs,
   limit,
+  onSnapshot,
   orderBy,
   query,
   serverTimestamp,
@@ -18,6 +19,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import cookieParser from "cookie-parser";
 
 const PAGE_SIZE = 20;
 
@@ -59,13 +61,29 @@ const applicationsRoute = [
       const {
         params: { id },
       } = req;
+
+      // const parsedCookie = JSON.parse(cookie);
+      // console.log("--------pass--------------", req.headers.cookie);
+      const cookie = req.headers.cookie;
+      const refinedCookie = cookie?.split("%22")[3];
+
       // 토큰에서 uid 가져오기
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
       const applicationsRef = await doc(db, "applications", `${uid}-${id}`);
+      const subscribe = await onSnapshot(
+        applicationsRef,
+        { includeMetadataChanges: true },
+        (snapShot) => {
+          // console.log("여기는 snapshot", snapShot.data());
+          snapShot.data();
+        }
+      );
+
       const snapShot = await getDoc(applicationsRef);
       res.send(snapShot.data());
+
       return {
         id: snapShot.id,
         ...snapShot.data(),
@@ -93,11 +111,17 @@ const applicationsRoute = [
         publishing: false,
         createdAt: serverTimestamp(),
       };
+      /**
+       * body.id = uid-count
+       */
 
-      await setDoc(doc(db, "applications", body.id), newApplications);
+      const addApplication: any = await setDoc(
+        doc(db, "applications", body.id),
+        newApplications
+      );
 
-      // const snapShot = await getDoc(addApplication);
-
+      const snapShot = await getDoc(addApplication);
+      res.send(snapShot.data());
       return {
         id: body.id,
         // ...snapShot.data(),
@@ -127,7 +151,8 @@ const applicationsRoute = [
       });
 
       const snapShot = await getDoc(applicationsRef);
-
+      console.log("---------업데이트----------", snapShot.data());
+      res.send(snapShot.data());
       return {
         id: snapShot.id,
         ...snapShot.data(),

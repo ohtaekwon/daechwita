@@ -24,7 +24,7 @@ const authApi = (url: string, options?: any): AxiosInstance => {
   return axios.create({
     baseURL: url,
     headers: {
-      Accept: "application/json",
+      "content-type": "application/json;charset=UTF-8",
       Authorization: `Bearer ${uid}`, // 토큰값으로 uid
     },
     ...options,
@@ -32,4 +32,4 @@ const authApi = (url: string, options?: any): AxiosInstance => {
 };
 
 export const baseInstance = axiosApi(baseUrl!);
-export const authInstance = authApi(baseUrl!);
+export const authInstance = authApi(baseUrl!, { withCredentials: true });

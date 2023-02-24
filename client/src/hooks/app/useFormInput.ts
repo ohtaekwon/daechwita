@@ -9,8 +9,11 @@ const reducer = (state: any, action: any) => {
 
 export const useUserFormInput = (initialState = {}) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(e.target);
-  };
+  const onChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(e.target);
+    },
+    []
+  );
   return [state, onChange];
 };

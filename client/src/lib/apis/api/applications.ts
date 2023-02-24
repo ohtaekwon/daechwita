@@ -1,5 +1,10 @@
 import { authInstance } from "../utils/instance";
-import { requestDelete, requestGet, requestPost } from "../utils/methods";
+import {
+  requestDelete,
+  requestGet,
+  requestPost,
+  requestPut,
+} from "../utils/methods";
 import { getUsers, updateUsers } from "./users";
 import { BASE_URL, BASE_URL_APPLICATIONS } from "utils/constants/url";
 /**
@@ -28,8 +33,9 @@ export const getApplications = async () => {
  *
  * 추가 버튼 클릭 시, user의 numberOfPublishing에서 +1이 추가되며,
  * 추가된 숫자의 params로 추가 페이지로 이동
+ *
+ * @param payload server의 application router로 uid를 보낸다.
  */
-
 export const createApplications = async (payload: any) => {
   try {
     const users = await getUsers();
@@ -43,8 +49,8 @@ export const createApplications = async (payload: any) => {
     };
 
     return await Promise.all([
-      requestPost(BASE_URL_APPLICATIONS, newApplication),
-      updateUsers(user.id, { numberOfPublishing: count }),
+      requestPost(BASE_URL_APPLICATIONS, newApplication), // POST - 빈
+      updateUsers(user.id, { numberOfPublishing: count }), // PUT - users의 publishing +1
     ]);
   } catch (error) {
     console.error(error);
@@ -55,25 +61,17 @@ export const createApplications = async (payload: any) => {
  *
  * 추가 페이지에서 저장하기 버튼을 누르면, update된 정보들을 전송
  *
+ * @param id
+ * @param payload
+ *
  */
 export const updateApplications = async (id: string, payload: any) => {
   try {
-    const response = await authInstance.put(
-      `${BASE_URL_APPLICATIONS}/${id}`,
-      payload,
-      {
-        // formData를 요청할 경우 헤더에 작성
-        // headers: {
-        //   "Content-Type": "multipart/form-data",
-        // },
-      }
-    );
-    return response;
+    return await requestPut(`${BASE_URL_APPLICATIONS}/${id}`, payload);
   } catch (error) {
     console.error(error);
   }
 };
-
 export const deleteApplications = async (id: string) => {
   try {
     const response = await requestDelete(`${BASE_URL_APPLICATIONS}/${id}`);
@@ -82,3 +80,11 @@ export const deleteApplications = async (id: string) => {
     console.error(error);
   }
 };
+
+// {
+// config :
+//   formData를 요청할 경우 헤더에 작성
+//   headers: {
+//     "Content-Type": "multipart/form-data",
+//   },
+// }
