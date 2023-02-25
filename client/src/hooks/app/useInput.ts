@@ -8,13 +8,13 @@ function useInput(initialValue: string) {
     (inputRef as any).current = value; // *added this line, so it updates the ref as state changes.
   }, [value]);
 
-  const handleChange = React.useCallback(
+  const onChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setValue(e.target.value);
     },
     []
   );
 
-  return { value, onChange: handleChange, setValue, inputRef };
+  return { value, onChange, setValue, inputRef };
 }
 export default useInput;

@@ -3,6 +3,8 @@ import { v4 as uuid } from "uuid";
 import { useParams } from "react-router-dom";
 
 import { updateApplications } from "lib/apis/api/applications";
+import { requestGet } from "lib/apis/utils/methods";
+import { useUserFormInput } from "hooks/app/useFormInput";
 import useFetch from "hooks/app/useFetch";
 
 import Section from "components/section";
@@ -13,10 +15,6 @@ import Input from "_common/components/input";
 import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
-import { requestGet } from "lib/apis/utils/methods";
-import { useUserFormInput } from "hooks/app/useFormInput";
-import { debounceFunction } from "utils/helpers/debounce";
-import useInput from "hooks/app/useInput";
 
 type FormList = {
   id: string;
@@ -59,11 +57,11 @@ const AddDocument = () => {
   const updateForm = React.useCallback(
     (id: string, data = {}) => {
       setFormList((allForms: any) => {
-        const newData = [...allForms];
-        const targetIndex = newData.findIndex((data) => data.id === id);
+        const newFormList = [...allForms];
+        const targetIndex = newFormList.findIndex((form) => form.id === id);
         if (targetIndex < 0) throw Error("없습니다.");
-        newData.splice(targetIndex, 1, data);
-        return newData;
+        newFormList.splice(targetIndex, 1, data);
+        return newFormList;
       });
     },
     [formList, setFormList]
@@ -73,31 +71,40 @@ const AddDocument = () => {
     (id: string) => {
       console.log(`Form ${id} 을 삭제 중입니다...`);
       setFormList((allForms) => {
-        const newData = [...allForms];
-        const targetIndex = newData.findIndex((data) => data.id === id);
-        if (targetIndex < 0) throw Error("없습니다.");
-        newData.splice(targetIndex, 1);
-        // setToggle(!toggle);
-        return newData;
+        const newFormList = [...allForms];
+        const filteredData = newFormList.filter((data) => data.id !== id);
+        onSave(filteredData);
+        return filteredData;
       });
-      onSave();
     },
     [formList, setFormList]
   );
 
-  const onSave = async () => {
-    console.log({ companyInfo, formList });
+  const onChangeForm = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>, formId: string) => {
+      setFormList((allForms) => {
+        const newFormList = [...allForms];
+        const targetIndex = newFormList.findIndex((form) => form.id === formId);
+        if (targetIndex < 0) throw Error("없습니다.");
+        newFormList[targetIndex][e.target.name as "title" | "text" | "tag"] =
+          e.target.value;
+        return newFormList;
+      });
+    },
+    [formList, setFormList]
+  );
+
+  const onSave = async (newData: unknown = []) => {
+    console.log({ companyInfo, newData });
     await updateApplications(id!, {
       apply: companyInfo,
-      documents: formList,
+      documents: newData,
     });
   };
 
   const handleSubmit = () => {
-    onSave();
+    onSave(formList);
   };
-
-  // console.log(formList);
 
   return (
     <>
@@ -135,6 +142,7 @@ const AddDocument = () => {
             list={formList}
             deleteForm={deleteForm}
             updateForm={updateForm}
+            onChange={onChangeForm}
           />
         </Grid>
       </Section>
@@ -190,22 +198,25 @@ const FormList = ({
   list,
   updateForm,
   deleteForm,
+  onChange,
 }: {
   list: any;
   updateForm: (id: string, data: any) => void;
   deleteForm: (id: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>, formId: string) => void;
 }) => {
+  console.log("list", list);
   return (
     <>
-      {list &&
-        list.map((item: any, key: React.Key) => (
-          <FormItem
-            key={key}
-            item={item}
-            onDelete={deleteForm}
-            onUpdate={updateForm}
-          />
-        ))}
+      {list.map((item: any, key: React.Key) => (
+        <FormItem
+          key={key}
+          item={item}
+          onDelete={deleteForm}
+          onUpdate={updateForm}
+          onChange={onChange}
+        />
+      ))}
     </>
   );
 };
@@ -214,41 +225,21 @@ const FormItem = ({
   item,
   onUpdate,
   onDelete,
+  onChange,
 }: {
   item: { title: string; text: string; tag: string; id: string };
   onUpdate: (id: string, data: any) => void;
   onDelete: (id: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>, formId: string) => void;
 }) => {
-  const initalDocumentState = {
-    id: item.id,
-    tag: item.tag,
-    title: item.title,
-    text: item.text,
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e, item.id);
   };
-  const [documentInfo, setDocumentInfo] = useUserFormInput(initalDocumentState);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDocumentInfo(e);
-    // handleUpdate();
-  };
   // 삭제 버튼
   const handleDelete = () => {
     onDelete(item.id);
   };
-
-  const handleUpdate = () => {
-    onUpdate(item.id, {
-      id: item.id,
-      tag: documentInfo.tag,
-      title: documentInfo.title,
-      text: documentInfo.text,
-    });
-  };
-
-  React.useEffect(() => {
-    handleUpdate();
-  }, [documentInfo]);
-
   return (
     <>
       <Box width="100%" height="100%" margin="auto">
@@ -265,8 +256,8 @@ const FormItem = ({
               id="tag"
               name="tag"
               className="input__tag"
-              value={documentInfo.tag}
-              onChange={onChange}
+              value={item.tag}
+              onChange={handleChange}
               placeholder="tag를 입력해주세요"
               // 스타일
               width="100%"
@@ -280,8 +271,8 @@ const FormItem = ({
               id="title"
               name="title"
               className="input__title"
-              value={documentInfo.title}
-              onChange={onChange}
+              value={item.title}
+              onChange={handleChange}
               placeholder="제목을 입력해주세요"
               // 스타일
               width="100%"
@@ -293,8 +284,8 @@ const FormItem = ({
             <Textarea
               name="text"
               className="input__text"
-              value={documentInfo.text}
-              onChange={onChange}
+              value={item.text}
+              onChange={handleChange}
               placeholder="본문을 입력해주세요"
               // 스타일
               width="100%"
@@ -309,9 +300,9 @@ const FormItem = ({
               backgroundColor="white"
               borderColor="vigreen_500"
             >
-              {documentInfo.text}
+              {item.text}
             </Textarea>
-            {documentInfo.text.length} 자
+            {item.text.length} 자
             <Button
               type="button"
               variant="skyblue_300_fill"
@@ -358,3 +349,29 @@ const FormItem = ({
 //   console.log("update", apply, documents);
 //   await updateApplications(id!, { apply: companyInfo, documents: formList });
 // };
+
+// const initState = {
+//   id: item.id,
+//   tag: item.tag,
+//   title: item.title,
+//   text: item.text,
+// };
+
+// const [documentInfo, setDocumentInfo] = useUserFormInput(initState);
+// const [temp, setTemp] = React.useState({
+//   name: "",
+//   value: "",
+// });
+
+// const handleUpdate = () => {
+//   onUpdate(item.id, {
+//     id: item.id,
+//     tag: item.tag,
+//     title: item.title,
+//     text: item.text,
+//   });
+// };
+
+// React.useEffect(() => {
+//   // handleChange();
+// }, [item]);
