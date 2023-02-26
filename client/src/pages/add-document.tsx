@@ -15,6 +15,7 @@ import Input from "_common/components/input";
 import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
+import useItems from "hooks/app/useItems";
 
 type FormList = {
   id: string;
@@ -27,85 +28,91 @@ const initalState = {
   department: "",
 };
 
+const initState = {
+  apply: {
+    company: "",
+    department: "",
+  },
+  documents: [
+    {
+      id: "",
+      tag: "",
+      title: "",
+      text: "",
+    },
+  ],
+};
+const reducer = (state: any, action: any) => {
+  console.log("action", action);
+  switch (action.type) {
+    case "documents":
+      return {
+        ...state,
+        [action.type]: action.payload,
+      };
+    case "apply":
+      return {
+        ...state,
+        [action.type]: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+// const [resume, setResume] = useUserFormInput(initState);
+// const [state, dispatch] = React.useReducer(reducer, initState);
+
+// React.useEffect(() => {
+//   requestGet(`applications/${id}`).then((res) => {
+//     dispatch({ type: "apply", payload: res.apply });
+//     dispatch({ type: "documents", payload: res.documents });
+//   });
+// }, []);
+
 const AddDocument = () => {
   const { id } = useParams();
   const { payload: data } = useFetch(`applications/${id}`);
-  const [formList, setFormList] = React.useState<FormList>([]);
+  // const [formList, setFormList] = React.useState<FormList>([]);
   const [companyInfo, setCompanyInfo] = useUserFormInput(initalState);
+
+  const {
+    add: addDocument,
+    update: updateDocument,
+    _delete: deleteDocument,
+    items,
+    setItems,
+  } = useItems("documents", {
+    id: uuid(),
+    text: "",
+    title: "",
+    tag: "",
+  });
 
   React.useEffect(() => {
     requestGet(`applications/${id}`).then((res) => {
-      setFormList(res.documents);
+      setItems({ documents: res.documents });
     });
   }, []);
 
-  const addForm = React.useCallback(() => {
-    console.log("Form을 추가합니다.");
-    setFormList((allForms: any) => {
-      return [
-        ...allForms,
-        {
-          id: uuid(),
-          text: "",
-          title: "",
-          tag: "",
-        },
-      ];
-    });
-  }, [formList, setFormList]);
-
-  const updateForm = React.useCallback(
-    (id: string, data = {}) => {
-      setFormList((allForms: any) => {
-        const newFormList = [...allForms];
-        const targetIndex = newFormList.findIndex((form) => form.id === id);
-        if (targetIndex < 0) throw Error("없습니다.");
-        newFormList.splice(targetIndex, 1, data);
-        return newFormList;
-      });
-    },
-    [formList, setFormList]
-  );
-
-  const deleteForm = React.useCallback(
-    (id: string) => {
-      console.log(`Form ${id} 을 삭제 중입니다...`);
-      setFormList((allForms) => {
-        const newFormList = [...allForms];
-        const filteredData = newFormList.filter((data) => data.id !== id);
-        onSave(filteredData);
-        return filteredData;
-      });
-    },
-    [formList, setFormList]
-  );
-
-  const onChangeForm = React.useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>, formId: string) => {
-      setFormList((allForms) => {
-        const newFormList = [...allForms];
-        const targetIndex = newFormList.findIndex((form) => form.id === formId);
-        if (targetIndex < 0) throw Error("없습니다.");
-        newFormList[targetIndex][e.target.name as "title" | "text" | "tag"] =
-          e.target.value;
-        return newFormList;
-      });
-    },
-    [formList, setFormList]
-  );
+  // React.useEffect(() => {
+  //   requestGet(`applications/${id}`).then((res) => {
+  //     setFormList(res.documents);
+  //   });
+  // }, []);
 
   const onSave = async (newData: unknown = []) => {
     console.log({ companyInfo, newData });
     await updateApplications(id!, {
       apply: companyInfo,
-      documents: newData,
+      newData,
     });
   };
 
   const handleSubmit = () => {
-    onSave(formList);
+    onSave(items);
   };
-
+  console.log("state", items);
   return (
     <>
       <Section
@@ -123,10 +130,10 @@ const AddDocument = () => {
           자소서 쓰기
         </Text>
         <Box width="100%" height="50px" display="flex">
-          <Button variant={"zinc_200"} onClick={addForm}>
+          <Button variant="zinc_200" onClick={addDocument}>
             추가하기
           </Button>
-          <Button variant={"zinc_200"} onClick={handleSubmit}>
+          <Button variant="zinc_200" onClick={handleSubmit}>
             저장하기
           </Button>
         </Box>
@@ -139,12 +146,16 @@ const AddDocument = () => {
         </Box>
         <Grid gridTemplateColumns="repeat(2, 1fr)">
           <FormList
-            list={formList}
-            deleteForm={deleteForm}
-            updateForm={updateForm}
-            onChange={onChangeForm}
+            list={items.documents}
+            deleteForm={deleteDocument}
+            onChange={updateDocument}
           />
         </Grid>
+        {/* <div>
+          {items.documents.map((item) => (
+            <div>{item.tag}</div>
+          ))}
+        </div> */}
       </Section>
     </>
   );
@@ -196,16 +207,13 @@ const CompanySelect = ({
 
 const FormList = ({
   list,
-  updateForm,
   deleteForm,
   onChange,
 }: {
   list: any;
-  updateForm: (id: string, data: any) => void;
   deleteForm: (id: string) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>, formId: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void;
 }) => {
-  console.log("list", list);
   return (
     <>
       {list.map((item: any, key: React.Key) => (
@@ -213,7 +221,6 @@ const FormList = ({
           key={key}
           item={item}
           onDelete={deleteForm}
-          onUpdate={updateForm}
           onChange={onChange}
         />
       ))}
@@ -223,14 +230,12 @@ const FormList = ({
 
 const FormItem = ({
   item,
-  onUpdate,
   onDelete,
   onChange,
 }: {
   item: { title: string; text: string; tag: string; id: string };
-  onUpdate: (id: string, data: any) => void;
   onDelete: (id: string) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>, formId: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void;
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e, item.id);
@@ -245,7 +250,6 @@ const FormItem = ({
       <Box width="100%" height="100%" margin="auto">
         <Form
           id={item.id}
-          action=""
           className="form__item"
           style={{ position: "relative" }}
           height="auto"
@@ -317,11 +321,60 @@ const FormItem = ({
   );
 };
 
-// const { value: tag, onChange: handleTagChange } = useInput(item.tag || "");
-// const { value: title, onChange: handleTitleChange } = useInput(
-//   item.title || ""
+// const addForm = React.useCallback(() => {
+//   console.log("Form을 추가합니다.");
+//   setFormList((allForms: any) => {
+//     return [
+//       ...allForms,
+//       {
+//         id: uuid(),
+//         text: "",
+//         title: "",
+//         tag: "",
+//       },
+//     ];
+//   });
+// }, [formList, setFormList]);
+
+// const updateForm = React.useCallback(
+//   (id: string, data = {}) => {
+//     setFormList((allForms: any) => {
+//       const newFormList = [...allForms];
+//       const targetIndex = newFormList.findIndex((form) => form.id === id);
+//       if (targetIndex < 0) throw Error("없습니다.");
+//       newFormList.splice(targetIndex, 1, data);
+//       return newFormList;
+//     });
+//   },
+//   [formList, setFormList]
 // );
-// const { value: text, onChange: handleTextChange } = useInput(item.text || "");
+
+// const deleteForm = React.useCallback(
+//   (id: string) => {
+//     console.log(`Form ${id} 을 삭제 중입니다...`);
+//     setFormList((allForms) => {
+//       const newFormList = [...allForms];
+//       const filteredData = newFormList.filter((data) => data.id !== id);
+//       onSave(filteredData);
+//       return filteredData;
+//     });
+//   },
+//   [formList, setFormList]
+// );
+
+// const onChangeForm = React.useCallback(
+//   (e: React.ChangeEvent<HTMLInputElement>, formId: string) => {
+//     setFormList((allForms) => {
+//       const newFormList = [...allForms];
+//       const targetIndex = newFormList.findIndex((form) => form.id === formId);
+//       if (targetIndex < 0) throw Error("없습니다.");
+//       newFormList[targetIndex][e.target.name as "title" | "text" | "tag"] =
+//         e.target.value;
+//       return newFormList;
+//     });
+//   },
+//   [formList, setFormList]
+// );
 
 // const updateDocuments = async () => {
 //   const inputs: any = Array.from(document.querySelectorAll("input"));
@@ -358,10 +411,6 @@ const FormItem = ({
 // };
 
 // const [documentInfo, setDocumentInfo] = useUserFormInput(initState);
-// const [temp, setTemp] = React.useState({
-//   name: "",
-//   value: "",
-// });
 
 // const handleUpdate = () => {
 //   onUpdate(item.id, {
