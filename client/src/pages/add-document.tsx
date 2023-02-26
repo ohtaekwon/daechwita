@@ -4,8 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { updateApplications } from "lib/apis/api/applications";
 import { requestGet } from "lib/apis/utils/methods";
-import { useUserFormInput } from "hooks/app/useFormInput";
-import useFetch from "hooks/app/useFetch";
+import { useInputReducer } from "hooks/app/useInputReducer";
 
 import Section from "components/section";
 import Text from "_common/components/text";
@@ -17,72 +16,13 @@ import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
 import useItems from "hooks/app/useItems";
 
-type FormList = {
-  id: string;
-  title: string;
-  text: string;
-  tag: string;
-}[];
-const initalState = {
-  company: "",
-  department: "",
-};
-
-const initState = {
-  apply: {
-    company: "",
-    department: "",
-  },
-  documents: [
-    {
-      id: "",
-      tag: "",
-      title: "",
-      text: "",
-    },
-  ],
-};
-const reducer = (state: any, action: any) => {
-  console.log("action", action);
-  switch (action.type) {
-    case "documents":
-      return {
-        ...state,
-        [action.type]: action.payload,
-      };
-    case "apply":
-      return {
-        ...state,
-        [action.type]: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-// const [resume, setResume] = useUserFormInput(initState);
-// const [state, dispatch] = React.useReducer(reducer, initState);
-
-// React.useEffect(() => {
-//   requestGet(`applications/${id}`).then((res) => {
-//     dispatch({ type: "apply", payload: res.apply });
-//     dispatch({ type: "documents", payload: res.documents });
-//   });
-// }, []);
-
 const AddDocument = () => {
   const { id } = useParams();
-  const { payload: data } = useFetch(`applications/${id}`);
-  // const [formList, setFormList] = React.useState<FormList>([]);
-  const [companyInfo, setCompanyInfo] = useUserFormInput(initalState);
-
-  const {
-    add: addDocument,
-    update: updateDocument,
-    _delete: deleteDocument,
-    items,
-    setItems,
-  } = useItems("documents", {
+  const [applyState, setApplyState] = useInputReducer({
+    company: "",
+    department: "",
+  });
+  const { add, update, _delete, items, setItems } = useItems("documents", {
     id: uuid(),
     text: "",
     title: "",
@@ -91,28 +31,24 @@ const AddDocument = () => {
 
   React.useEffect(() => {
     requestGet(`applications/${id}`).then((res) => {
+      console.log("초기", { documents: res.documents });
       setItems({ documents: res.documents });
     });
   }, []);
 
-  // React.useEffect(() => {
-  //   requestGet(`applications/${id}`).then((res) => {
-  //     setFormList(res.documents);
-  //   });
-  // }, []);
-
-  const onSave = async (newData: unknown = []) => {
-    console.log({ companyInfo, newData });
+  const onSave = async (dataToSave: unknown = {}) => {
+    console.log("저장하기", dataToSave);
     await updateApplications(id!, {
-      apply: companyInfo,
-      newData,
+      apply: applyState,
+      documents: (dataToSave as any)?.documents,
     });
   };
 
   const handleSubmit = () => {
     onSave(items);
   };
-  console.log("state", items);
+
+  console.log("items", items.documents);
   return (
     <>
       <Section
@@ -130,7 +66,7 @@ const AddDocument = () => {
           자소서 쓰기
         </Text>
         <Box width="100%" height="50px" display="flex">
-          <Button variant="zinc_200" onClick={addDocument}>
+          <Button variant="zinc_200" onClick={add}>
             추가하기
           </Button>
           <Button variant="zinc_200" onClick={handleSubmit}>
@@ -139,16 +75,16 @@ const AddDocument = () => {
         </Box>
         <Box width="200px" height="50px" display="flex" margin="0">
           <CompanySelect
-            company={companyInfo.company}
-            department={companyInfo.department}
-            setCompanyInfo={setCompanyInfo}
+            company={applyState.company}
+            department={applyState.department}
+            setCompanyInfo={setApplyState}
           />
         </Box>
         <Grid gridTemplateColumns="repeat(2, 1fr)">
           <FormList
             list={items.documents}
-            deleteForm={deleteDocument}
-            onChange={updateDocument}
+            deleteForm={_delete}
+            onChange={update}
           />
         </Grid>
         {/* <div>
@@ -306,7 +242,7 @@ const FormItem = ({
             >
               {item.text}
             </Textarea>
-            {item.text.length} 자
+            {/* {item.text.length || 0} 자 */}
             <Button
               type="button"
               variant="skyblue_300_fill"

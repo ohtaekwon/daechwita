@@ -106,7 +106,7 @@ const applicationsRoute = [
           company: "",
           department: "",
         },
-        documents: [],
+        documents: [{ id: uuid(), text: "", tag: "", title: "" }],
         uid,
         publishing: false,
         createdAt: serverTimestamp(),

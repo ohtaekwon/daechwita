@@ -1,8 +1,7 @@
-import Column from "example/react-dnd/column";
 import React from "react";
 import { v4 as uuid } from "uuid";
 
-type ItemType = "documents";
+type ColumnType = "documents";
 
 interface ItemList {
   documents: {
@@ -13,22 +12,19 @@ interface ItemList {
   }[];
 }
 
-function useItems(column: ItemType, addItem: any) {
+function useItems(column: ColumnType, addItem: any) {
   const [itemList, setItemList] = React.useState<ItemList>({
-    documents: [
-      {
-        id: "",
-        title: "",
-        text: "",
-        tag: "",
-      },
-    ],
+    documents: [{ id: uuid(), text: "", title: "", tag: "" }],
   });
+  console.log("itemList", itemList);
 
   const add = React.useCallback(() => {
     console.log("item을 추가합니다.");
     setItemList((allItems) => {
+      console.log("allitmes", allItems);
+
       const snapshot = allItems[column];
+      console.log("snpashot", snapshot);
       return {
         [column]: [...snapshot, addItem],
       };
@@ -40,7 +36,6 @@ function useItems(column: ItemType, addItem: any) {
       console.log(`item -  ${id}을 삭제 중입니다...`);
       setItemList((allItems) => {
         const snapshot = allItems[column];
-
         return {
           ...allItems,
           [column]: snapshot.filter((task) => task.id !== id),

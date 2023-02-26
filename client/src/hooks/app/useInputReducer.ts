@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
 
 const reducer = (state: any, action: any) => {
   console.log("state", state, "action", action);
@@ -9,7 +8,7 @@ const reducer = (state: any, action: any) => {
   };
 };
 
-export const useUserFormInput = (initialState = {}) => {
+export const useInputReducer = (initialState = {}) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

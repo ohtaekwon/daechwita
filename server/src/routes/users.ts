@@ -116,7 +116,7 @@ const usersRoute = [
 
       console.log("-------여기 지남-----", id, body);
       const userRef = doc(db, "users", id);
-      if (!userRef) throw Error("상품이 없습니다.");
+      if (!userRef) throw Error("유저 정보가 없습니다.");
       await updateDoc(userRef, {
         ...body,
         createdAt: serverTimestamp(),
