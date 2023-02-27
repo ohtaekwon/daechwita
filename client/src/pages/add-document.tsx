@@ -16,6 +16,13 @@ import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
 import useItems from "hooks/app/useItems";
 
+type FormList = {
+  id: string;
+  text: string;
+  title: string;
+  tag: string;
+}[];
+
 const AddDocument = () => {
   const { id } = useParams();
   const [applyState, setApplyState] = useInputReducer({
@@ -28,13 +35,75 @@ const AddDocument = () => {
     title: "",
     tag: "",
   });
+  // const [formList, setFormList] = React.useState<FormList>([]);
 
-  React.useEffect(() => {
-    requestGet(`applications/${id}`).then((res) => {
-      console.log("초기", { documents: res.documents });
-      setItems({ documents: res.documents });
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   requestGet(`applications/${id}`).then((res) => {
+  //     console.log("초기", { documents: res.documents });
+  //     setItems({ documents: res.documents });
+  //   });
+  // }, []);
+
+  // React.useEffect(() => {
+  //   requestGet(`applications/${id}`).then((res) => {
+  //     setFormList(res.documents);
+  //   });
+  // }, []);
+
+  // const addForm = React.useCallback(() => {
+  //   console.log("Form을 추가합니다.");
+  //   setFormList((allForms) => {
+  //     return [
+  //       ...allForms,
+  //       {
+  //         id: uuid(),
+  //         text: "",
+  //         title: "",
+  //         tag: "",
+  //       },
+  //     ];
+  //   });
+  // }, [formList, setFormList]);
+
+  // const updateForm = React.useCallback(
+  //   (id: string, data = {}) => {
+  //     setFormList((allForms: any) => {
+  //       const newFormList = [...allForms];
+  //       const targetIndex = newFormList.findIndex((form) => form.id === id);
+  //       if (targetIndex < 0) throw Error("없습니다.");
+  //       newFormList.splice(targetIndex, 1, data);
+  //       return newFormList;
+  //     });
+  //   },
+  //   [formList, setFormList]
+  // );
+
+  // const deleteForm = React.useCallback(
+  //   (id: string) => {
+  //     console.log(`Form ${id} 을 삭제 중입니다...`);
+  //     setFormList((allForms) => {
+  //       const newFormList = [...allForms];
+  //       const filteredData = newFormList.filter((data) => data.id !== id);
+  //       onSave(filteredData);
+  //       return filteredData;
+  //     });
+  //   },
+  //   [formList, setFormList]
+  // );
+
+  // const onChangeForm = React.useCallback(
+  //   (e: React.ChangeEvent<HTMLInputElement>, formId: string) => {
+  //     setFormList((allForms) => {
+  //       const newFormList = [...allForms];
+  //       const targetIndex = newFormList.findIndex((form) => form.id === formId);
+  //       if (targetIndex < 0) throw Error("없습니다.");
+  //       newFormList[targetIndex][e.target.name as "title" | "text" | "tag"] =
+  //         e.target.value;
+  //       return newFormList;
+  //     });
+  //   },
+  //   [formList, setFormList]
+  // );
 
   const onSave = async (dataToSave: unknown = {}) => {
     console.log("저장하기", dataToSave);
@@ -48,7 +117,7 @@ const AddDocument = () => {
     onSave(items);
   };
 
-  console.log("items", items.documents);
+  console.log("items", items);
   return (
     <>
       <Section
@@ -66,9 +135,9 @@ const AddDocument = () => {
           자소서 쓰기
         </Text>
         <Box width="100%" height="50px" display="flex">
-          <Button variant="zinc_200" onClick={add}>
+          {/* <Button variant="zinc_200" onClick={add}>
             추가하기
-          </Button>
+          </Button> */}
           <Button variant="zinc_200" onClick={handleSubmit}>
             저장하기
           </Button>
@@ -81,17 +150,12 @@ const AddDocument = () => {
           />
         </Box>
         <Grid gridTemplateColumns="repeat(2, 1fr)">
-          <FormList
+          {/* <FormList
             list={items.documents}
             deleteForm={_delete}
             onChange={update}
-          />
+          /> */}
         </Grid>
-        {/* <div>
-          {items.documents.map((item) => (
-            <div>{item.tag}</div>
-          ))}
-        </div> */}
       </Section>
     </>
   );
@@ -146,13 +210,13 @@ const FormList = ({
   deleteForm,
   onChange,
 }: {
-  list: any;
+  list: { id: string; title: string; text: string; tag: string }[];
   deleteForm: (id: string) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void;
 }) => {
   return (
     <>
-      {list.map((item: any, key: React.Key) => (
+      {list?.map((item: any, key: React.Key) => (
         <FormItem
           key={key}
           item={item}

@@ -19,7 +19,6 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import cookieParser from "cookie-parser";
 
 const PAGE_SIZE = 20;
 
@@ -67,21 +66,24 @@ const applicationsRoute = [
       const cookie = req.headers.cookie;
       const refinedCookie = cookie?.split("%22")[3];
 
+      console.log("-----cookie--------", refinedCookie);
       // 토큰에서 uid 가져오기
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      const applicationsRef = await doc(db, "applications", `${uid}-${id}`);
-      const subscribe = await onSnapshot(
-        applicationsRef,
-        { includeMetadataChanges: true },
-        (snapShot) => {
-          // console.log("여기는 snapshot", snapShot.data());
-          snapShot.data();
-        }
+      const applicationsRef = await doc(
+        db,
+        "applications",
+        `${refinedCookie}-${id}`
       );
 
+      if (!applicationsRef) throw Error("선택한 데이터가 없습니다.");
       const snapShot = await getDoc(applicationsRef);
+      if (snapShot.exists()) {
+        console.log("still exists");
+      } else {
+        console.log("it worked!");
+      }
       res.send(snapShot.data());
 
       return {
@@ -98,9 +100,12 @@ const applicationsRoute = [
       const { body } = req;
 
       // 토큰에서 uid 가져오기
-      const uid = req.headers.authorization?.split(" ")[1].trim();
-      if (!uid) throw Error("유저 아이디가 없습니다.");
+      const cookie = req.headers.cookie;
+      const uid = cookie?.split("%22")[3];
 
+      console.log("-----cookie--------", uid);
+
+      if (!body) throw Error("바디 정보가 없습니다.");
       const newApplications = {
         apply: {
           company: "",
@@ -115,8 +120,9 @@ const applicationsRoute = [
        * body.id = uid-count
        */
 
+      console.log("------------body-id-------", body.id);
       const addApplication: any = await setDoc(
-        doc(db, "applications", body.id),
+        doc(db, "applications", body.id!),
         newApplications
       );
 

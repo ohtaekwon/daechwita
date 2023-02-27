@@ -6,7 +6,8 @@ import { theme } from "styles";
 
 export const Layout = styled.main<Required<LayoutProps>>`
   margin: auto;
-  display: flex;
+  /* display: flex;
+  flex-direction: column; */
   width: ${({ width }) => width};
   background-color: ${({ theme, backgroundColor }) =>
     theme.colors[backgroundColor]};

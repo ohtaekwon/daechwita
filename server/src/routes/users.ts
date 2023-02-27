@@ -116,12 +116,24 @@ const usersRoute = [
 
       console.log("-------여기 지남-----", id, body);
       const userRef = doc(db, "users", id);
+
       if (!userRef) throw Error("유저 정보가 없습니다.");
+      console.log("-------userRef 지남--------");
+
       await updateDoc(userRef, {
         ...body,
         createdAt: serverTimestamp(),
       });
       const snapShot = await getDoc(userRef);
+      console.log("스냅샷", snapShot.data());
+
+      if (snapShot.exists()) {
+        console.log("still exists");
+        console.log(snapShot.data());
+      } else {
+        console.log("it worked!");
+      }
+      res.send(snapShot.data());
 
       return {
         id: snapShot.id,

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import Button from "_common/components/button";
 import Section from "components/section";
+import { css } from "@emotion/css";
 
 type SideMenu = {
   name: string;
@@ -40,17 +41,7 @@ const LeftNav = () => {
       </Button>
     </Link>
   ));
-  return (
-    <Section
-      as="figure"
-      className="leftNav"
-      height="100vh"
-      direction="column"
-      backgroundColor="gray_100"
-    >
-      {leftMenu}
-    </Section>
-  );
+  return <Styled.Wrapper>{leftMenu}</Styled.Wrapper>;
 };
 
 export default LeftNav;

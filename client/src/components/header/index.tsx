@@ -10,6 +10,7 @@ import {
   AiOutlinePlusCircle,
 } from "react-icons/ai";
 import Icons from "_common/components/icons";
+import Box from "_common/components/box";
 
 const Header = () => {
   return (
@@ -18,14 +19,39 @@ const Header = () => {
       alignItems="center"
       justifyContent="space-between"
       backgroundColor="white"
-      style={{ padding: "16px" }}
       className={css`
-        padding: 8px calc((100% - 2000px) / 2);
+        padding: 8px calc((100% - 1480px) / 2);
         border-bottom: 1px solid ${theme.colors.zinc_200};
       `}
     >
-      <img src="" alt="로고 위치" width={98} height={23} />
-      <Flex as="nav">
+      <Box as="nav">
+        <img src="" alt="로고 위치" width={98} height={23} />
+        <Link to="/">
+          <Button
+            variant="default"
+            paddingY={9}
+            paddingX={16}
+            fontSize="md"
+            lineHeight="md"
+            color="zinc_400"
+          >
+            나의 스케쥴 관리
+          </Button>
+        </Link>
+        <Link to="/">
+          <Button
+            variant="default"
+            paddingY={9}
+            paddingX={16}
+            fontSize="md"
+            lineHeight="md"
+            color="zinc_400"
+          >
+            자기소개서
+          </Button>
+        </Link>
+      </Box>
+      <Box as="nav">
         <Link to="/">
           <Button
             variant="default"
@@ -68,7 +94,7 @@ const Header = () => {
             </Icons>
           </Button>
         </Link>
-      </Flex>
+      </Box>
     </Flex>
   );
 };

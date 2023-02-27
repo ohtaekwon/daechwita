@@ -35,21 +35,6 @@ const MyDocuments = () => {
   const { payload: usersPayload } = useFetch("users");
   const [userData, setUserData] = React.useState<any>([]);
 
-  const handleAdd = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    // createDocuments({
-    //   apply: {
-    //     company: "LG",
-    //     department: "프론트 엔드",
-    //   },
-    //   tag: tag,
-    //   text: text,
-    //   title: title,
-    // });
-    // toggleModal(false);
-    // setReFetch(!reFetch);
-  };
-
   const handleAddClick = async () => {
     navigate(`/add/${(usersPayload[0] as any).numberOfPublishing + 1}`);
     await createApplications({ id: user?.uid });

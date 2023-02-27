@@ -17,6 +17,13 @@ const Home = () => {
   }, []);
   console.log(data);
 
+  const handleUser = async () => {
+    const users = await getUsers();
+    return users;
+  };
+  React.useEffect(() => {
+    handleUser().then((res) => console.log(res[0].numberOfPublishing));
+  }, []);
   return (
     <>
       <Section

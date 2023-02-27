@@ -63,10 +63,10 @@ export const Layout = React.forwardRef(function Layout(
       >
         <Section
           as="aside"
-          className="left__navigation"
-          height="100vh"
+          className="sub_nav"
+          width="100%"
           display="flex"
-          direction="column"
+          style={{ justifyContent: "center", alignItems: "center" }}
           backgroundColor="gray_100"
         >
           {leftMenu}
