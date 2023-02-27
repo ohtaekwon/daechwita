@@ -18,16 +18,16 @@ app.use(
     credentials: true,
   })
 );
-// app.use(cookieParser(process.env.COOKIE_SECRET)); // get요청이 오면 uri변수들이 파싱되어 req.cookies객체에 저장된다.
+app.use(cookieParser(process.env.COOKIE_SECRET)); // get요청이 오면 uri변수들이 파싱되어 req.cookies객체에 저장된다.
 app.use(express.urlencoded({ extended: true }));
 app.use(multipart()); //formdata를 파싱해줌
 app.use(bodyParser.json());
 
 const routes = [
   ...usersRoute,
+  ...applicationsRoute,
   ...documentsRoute,
   ...schedulesRoute,
-  ...applicationsRoute,
 ];
 
 routes.forEach(({ method, route, handler }) => {

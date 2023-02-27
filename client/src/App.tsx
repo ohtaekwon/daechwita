@@ -31,6 +31,8 @@ function App() {
 
   React.useEffect(() => {
     const cookie = getUserFromCookie();
+    console.log(cookie);
+
     handleAuthStatus(cookie);
   }, []);
 

@@ -113,32 +113,35 @@ const usersRoute = [
         body,
         params: { id },
       } = req;
+      try {
+        console.log("-------여기 지남-----", id, body);
+        const userRef = doc(db, "users", id);
 
-      console.log("-------여기 지남-----", id, body);
-      const userRef = doc(db, "users", id);
+        if (!userRef) throw Error("유저 정보가 없습니다.");
+        console.log("-------userRef 지남--------");
 
-      if (!userRef) throw Error("유저 정보가 없습니다.");
-      console.log("-------userRef 지남--------");
+        const updatedRef = await updateDoc(userRef, {
+          ...body,
+          createdAt: serverTimestamp(),
+        });
+        console.log("updatedRef", updatedRef);
+        const snapShot = await getDoc(userRef);
+        console.log("스냅샷", snapShot.data());
 
-      await updateDoc(userRef, {
-        ...body,
-        createdAt: serverTimestamp(),
-      });
-      const snapShot = await getDoc(userRef);
-      console.log("스냅샷", snapShot.data());
+        if (snapShot.exists()) {
+          console.log("still exists");
+        } else {
+          console.log("it worked!");
+        }
+        res.send(snapShot.data());
 
-      if (snapShot.exists()) {
-        console.log("still exists");
-        console.log(snapShot.data());
-      } else {
-        console.log("it worked!");
+        return {
+          id: snapShot.id,
+          ...snapShot.data(),
+        };
+      } catch (error) {
+        console.error(error, "nope");
       }
-      res.send(snapShot.data());
-
-      return {
-        id: snapShot.id,
-        ...snapShot.data(),
-      };
     },
   },
 ];
