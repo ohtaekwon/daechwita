@@ -40,10 +40,10 @@ const MyDocuments = () => {
     await createApplications({ id: user?.uid });
   };
 
-  // const handleUser = async () => {
-  //   const { data } = await authInstance.get("/users");
-  //   console.log(data[0].numberOfPublishing);
-  // };
+  const handleUser = async () => {
+    const { data } = await authInstance.get("/users");
+    console.log(data[0]);
+  };
   // // console.log(user?.uid);
 
   // const handleUpdate = async () => {
@@ -51,10 +51,9 @@ const MyDocuments = () => {
   //     numberOfPublishing: 2,
   //   });
   // };
-  // React.useEffect(() => {
-  //   handleUser();
-  // }, []);
-  // console.log(applications);
+  React.useEffect(() => {
+    handleUser();
+  }, []);
 
   React.useEffect(() => {
     setUserData(usersPayload[0]);
