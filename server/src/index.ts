@@ -6,6 +6,7 @@ import documentsRoute from "./routes/documents";
 import usersRoute from "./routes/users";
 import schedulesRoute from "./routes/schedules";
 import applicationsRoute from "./routes/applications";
+import resumesRoute from "./routes/resumes";
 
 export const app = express();
 
@@ -26,6 +27,7 @@ app.use(bodyParser.json());
 const routes = [
   ...usersRoute,
   ...applicationsRoute,
+  ...resumesRoute,
   ...documentsRoute,
   ...schedulesRoute,
 ];

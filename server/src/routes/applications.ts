@@ -71,11 +71,7 @@ const applicationsRoute = [
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      const applicationsRef = await doc(
-        db,
-        "applications",
-        `${refinedCookie}-${id}`
-      );
+      const applicationsRef = await doc(db, "applications", `${uid}-${id}`);
 
       if (!applicationsRef) throw Error("선택한 데이터가 없습니다.");
       const snapShot = await getDoc(applicationsRef);
@@ -84,12 +80,10 @@ const applicationsRoute = [
       } else {
         console.log("it worked!");
       }
-      res.send(snapShot.data());
-
-      return {
+      res.send({
         id: snapShot.id,
         ...snapShot.data(),
-      };
+      });
     },
   },
   // CREATE APPLICATIONS

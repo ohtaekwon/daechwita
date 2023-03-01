@@ -11,6 +11,7 @@ import MyInterview from "pages/my-interview";
 import Profile from "pages/profile";
 import AddDocument from "pages/add-document";
 import { Layout } from "components/layout";
+import WriteResume from "pages/writeResume";
 
 const SignInRouter = () => {
   return (
@@ -29,6 +30,7 @@ const SignInRouter = () => {
           path="/my-dashboard"
           element={<MyDashBoard leftNav={<LeftNav />} />}
         />
+        <Route path="/write-resume" element={<WriteResume />} />
         <Route path="/my-interview" element={<MyInterview />} />
       </Routes>
     </>
