@@ -15,7 +15,12 @@ import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
 import useItems from "hooks/app/useItems";
-import { getResumes } from "lib/apis/api/resumes";
+import {
+  getAllResumes,
+  getLatestResume,
+  getResume,
+  updateResume,
+} from "lib/apis/api/resumes";
 
 type FormList = {
   id: string;
@@ -23,11 +28,43 @@ type FormList = {
   title: string;
   tag: string;
 }[];
-
 const WriteResume = () => {
+  const [resumeId, setResumeId] = React.useState<string>("");
+  const [applyState, setApplyState] = useInputReducer({
+    company: "",
+    department: "",
+  });
+  const { add, update, _delete, items, setItems } = useItems("documents", {
+    id: uuid(),
+    text: "본문을 입력해주세요.",
+    title: "제목을 입력해주세요.",
+    tag: "태그를 입력해주세요.",
+  });
   React.useEffect(() => {
-    getResumes().then((res) => console.log(res));
+    // getAllResumes().then((res) => console.log(res));
+    // getResume("4mBg3x0qmtDO0m3pBhG9").then((res) => console.log(res));
+    // requestGet("resumes?latest=true").then((res) => console.log(res));
+    getLatestResume({ latest: true }).then((res) => {
+      setResumeId(res.data[0].id);
+      setItems({ documents: res.data[0].documents });
+      // console.log("여기용", { documents: res.data[0].documents });
+    });
   }, []);
+
+  const onSave = async (dataToSave: unknown = {}) => {
+    console.log("저장하기", dataToSave);
+    await updateResume(resumeId, {
+      apply: applyState,
+      documents: items.documents,
+    });
+  };
+
+  const handleSubmit = () => {
+    onSave(items);
+  };
+
+  console.log("applyState", applyState);
+  console.log("itmes", items);
   return (
     <>
       <Section
@@ -44,9 +81,28 @@ const WriteResume = () => {
         <Text fontSize="xxxl" fontWeight={700} textAlign="center">
           자소서 쓰기
         </Text>
-        <Box width="100%" height="50px" display="flex"></Box>
-        <Box width="200px" height="50px" display="flex" margin="0"></Box>
-        <Grid gridTemplateColumns="repeat(2, 1fr)"></Grid>
+        <Box width="100%" height="50px" display="flex">
+          <Button variant="zinc_200" onClick={add}>
+            추가하기
+          </Button>
+          <Button variant="zinc_200" onClick={handleSubmit}>
+            저장하기
+          </Button>
+        </Box>
+        <Box width="200px" height="50px" display="flex" margin="0">
+          <CompanySelect
+            company={applyState.company}
+            department={applyState.department}
+            setCompanyInfo={setApplyState}
+          />
+        </Box>
+        <Grid gridTemplateColumns="repeat(2, 1fr)">
+          <FormList
+            list={items.documents}
+            deleteForm={_delete}
+            onChange={update}
+          />
+        </Grid>
       </Section>
     </>
   );
@@ -101,7 +157,7 @@ const FormList = ({
   deleteForm,
   onChange,
 }: {
-  list: { id: string; title: string; text: string; tag: string }[];
+  list: { id: string; title: string; text: string; tag: string }[] | any;
   deleteForm: (id: string) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void;
 }) => {

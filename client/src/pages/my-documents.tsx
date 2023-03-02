@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlinePlusSquare } from "react-icons/ai";
+import { v4 as uuid } from "uuid";
 
 import { getDocuments } from "lib/apis/api/documents";
 import { getDocumentsList } from "lib/apis/service/getDocumentsList";
@@ -14,6 +15,7 @@ import useFetch from "hooks/app/useFetch";
 import { createApplications } from "lib/apis/api/applications";
 import useUser from "lib/firebase/useUser";
 import { authInstance } from "lib/apis/utils/instance";
+import { createResume } from "lib/apis/api/resumes";
 
 type Document = {
   id: string;
@@ -36,8 +38,23 @@ const MyDocuments = () => {
   const [userData, setUserData] = React.useState<any>([]);
 
   const handleAddClick = async () => {
-    navigate(`/add/${(usersPayload[0] as any).numberOfPublishing + 1}`);
-    await createApplications({ id: user?.uid });
+    await createResume({
+      apply: {
+        company: "",
+        department: "",
+      },
+      documents: [
+        {
+          id: uuid(),
+          title: "제목을 입력해주세요.",
+          text: "내용을 입력해주세요.",
+          tag: "태그를 입력해주세요.",
+        },
+      ],
+      publishing: false,
+    });
+    // navigate(`/add/${(usersPayload[0] as any).numberOfPublishing + 1}`);
+    // await createApplications({ id: user?.uid });
   };
 
   const handleUser = async () => {

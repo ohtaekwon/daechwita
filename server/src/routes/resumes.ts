@@ -13,7 +13,7 @@ import {
   limit,
   onSnapshot,
   orderBy,
-  query,
+  query as firebaseQuery,
   serverTimestamp,
   setDoc,
   updateDoc,
@@ -33,6 +33,9 @@ const resumesRoute = [
     route: "/resumes",
     handler: async (req: express.Request, res: express.Response) => {
       try {
+        const {
+          query: { latest },
+        } = req;
         // 쿠키에서 uid 가져오기
         // const cookie = req.headers.cookie;
         // const uid = cookie?.split("%22")[3];
@@ -41,12 +44,18 @@ const resumesRoute = [
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
+        console.log("여기", latest);
         const resumes = await collection(db, "resumes"); // resumes 컬렉션에 접근
         // 쿼리 조건문
-        const queryOptions: any = [orderBy("createdAt", "asc")]; // 가장 최근이 먼저 나오도록
+        const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록
         queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
 
-        const q = query(resumes, ...queryOptions, limit(PAGE_SIZE));
+        if (latest === "true") {
+          queryOptions.unshift(limit(1));
+        } else {
+          queryOptions.unshift(limit(PAGE_SIZE));
+        }
+        const q = firebaseQuery(resumes, ...queryOptions);
         const resumesSnapshot = await getDocs(q);
         const data: DocumentData[] = [];
 
@@ -57,7 +66,7 @@ const resumesRoute = [
             ...d,
           });
         });
-        res.send(data);
+        res.send({ data: data });
       } catch (error) {
         res.status(404).send({ error: error });
       }
@@ -86,9 +95,46 @@ const resumesRoute = [
 
         const resumeSnapshot = await getDoc(resumesRef);
         res.send({
-          id: resumeSnapshot.id,
-          ...resumeSnapshot.data(),
+          data: {
+            id: resumeSnapshot.id,
+            ...resumeSnapshot.data(),
+          },
         });
+      } catch (error) {
+        res.status(404).send({ error: error });
+      }
+    },
+  },
+  {
+    method: "get",
+    route: "/resumes",
+    handler: async (req: express.Request, res: express.Response) => {
+      try {
+        // 쿠키에서 uid 가져오기
+        // const cookie = req.headers.cookie;
+        // const uid = cookie?.split("%22")[3];
+
+        // 토큰에서 uid 가져오기
+        const uid = req.headers.authorization?.split(" ")[1].trim();
+        if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
+
+        const resumes = await collection(db, "resumes"); // resumes 컬렉션에 접근
+        // 쿼리 조건문
+        const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록
+        queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
+
+        const q = firebaseQuery(resumes, ...queryOptions, limit(PAGE_SIZE));
+        const resumesSnapshot = await getDocs(q);
+        const data: DocumentData[] = [];
+
+        resumesSnapshot.forEach((doc) => {
+          const d = doc.data();
+          data.push({
+            id: doc.id,
+            ...d,
+          });
+        });
+        res.send({ data: data });
       } catch (error) {
         res.status(404).send({ error: error });
       }

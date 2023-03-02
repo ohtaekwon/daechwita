@@ -14,9 +14,15 @@ interface ItemList {
 
 function useItems(column: ColumnType, addItem: any) {
   const [itemList, setItemList] = React.useState<ItemList>({
-    documents: [{ id: uuid(), text: "", title: "", tag: "" }],
+    documents: [
+      {
+        id: "",
+        text: "본문을 입력해주세요.",
+        title: "제목을 입력해주세요.",
+        tag: "태그를 입력해주세요.",
+      },
+    ],
   });
-  console.log("itemList", itemList);
 
   const add = React.useCallback(() => {
     console.log("item을 추가합니다.");
