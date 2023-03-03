@@ -11,12 +11,15 @@ export const Layout = styled.main<Required<LayoutProps>>`
   width: ${({ width }) => width};
   background-color: ${({ theme, backgroundColor }) =>
     theme.colors[backgroundColor]};
+  ::-webkit-scrollbar {
+    display: none;
+  }
   ${({ variant, width, backgroundColor }) => {
     switch (variant) {
       case "default": {
         return css`
           width: 100%;
-          height: 100vh;
+          height: 100%;
           background-color: ${theme.colors.white};
         `;
       }

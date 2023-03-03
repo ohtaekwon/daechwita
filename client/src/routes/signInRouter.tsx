@@ -12,6 +12,7 @@ import Profile from "pages/profile";
 import AddDocument from "pages/add-document";
 import { Layout } from "components/layout";
 import WriteResume from "pages/writeResume";
+import Interview from "pages/interview";
 
 const SignInRouter = () => {
   return (
@@ -19,17 +20,17 @@ const SignInRouter = () => {
       <Routes>
         <Route path="/" element={<Layout variant="default" />}>
           <Route path="/" element={<Home />} />
-          <Route path="/todo" element={<MyTodo />} />
           <Route path="/my-schedule" element={<MySchedule />} />
           <Route path="/my-documents" element={<MyDocuments />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
         <Route path="/add/:id" element={<AddDocument />} />
-
+        <Route path="/my-interview" element={<Interview />} />
         <Route
           path="/my-dashboard"
           element={<MyDashBoard leftNav={<LeftNav />} />}
         />
+        <Route path="/todo" element={<MyTodo />} />
         <Route path="/write-resume" element={<WriteResume />} />
         <Route path="/my-interview" element={<MyInterview />} />
       </Routes>

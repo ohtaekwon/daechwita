@@ -28,8 +28,8 @@ const Home = () => {
     <>
       <Section
         as="section"
-        width="100vw"
-        height="100vh"
+        width="100%"
+        height="100%"
         display="grid"
         gridTemplateColumns="repeat(5, 1fr)"
         paddingBottom={10}

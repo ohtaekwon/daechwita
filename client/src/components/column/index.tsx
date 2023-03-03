@@ -81,12 +81,12 @@ export const LocalStorageColumn = ({
           ref={dropRef}
           width="100%"
           height="100%"
+          // height={`calc(100% + 200px)`}
           display="flex"
           direction="column"
           justifyContent="center"
           alignItems="center"
           opacity={isOver ? 0.85 : 1}
-          // backgroundColor="stone_300"
         >
           {ColumnTasks}
         </Box>

@@ -3,7 +3,7 @@ import { ColumnProps } from "./index.types";
 
 export const Wrapper = styled.div<Required<ColumnProps>>`
   width: 100%;
-  height: 100%;
+  /* height: 100; */
   padding: 16px;
 
   display: "flex";

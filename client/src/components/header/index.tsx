@@ -20,13 +20,31 @@ const Header = () => {
       justifyContent="space-between"
       backgroundColor="white"
       className={css`
-        padding: 8px calc((100% - 1480px) / 2);
+        padding: 8px calc((100% - 1680px) / 2);
         border-bottom: 1px solid ${theme.colors.zinc_200};
       `}
     >
-      <Box as="nav">
-        <img src="" alt="로고 위치" width={98} height={23} />
+      <Box
+        as="nav"
+        height="100%"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Link to="/">
+          <img
+            src="https://image.spreadshirtmedia.com/image-server/v1/compositions/T347A1PA4306PT17X1Y99D1030459599W24998H5557/views/1,width=500,height=500,noPt=true/plain-daechwita-text-womens-t-shirt.jpg"
+            alt="로고 위치"
+            width={98}
+            height={23}
+            style={{
+              objectFit: "cover",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          />
+        </Link>
+        <Link to="/todo">
           <Button
             variant="default"
             paddingY={9}
@@ -35,7 +53,7 @@ const Header = () => {
             lineHeight="md"
             color="zinc_400"
           >
-            나의 스케쥴 관리
+            오늘의 할일
           </Button>
         </Link>
         <Link to="/">
@@ -47,7 +65,19 @@ const Header = () => {
             lineHeight="md"
             color="zinc_400"
           >
-            자기소개서
+            자소서
+          </Button>
+        </Link>
+        <Link to="/my-interview">
+          <Button
+            variant="default"
+            paddingY={9}
+            paddingX={16}
+            fontSize="md"
+            lineHeight="md"
+            color="zinc_400"
+          >
+            면접
           </Button>
         </Link>
       </Box>
@@ -66,7 +96,7 @@ const Header = () => {
             </Icons>
           </Button>
         </Link>
-        <Link to="/my-documents">
+        {/* <Link to="/my-documents">
           <Button
             variant="default"
             paddingY={9}
@@ -79,7 +109,7 @@ const Header = () => {
               <AiOutlinePlusCircle size={20} title="자소서 쓰기" />
             </Icons>
           </Button>
-        </Link>
+        </Link> */}
         <Link to="/profile">
           <Button
             variant="default"

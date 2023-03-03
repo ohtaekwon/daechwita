@@ -7,7 +7,15 @@ import type {
 } from "react";
 import { theme } from "styles";
 
+type InputVariant = "search_1" | "default";
+
 export interface InputProps {
+  /**
+   * input의 variant을 설정합니다.
+   *
+   * @required
+   */
+  variant?: InputVariant;
   /**
    * input의 position의 타입을 설정합니다.
    *

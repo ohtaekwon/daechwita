@@ -123,3 +123,20 @@ export interface ApplicationType {
     tag: string;
   }[];
 }
+
+export type Resume = {
+  apply: {
+    company: string;
+    department: string;
+  };
+  documents: {
+    id: string;
+    tag: string;
+    text: string;
+    title: string;
+  }[];
+  id: string;
+  publishing: boolean;
+  uid: string;
+  updatedAt: unknown;
+};

@@ -48,6 +48,12 @@ export interface BoxProps {
    * @default 'inherit'
    */
   backgroundColor?: keyof typeof theme.colors;
+  /**
+   * Box의 배경 색상을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  backgroundImage?: CSSProperties["backgroundImage"];
 
   /**
    * Box의 display가 grid일 때, grid-area의 타입을 설정합니다.

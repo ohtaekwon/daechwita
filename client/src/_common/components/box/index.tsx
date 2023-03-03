@@ -51,6 +51,7 @@ const Box = React.forwardRef(function Box(
      * 배경/테두리 스타일 설정
      */
     backgroundColor = "inherit",
+    backgroundImage = "inherit",
     radius = 8,
     /**
      * 간격 설정
@@ -115,6 +116,7 @@ const Box = React.forwardRef(function Box(
        * 배경/테두리 스타일 설정
        */
       backgroundColor={backgroundColor}
+      backgroundImage={backgroundImage}
       radius={radius}
       /**
        * 간격 설정

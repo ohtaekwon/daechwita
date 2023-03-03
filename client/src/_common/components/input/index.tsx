@@ -12,6 +12,10 @@ const Input = React.forwardRef(function Input(
     value,
     role = "",
     /**
+     * input의 유형 설정
+     */
+    variant = "default",
+    /**
      * 넓이/높이 설정
      */
     width = "inherit",
@@ -66,6 +70,10 @@ const Input = React.forwardRef(function Input(
       role={role}
       name={name}
       value={value}
+      /**
+       * input의 유형 설정
+       */
+      variant={variant}
       /**
        * 넓이/높이 설정
        */

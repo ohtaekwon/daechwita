@@ -45,6 +45,7 @@ const Section = React.forwardRef(function Section(
      * 배경/테두리 스타일 설정
      */
     backgroundColor = "inherit",
+    backgroundImage = "inherit",
     pageTitle,
     children,
     ...rest
@@ -95,6 +96,7 @@ const Section = React.forwardRef(function Section(
          * 배경/테두리 스타일 설정
          */
         backgroundColor={backgroundColor}
+        backgroundImage={backgroundImage}
         ref={forwardedRef}
         {...rest}
       >

@@ -45,6 +45,8 @@ export const Input = styled.input<Required<InputProps>>`
   border-style: solid;
   border-width: 1px;
 
+  padding-inline-start: 1rem;
+
   /* border-width: inherit; */
 
   /**
@@ -52,4 +54,39 @@ export const Input = styled.input<Required<InputProps>>`
   */
   cursor: ${({ cursor }) => cursor};
   opacity: ${({ opacity }) => opacity};
+
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box; /* Firefox, other Gecko */
+  box-sizing: border-box; /* Opera/IE 8+ */
+  ${({ variant, theme }) => {
+    switch (variant) {
+      case "search_1": {
+        return css`
+          border: 0;
+          background-color: ${theme.colors.white};
+          color: ${theme.colors.white};
+          font-size: 2rem;
+          transition: background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.zinc_500};
+            background-color: ${theme.colors.zinc_200};
+            color: ${theme.colors.black};
+          }
+        `;
+      }
+      default: {
+        return css`
+          border-color: ${theme.colors.transparent};
+          background-color: ${theme.colors.transparent};
+          color: ${theme.colors.blackText_1_fill};
+          transition: border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.transparent};
+            color: ${theme.colors.blackText_1_fill};
+          }
+        `;
+      }
+    }
+  }}
 `;

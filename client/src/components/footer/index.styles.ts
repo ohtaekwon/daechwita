@@ -3,13 +3,13 @@ import styled from "@emotion/styled";
 export const Wrapper = styled.footer`
   /* position: absolute; */
   width: 100%;
-  height: 200px;
+  height: 100%;
   left: 0;
   bottom: 0;
   align-items: center;
   justify-content: space-between;
   background-color: blueviolet;
-  color: #fff;
+  color: #000;
 `;
 
 export const Left = styled.div`

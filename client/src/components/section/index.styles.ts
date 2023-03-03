@@ -46,7 +46,7 @@ export const Section = styled.section<Required<SectionProps>>`
   */
   background-color: ${({ theme, backgroundColor }) =>
     theme?.colors[backgroundColor]};
-
+  background-image: ${({ backgroundImage }) => backgroundImage};
   gap: 1rem;
   overflow: auto;
   ::-webkit-scrollbar {

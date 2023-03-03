@@ -15,7 +15,6 @@ type SideMenu = {
 
 const sideNavMenu: SideMenu[] = [
   { name: "To-do", key: "todo", route: "/todo" },
-  { name: "나의 일정", key: "my-schedule", route: "/my-schedule" },
   { name: "자기소개서", key: "my-documents", route: "/my-documents" },
   { name: "대쉬보드", key: "my-dashboard", route: "/my-dashboard" },
   { name: "면접 연습하기", key: "my-interview", route: "/my-interview" },

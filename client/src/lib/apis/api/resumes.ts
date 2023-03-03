@@ -8,6 +8,7 @@ import {
 import { getUsers, updateUsers } from "./users";
 import { BASE_URL_RESUMES } from "utils/constants/url";
 import { handleError } from "../utils/helpers";
+import { Resume } from "types/index.types";
 
 export const basePath = "/resumes";
 
@@ -82,10 +83,10 @@ export const getAllResumes = async () => {
 export const createResume = async (payload: unknown = {}) => {
   try {
     console.info("자기소개서를 작성성 중 입니다...");
-    const { data } = await requestPost(basePath, payload);
-    console.info(`임시 자기소개서 ${(data as any)?.id!}가 반환되었습니다!`);
+    const { data }: { data: Resume } = await requestPost(basePath, payload);
+    console.info(`임시 자기소개서 ${data?.id!}가 반환되었습니다!`);
 
-    return data;
+    return data as Resume;
   } catch (error) {
     console.error(`자기소개서를 작성하던 중 에러가 발생하였습니다!`);
     const { code, message } = handleError(error);

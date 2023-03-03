@@ -1,10 +1,8 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { useParams } from "react-router-dom";
 
-import { updateApplications } from "lib/apis/api/applications";
-import { requestGet } from "lib/apis/utils/methods";
 import { useInputReducer } from "hooks/app/useInputReducer";
+import useItems from "hooks/app/useItems";
 
 import Section from "components/section";
 import Text from "_common/components/text";
@@ -14,21 +12,10 @@ import Input from "_common/components/input";
 import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
-import useItems from "hooks/app/useItems";
-import {
-  getAllResumes,
-  getLatestResume,
-  getResume,
-  updateResume,
-} from "lib/apis/api/resumes";
+import { getLatestResume, updateResume } from "lib/apis/api/resumes";
 
-type FormList = {
-  id: string;
-  text: string;
-  title: string;
-  tag: string;
-}[];
 const WriteResume = () => {
+  const [count, setCount] = React.useState<number>(1);
   const [resumeId, setResumeId] = React.useState<string>("");
   const [applyState, setApplyState] = useInputReducer({
     company: "",
@@ -41,30 +28,42 @@ const WriteResume = () => {
     tag: "태그를 입력해주세요.",
   });
   React.useEffect(() => {
-    // getAllResumes().then((res) => console.log(res));
-    // getResume("4mBg3x0qmtDO0m3pBhG9").then((res) => console.log(res));
-    // requestGet("resumes?latest=true").then((res) => console.log(res));
     getLatestResume({ latest: true }).then((res) => {
       setResumeId(res.data[0].id);
       setItems({ documents: res.data[0].documents });
-      // console.log("여기용", { documents: res.data[0].documents });
     });
   }, []);
 
-  const onSave = async (dataToSave: unknown = {}) => {
-    console.log("저장하기", dataToSave);
+  const onSave = async () => {
+    /**
+     * 임시 저장
+     */
     await updateResume(resumeId, {
+      /**
+       * 확인하여 Publishing
+       */
       apply: applyState,
       documents: items.documents,
     });
   };
-
-  const handleSubmit = () => {
-    onSave(items);
+  const onPublish = async () => {
+    await updateResume(resumeId, {
+      publishing: true,
+    });
   };
 
-  console.log("applyState", applyState);
-  console.log("itmes", items);
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    const { ariaLabel } = e.currentTarget;
+    if (ariaLabel === "save") {
+      onSave();
+    } else if (ariaLabel === "publish") {
+      onPublish();
+    }
+  };
+
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCount(e.target.value as any);
+  };
   return (
     <>
       <Section
@@ -83,11 +82,20 @@ const WriteResume = () => {
         </Text>
         <Box width="100%" height="50px" display="flex">
           <Button variant="zinc_200" onClick={add}>
-            추가하기
+            추가 하기
           </Button>
-          <Button variant="zinc_200" onClick={handleSubmit}>
-            저장하기
+          <Button variant="zinc_200" areaLabel="save" onClick={handleSubmit}>
+            저장 하기
           </Button>
+          <Button variant="zinc_200" areaLabel="publish" onClick={handleSubmit}>
+            확인
+          </Button>
+          <select name="count" id="count-documents" onChange={handleSelect}>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
         </Box>
         <Box width="200px" height="50px" display="flex" margin="0">
           <CompanySelect
@@ -96,7 +104,7 @@ const WriteResume = () => {
             setCompanyInfo={setApplyState}
           />
         </Box>
-        <Grid gridTemplateColumns="repeat(2, 1fr)">
+        <Grid gridTemplateColumns={`repeat(${count}, 1fr)`}>
           <FormList
             list={items.documents}
             deleteForm={_delete}
@@ -253,7 +261,7 @@ const FormItem = ({
             >
               {item.text}
             </Textarea>
-            {/* {item.text.length || 0} 자 */}
+            {item.text.length + item.title.length || 0} 자
             <Button
               type="button"
               variant="skyblue_300_fill"

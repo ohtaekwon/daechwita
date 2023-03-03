@@ -142,6 +142,12 @@ export interface SectionProps {
    * @default 'inherit'
    */
   backgroundColor?: keyof typeof theme.colors;
+  /**
+   * Section 의 배경 색상을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  backgroundImage?: CSSProperties["backgroundImage"];
 }
 
 export interface Props extends HTMLAttributes<HTMLElement>, SectionProps {
