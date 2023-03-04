@@ -56,7 +56,7 @@ const Header = () => {
             오늘의 할일
           </Button>
         </Link>
-        <Link to="/">
+        <Link to="/my-documents">
           <Button
             variant="default"
             paddingY={9}

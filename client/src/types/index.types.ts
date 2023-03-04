@@ -124,6 +124,10 @@ export interface ApplicationType {
   }[];
 }
 
+/**
+ * RESUMES의 타입을 설정합니다.
+ */
+
 export type Resume = {
   apply: {
     company: string;
@@ -140,3 +144,28 @@ export type Resume = {
   uid: string;
   updatedAt: unknown;
 };
+
+type TimeType = {
+  seconds: number;
+  nanoseconds: number;
+};
+
+export interface ResumesType {
+  id: string;
+  uid: string;
+  createdAt: TimeType;
+  publishing: boolean;
+  apply: {
+    company: string;
+    department: string;
+  };
+  documents: {
+    id: string;
+    tag: string;
+    text: string;
+    title: string;
+  }[];
+  updatedAt: null | TimeType;
+}
+
+export interface ResumesResponse<T> extends ResumesType {}

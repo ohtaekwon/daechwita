@@ -4,19 +4,49 @@ import { AiOutlinePlusSquare } from "react-icons/ai";
 import { v4 as uuid } from "uuid";
 
 import useUser from "lib/firebase/useUser";
-import { createResume } from "lib/apis/api/resumes";
+import { createResume, getAllResumes } from "lib/apis/api/resumes";
 import useFetch from "hooks/app/useFetch";
 
 import Section from "components/section";
-import { DocumentCard as Card } from "components/card";
+import { ResumeCard as Card } from "components/card";
 import Text from "_common/components/text";
 import Button from "_common/components/button";
+import { getResumesService } from "lib/apis/service/getResumes";
+
+type TimeType = {
+  seconds: number;
+  nanoseconds: number;
+};
+
+interface ResumesResponse {
+  id: string;
+  createdAt: TimeType;
+  uid: string;
+  updatedAt: null | TimeType;
+  resumes: {
+    apply: {
+      company: string;
+      department: string;
+    };
+    documents: {
+      id: string;
+      tag: string;
+      text: string;
+      title: string;
+    }[];
+  };
+  tag: (string | undefined)[];
+}
 
 const MyDocuments = () => {
   const navigate = useNavigate();
+  const [resumes, setResumes] = React.useState<ResumesResponse[]>([]);
 
-  // const { payload: documentsPayload } = useFetch("documents");
-  // const { payload: usersPayload } = useFetch("users");
+  React.useEffect(() => {
+    getAllResumes()
+      .then(getResumesService)
+      .then((res) => setResumes(res));
+  }, []);
 
   const handleAddClick = async () => {
     await createResume({
@@ -37,6 +67,7 @@ const MyDocuments = () => {
     await navigate("/write-resume");
   };
 
+  console.log("resumes", resumes);
   return (
     <>
       <Section
@@ -62,23 +93,26 @@ const MyDocuments = () => {
         <Button width="100%" variant={"zinc_200"} onClick={handleAddClick}>
           <AiOutlinePlusSquare size={80} />
         </Button>
-        {/* {getDocumentsList(documentsPayload as any).map(
-          (
-            { id, uid, department, company, tag, text, title }: Document,
-            index: number
-          ) => (
+        {resumes.map(
+          ({
+            id,
+            createdAt,
+            updatedAt,
+            uid,
+            resumes,
+            tag,
+          }: ResumesResponse) => (
             <Card
               key={id}
-              index={index}
               id={id}
-              department={department}
-              company={company}
+              uid={uid}
+              createdAt={createdAt}
+              updatedAt={updatedAt}
+              resumes={resumes}
               tag={tag}
-              text={text}
-              title={title}
             />
           )
-        )} */}
+        )}
       </Section>
     </>
   );

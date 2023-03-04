@@ -50,23 +50,33 @@ export interface ScheduleCardProps
   children?: React.ReactNode;
 }
 
-export interface DocumentCardProps
+type TimeType = {
+  seconds: number;
+  nanoseconds: number;
+};
+
+export interface ResumeCardProps
   extends HTMLAttributes<HTMLDivElement>,
     CardProps {
   /**
-   * Card Item의 인덱스의 타입을 설정합니다.
+   * Card Item의 내부 컨텐츠의 모델의 타입을 설정합니다.
    */
-  index: number;
-  /**
-   * Card Item의 내부 컨텐츠의 모델을 설정합니다.
-   */
-  department: string;
-  company: string;
-  tag: string;
-  text: string;
-  title: string;
   id: string;
-  // onClick: any;
-  // task: SchedulesType;
+  createdAt: TimeType;
+  uid: string;
+  updatedAt: null | TimeType;
+  resumes: {
+    apply: {
+      company: string;
+      department: string;
+    };
+    documents: {
+      id: string;
+      tag: string;
+      text: string;
+      title: string;
+    }[];
+  };
+  tag: (string | undefined)[];
   children?: React.ReactNode;
 }

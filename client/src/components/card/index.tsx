@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  DocumentCardProps,
+  ResumeCardProps,
   ScheduleCardProps,
   TodoCardProps,
 } from "./index.types";
@@ -161,18 +161,17 @@ export const ScheduleCard = ({
   );
 };
 
-export const DocumentCard = ({
-  index,
-  department,
-  company,
-  tag,
-  text,
-  title,
+export const ResumeCard = ({
   id,
-}: React.PropsWithChildren<DocumentCardProps>) => {
-  const { value: Ctitle, onChange: handleTitleChange } = useInput(title);
-  const { value: Ctext, onChange: handleTextChange } = useInput(text);
-  const { value: Ctag, onChange: handleTagChange } = useInput(tag);
+  uid,
+  createdAt,
+  updatedAt,
+  resumes,
+  tag,
+}: React.PropsWithChildren<ResumeCardProps>) => {
+  // const { value: Ctitle, onChange: handleTitleChange } = useInput(title);
+  // const { value: Ctext, onChange: handleTextChange } = useInput(text);
+  // const { value: Ctag, onChange: handleTagChange } = useInput(tag);
 
   // 모달 state
   const [modalShown, toggleModal] = React.useState(false);
@@ -190,7 +189,7 @@ export const DocumentCard = ({
     await deleteDocuments(id);
   };
 
-  // console.log(modalShown);
+  console.log(tag);
   return (
     <>
       <Box
@@ -207,9 +206,12 @@ export const DocumentCard = ({
         gap={10}
       >
         <Flex direction="column">
-          <Text>{title}</Text>
+          {/* <Text>{title}</Text>
           <Text>{tag}</Text>
-          <Text>{company}</Text>
+          <Text>{company}</Text> */}
+          {tag.map((item, index) =>
+            item !== undefined ? <Text key={index}>{item}</Text> : null
+          )}
         </Flex>
         <button onClick={showModal}>수정하기</button>
         <button onClick={handleDelete}>삭제하기</button>
@@ -218,7 +220,7 @@ export const DocumentCard = ({
       <Modal elementId="modal" show={modalShown} cancel={cancel}>
         <Form width={"100%"} height={"100%"}>
           <Box variant={"default"} display="flex" direction="column">
-            <Input
+            {/* <Input
               type="text"
               id="title"
               name="title"
@@ -247,7 +249,7 @@ export const DocumentCard = ({
               onChange={handleTagChange}
               width="100%"
               placeholder="tag를 입력해주세요"
-            />
+            /> */}
           </Box>
         </Form>
       </Modal>

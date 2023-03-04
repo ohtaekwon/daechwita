@@ -8,7 +8,8 @@ import {
 import { getUsers, updateUsers } from "./users";
 import { BASE_URL_RESUMES } from "utils/constants/url";
 import { handleError } from "../utils/helpers";
-import { Resume } from "types/index.types";
+import { Resume, ResumesType } from "types/index.types";
+import { AxiosResponse } from "axios";
 
 export const basePath = "/resumes";
 
@@ -67,7 +68,7 @@ export const getAllResumes = async () => {
     console.info(`자기소개서 전부를 가져오는 중 입니다...`);
     const { data } = await requestGet(basePath);
     console.info(`자기소개서가 성공적으로 반환되었습니다!`);
-    return { data };
+    return { data } as any;
   } catch (error) {
     console.error(`자기소개서를 가져오는 도중 에러가 발생하였습니다!`);
     const { code, message } = handleError(error);
