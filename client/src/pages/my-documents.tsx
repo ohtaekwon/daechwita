@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 import { v4 as uuid } from "uuid";
 
-import useUser from "lib/firebase/useUser";
 import { createResume, getAllResumes } from "lib/apis/api/resumes";
-import useFetch from "hooks/app/useFetch";
 
 import Section from "components/section";
 import { ResumeCard as Card } from "components/card";
@@ -67,12 +65,11 @@ const MyDocuments = () => {
     await navigate("/write-resume");
   };
 
-  console.log("resumes", resumes);
   return (
     <>
       <Section
         as="section"
-        width="100vw"
+        width="100%"
         display="grid"
         gridTemplateColumns="repeat(4, 1fr)"
         gridTemplateAreas={`'heading heading heading heading ' '. .  . .'`}
