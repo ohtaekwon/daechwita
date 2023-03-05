@@ -50,6 +50,8 @@ export const Layout = React.forwardRef(function Layout(
       </Button>
     </Link>
   ));
+
+  console.log("test");
   return (
     <>
       <Styled.Layout
