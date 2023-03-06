@@ -199,11 +199,11 @@ export const ResumeCard = ({
         position="relative"
         display="flex"
         width="100%"
-        height="250px"
+        height="376px"
         marginTop={20}
         marginBottom={20}
         cursor="grab"
-        gap={10}
+        gap={20}
       >
         <Flex direction="column">
           {/* <Text>{title}</Text>

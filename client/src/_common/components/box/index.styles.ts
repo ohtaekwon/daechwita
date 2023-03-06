@@ -43,7 +43,7 @@ export const Box = styled.span<Required<BoxProps>>`
   * 배경/테두리 스타일 설정
   */
   background-color: ${({ backgroundColor, theme }) =>
-    theme.colors[backgroundColor]};
+    `${theme.colors[backgroundColor]}!important`};
   background-image: ${({ backgroundImage }) => backgroundImage};
   border-radius: ${({ radius }) => `${radius}px`};
   /**

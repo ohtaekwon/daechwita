@@ -62,7 +62,7 @@ const MyDocuments = () => {
       ],
       publishing: false,
     });
-    await navigate("/write-resume");
+    await navigate("/write/resume");
   };
 
   return (
@@ -71,8 +71,8 @@ const MyDocuments = () => {
         as="section"
         width="100%"
         display="grid"
-        gridTemplateColumns="repeat(4, 1fr)"
-        gridTemplateAreas={`'heading heading heading heading ' '. .  . .'`}
+        gridTemplateColumns="repeat(3, 1fr)"
+        gridTemplateAreas={`'heading heading heading ' '. . .'`}
         gridTemplateRows="50px"
         paddingBottom={10}
         paddingRight={10}

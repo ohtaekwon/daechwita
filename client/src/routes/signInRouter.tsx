@@ -26,16 +26,22 @@ const SignInRouter = () => {
         </Route>
         <Route path="/add/:id" element={<AddDocument />} />
         <Route path="/my-interview" element={<Interview />} />
-        <Route path="/my-documents" element={<Layout variant="lg" />}>
+
+        <Route
+          path="/my-documents"
+          element={<Layout variant="lg" layoutType={true} />}
+        >
           <Route path="/my-documents" element={<MyDocuments />} />
         </Route>
+        <Route
+          path="/write"
+          element={<Layout variant="lg" layoutType={true} />}
+        >
+          <Route path="/write/resume" element={<WriteResume />} />
+        </Route>
 
-        {/* <Route
-          path="/my-dashboard"
-          element={<MyDashBoard leftNav={<LeftNav />} />}
-        /> */}
         <Route path="/todo" element={<MyTodo />} />
-        <Route path="/write-resume" element={<WriteResume />} />
+
         <Route path="/my-interview" element={<MyInterview />} />
       </Routes>
     </>

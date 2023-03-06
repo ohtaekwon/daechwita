@@ -13,7 +13,6 @@ import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
 import { getLatestResume, updateResume } from "lib/apis/api/resumes";
-import { requestPost } from "lib/apis/utils/methods";
 import { postImageFile } from "lib/apis/api/formData";
 
 const WriteResume = () => {
@@ -107,6 +106,7 @@ const WriteResume = () => {
         margin="auto"
         display="flex"
         direction="column"
+        // backgroundColor="amber_200"
         paddingBottom={15}
         paddingRight={15}
         paddingLeft={15}
@@ -188,7 +188,7 @@ const CompanySelect = ({
           className="input__company"
           // 스타일
           width="500px"
-          backgroundColor="white"
+          backgroundColor="blue_600"
           borderColor="vigreen_500"
           radius={8}
           value={company}
@@ -254,14 +254,20 @@ const FormItem = ({
   };
   return (
     <>
-      <Box width="100%" height="100%" margin="auto">
+      <Box
+        role="form"
+        width="100%"
+        height="100%"
+        margin="auto"
+        backgroundColor="amber_300"
+      >
         <Form
           id={item.id}
           className="form__item"
           style={{ position: "relative" }}
           height="auto"
         >
-          <Box display="flex" height="100%" direction="column">
+          <Box display="flex" width="100%" height="100%" direction="column">
             <Input
               type="text"
               id="tag"
@@ -273,7 +279,7 @@ const FormItem = ({
               // 스타일
               width="100%"
               height="50px"
-              backgroundColor="white"
+              backgroundColor="amber_300"
               borderColor="vigreen_500"
               radius={8}
             />
@@ -288,7 +294,7 @@ const FormItem = ({
               // 스타일
               width="100%"
               height="50px"
-              backgroundColor="white"
+              backgroundColor="zinc_500"
               borderColor="vigreen_500"
               radius={8}
             />

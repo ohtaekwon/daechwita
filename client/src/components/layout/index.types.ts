@@ -39,5 +39,6 @@ export interface LayoutProps {
   width?: CSSProperties["width"];
 }
 export interface Props extends HTMLAttributes<HTMLElement>, LayoutProps {
+  layoutType?: boolean;
   children?: ReactNode;
 }

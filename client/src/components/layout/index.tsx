@@ -24,6 +24,7 @@ export const Layout = React.forwardRef(function Layout(
   {
     as = "div",
     variant,
+    layoutType,
     width = "auto",
     backgroundColor = "inherit",
     children,
@@ -53,6 +54,22 @@ export const Layout = React.forwardRef(function Layout(
 
   return (
     <>
+      {layoutType && (
+        <Section
+          as="aside"
+          width="100%"
+          className="sub_nav"
+          backgroundColor="gray_100"
+          backgroundImage={`linear-gradient(
+      -90deg,
+      rgb(118, 84, 219) 0%,
+      rgb(98, 136, 252) 100%
+    )
+    `}
+        >
+          <Search />
+        </Section>
+      )}
       <Styled.Layout
         className={`layout__${variant}`}
         as={as}
@@ -62,20 +79,6 @@ export const Layout = React.forwardRef(function Layout(
         ref={forwardedRef}
         {...rest}
       >
-        <Section
-          as="aside"
-          width="100%"
-          className="sub_nav"
-          backgroundColor="gray_100"
-          backgroundImage={`linear-gradient(
-            -90deg,
-            rgb(118, 84, 219) 0%,
-            rgb(98, 136, 252) 100%
-          )
-          `}
-        >
-          <Search />
-        </Section>
         <Outlet />
       </Styled.Layout>
     </>
