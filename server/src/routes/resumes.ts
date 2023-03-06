@@ -1,7 +1,8 @@
 import * as express from "express";
 import { v4 as uuid } from "uuid";
+import multer from "multer";
 
-import { db } from "../../firebase";
+import { dbService } from "../../firebase";
 import {
   addDoc,
   collection,
@@ -21,6 +22,7 @@ import {
 } from "firebase/firestore";
 
 const PAGE_SIZE = 20;
+const upload = multer();
 
 /**
  * POST MAN에서 사용시 Header에 token값으로 인증 사용
@@ -31,6 +33,7 @@ const resumesRoute = [
   {
     method: "get",
     route: "/resumes",
+    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
@@ -45,7 +48,7 @@ const resumesRoute = [
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
         console.log("여기", latest);
-        const resumes = await collection(db, "resumes"); // resumes 컬렉션에 접근
+        const resumes = await collection(dbService, "resumes"); // resumes 컬렉션에 접근
         // 쿼리 조건문
         const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록
         queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
@@ -76,6 +79,8 @@ const resumesRoute = [
   {
     method: "get",
     route: "/resumes/:id",
+    upload: upload.none(),
+
     handler: async (req: express.Request, res: express.Response) => {
       const {
         params: { id },
@@ -90,7 +95,7 @@ const resumesRoute = [
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
         if (!id) throw Error("요청한 정보의 id값이 없습니다.");
 
-        const resumesRef = await doc(db, "resumes", id);
+        const resumesRef = await doc(dbService, "resumes", id);
         if (!resumesRef) throw Error("해당 id의 자기소개서가 없습니다.");
 
         const resumeSnapshot = await getDoc(resumesRef);
@@ -108,6 +113,8 @@ const resumesRoute = [
   {
     method: "get",
     route: "/resumes",
+    upload: upload.none(),
+
     handler: async (req: express.Request, res: express.Response) => {
       try {
         // 쿠키에서 uid 가져오기
@@ -118,7 +125,7 @@ const resumesRoute = [
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
-        const resumes = await collection(db, "resumes"); // resumes 컬렉션에 접근
+        const resumes = await collection(dbService, "resumes"); // resumes 컬렉션에 접근
         // 쿼리 조건문
         const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록
         queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
@@ -144,6 +151,8 @@ const resumesRoute = [
   {
     method: "post",
     route: "/resumes",
+    upload: upload.none(),
+
     handler: async (req: express.Request, res: express.Response) => {
       const { body } = req;
       try {
@@ -170,7 +179,10 @@ const resumesRoute = [
           updatedAt: null,
         };
 
-        const addResume = await addDoc(collection(db, "resumes"), newResume);
+        const addResume = await addDoc(
+          collection(dbService, "resumes"),
+          newResume
+        );
         const resumeSnapshot = await getDoc(addResume);
 
         res.send({
@@ -186,6 +198,8 @@ const resumesRoute = [
   {
     method: "put",
     route: "/resumes/:id",
+    upload: upload.none(),
+
     handler: async (req: express.Request, res: express.Response) => {
       const {
         body,
@@ -203,7 +217,7 @@ const resumesRoute = [
         if (!id) throw Error("요청한 정보의 id값이 없습니다.");
         if (!body) throw Error("요청 정보에 body 정보가 없습니다.");
 
-        const resumesRef = doc(db, "resumes", id);
+        const resumesRef = doc(dbService, "resumes", id);
         if (!resumesRef) throw Error("해당 id의 자기소개서가 없습니다.");
 
         await updateDoc(resumesRef, {
@@ -242,6 +256,8 @@ const resumesRoute = [
   {
     method: "delete",
     route: "/resumes/:id",
+    upload: upload.none(),
+
     handler: async (req: express.Request, res: express.Response) => {
       const {
         params: { id },
@@ -257,7 +273,7 @@ const resumesRoute = [
         if (!uid) throw Error("유저 아이디가 없습니다.");
         if (!id) throw Error("요청한 정보의 id값이 없습니다.");
 
-        const resumesRef = doc(db, "resumes", id);
+        const resumesRef = doc(dbService, "resumes", id);
         if (!resumesRef) throw Error("해당 id의 자기소개서가 없습니다.");
 
         await deleteDoc(resumesRef).then(() => {

@@ -1,8 +1,9 @@
 import * as express from "express";
 import { DBField, readDB, writeDB } from "../dbController";
 import { v4 as uuid } from "uuid";
+import multer from "multer";
 
-import { db } from "../../firebase";
+import { dbService } from "../../firebase";
 import {
   addDoc,
   collection,
@@ -23,6 +24,7 @@ import {
 
 const getUsers = () => readDB(DBField.USERS);
 const setUsers = (data: any) => writeDB(DBField.USERS, data);
+const upload = multer();
 
 const usersRoute = [
   // 유저 회원 정보 관련 메서드
@@ -30,11 +32,12 @@ const usersRoute = [
   {
     method: "get",
     route: "/users",
+    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      const users = await collection(db, "users");
+      const users = await collection(dbService, "users");
       const q = query(users, where("uid", "==", uid));
       const usersSnapshot = await getDocs(q);
       const data: DocumentData[] = [];
@@ -57,6 +60,7 @@ const usersRoute = [
   {
     method: "get",
     route: "/users/:id",
+    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       const {
         params: { id },
@@ -66,7 +70,7 @@ const usersRoute = [
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
       console.log("---------pass------", id);
-      const users = await collection(db, "users");
+      const users = await collection(dbService, "users");
       const q = query(users, where("uid", "==", id));
       const usersSnapshot = await getDocs(q);
       const data: DocumentData[] = [];
@@ -86,6 +90,7 @@ const usersRoute = [
   {
     method: "post",
     route: "/users",
+    upload: upload.none(),
     handler: (req: express.Request, res: express.Response) => {
       const { body, params, query } = req.signedCookies;
       const email = Object.keys(body)[0];
@@ -100,7 +105,7 @@ const usersRoute = [
       };
 
       users[`${newUsers.email}`] = newUsers;
-      setUsers(users); // json db에 추가
+      setUsers(users); // json dbService에 추가
       res.send(newUsers); // post 응답
     },
   },
@@ -108,6 +113,7 @@ const usersRoute = [
   {
     method: "put",
     route: "/users/:id",
+    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       const {
         body,
@@ -115,7 +121,7 @@ const usersRoute = [
       } = req;
       try {
         console.log("-------여기 지남-----", id, body);
-        const userRef = doc(db, "users", id);
+        const userRef = doc(dbService, "users", id);
 
         if (!userRef) throw Error("유저 정보가 없습니다.");
         console.log("-------userRef 지남--------");

@@ -8,22 +8,17 @@ import Button from "_common/components/button";
 const Home = () => {
   const [data, setData] = React.useState<any>();
 
-  const handleClick = () => {};
-
-  const handleSpeech = () => {};
-
   React.useEffect(() => {
     getUsers().then((res) => setData(res));
   }, []);
-  console.log(data);
 
   const handleUser = async () => {
     const users = await getUsers();
     return users;
   };
-  React.useEffect(() => {
-    handleUser().then((res) => console.log(res[0].numberOfPublishing));
-  }, []);
+  // React.useEffect(() => {
+  //   handleUser().then((res) => console.log(res[0].numberOfPublishing));
+  // }, []);
   return (
     <>
       <Section

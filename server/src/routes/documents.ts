@@ -1,7 +1,7 @@
 import * as express from "express";
 import { v4 } from "uuid";
 import { DBField, readDB, writeDB } from "../dbController";
-import { db } from "../../firebase";
+import { dbService } from "../../firebase";
 import {
   addDoc,
   collection,
@@ -38,7 +38,7 @@ const documentsRoute = [
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      const documents = await collection(db, "documents");
+      const documents = await collection(dbService, "documents");
       const queryOptions: any = [orderBy("createdAt", "desc")];
       queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
       // queryOptions.unshift(where("createdAt", "!=", null));
@@ -105,7 +105,7 @@ const documentsRoute = [
         createdAt: serverTimestamp(),
       };
       const addDocument = await addDoc(
-        collection(db, "documents"),
+        collection(dbService, "documents"),
         newDocument
       );
       const documentsSnapshot = await getDoc(addDocument);
@@ -158,7 +158,7 @@ const documentsRoute = [
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      const documentRef = doc(db, "documents", id);
+      const documentRef = doc(dbService, "documents", id);
       if (!documentRef) throw Error("선택한 문서가 없습니다. ");
       await deleteDoc(documentRef);
       return id;

@@ -13,8 +13,12 @@ import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
 import { getLatestResume, updateResume } from "lib/apis/api/resumes";
+import { requestPost } from "lib/apis/utils/methods";
+import { postImageFile } from "lib/apis/api/formData";
 
 const WriteResume = () => {
+  const [imageData, setImageData] = React.useState({});
+  const [imageFile, setImageFile] = React.useState<any>();
   const [count, setCount] = React.useState<number>(1);
   const [resumeId, setResumeId] = React.useState<string>("");
   const [applyState, setApplyState] = useInputReducer({
@@ -64,6 +68,37 @@ const WriteResume = () => {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCount(e.target.value as any);
   };
+
+  const onChangeImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+    if (!files) return;
+    const imageFile = files[0];
+    setImageData(imageFile);
+
+    const reader = new FileReader();
+    reader.onloadend = (finishedEvent: ProgressEvent<FileReader>) => {
+      if (!finishedEvent.currentTarget) throw Error("파일을 읽지 못했습니다.");
+      const { result } = finishedEvent.currentTarget as FileReader;
+      setImageFile(result);
+    };
+    if (Boolean(imageFile)) {
+      reader.readAsDataURL(imageFile);
+    }
+  };
+  const handleAttach = async (e: React.SyntheticEvent) => {
+    // console.log(imageData);
+    const formData: any = new FormData();
+    formData.append("files", imageData);
+    await postImageFile(
+      { data: formData },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+  };
+
   return (
     <>
       <Section
@@ -90,12 +125,29 @@ const WriteResume = () => {
           <Button variant="zinc_200" areaLabel="publish" onClick={handleSubmit}>
             확인
           </Button>
+          <button onClick={handleAttach}>이미지 전송</button>
           <select name="count" id="count-documents" onChange={handleSelect}>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
           </select>
+          <Input
+            type="file"
+            id="image-upload"
+            accept="image/*"
+            name="image"
+            onChange={onChangeImg}
+          />
+        </Box>
+        <Box width="200px" height="200px" display="flex" margin="0">
+          <img
+            src={imageFile}
+            style={{
+              height: "100%",
+              backgroundImage: imageFile,
+            }}
+          />
         </Box>
         <Box width="200px" height="50px" display="flex" margin="0">
           <CompanySelect

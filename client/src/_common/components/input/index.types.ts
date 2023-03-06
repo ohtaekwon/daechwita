@@ -195,6 +195,9 @@ export type InputType =
   | "button"
   | "submit"
   | "fieldset";
+
+export type InputAcceptType = "audio/*" | "video/*" | "image/*";
+
 export interface Props extends HTMLAttributes<HTMLInputElement>, InputProps {
   /**
    * input의 HTML속성 role 을 설정합니다.
@@ -205,9 +208,15 @@ export interface Props extends HTMLAttributes<HTMLInputElement>, InputProps {
   /**
    * input의 HTML속성 type을 설정합니다.
    *
-   * @required '''
+   * @required ''
    */
   type: InputType;
+  /**
+   * input의 accept속성을 설정합니다.
+   *
+   * @required ''
+   */
+  accept?: InputAcceptType;
   /**
    * input의 HTML속성 name을 설정합니다.
    *
@@ -219,5 +228,5 @@ export interface Props extends HTMLAttributes<HTMLInputElement>, InputProps {
    *
    * @required ''
    */
-  value: any;
+  value?: any;
 }

@@ -1,6 +1,7 @@
 import * as express from "express";
-import { DBField, readDB, writeDB } from "../dbController";
-import { db } from "../../firebase";
+import multer from "multer";
+
+import { dbService } from "../../firebase";
 import {
   addDoc,
   collection,
@@ -18,14 +19,15 @@ import {
   where,
 } from "firebase/firestore";
 
-const getItems = () => readDB(DBField.SCHEDULES);
-const setSchedules = (data: any) => writeDB(DBField.SCHEDULES, data);
+const upload = multer();
 
 const schedulesRoute = [
   // GET SCHEDULES
   {
     method: "get",
     route: "/schedules",
+    upload: upload.none(),
+
     handler: async (req: express.Request, res: express.Response) => {
       const targetIndex = req.rawHeaders.findIndex(
         (item) => item === "Authorization"
@@ -33,7 +35,7 @@ const schedulesRoute = [
       const uid = req.rawHeaders[targetIndex + 1].split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      const schedules = await collection(db, "schedule");
+      const schedules = await collection(dbService, "schedule");
       const queryOptions: any = [orderBy("createdAt", "desc")];
 
       queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
@@ -51,7 +53,6 @@ const schedulesRoute = [
       });
       const newData = data;
 
-      setSchedules(newData);
       res.send(data);
       return data;
     },
@@ -59,12 +60,14 @@ const schedulesRoute = [
   {
     method: "get",
     route: "/schedules/:id",
+    upload: upload.none(),
+
     handler: async (req: express.Request, res: express.Response) => {
       const {
         body: { uid },
         params,
       } = req;
-      const schedulesSnapshot = await getDoc(doc(db, "schedule", uid));
+      const schedulesSnapshot = await getDoc(doc(dbService, "schedule", uid));
       res.send(schedulesSnapshot);
       return {
         ...schedulesSnapshot.data(),
@@ -76,6 +79,8 @@ const schedulesRoute = [
   {
     method: "post",
     route: "/schedules",
+    upload: upload.none(),
+
     handler: async (req: express.Request, res: express.Response) => {
       const { body, params } = req;
 
@@ -89,7 +94,10 @@ const schedulesRoute = [
         createdAt: serverTimestamp(),
       };
 
-      const addSchedule = await addDoc(collection(db, "schedule"), newSchedule);
+      const addSchedule = await addDoc(
+        collection(dbService, "schedule"),
+        newSchedule
+      );
       const schedulesSnapshot = await getDoc(addSchedule);
 
       res.send(schedulesSnapshot);

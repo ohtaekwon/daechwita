@@ -46,15 +46,17 @@ export const getResume = async (resumeId: string) => {
 export const getLatestResume = async ({ latest = false }) => {
   try {
     const apiRoute = resumeApiRoutes.getLatestResumeByQuery(String(latest));
-    console.info(`latest: ${latest}인 자기소개서를 가져오는 중 입니다...`);
+    console.info(
+      `latest:${latest} - 가장 최근의 자기소개서를 가져오는 중 입니다...`
+    );
     const { data } = await requestGet(apiRoute);
     console.info(
-      `latest: ${latest}인 최근 작성한 자기소개서가 성공적으로 반환되었습니다!`
+      `latest:${latest} - 가장 최근 작성한 자기소개서가 성공적으로 반환되었습니다!`
     );
     return { data };
   } catch (error) {
     console.error(
-      `latest: ${latest}인 자기소개서를 가져오는 도중 에러가 발생하였습니다!`
+      `latest:${latest} - 자기소개서를 가져오는 도중 에러가 발생하였습니다!`
     );
     const { code, message } = handleError(error);
     return { error: { code, message } };

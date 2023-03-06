@@ -1,7 +1,8 @@
 import * as express from "express";
 import { v4 as uuid } from "uuid";
+import multer from "multer";
 
-import { db } from "../../firebase";
+import { dbService } from "../../firebase";
 import {
   addDoc,
   collection,
@@ -21,18 +22,19 @@ import {
 } from "firebase/firestore";
 
 const PAGE_SIZE = 20;
-
+const upload = multer();
 const applicationsRoute = [
   // GET APPLICATIONS
   {
     method: "get",
     route: "/applications",
+    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       // 토큰에서 uid 가져오기
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      const applications = await collection(db, "applications");
+      const applications = await collection(dbService, "applications");
       const queryOptions: any = [orderBy("createdAt", "desc")];
       queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
 
@@ -56,6 +58,7 @@ const applicationsRoute = [
   {
     method: "get",
     route: "/applications/:id",
+    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       const {
         params: { id },
@@ -71,7 +74,11 @@ const applicationsRoute = [
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      const applicationsRef = await doc(db, "applications", `${uid}-${id}`);
+      const applicationsRef = await doc(
+        dbService,
+        "applications",
+        `${uid}-${id}`
+      );
 
       if (!applicationsRef) throw Error("선택한 데이터가 없습니다.");
       const snapShot = await getDoc(applicationsRef);
@@ -90,6 +97,8 @@ const applicationsRoute = [
   {
     method: "post",
     route: "/applications",
+    upload: upload.none(),
+
     handler: async (req: express.Request, res: express.Response) => {
       const { body } = req;
 
@@ -116,7 +125,7 @@ const applicationsRoute = [
 
       console.log("------------body-id-------", body.id);
       const addApplication: any = await setDoc(
-        doc(db, "applications", body.id!),
+        doc(dbService, "applications", body.id!),
         newApplications
       );
 
@@ -132,6 +141,8 @@ const applicationsRoute = [
   {
     method: "put",
     route: "/applications/:id",
+    upload: upload.none(),
+
     handler: async (req: express.Request, res: express.Response) => {
       const {
         body,
@@ -142,7 +153,7 @@ const applicationsRoute = [
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      const applicationsRef = doc(db, "applications", `${uid}-${id}`);
+      const applicationsRef = doc(dbService, "applications", `${uid}-${id}`);
       if (!applicationsRef) throw Error("상품이 없습니다.");
 
       await updateDoc(applicationsRef, {
