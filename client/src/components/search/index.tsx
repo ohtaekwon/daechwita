@@ -21,6 +21,7 @@ const Search = () => {
         alignItems="center"
         backgroundColor="inherit"
         position="relative"
+        margin="auto"
       >
         <Button variant="default" position="absolute" top={0} right={0}>
           <AiOutlineSearch size={30} />

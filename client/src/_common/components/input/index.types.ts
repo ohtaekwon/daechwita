@@ -11,6 +11,12 @@ type InputVariant = "search_1" | "default";
 
 export interface InputProps {
   /**
+   * input의 HTML속성 type을 설정합니다.
+   *
+   * @required ''
+   */
+  type: InputType;
+  /**
    * input의 variant을 설정합니다.
    *
    * @required
@@ -205,12 +211,6 @@ export interface Props extends HTMLAttributes<HTMLInputElement>, InputProps {
    * @default ''
    */
   role?: AriaRole | undefined;
-  /**
-   * input의 HTML속성 type을 설정합니다.
-   *
-   * @required ''
-   */
-  type: InputType;
   /**
    * input의 accept속성을 설정합니다.
    *

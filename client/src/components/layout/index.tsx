@@ -58,6 +58,7 @@ export const Layout = React.forwardRef(function Layout(
         <Section
           as="aside"
           width="100%"
+          padding="1.5rem"
           className="sub_nav"
           backgroundColor="gray_100"
           backgroundImage={`linear-gradient(

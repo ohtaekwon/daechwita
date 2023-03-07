@@ -33,7 +33,7 @@ const Input = React.forwardRef(function Input(
     /**
      * padding 설정
      */
-    padding = "auto",
+    padding = 0,
     paddingTop = 0,
     paddingRight = 0,
     paddingBottom = 0,
@@ -41,7 +41,7 @@ const Input = React.forwardRef(function Input(
     /**
      * margin 설정
      */
-    margin = "auto",
+    margin = 0,
     marginTop = 0,
     marginRight = 0,
     marginBottom = 0,

@@ -1,6 +1,8 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
-
+import { FaTrashAlt } from "react-icons/fa";
+import { HiPhotograph } from "react-icons/hi";
+import { AiOutlinePlusSquare } from "react-icons/ai";
 import { useInputReducer } from "hooks/app/useInputReducer";
 import useItems from "hooks/app/useItems";
 
@@ -14,8 +16,10 @@ import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
 import { getLatestResume, updateResume } from "lib/apis/api/resumes";
 import { postImageFile } from "lib/apis/api/formData";
+import Flex from "_common/components/flex";
 
 const WriteResume = () => {
+  const imageInputRef = React.useRef<HTMLInputElement>(null);
   const [imageData, setImageData] = React.useState({});
   const [imageFile, setImageFile] = React.useState<any>();
   const [count, setCount] = React.useState<number>(1);
@@ -98,6 +102,10 @@ const WriteResume = () => {
     );
   };
 
+  const onCickImageUpload = () => {
+    imageInputRef.current?.click();
+  };
+
   return (
     <>
       <Section
@@ -106,56 +114,145 @@ const WriteResume = () => {
         margin="auto"
         display="flex"
         direction="column"
-        // backgroundColor="amber_200"
         paddingBottom={15}
         paddingRight={15}
         paddingLeft={15}
         paddingTop={15}
       >
-        <Text fontSize="xxxl" fontWeight={700} textAlign="center">
+        <Text
+          fontSize="xxxl"
+          fontWeight={700}
+          textAlign="center"
+          marginTop={30}
+          marginBottom={30}
+        >
           자소서 쓰기
         </Text>
-        <Box width="100%" height="50px" display="flex">
-          <Button variant="zinc_200" onClick={add}>
-            추가 하기
+        <Box
+          width="100%"
+          height="130px"
+          display="flex"
+          style={{
+            boxShadow: `rgb(0 0 0 / 10%) 0px 0px 8px`,
+          }}
+        >
+          <Button
+            onClick={handleSubmit}
+            // 스타일
+            width="100%"
+            height="100px"
+            variant="tdred_400"
+            areaLabel="save"
+            style={{ marginInline: "1rem" }}
+          >
+            임시 저장 하기
           </Button>
-          <Button variant="zinc_200" areaLabel="save" onClick={handleSubmit}>
-            저장 하기
+          <Button
+            onClick={handleSubmit}
+            // 스타일
+            width="100%"
+            height="100px"
+            variant="tdred_400_fill"
+            areaLabel="publish"
+            fontSize="lg"
+            style={{ marginInline: "1rem" }}
+          >
+            출간하기
           </Button>
-          <Button variant="zinc_200" areaLabel="publish" onClick={handleSubmit}>
-            확인
-          </Button>
-          <button onClick={handleAttach}>이미지 전송</button>
-          <select name="count" id="count-documents" onChange={handleSelect}>
+          <select
+            name="count"
+            id="count-documents"
+            onChange={handleSelect}
+            style={{
+              width: "200px",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: "8px",
+              marginInline: "1rem",
+              fontSize: "1.5rem",
+              paddingLeft: "1rem",
+              paddingRight: "1rem",
+            }}
+          >
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
           </select>
-          <Input
-            type="file"
-            id="image-upload"
-            accept="image/*"
-            name="image"
-            onChange={onChangeImg}
-          />
+          <Flex direction="column">
+            <Button
+              onClick={onCickImageUpload}
+              variant="default"
+              height="100%"
+              style={{
+                display: "inline-block",
+                lineHeight: "normal",
+                verticalAlign: "middle",
+              }}
+            >
+              <HiPhotograph size={35} />
+            </Button>
+            <Input
+              type="file"
+              id="image-upload"
+              accept="image/*"
+              name="image"
+              ref={imageInputRef}
+              placeholder="사진 첨부"
+              onChange={onChangeImg}
+              // 스타일
+              width="100%"
+              height="100%"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              style={{ border: 0 }}
+            />
+            <Button
+              onClick={add}
+              width="100%"
+              height="100%"
+              variant="default" // 스타일
+            >
+              <AiOutlinePlusSquare size={35} />
+            </Button>
+          </Flex>
         </Box>
-        <Box width="200px" height="200px" display="flex" margin="0">
+        <Box
+          display="flex"
+          direction="column"
+          width="300px"
+          height="400px"
+          justifyContent="center"
+          alignItems="center"
+          margin="auto"
+          style={{ boxSizing: "border-box" }}
+        >
           <img
             src={imageFile}
             style={{
+              width: "300px",
               height: "100%",
               backgroundImage: imageFile,
             }}
           />
+          <Button
+            onClick={handleAttach}
+            // 스타일
+            width="300px"
+            variant="skyblue_100"
+            areaLabel="publish"
+          >
+            이미지 확인
+          </Button>
         </Box>
-        <Box width="200px" height="50px" display="flex" margin="0">
-          <CompanySelect
-            company={applyState.company}
-            department={applyState.department}
-            setCompanyInfo={setApplyState}
-          />
-        </Box>
+        <CompanySelect
+          company={applyState.company}
+          department={applyState.department}
+          setCompanyInfo={setApplyState}
+        />
         <Grid gridTemplateColumns={`repeat(${count}, 1fr)`}>
           <FormList
             list={items.documents}
@@ -180,34 +277,51 @@ const CompanySelect = ({
 }) => {
   return (
     <>
-      <Form className="form__select">
+      <Box
+        width="100%"
+        height="70px"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        backgroundColor="light_blue"
+      >
         <Input
           type="text"
           name="company"
           placeholder="회사를 입력해주세요"
           className="input__company"
-          // 스타일
-          width="500px"
-          backgroundColor="blue_600"
-          borderColor="vigreen_500"
-          radius={8}
           value={company}
           onChange={setCompanyInfo}
+          // 스타일
+          width="100%"
+          height="50px"
+          backgroundColor="gray_50"
+          borderColor="slate_50"
+          radius={8}
+          marginBottom={10}
+          marginTop={10}
+          marginLeft={10}
+          marginRight={10}
         />
         <Input
           type="text"
           name="department"
           placeholder="부서를 입력해주세요"
           className="input__department"
-          // 스타일
-          width="500px"
-          backgroundColor="white"
-          borderColor="vigreen_500"
-          radius={8}
           value={department}
           onChange={setCompanyInfo}
+          // 스타일
+          width="100%"
+          height="50px"
+          backgroundColor="gray_50"
+          borderColor="slate_50"
+          radius={8}
+          marginBottom={10}
+          marginTop={10}
+          marginLeft={10}
+          marginRight={10}
         />
-      </Form>
+      </Box>
     </>
   );
 };
@@ -258,9 +372,22 @@ const FormItem = ({
         role="form"
         width="100%"
         height="100%"
-        margin="auto"
-        backgroundColor="amber_300"
+        // margin="auto"
+        position="relative"
+        backgroundColor="light_blue"
+        style={{ border: "0", borderColor: "transparent" }}
       >
+        <Button
+          type="button"
+          variant="skyblue_300_fill"
+          position="absolute"
+          right={0}
+          top={0}
+          zIndex={9}
+          onClick={handleDelete}
+        >
+          <FaTrashAlt />
+        </Button>
         <Form
           id={item.id}
           className="form__item"
@@ -279,9 +406,11 @@ const FormItem = ({
               // 스타일
               width="100%"
               height="50px"
-              backgroundColor="amber_300"
-              borderColor="vigreen_500"
+              backgroundColor="gray_50"
+              borderColor="slate_50"
               radius={8}
+              marginTop={10}
+              marginBottom={10}
             />
             <Input
               type="text"
@@ -294,9 +423,11 @@ const FormItem = ({
               // 스타일
               width="100%"
               height="50px"
-              backgroundColor="zinc_500"
-              borderColor="vigreen_500"
+              backgroundColor="gray_50"
+              borderColor="slate_50"
               radius={8}
+              marginTop={10}
+              marginBottom={10}
             />
             <Textarea
               name="text"
@@ -307,26 +438,22 @@ const FormItem = ({
               // 스타일
               width="100%"
               height={400}
-              margin="auto"
               fontSize="lg"
+              backgroundColor="gray_50"
+              borderColor="slate_50"
               fontWeight={500}
               paddingBottom={10}
               paddingLeft={10}
               paddingRight={10}
               paddingTop={30}
-              backgroundColor="white"
-              borderColor="vigreen_500"
+              marginTop={10}
+              marginBottom={10}
             >
               {item.text}
             </Textarea>
-            {item.text.length + item.title.length || 0} 자
-            <Button
-              type="button"
-              variant="skyblue_300_fill"
-              onClick={handleDelete}
-            >
-              삭제하기
-            </Button>
+            <Text color="white">
+              {item.text.length + item.title.length || 0} 자
+            </Text>
           </Box>
         </Form>
       </Box>

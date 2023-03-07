@@ -26,7 +26,7 @@ const Badge = React.forwardRef(function Badge(
     /**
      * padding 설정
      */
-    padding = "auto",
+    padding = 0,
     paddingTop = 0,
     paddingRight = 0,
     paddingBottom = 0,
@@ -34,7 +34,7 @@ const Badge = React.forwardRef(function Badge(
     /**
      * margin 설정
      */
-    margin = "auto",
+    margin = 0,
     marginTop = 0,
     marginRight = 0,
     marginBottom = 0,

@@ -21,6 +21,8 @@ export const Box = styled.span<Required<BoxProps>>`
   bottom: ${({ bottom }) => bottom};
   right: ${({ right }) => right};
   left: ${({ left }) => left};
+  z-index: ${({ zIndex }) => zIndex};
+
   /**
   * padding 설정
   */

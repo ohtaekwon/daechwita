@@ -31,10 +31,11 @@ const Box = React.forwardRef(function Box(
     left = "inherit",
     bottom = "inherit",
     right = "inherit",
+    zIndex = "auto",
     /**
      * padding 설정
      */
-    padding = "auto",
+    padding = 0,
     paddingTop = 0,
     paddingRight = 0,
     paddingBottom = 0,
@@ -42,7 +43,7 @@ const Box = React.forwardRef(function Box(
     /**
      * margin 설정
      */
-    margin = "auto",
+    margin = 0,
     marginTop = 0,
     marginRight = 0,
     marginBottom = 0,
@@ -96,6 +97,7 @@ const Box = React.forwardRef(function Box(
       bottom={bottom}
       right={right}
       left={left}
+      zIndex={zIndex}
       /**
        * margin 설정
        */

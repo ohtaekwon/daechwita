@@ -59,6 +59,27 @@ export const Input = styled.input<Required<InputProps>>`
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box; /* Firefox, other Gecko */
   box-sizing: border-box; /* Opera/IE 8+ */
+  ${({ type }) => {
+    switch (type) {
+      case "file": {
+        return css`
+          position: absolute;
+          right: 0;
+          width: 0;
+          height: 0;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          border: 0;
+        `;
+      }
+      default: {
+        return css``;
+      }
+    }
+  }}
+
   ${({ variant, theme }) => {
     switch (variant) {
       case "search_1": {

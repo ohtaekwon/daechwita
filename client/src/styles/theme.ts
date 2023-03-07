@@ -305,6 +305,8 @@ const theme = {
     tdgreen_900: "#0E311F",
     slack: "#7C3085",
     mustard: "#EEE099",
+    light_blue: "#6288fc",
+    light_violet: "#7654db",
   },
   fontSize: {
     inherit: "inherit",

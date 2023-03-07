@@ -25,7 +25,7 @@ const Textarea = React.forwardRef(function Textarea(
     /**
      * margin 설정
      */
-    margin = "inherit",
+    margin = 0,
     marginTop = 0,
     marginRight = 0,
     marginBottom = 0,

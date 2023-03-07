@@ -28,7 +28,7 @@ const Section = React.forwardRef(function Section(
     /**
      * padding 설정
      */
-    padding = "16px",
+    padding = 0,
     paddingBottom = 0,
     paddingLeft = 0,
     paddingRight = 0,
@@ -36,7 +36,7 @@ const Section = React.forwardRef(function Section(
     /**
      * margin 설정
      */
-    margin = "inherit",
+    margin = 0,
     marginTop = 0,
     marginRight = 0,
     marginBottom = 0,

@@ -165,6 +165,13 @@ export interface BoxProps {
   left?: CSSProperties["left"];
 
   /**
+   *  Box의 z-index 의 타입을 설정합니다.
+   *
+   * @default static
+   */
+  zIndex?: CSSProperties["zIndex"];
+
+  /**
    * box의 display 속성을 설정합니다.
    *
    * @default 'block'
