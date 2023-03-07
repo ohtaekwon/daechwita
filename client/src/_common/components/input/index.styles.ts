@@ -45,6 +45,7 @@ export const Input = styled.input<Required<InputProps>>`
   border-radius: ${({ radius }) => `${radius}px`};
   border-style: solid;
   border-width: 1px;
+  box-shadow: ${({ boxShadow }) => boxShadow};
 
   padding-inline-start: 1rem;
 
@@ -55,10 +56,15 @@ export const Input = styled.input<Required<InputProps>>`
   */
   cursor: ${({ cursor }) => cursor};
   opacity: ${({ opacity }) => opacity};
+  color: ${({ color }) => color};
 
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box; /* Firefox, other Gecko */
   box-sizing: border-box; /* Opera/IE 8+ */
+  ::placeholder {
+    color: ${({ color }) => color};
+  }
+
   ${({ type }) => {
     switch (type) {
       case "file": {

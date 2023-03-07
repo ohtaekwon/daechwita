@@ -42,6 +42,7 @@ const Textarea = React.forwardRef(function Textarea(
      */
     backgroundColor = "inherit",
     borderColor = "inherit",
+    boxShadow = "inherit",
     radius = 8,
 
     /**
@@ -93,6 +94,7 @@ const Textarea = React.forwardRef(function Textarea(
        */
       backgroundColor={backgroundColor}
       borderColor={borderColor}
+      boxShadow={boxShadow}
       radius={radius}
       /**
        * 기타 옵션 설정정

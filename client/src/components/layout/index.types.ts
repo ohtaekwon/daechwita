@@ -9,7 +9,8 @@ export type LayoutType =
   | "default"
   | "xl"
   | "custom"
-  | "xs";
+  | "xs"
+  | "write";
 export interface LayoutProps {
   /**
    * 엘리먼트의 타입을 설정합니다.
@@ -30,6 +31,12 @@ export interface LayoutProps {
    * @default 'inherit'
    */
   backgroundColor?: keyof typeof theme.colors;
+  /**
+   * Layout의 배경 이미지을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  backgroundImage?: CSSProperties["backgroundImage"];
 
   /**
    * Layout의 variant을 설정합니다.

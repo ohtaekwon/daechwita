@@ -3,8 +3,11 @@ import { v4 as uuid } from "uuid";
 import { FaTrashAlt } from "react-icons/fa";
 import { HiPhotograph } from "react-icons/hi";
 import { AiOutlinePlusSquare } from "react-icons/ai";
+
 import { useInputReducer } from "hooks/app/useInputReducer";
 import useItems from "hooks/app/useItems";
+import { getLatestResume, updateResume } from "lib/apis/api/resumes";
+import { postImageFile } from "lib/apis/api/formData";
 
 import Section from "components/section";
 import Text from "_common/components/text";
@@ -14,8 +17,6 @@ import Input from "_common/components/input";
 import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
-import { getLatestResume, updateResume } from "lib/apis/api/resumes";
-import { postImageFile } from "lib/apis/api/formData";
 import Flex from "_common/components/flex";
 
 const WriteResume = () => {
@@ -30,9 +31,9 @@ const WriteResume = () => {
   });
   const { add, update, _delete, items, setItems } = useItems("documents", {
     id: uuid(),
-    text: "본문을 입력해주세요.",
-    title: "제목을 입력해주세요.",
-    tag: "태그를 입력해주세요.",
+    text: "",
+    title: "",
+    tag: "",
   });
   React.useEffect(() => {
     getLatestResume({ latest: true }).then((res) => {
@@ -108,80 +109,161 @@ const WriteResume = () => {
 
   return (
     <>
-      <Section
-        width="100%"
-        height="100vh"
-        margin="auto"
-        display="flex"
-        direction="column"
-        paddingBottom={15}
-        paddingRight={15}
-        paddingLeft={15}
-        paddingTop={15}
+      <Flex
+        style={{
+          margin: "auto",
+          width: "1680px",
+          backgroundColor: "transparent",
+        }}
       >
-        <Text
-          fontSize="xxxl"
-          fontWeight={700}
-          textAlign="center"
-          marginTop={30}
-          marginBottom={30}
-        >
-          자소서 쓰기
-        </Text>
-        <Box
+        <Section
           width="100%"
-          height="130px"
+          height="100%"
+          margin="auto"
           display="flex"
+          direction="column"
+          paddingBottom={15}
+          paddingRight={15}
+          paddingLeft={15}
+          paddingTop={15}
+        >
+          <Text
+            fontSize="xxxl"
+            fontWeight={700}
+            textAlign="center"
+            marginTop={30}
+            marginBottom={30}
+            color="white"
+          >
+            자소서 쓰기
+          </Text>
+
+          <Box
+            display="flex"
+            // direction="column"
+            width="300px"
+            height="300px"
+            justifyContent="left"
+            alignItems="center"
+            margin={0}
+            radius={8}
+            style={{ boxSizing: "border-box" }}
+          >
+            {imageFile && (
+              <img
+                src={imageFile}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  backgroundImage: imageFile,
+                }}
+              />
+            )}
+            {!!!imageFile && (
+              <Box
+                width={"100%"}
+                height={"100%"}
+                backgroundColor="transparent"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                style={{ border: "3px solid #f8fafc" }}
+              >
+                <Text color="white"> 기업의 로고 사진을 첨부해주세요</Text>
+              </Box>
+            )}
+
+            {/* <Button
+              onClick={handleAttach}
+              // 스타일
+              width="300px"
+              variant="skyblue_100"
+              areaLabel="publish"
+            >
+              이미지 확인
+            </Button> */}
+          </Box>
+          <CompanySelect
+            company={applyState.company}
+            department={applyState.department}
+            setCompanyInfo={setApplyState}
+          />
+
+          <Grid gridTemplateColumns={`repeat(${count}, 1fr)`}>
+            <FormList
+              list={items.documents}
+              deleteForm={_delete}
+              onChange={update}
+            />
+          </Grid>
+        </Section>
+
+        <Box
+          as="aside"
+          width="300px"
+          height="100%"
+          display="flex"
+          direction="column"
+          top={0}
+          right={0}
+          marginTop={50}
+          backgroundColor="gray_100"
           style={{
-            boxShadow: `rgb(0 0 0 / 10%) 0px 0px 8px`,
+            boxShadow: `rgb(0 0 0 / 10%) 10px 10px 30px`,
+            position: "sticky",
+            top: "200px",
           }}
         >
           <Button
+            areaLabel="save"
             onClick={handleSubmit}
             // 스타일
-            width="100%"
-            height="100px"
             variant="tdred_400"
-            areaLabel="save"
-            style={{ marginInline: "1rem" }}
+            width="100%"
+            height="70px"
+            marginTop={10}
+            marginBottom={10}
           >
             임시 저장 하기
           </Button>
           <Button
+            areaLabel="publish"
             onClick={handleSubmit}
             // 스타일
-            width="100%"
-            height="100px"
             variant="tdred_400_fill"
-            areaLabel="publish"
+            width="100%"
+            height="70px"
             fontSize="lg"
-            style={{ marginInline: "1rem" }}
+            marginTop={10}
+            marginBottom={10}
           >
             출간하기
           </Button>
-          <select
-            name="count"
-            id="count-documents"
-            onChange={handleSelect}
-            style={{
-              width: "200px",
-              height: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: "8px",
-              marginInline: "1rem",
-              fontSize: "1.5rem",
-              paddingLeft: "1rem",
-              paddingRight: "1rem",
-            }}
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-          <Flex direction="column">
+          <Flex style={{ margin: "auto" }}>
+            <select
+              name="count"
+              id="count-documents"
+              onChange={handleSelect}
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                margin: "auto",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "8px",
+                marginInline: "1rem",
+                fontSize: "1.5rem",
+                paddingLeft: "1rem",
+                paddingRight: "1rem",
+              }}
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+
             <Button
               onClick={onCickImageUpload}
               variant="default"
@@ -220,47 +302,7 @@ const WriteResume = () => {
             </Button>
           </Flex>
         </Box>
-        <Box
-          display="flex"
-          direction="column"
-          width="300px"
-          height="400px"
-          justifyContent="center"
-          alignItems="center"
-          margin="auto"
-          style={{ boxSizing: "border-box" }}
-        >
-          <img
-            src={imageFile}
-            style={{
-              width: "300px",
-              height: "100%",
-              backgroundImage: imageFile,
-            }}
-          />
-          <Button
-            onClick={handleAttach}
-            // 스타일
-            width="300px"
-            variant="skyblue_100"
-            areaLabel="publish"
-          >
-            이미지 확인
-          </Button>
-        </Box>
-        <CompanySelect
-          company={applyState.company}
-          department={applyState.department}
-          setCompanyInfo={setApplyState}
-        />
-        <Grid gridTemplateColumns={`repeat(${count}, 1fr)`}>
-          <FormList
-            list={items.documents}
-            deleteForm={_delete}
-            onChange={update}
-          />
-        </Grid>
-      </Section>
+      </Flex>
     </>
   );
 };
@@ -283,7 +325,9 @@ const CompanySelect = ({
         display="flex"
         justifyContent="center"
         alignItems="center"
-        backgroundColor="light_blue"
+        backgroundColor="transparent"
+        padding={0}
+        style={{ border: 0 }}
       >
         <Input
           type="text"
@@ -295,8 +339,9 @@ const CompanySelect = ({
           // 스타일
           width="100%"
           height="50px"
-          backgroundColor="gray_50"
+          backgroundColor="transparent"
           borderColor="slate_50"
+          color="white"
           radius={8}
           marginBottom={10}
           marginTop={10}
@@ -313,8 +358,9 @@ const CompanySelect = ({
           // 스타일
           width="100%"
           height="50px"
-          backgroundColor="gray_50"
+          backgroundColor="transparent"
           borderColor="slate_50"
+          color="white"
           radius={8}
           marginBottom={10}
           marginTop={10}
@@ -372,14 +418,17 @@ const FormItem = ({
         role="form"
         width="100%"
         height="100%"
-        // margin="auto"
         position="relative"
-        backgroundColor="light_blue"
-        style={{ border: "0", borderColor: "transparent" }}
+        backgroundColor="transparent"
+        boxShadow={`rgb(0 0 0 / 10%) 3px 3px 16px`}
+        style={{
+          border: "0",
+          borderColor: "transparent",
+        }}
       >
         <Button
           type="button"
-          variant="skyblue_300_fill"
+          variant="tdred_400_fill"
           position="absolute"
           right={0}
           top={0}
@@ -394,7 +443,13 @@ const FormItem = ({
           style={{ position: "relative" }}
           height="auto"
         >
-          <Box display="flex" width="100%" height="100%" direction="column">
+          <Box
+            display="flex"
+            width="100%"
+            height="100%"
+            direction="column"
+            padding={0}
+          >
             <Input
               type="text"
               id="tag"
@@ -406,8 +461,10 @@ const FormItem = ({
               // 스타일
               width="100%"
               height="50px"
-              backgroundColor="gray_50"
+              backgroundColor="transparent"
               borderColor="slate_50"
+              color="white"
+              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 10%), 0 4px 12px 0 rgb(0 0 0 / 6%);`}
               radius={8}
               marginTop={10}
               marginBottom={10}
@@ -423,8 +480,10 @@ const FormItem = ({
               // 스타일
               width="100%"
               height="50px"
-              backgroundColor="gray_50"
+              backgroundColor="transparent"
               borderColor="slate_50"
+              color="white"
+              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 10%), 0 4px 12px 0 rgb(0 0 0 / 6%);`}
               radius={8}
               marginTop={10}
               marginBottom={10}
@@ -439,8 +498,10 @@ const FormItem = ({
               width="100%"
               height={400}
               fontSize="lg"
-              backgroundColor="gray_50"
+              color="white"
+              backgroundColor="transparent"
               borderColor="slate_50"
+              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 10%), 0 4px 12px 0 rgb(0 0 0 / 6%);`}
               fontWeight={500}
               paddingBottom={10}
               paddingLeft={10}

@@ -11,6 +11,11 @@ export const Layout = styled.main<Required<LayoutProps>>`
   width: ${({ width }) => width};
   background-color: ${({ theme, backgroundColor }) =>
     theme.colors[backgroundColor]};
+  position: relative;
+  z-index: 1;
+  background: ${({ backgroundImage }) => backgroundImage};
+  /* background-repeat: repeat-y; */
+  /* background-size: cover; */
   ::-webkit-scrollbar {
     display: none;
   }
@@ -19,7 +24,7 @@ export const Layout = styled.main<Required<LayoutProps>>`
       case "default": {
         return css`
           width: 100%;
-          height: 100%;
+          /* height: 100%; */
           background-color: ${theme.colors.white};
         `;
       }
@@ -56,6 +61,23 @@ export const Layout = styled.main<Required<LayoutProps>>`
           margin: 0;
           max-width:${width}%
           background-color: ${backgroundColor};
+        `;
+      }
+      case "write": {
+        return css`
+          width: 100%;
+          background-color: rgba(255, 255, 255, 0.5);
+
+          ::before {
+            width: 100%;
+            height: 100%;
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background-color: rgba(0, 0, 0, 0.4);
+          }
         `;
       }
     }

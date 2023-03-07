@@ -121,19 +121,25 @@ export interface TextareaProps {
   height?: CSSProperties["height"];
 
   /**
-   * input의 배경 색상을 설정합니다.
+   * TextArea 의 배경 색상을 설정합니다.
    *
    * @default 'inherit'
    */
   backgroundColor?: keyof typeof theme.colors;
 
   /**
-   * input의 border 색상을 설정합니다.
+   * TextArea 의 border 색상을 설정합니다.
    *
    * @default 'inherit'
    */
 
   borderColor?: keyof typeof theme.colors;
+  /**
+   * TextArea 의 box Shadow 색상을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  boxShadow?: CSSProperties["boxShadow"];
   /**
    * Box의 radius 설정합니다.
    *

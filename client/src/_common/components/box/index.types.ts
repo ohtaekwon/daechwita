@@ -56,6 +56,13 @@ export interface BoxProps {
   backgroundImage?: CSSProperties["backgroundImage"];
 
   /**
+   * Box의 Box Shadow을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  boxShadow?: CSSProperties["boxShadow"];
+
+  /**
    * Box의 display가 grid일 때, grid-area의 타입을 설정합니다.
    *
    * @default static

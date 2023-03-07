@@ -11,6 +11,9 @@ export const TextArea = styled.textarea<Required<TextareaProps>>`
   * font 스타일 설정
   */
   color: ${({ theme, color }) => theme.colors[color]};
+  ::placeholder {
+    color: ${({ color }) => color};
+  }
   font-size: ${({ fontSize, theme }) => theme.fontSize[fontSize]};
   font-weight: ${({ fontWeight }) => fontWeight};
   text-align: ${({ textAlign }) => textAlign};
@@ -40,8 +43,7 @@ export const TextArea = styled.textarea<Required<TextareaProps>>`
   border-radius: ${({ radius }) => `${radius}px`};
   border-style: solid;
   border-width: 1px;
-  /* border-width: inherit; */
-
+  box-shadow: ${({ boxShadow }) => boxShadow};
   /**
   * 기타 옵션 설정정
   */

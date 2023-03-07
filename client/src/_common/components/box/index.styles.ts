@@ -47,7 +47,9 @@ export const Box = styled.span<Required<BoxProps>>`
   background-color: ${({ backgroundColor, theme }) =>
     `${theme.colors[backgroundColor]}!important`};
   background-image: ${({ backgroundImage }) => backgroundImage};
+
   border-radius: ${({ radius }) => `${radius}px`};
+  box-shadow: ${({ boxShadow }) => boxShadow};
   /**
   * 기타 옵션 설정
   */

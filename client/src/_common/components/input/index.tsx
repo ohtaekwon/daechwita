@@ -51,6 +51,7 @@ const Input = React.forwardRef(function Input(
      */
     backgroundColor = "inherit",
     borderColor = "inherit",
+    boxShadow = "inherit",
     radius = 8,
     /**
      * 기타 옵션 설정
@@ -111,6 +112,7 @@ const Input = React.forwardRef(function Input(
        */
       borderColor={borderColor}
       backgroundColor={backgroundColor}
+      boxShadow={boxShadow}
       radius={radius}
       /**
        * 기타 옵션 설정

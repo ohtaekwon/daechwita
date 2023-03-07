@@ -44,6 +44,12 @@ export interface InputProps {
 
   borderColor?: keyof typeof theme.colors;
   /**
+   * input의 box Shadow을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  boxShadow?: CSSProperties["boxShadow"];
+  /**
    * grid-area의 타입을 설정합니다.
    *
    * @default static

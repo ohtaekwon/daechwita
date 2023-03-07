@@ -27,6 +27,7 @@ export const Layout = React.forwardRef(function Layout(
     layoutType,
     width = "auto",
     backgroundColor = "inherit",
+    backgroundImage = "inherit",
     children,
     ...rest
   }: React.PropsWithChildren<Props>,
@@ -63,9 +64,10 @@ export const Layout = React.forwardRef(function Layout(
           backgroundColor="gray_100"
           backgroundImage={`linear-gradient(
       -90deg,
-      rgb(118, 84, 219) 0%,
-      rgb(98, 136, 252) 100%
+      rgb(118, 84, 219, .5) 0%,
+      rgb(98, 136, 252, .8) 100%
     )
+    
     `}
         >
           <Search />
@@ -77,6 +79,7 @@ export const Layout = React.forwardRef(function Layout(
         variant={variant}
         width={width}
         backgroundColor={backgroundColor}
+        backgroundImage={backgroundImage}
         ref={forwardedRef}
         {...rest}
       >

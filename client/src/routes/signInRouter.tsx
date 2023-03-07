@@ -13,6 +13,7 @@ import AddDocument from "pages/add-document";
 import { Layout } from "components/layout";
 import WriteResume from "pages/writeResume";
 import Interview from "pages/interview";
+import { generatorRandomCount } from "utils/helpers/random";
 
 const SignInRouter = () => {
   return (
@@ -33,9 +34,18 @@ const SignInRouter = () => {
         >
           <Route path="/my-documents" element={<MyDocuments />} />
         </Route>
+
         <Route
           path="/write"
-          element={<Layout variant="lg" layoutType={true} />}
+          element={
+            <Layout
+              variant="write"
+              layoutType={true}
+              backgroundImage={`url(${
+                process.env.PUBLIC_URL
+              }/images/bg_0${generatorRandomCount(7)}.jpg)`}
+            />
+          }
         >
           <Route path="/write/resume" element={<WriteResume />} />
         </Route>
