@@ -36,15 +36,16 @@ interface ResumesResponse {
   tag: (string | undefined)[];
 }
 
-const MyDocuments = () => {
+const Resumes = () => {
   const navigate = useNavigate();
   const [resumes, setResumes] = React.useState<ResumesResponse[]>([]);
+  const [toggle, setToggle] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     getAllResumes()
       .then(getResumesService)
       .then((res) => setResumes(res));
-  }, []);
+  }, [, toggle]);
 
   const handleAddClick = async () => {
     await createResume({
@@ -107,6 +108,8 @@ const MyDocuments = () => {
               updatedAt={updatedAt}
               resumes={resumes}
               tag={tag}
+              toggle={toggle}
+              setToggle={setToggle}
             />
           )
         )}
@@ -115,4 +118,4 @@ const MyDocuments = () => {
   );
 };
 
-export default MyDocuments;
+export default Resumes;

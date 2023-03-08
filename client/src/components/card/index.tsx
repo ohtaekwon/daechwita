@@ -1,4 +1,6 @@
 import React from "react";
+import { FaTrashAlt } from "react-icons/fa";
+
 import {
   ResumeCardProps,
   ScheduleCardProps,
@@ -19,6 +21,7 @@ import Input from "_common/components/input";
 import Form from "_common/components/form";
 import useInput from "hooks/app/useInput";
 import { deleteDocuments } from "lib/apis/api/documents";
+import { deleteResume } from "lib/apis/api/resumes";
 
 export const TodoCard = ({
   index,
@@ -168,6 +171,8 @@ export const ResumeCard = ({
   updatedAt,
   resumes,
   tag,
+  toggle,
+  setToggle,
 }: React.PropsWithChildren<ResumeCardProps>) => {
   // const { value: Ctitle, onChange: handleTitleChange } = useInput(title);
   // const { value: Ctext, onChange: handleTextChange } = useInput(text);
@@ -186,10 +191,10 @@ export const ResumeCard = ({
 
   const handleDelete = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    await deleteDocuments(id);
+    await deleteResume(id);
+    setToggle(!toggle);
   };
 
-  console.log(tag);
   return (
     <>
       <Box
@@ -205,16 +210,27 @@ export const ResumeCard = ({
         cursor="grab"
         gap={20}
       >
+        <Button
+          onClick={handleDelete}
+          variant="tdred_400_fill"
+          position="absolute"
+          top={0}
+          right={0}
+        >
+          <FaTrashAlt color="white" size={25} />
+        </Button>
         <Flex direction="column">
           {/* <Text>{title}</Text>
           <Text>{tag}</Text>
           <Text>{company}</Text> */}
+          <img alt="이미지가 없습니다." />
           {tag.map((item, index) =>
             item !== undefined ? <Text key={index}>{item}</Text> : null
           )}
         </Flex>
-        <button onClick={showModal}>수정하기</button>
-        <button onClick={handleDelete}>삭제하기</button>
+        <Button variant="default" onClick={showModal}>
+          수정하기
+        </Button>
       </Box>
 
       <Modal elementId="modal" show={modalShown} cancel={cancel}>

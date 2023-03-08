@@ -35,6 +35,7 @@ const WriteResume = () => {
     title: "",
     tag: "",
   });
+
   React.useEffect(() => {
     getLatestResume({ latest: true }).then((res) => {
       setResumeId(res.data[0].id);
@@ -55,6 +56,9 @@ const WriteResume = () => {
     });
   };
   const onPublish = async () => {
+    /**
+     * 출간 하기
+     */
     await updateResume(resumeId, {
       publishing: true,
     });
@@ -93,14 +97,7 @@ const WriteResume = () => {
     // console.log(imageData);
     const formData: any = new FormData();
     formData.append("files", imageData);
-    await postImageFile(
-      { data: formData },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    await postImageFile({ data: imageFile });
   };
 
   const onCickImageUpload = () => {
@@ -161,19 +158,20 @@ const WriteResume = () => {
             )}
             {!!!imageFile && (
               <Box
+                onClick={onCickImageUpload}
                 width={"100%"}
                 height={"100%"}
                 backgroundColor="transparent"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
-                style={{ border: "3px solid #f8fafc" }}
+                style={{ border: "3px solid #f8fafc", cursor: "pointer" }}
               >
                 <Text color="white"> 기업의 로고 사진을 첨부해주세요</Text>
               </Box>
             )}
 
-            {/* <Button
+            <Button
               onClick={handleAttach}
               // 스타일
               width="300px"
@@ -181,7 +179,7 @@ const WriteResume = () => {
               areaLabel="publish"
             >
               이미지 확인
-            </Button> */}
+            </Button>
           </Box>
           <CompanySelect
             company={applyState.company}

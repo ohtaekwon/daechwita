@@ -78,5 +78,8 @@ export interface ResumeCardProps
     }[];
   };
   tag: (string | undefined)[];
+
+  toggle: boolean;
+  setToggle: React.Dispatch<React.SetStateAction<boolean>>;
   children?: React.ReactNode;
 }
