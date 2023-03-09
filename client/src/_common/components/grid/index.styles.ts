@@ -5,7 +5,6 @@ export const Grid = styled.span<Required<GridProps>>`
   /**
   * 넓이/높이 설정
   */
-  height: 100%;
 
   /**
   * Grid 설정 

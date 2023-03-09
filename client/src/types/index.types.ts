@@ -153,6 +153,7 @@ type TimeType = {
 export interface ResumesType {
   id: string;
   uid: string;
+  imgUrl: string;
   createdAt: TimeType;
   publishing: boolean;
   apply: {

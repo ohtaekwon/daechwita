@@ -1,3 +1,4 @@
+import { BASE_URL_APPLICATIONS } from "utils/constants";
 import { authInstance } from "../utils/instance";
 import {
   requestDelete,
@@ -6,7 +7,6 @@ import {
   requestPut,
 } from "../utils/methods";
 import { getUsers, updateUsers } from "./users";
-import { BASE_URL, BASE_URL_APPLICATIONS } from "utils/constants/url";
 /**
  * GET /applications
  *

@@ -5,11 +5,8 @@ import {
   requestPost,
   requestPut,
 } from "../utils/methods";
-import { getUsers, updateUsers } from "./users";
-import { BASE_URL_RESUMES } from "utils/constants/url";
 import { handleError } from "../utils/helpers";
-import { Resume, ResumesType } from "types/index.types";
-import { AxiosResponse } from "axios";
+import { Resume } from "types/index.types";
 
 export const basePath = "/resumes";
 

@@ -1,10 +1,9 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
+import { ColumnType, TaskModel } from "types/index.types";
 
 import useTaskCollection from "./useTaskCollection";
-import { pickRandomColor } from "utils/helpers/random";
-import { swap } from "utils/helpers/swap";
-import { ColumnType, TaskModel } from "types/index.types";
+import { pickRandomColor, swap } from "utils/helpers";
 
 const MAX_TASK_PER_COLUMN = 100;
 

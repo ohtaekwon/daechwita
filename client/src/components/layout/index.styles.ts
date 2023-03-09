@@ -8,18 +8,13 @@ export const Layout = styled.main<Required<LayoutProps>>`
   margin: auto;
   /* display: flex;
   flex-direction: column; */
-  width: ${({ width }) => width};
   background-color: ${({ theme, backgroundColor }) =>
     theme.colors[backgroundColor]};
-  position: relative;
-  z-index: 1;
   background: ${({ backgroundImage }) => backgroundImage};
   /* background-repeat: repeat-y; */
   /* background-size: cover; */
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  ${({ variant, width, backgroundColor }) => {
+
+  ${({ variant, backgroundColor }) => {
     switch (variant) {
       case "default": {
         return css`
@@ -49,6 +44,9 @@ export const Layout = styled.main<Required<LayoutProps>>`
       case "lg": {
         return css`
           max-width: 1280px;
+          height: 100%;
+          max-height: max-content;
+          background-color: ${theme.colors.gray_50};
         `;
       }
       case "xl": {
@@ -59,7 +57,6 @@ export const Layout = styled.main<Required<LayoutProps>>`
       case "custom": {
         return css`
           margin: 0;
-          max-width:${width}%
           background-color: ${backgroundColor};
         `;
       }
@@ -67,6 +64,7 @@ export const Layout = styled.main<Required<LayoutProps>>`
         return css`
           width: 100%;
           background-color: rgba(255, 255, 255, 0.5);
+          position: relative;
 
           ::before {
             width: 100%;

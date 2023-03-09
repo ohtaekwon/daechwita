@@ -37,13 +37,6 @@ export interface LayoutProps {
    * @default 'inherit'
    */
   backgroundImage?: CSSProperties["backgroundImage"];
-
-  /**
-   * Layout의 variant을 설정합니다.
-   *
-   * @default auto
-   */
-  width?: CSSProperties["width"];
 }
 export interface Props extends HTMLAttributes<HTMLElement>, LayoutProps {
   layoutType?: boolean;

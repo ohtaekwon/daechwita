@@ -1,4 +1,4 @@
-import { BASE_URL_USERS } from "utils/constants/url";
+import { BASE_URL_USERS } from "utils/constants";
 import { requestGet, requestPut } from "../utils/methods";
 
 /**

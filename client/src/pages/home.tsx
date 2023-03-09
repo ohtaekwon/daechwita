@@ -1,15 +1,45 @@
 import React from "react";
 import Section from "components/section";
-import Flex from "_common/components/flex";
-import useFetch from "hooks/app/useFetch";
 import { getUsers } from "lib/apis/api/users";
 import Button from "_common/components/button";
+import { getAllResumes } from "lib/apis/api/resumes";
+import { getResumesService } from "lib/apis/service/getResumes";
+
+type TimeType = {
+  seconds: number;
+  nanoseconds: number;
+};
+
+interface ResumesResponse {
+  id: string;
+  createdAt: TimeType;
+  uid: string;
+  imgUrl: string;
+  updatedAt: null | TimeType;
+  resumes: {
+    apply: {
+      company: string;
+      department: string;
+    };
+    documents: {
+      id: string;
+      tag: string;
+      text: string;
+      title: string;
+    }[];
+  };
+  tag: (string | undefined)[];
+}
 
 const Home = () => {
   const [data, setData] = React.useState<any>();
+  const [resumes, setResumes] = React.useState<ResumesResponse[]>([]);
 
   React.useEffect(() => {
     getUsers().then((res) => setData(res));
+    getAllResumes()
+      .then(getResumesService)
+      .then((res) => setResumes(res));
   }, []);
 
   const handleUser = async () => {
@@ -59,6 +89,10 @@ const Home = () => {
         <Button variant={"zinc_300"}>zinc_300</Button>
         <Button variant={"zinc_500"}>zinc_500</Button>
         <Button variant={"zinc_700_fill"}>zinc_700_fill</Button>
+
+        {resumes.map((item) => (
+          <div style={{ width: "100%", height: "400px" }}>{item.id}</div>
+        ))}
       </Section>
     </>
   );

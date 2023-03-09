@@ -5,10 +5,19 @@ import { ResumesType } from "types/index.types";
  */
 export const getResumesService = (rowData: { data: ResumesType[] }) => {
   return rowData.data.map(
-    ({ id, uid, apply, createdAt, documents, updatedAt }: ResumesType) => {
+    ({
+      id,
+      uid,
+      imgUrl,
+      apply,
+      createdAt,
+      documents,
+      updatedAt,
+    }: ResumesType) => {
       return {
         id,
         uid,
+        imgUrl: imgUrl || process.env.PUBLIC_URL + "images/resume_alt_01.jpg",
         resumes: {
           apply,
           documents,

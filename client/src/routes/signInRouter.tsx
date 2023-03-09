@@ -15,30 +15,23 @@ import MyDashBoard from "pages/my-dashBoard";
 
 import LeftNav from "components/leftNav";
 import { Layout } from "components/layout";
-
-import { generatorRandomCount } from "utils/helpers/random";
+import { generatorRandomCount } from "utils/helpers";
 
 const SignInRouter = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout variant="default" />}>
+        <Route element={<Layout variant="default" />}>
           <Route path="/" element={<Home />} />
           <Route path="/my-schedule" element={<MySchedule />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
-        <Route path="/add/:id" element={<AddDocument />} />
-        <Route path="/my-interview" element={<Interview />} />
 
-        <Route
-          path="/resumes"
-          element={<Layout variant="lg" layoutType={true} />}
-        >
+        <Route element={<Layout variant="lg" layoutType={true} />}>
           <Route path="/resumes" element={<Resumes />} />
         </Route>
 
         <Route
-          path="/write"
           element={
             <Layout
               variant="write"
@@ -53,8 +46,8 @@ const SignInRouter = () => {
         </Route>
 
         <Route path="/todo" element={<MyTodo />} />
-
         <Route path="/my-interview" element={<MyInterview />} />
+        <Route path="/add/:id" element={<AddDocument />} />
       </Routes>
     </>
   );

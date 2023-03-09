@@ -25,7 +25,6 @@ export const Layout = React.forwardRef(function Layout(
     as = "div",
     variant,
     layoutType,
-    width = "auto",
     backgroundColor = "inherit",
     backgroundImage = "inherit",
     children,
@@ -77,7 +76,6 @@ export const Layout = React.forwardRef(function Layout(
         className={`layout__${variant}`}
         as={as}
         variant={variant}
-        width={width}
         backgroundColor={backgroundColor}
         backgroundImage={backgroundImage}
         ref={forwardedRef}

@@ -110,43 +110,7 @@ const resumesRoute = [
       }
     },
   },
-  {
-    method: "get",
-    route: "/resumes",
-    upload: upload.none(),
 
-    handler: async (req: express.Request, res: express.Response) => {
-      try {
-        // 쿠키에서 uid 가져오기
-        // const cookie = req.headers.cookie;
-        // const uid = cookie?.split("%22")[3];
-
-        // 토큰에서 uid 가져오기
-        const uid = req.headers.authorization?.split(" ")[1].trim();
-        if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
-
-        const resumes = await collection(dbService, "resumes"); // resumes 컬렉션에 접근
-        // 쿼리 조건문
-        const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록
-        queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
-
-        const q = firebaseQuery(resumes, ...queryOptions, limit(PAGE_SIZE));
-        const resumesSnapshot = await getDocs(q);
-        const data: DocumentData[] = [];
-
-        resumesSnapshot.forEach((doc) => {
-          const d = doc.data();
-          data.push({
-            id: doc.id,
-            ...d,
-          });
-        });
-        res.send({ data: data });
-      } catch (error) {
-        res.status(404).send({ error: error });
-      }
-    },
-  },
   // CREATE RESUME
   {
     method: "post",
