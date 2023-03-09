@@ -24,6 +24,7 @@ export interface ModalProps extends HTMLAttributes<HTMLElement>, ModalType {
   /**
    * modal을 닫기 위한 토글 이벤트
    */
-  cancel: () => void;
+  modalType: "delete" | "update";
+  cancel: (e: React.SyntheticEvent) => void;
   children?: React.ReactNode;
 }

@@ -24,14 +24,22 @@ export const Inner = styled.div`
   /**
   * 넓이/높이 설정
   */
-  width: 50%;
-  height: 50%;
+  width: 500px;
+  height: 300px;
   /**
   * 배치 설정
   */
-  margin: auto;
+  position: absolute;
   top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
   z-index: 999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
   /**
   * 배경/테두리 스타일 설정
   */

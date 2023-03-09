@@ -16,31 +16,42 @@ const ModalPortal = ({
 
 const Modal = ({
   elementId,
+  modalType,
+
   show,
   cancel,
   children,
 }: React.PropsWithChildren<ModalProps>) => {
-  const modalRef = React.useRef<HTMLDivElement>(null);
-  React.useEffect(() => {
-    document.body.style.cssText = `
-    position: fixed; 
-    top: -${window.scrollY}px;
-    overflow-y: scroll;
-    width: 100%;`;
+  const modalWrapperRef = React.useRef<HTMLDivElement>(null);
+  // React.useEffect(() => {
+  //   document.body.style.cssText = `
+  //   position: fixed;
+  //   top: -${window.scrollY}px;
+  //   overflow-y: scroll;
+  //   width: 100%;`;
 
-    return () => {
-      // 모달이 사라지면 style 코드 지워주고 원래 있던 위치로 돌려주기
-      const scrollY = document.body.style.top;
-      document.body.style.cssText = "";
-      window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
-    };
-  }, []);
+  //   return () => {
+  //     // 모달이 사라지면 style 코드 지워주고 원래 있던 위치로 돌려주기
+  //     const scrollY = document.body.style.top;
+  //     document.body.style.cssText = "";
+  //     window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+  //   };
+  // }, []);
+
   return show ? (
     <ModalPortal elementId={elementId}>
-      <Styled.Wrapper show={show}>
+      <Styled.Wrapper ref={modalWrapperRef} show={show}>
         <Styled.Inner className="modal__inner">
           <Styled.Content className="modal__content">
-            <Button onClick={cancel} variant={"default"} marginBottom={30}>
+            <Button
+              areaLabel={modalType === "update" ? "updateCancel" : "delete"}
+              onClick={cancel}
+              variant="default"
+              position="absolute"
+              top={0}
+              right={0}
+              marginBottom={30}
+            >
               <MdCancel size={30} />
             </Button>
             {children}

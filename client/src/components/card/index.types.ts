@@ -62,6 +62,7 @@ export interface ResumeCardProps
    * Card Item의 내부 컨텐츠의 모델의 타입을 설정합니다.
    */
   id: string;
+  imgUrl: string;
   createdAt: TimeType;
   uid: string;
   updatedAt: null | TimeType;
