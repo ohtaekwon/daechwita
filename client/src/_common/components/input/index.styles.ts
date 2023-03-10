@@ -62,7 +62,7 @@ export const Input = styled.input<Required<InputProps>>`
   -moz-box-sizing: border-box; /* Firefox, other Gecko */
   box-sizing: border-box; /* Opera/IE 8+ */
   ::placeholder {
-    color: ${({ color }) => color};
+    color: ${({ placeholderColor }) => placeholderColor};
   }
 
   ${({ type }) => {
@@ -91,9 +91,10 @@ export const Input = styled.input<Required<InputProps>>`
       case "search_1": {
         return css`
           border: 0;
-          background-color: ${theme.colors.white};
-          color: ${theme.colors.white};
-          font-size: 2rem;
+          background-color: ${theme.colors.transparent}!important;
+          color: ${theme.colors.gray_900}!important;
+          font-size: 1.5rem;
+
           transition: background-color 0.15s ease-in-out,
             border-color 0.15s ease-in-out, color 0.15s ease-in-out;
           &:hover {
@@ -105,13 +106,14 @@ export const Input = styled.input<Required<InputProps>>`
       }
       default: {
         return css`
-          border-color: ${theme.colors.transparent};
-          background-color: ${theme.colors.transparent};
-          color: ${theme.colors.blackText_1_fill};
+          border-color: ${theme.colors.zinc_700}!important;
+          background-color: ${theme.colors.zinc_700}!important;
+          color: ${theme.colors.gray_900}!important;
           transition: border-color 0.15s ease-in-out, color 0.15s ease-in-out;
           &:hover {
-            border-color: ${theme.colors.transparent};
-            color: ${theme.colors.blackText_1_fill};
+            border-color: ${theme.colors.zinc_500};
+            background-color: ${theme.colors.zinc_200};
+            color: ${theme.colors.black};
           }
         `;
       }

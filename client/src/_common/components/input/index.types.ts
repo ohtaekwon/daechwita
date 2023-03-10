@@ -150,39 +150,45 @@ export interface InputProps {
   direction?: CSSProperties["flexDirection"];
 
   /**
-   * Form의 justify-content 속성을 설정합니다.
+   * input의 justify-content 속성을 설정합니다.
    *
    * @default 'flex-start'
    */
   justifyContent?: CSSProperties["justifyContent"];
 
   /**
-   * Form의 align-items 속성을 설정합니다.
+   * input의 align-items 속성을 설정합니다.
    *
    * @default 'flex-start'
    */
   alignItems?: CSSProperties["alignItems"];
 
   /**
-   * Form의 cursor 속성을 설정합니다.
+   * input의 cursor 속성을 설정합니다.
    *
    * @default 'auto'
    */
   cursor?: CSSProperties["cursor"];
 
   /**
-   * Form의 opacity 속성을 설정합니다.
+   * input의 opacity 속성을 설정합니다.
    *
    * @default 'inherit'
    */
   opacity?: CSSProperties["opacity"];
 
   /**
-   * Box의 radius 설정합니다.
+   * input의 radius 설정합니다.
    *
    * @default 8
    */
   radius?: number;
+  /**
+   * input의 배경 색상을 설정합니다.
+   *
+   * @default 'inherit'
+   */
+  placeholderColor?: keyof typeof theme.colors;
 }
 
 export type InputType =

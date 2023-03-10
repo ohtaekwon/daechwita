@@ -27,11 +27,11 @@ const Search = () => {
     <>
       <Box
         width="1000px"
-        height="50px"
+        height="100%"
         display="flex"
         justifyContent="center"
         alignItems="center"
-        backgroundColor="inherit"
+        backgroundColor="white"
         position="relative"
         margin="auto"
       >
@@ -50,6 +50,7 @@ const Search = () => {
               fontSize: "1.5rem",
               paddingLeft: "1rem",
               paddingRight: "1rem",
+              border: 0,
             }}
           >
             <option value="all">전체</option>
@@ -66,13 +67,16 @@ const Search = () => {
             // 스타일
             variant="search_1"
             color="black"
+            placeholderColor="gray_200"
           />
           <Button
             type="submit"
             variant="default"
             position="absolute"
+            height="100%"
             top={0}
             right={0}
+            style={{ padding: 0 }}
           >
             <AiOutlineSearch size={30} />
           </Button>
