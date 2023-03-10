@@ -92,3 +92,32 @@ export function getSortedArray(array: (string | undefined)[]) {
   if (array[0] === "") return array;
   return array.sort((a, b) => (a as string).length - (b as string).length);
 }
+
+type color =
+  | "primary"
+  | "default"
+  | "zinc_200_filled"
+  | "vermillion_400_fill"
+  | "tdred_400_fill"
+  | "skyblue_500_fill"
+  | "zinc_700_fill"
+  | "tdblue_300_fill"
+  | "blackText_1_fill"
+  | "skyblue_300_fill"
+  | "skyblue_400_fill";
+
+export function randomButtonColor(): color {
+  const colorArray: color[] = [
+    "primary",
+    "zinc_200_filled",
+    "vermillion_400_fill",
+    "tdred_400_fill",
+    "skyblue_500_fill",
+    "zinc_700_fill",
+    "tdblue_300_fill",
+    "blackText_1_fill",
+    "skyblue_300_fill",
+    "skyblue_400_fill",
+  ];
+  return colorArray[Math.floor(Math.random() * colorArray.length)] as color;
+}

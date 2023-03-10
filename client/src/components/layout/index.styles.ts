@@ -13,7 +13,8 @@ export const Layout = styled.main<Required<LayoutProps>>`
   background: ${({ backgroundImage }) => backgroundImage};
   /* background-repeat: repeat-y; */
   /* background-size: cover; */
-
+  position: relative;
+  z-index: 1;
   ${({ variant, backgroundColor }) => {
     switch (variant) {
       case "default": {
@@ -64,7 +65,6 @@ export const Layout = styled.main<Required<LayoutProps>>`
         return css`
           width: 100%;
           background-color: rgba(255, 255, 255, 0.5);
-          position: relative;
 
           ::before {
             width: 100%;

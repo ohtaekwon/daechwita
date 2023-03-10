@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import { FaTrashAlt } from "react-icons/fa";
 import { HiPhotograph } from "react-icons/hi";
@@ -6,7 +7,7 @@ import { AiOutlinePlusSquare } from "react-icons/ai";
 
 import { useInputReducer } from "hooks/app/useInputReducer";
 import useItems from "hooks/app/useItems";
-import { getLatestResume, updateResume } from "lib/apis/api/resumes";
+import { getLatestResume, getResume, updateResume } from "lib/apis/api/resumes";
 import { postImageFile } from "lib/apis/api/formData";
 
 import Section from "components/section";
@@ -20,15 +21,27 @@ import Grid from "_common/components/grid";
 import Flex from "_common/components/flex";
 
 const WriteResume = () => {
-  const imageInputRef = React.useRef<HTMLInputElement>(null);
-  const [imageData, setImageData] = React.useState({});
-  const [imageFile, setImageFile] = React.useState<any>();
+  const { id } = useParams();
+  /**
+   * grid-repeat의 count를 관리하는 State
+   * @default 1
+   */
   const [count, setCount] = React.useState<number>(1);
+  /**
+   * resume의 id값을 관리하는 State
+   * @default ""
+   */
   const [resumeId, setResumeId] = React.useState<string>("");
-  const [applyState, setApplyState] = useInputReducer({
+
+  const [applyState, dispatch, setApplyState] = useInputReducer({
     company: "",
     department: "",
   });
+  /**
+   * 자기소개서 입력 폼의 컨텐츠들을 관리하는 Hook
+   * @default itemKey useItems의 키 값 설정
+   * @default defaultValue 기본값으로 id, tag, text, title로 구성
+   */
   const { add, update, _delete, items, setItems } = useItems("documents", {
     id: uuid(),
     text: "",
@@ -36,28 +49,49 @@ const WriteResume = () => {
     tag: "",
   });
 
+  const imageInputRef = React.useRef<HTMLInputElement>(null);
+  const [imageData, setImageData] = React.useState({});
+  const [imageFile, setImageFile] = React.useState<any>();
+
   React.useEffect(() => {
-    getLatestResume({ latest: true }).then((res) => {
-      setResumeId(res.data[0].id);
-      setItems({ documents: res.data[0].documents });
-    });
+    if (id) {
+      getResume(id).then((res) => {
+        setResumeId(res.data.id);
+        dispatch({
+          name: "department",
+          value: res.data.apply.department,
+        });
+        dispatch({
+          name: "company",
+          value: res.data.apply.company,
+        });
+        setItems({ documents: res.data.documents });
+      });
+    } else {
+      getLatestResume({ latest: true }).then((res) => {
+        setResumeId(res.data[0].id);
+        setItems({ documents: res.data[0].documents });
+      });
+    }
   }, []);
 
+  // 임시 저장 기능의 함수
   const onSave = async () => {
     /**
-     * 임시 저장
+     * resume REST API update request
+     * @default resumeId resume의 id
+     * @default body 업데이트할 내용
      */
     await updateResume(resumeId, {
-      /**
-       * 확인하여 Publishing
-       */
       apply: applyState,
       documents: items.documents,
     });
   };
   const onPublish = async () => {
     /**
-     * 출간 하기
+     * resume REST API update request
+     * @default resumeId
+     * @default body publishing의 기본값 false에서 true로 변환
      */
     await updateResume(resumeId, {
       publishing: true,
@@ -103,7 +137,6 @@ const WriteResume = () => {
   const onCickImageUpload = () => {
     imageInputRef.current?.click();
   };
-
   return (
     <>
       <Flex
@@ -128,8 +161,8 @@ const WriteResume = () => {
             fontSize="xxxl"
             fontWeight={700}
             textAlign="center"
-            marginTop={30}
-            marginBottom={30}
+            paddingBottom={30}
+            paddingTop={30}
             color="white"
           >
             자소서 쓰기
@@ -137,7 +170,6 @@ const WriteResume = () => {
 
           <Box
             display="flex"
-            // direction="column"
             width="300px"
             height="300px"
             justifyContent="left"

@@ -64,6 +64,7 @@ const Box = React.forwardRef(function Box(
      */
     opacity = "inherit",
     cursor = "auto",
+    backfaceVisibility = "inherit",
     children,
     ...rest
   }: React.PropsWithChildren<Props>,
@@ -131,6 +132,7 @@ const Box = React.forwardRef(function Box(
        */
       cursor={cursor}
       opacity={opacity}
+      backfaceVisibility={backfaceVisibility}
       /**
        * ref 설정
        */

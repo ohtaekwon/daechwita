@@ -1,30 +1,34 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { FaTrashAlt, FaHashtag } from "react-icons/fa";
+import { AiOutlineSearch } from "react-icons/ai";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { ImTree } from "react-icons/im";
+import { FaBuilding } from "react-icons/fa";
 import {
   ResumeCardProps,
   ScheduleCardProps,
   TodoCardProps,
 } from "./index.types";
 
+import * as Styled from "./index.styles";
+import { deleteResume } from "lib/apis/api/resumes";
+
 import useAutoHeightTextarea from "hooks/auto/useAutoHeightTextarea";
 import useTaskDragAndDrop from "hooks/dnd/useTaskDragAndDrop";
 
-import { RiDeleteBin6Line } from "react-icons/ri";
 import Box from "_common/components/box";
 import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Text from "_common/components/text";
 import Flex from "_common/components/flex";
 import Modal from "components/modal";
-import Input from "_common/components/input";
-import Form from "_common/components/form";
-import useInput from "hooks/app/useInput";
-import { deleteDocuments } from "lib/apis/api/documents";
-import { deleteResume } from "lib/apis/api/resumes";
+
 import {
   getFirebaseTimeToDate,
   getFirstSecondHalf,
   getSortedArray,
+  randomButtonColor,
 } from "utils/helpers";
 
 export const TodoCard = ({
@@ -128,7 +132,6 @@ export const ScheduleCard = ({
     checkItemEnterHandler,
   } = useAutoHeightTextarea();
 
-  console.log("tasks", task);
   return (
     <Box
       as="div"
@@ -179,9 +182,9 @@ export const ResumeCard = ({
   toggle,
   setToggle,
 }: React.PropsWithChildren<ResumeCardProps>) => {
-  // const { value: Ctitle, onChange: handleTitleChange } = useInput(title);
-  // const { value: Ctext, onChange: handleTextChange } = useInput(text);
-  // const { value: Ctag, onChange: handleTagChange } = useInput(tag);
+  const navigate = useNavigate();
+
+  const [frontToBack, setFrontToBack] = React.useState<boolean>(false);
 
   /**
    * 모달 state
@@ -215,37 +218,39 @@ export const ResumeCard = ({
     setToggle(!toggle);
   };
 
+  const handleUpdateButtonClick = () => {
+    navigate(`write/${id}`);
+  };
+
   return (
     <>
-      <Box
-        as="div"
-        role="alert"
-        variant="gray_200_border"
-        position="relative"
-        display="flex"
-        width="100%"
-        height="420px"
-        marginTop={20}
-        marginBottom={20}
-        cursor="pointer"
-        gap={20}
-        boxShadow={`0 4px 16px 0 rgba(31, 38, 135, 0.37);`}
-      >
-        <Button
-          areaLabel="delete"
-          onClick={showModal}
-          variant="tdred_400_fill"
+      <Styled.Wrapper as="div" onMouseLeave={() => setFrontToBack(false)}>
+        {/* 앞 면 */}
+        <Box
+          variant={frontToBack ? "front" : "gray_200_border"}
+          width="100%"
+          height="420px"
+          zIndex={10}
           position="absolute"
-          top={0}
-          right={0}
         >
-          <FaTrashAlt color="white" size={25} />
-        </Button>
-        <Box>
+          <div style={{ position: "absolute", top: 0, right: 0 }}>
+            <Button areaLabel="update" onClick={showModal} variant="primary">
+              <AiOutlineSearch color="white" />
+            </Button>
+            <Button
+              areaLabel="delete"
+              onClick={showModal}
+              variant="tdred_400_fill"
+            >
+              <FaTrashAlt color="white" />
+            </Button>
+          </div>
+
           <Flex direction="column">
             <img
               src={imgUrl}
               alt="이미지가 없습니다."
+              loading="lazy"
               style={{
                 width: "100%",
                 height: "170px",
@@ -255,21 +260,32 @@ export const ResumeCard = ({
             <Text
               fontSize="xxl"
               fontWeight={900}
-              marginLeft={10}
-              marginBottom={10}
-              marginTop={10}
+              paddingTop={10}
+              paddingBottom={10}
+              paddingLeft={10}
+              paddingRight={10}
             >
               {getFirstSecondHalf(firebaseDate)}
             </Text>
             <Flex style={{ margin: ".3rem 0" }}>
-              <Text fontSize="lg" fontWeight={700} marginLeft={10}>
-                지원 회사 :{" "}
+              <Text
+                fontSize="lg"
+                fontWeight={700}
+                marginLeft={10}
+                marginRight={10}
+              >
+                지원 회사 :
               </Text>
               <Text fontSize="lg">{resumes.apply.company}</Text>
             </Flex>
             <Flex style={{ margin: ".3rem 0" }}>
-              <Text fontSize="lg" fontWeight={700} marginLeft={10}>
-                지원 부서 :{" "}
+              <Text
+                fontSize="lg"
+                fontWeight={700}
+                marginLeft={10}
+                marginRight={10}
+              >
+                지원 부서 :
               </Text>
               <Text fontSize="lg" marginBottom={5}>
                 {resumes.apply.department}
@@ -297,17 +313,17 @@ export const ResumeCard = ({
             {tag[0] !== "" && (
               <Flex
                 width="100%"
-                height="40px"
+                height="100%"
                 wrap="wrap"
                 style={{
-                  marginBottom: ".3rem",
+                  padding: ".5rem",
                 }}
               >
                 {getSortedArray(tag).map((item, index) =>
-                  !item ? null : index <= 4 ? (
+                  !item ? null : index < 5 ? (
                     <Button
-                      key={index}
-                      variant="vermillion_400_fill"
+                      key={`${tag}-${index}`}
+                      variant={randomButtonColor()}
                       marginRight={5}
                       marginBottom={5}
                     >
@@ -316,26 +332,77 @@ export const ResumeCard = ({
                     </Button>
                   ) : null
                 )}
-                {tag.length > 3 && <Button variant="default">더보기 </Button>}
+                {tag.length > 5 && (
+                  <Button
+                    variant="default"
+                    onClick={() => setFrontToBack(true)}
+                  >
+                    더보기
+                  </Button>
+                )}
               </Flex>
             )}
           </Flex>
         </Box>
-        {/* <Button variant="default" areaLabel="update" onClick={showModal}>
-          수정하기
-        </Button> */}
-      </Box>
-
+        {/* 뒷 면 */}
+        <Box
+          variant="back"
+          zIndex={5}
+          position="absolute"
+          width="100%"
+          height="420px"
+        >
+          <img
+            src={process.env.PUBLIC_URL + "images/resume_alt_01.jpg"}
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              zIndex: 6,
+              opacity: 0.6,
+            }}
+          />
+          <Flex
+            width="100%"
+            height="100%"
+            backgroundColor="transparent"
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            wrap="wrap"
+            style={{
+              zIndex: 7,
+              position: "absolute",
+              margin: "auto",
+              padding: "1rem",
+            }}
+          >
+            {tag.map((item, index) => (
+              <Button
+                key={`${item}-${index}`}
+                variant={randomButtonColor()}
+                radius={15}
+                marginTop={5}
+                marginBottom={5}
+              >
+                <FaHashtag />
+                {item}
+              </Button>
+            ))}
+          </Flex>
+        </Box>
+      </Styled.Wrapper>
+      {/* 삭제하기 버튼 모달창 */}
       <Modal
         modalType="delete"
         elementId="deleteModal"
+        width="500px"
+        height="300px"
         show={deleteModalShow}
         cancel={cancel}
       >
         <Box
           variant="default"
-          width="100%"
-          height="500px"
           display="flex"
           direction="column"
           justifyContent="center"
@@ -371,47 +438,111 @@ export const ResumeCard = ({
           </Flex>
         </Box>
       </Modal>
-
+      {/* 자세히 보기 버튼 모달창 */}
       <Modal
         modalType="update"
         elementId="modal"
+        width="50%"
+        height="90%"
         show={updateModalShown}
         cancel={cancel}
       >
-        <Form width={"100%"} height={"100%"}>
-          <Box variant={"default"} display="flex" direction="column">
-            {/* <Input
-              type="text"
-              id="title"
-              name="title"
+        <Box
+          display="flex"
+          direction="column"
+          padding="1rem"
+          width="100%"
+          height="100%"
+        >
+          <Flex
+            width="100%"
+            justifyContent="space-around"
+            style={{
+              borderBottom: "1px solid #000",
+              padding: "1rem 0",
+            }}
+          >
+            <Text
+              fontSize="xxl"
+              fontWeight={700}
+              paddingTop={10}
+              paddingBottom={10}
+              paddingLeft={10}
+              paddingRight={10}
+              marginRight={10}
+              whiteSpace="nowrap"
+            >
+              <FaBuilding size={30} /> 회사 : {resumes.apply.company}
+            </Text>
+            <Text
+              fontSize="xxl"
+              fontWeight={700}
+              paddingTop={10}
+              paddingBottom={10}
+              paddingLeft={10}
+              paddingRight={10}
+              whiteSpace="nowrap"
+            >
+              <ImTree size={30} /> 부서 : {resumes.apply.department}
+            </Text>
+          </Flex>
+          {resumes.documents.map((doc, index) => (
+            <Flex key={index} direction="column" style={{ marginTop: "1rem" }}>
+              <Text
+                fontSize="xl"
+                fontWeight={700}
+                paddingTop={10}
+                paddingBottom={10}
+                paddingLeft={10}
+                paddingRight={10}
+                whiteSpace="nowrap"
+              >
+                유 형 : {doc.tag}
+              </Text>
+              <Text
+                fontSize="xl"
+                fontWeight={700}
+                paddingTop={10}
+                paddingBottom={10}
+                paddingLeft={10}
+                paddingRight={10}
+                whiteSpace="nowrap"
+              >
+                제 목 : {doc.title}
+              </Text>
+              <Text
+                fontSize="xl"
+                lineHeight="xl"
+                paddingTop={10}
+                paddingBottom={10}
+                paddingLeft={10}
+                paddingRight={10}
+              >
+                {doc.text}
+              </Text>
+            </Flex>
+          ))}
+          <Box
+            width="100%"
+            height="auto"
+            position="sticky"
+            marginTop={400}
+            bottom={0}
+            left={0}
+            right={0}
+          >
+            <Button
               width="100%"
-              value={Ctitle}
-              defaultValue={Ctitle}
-              onChange={handleTitleChange}
-              placeholder="제목을 입력해주세요"
-            />
-            <Input
-              type="text"
-              id="text"
-              name="text"
-              value={Ctext}
-              defaultValue={Ctext}
-              onChange={handleTextChange}
-              width="100%"
-              placeholder="본문을 입력해주세요"
-            />
-            <Input
-              type="text"
-              id="tag"
-              name="tag"
-              value={Ctag}
-              defaultValue={Ctag}
-              onChange={handleTagChange}
-              width="100%"
-              placeholder="tag를 입력해주세요"
-            /> */}
+              onClick={handleUpdateButtonClick}
+              variant="tdred_400_fill"
+              fontSize="xxl"
+              radius={8}
+              height="50px"
+            >
+              자세히 보기
+            </Button>
           </Box>
-        </Form>
+        </Box>
       </Modal>
     </>
   );

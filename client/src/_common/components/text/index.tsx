@@ -37,6 +37,7 @@ const Text = React.forwardRef(function Text(
      * 기타 옵션 설정정
      */
     opacity = 1,
+    whiteSpace = "normal",
     ...rest
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLElement>
@@ -74,6 +75,7 @@ const Text = React.forwardRef(function Text(
        * 기타 옵션 설정정
        */
       opacity={opacity}
+      whiteSpace={whiteSpace}
       /**
        * ref 설정
        */

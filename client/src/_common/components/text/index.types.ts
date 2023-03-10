@@ -113,7 +113,14 @@ export interface TextProps {
    *
    * @default 'auto'
    */
-  letterSpacing: CSSProperties["letterSpacing"];
+  letterSpacing?: CSSProperties["letterSpacing"];
+
+  /**
+   * 텍스트를 여백을 설정합니다.
+   *
+   * @default ' normal;
+   */
+  whiteSpace?: CSSProperties["whiteSpace"];
 }
 
 export interface Props

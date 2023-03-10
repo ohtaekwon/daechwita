@@ -1,19 +1,19 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 import { v4 as uuid } from "uuid";
 
 import { createResume, getAllResumes } from "lib/apis/api/resumes";
+import { getOnlyPublishedResumesService } from "lib/apis/service/getResumes";
+import useInterSection from "hooks/app/useInterSection";
+import { emoji } from "utils/constants";
 
 import Section from "components/section";
 import { ResumeCard as Card } from "components/card";
 import Text from "_common/components/text";
 import Button from "_common/components/button";
-import { getResumesService } from "lib/apis/service/getResumes";
 import Box from "_common/components/box";
 import Grid from "_common/components/grid";
-import useInterSection from "hooks/app/useInterSection";
-import { emoji } from "utils/constants";
 
 type TimeType = {
   seconds: number;
@@ -43,17 +43,25 @@ interface ResumesResponse {
 
 const Resumes = () => {
   const navigate = useNavigate();
-  const fetchMoreRef = React.useRef<HTMLDivElement>(null);
-  const intersecting = useInterSection(fetchMoreRef);
+  const location = useLocation();
+  const decodeUri = decodeURI(location?.search);
   const [resumes, setResumes] = React.useState<ResumesResponse[]>([]);
   const [toggle, setToggle] = React.useState<boolean>(false);
+
+  const fetchMoreRef = React.useRef<HTMLDivElement>(null); // 맨 밑의 무한스크롤을 감지하기 위한 DIV 태그
+  /**
+   * 무한스크롤 커스텀 훅
+   * @params targetRef
+   */
+  const intersecting = useInterSection(fetchMoreRef);
 
   React.useEffect(() => {
     // if (!intersecting) {
     //   return;
     // }
+
     getAllResumes()
-      .then(getResumesService)
+      .then(getOnlyPublishedResumesService)
       .then((res) => setResumes(res));
   }, [, toggle]);
 
@@ -74,11 +82,9 @@ const Resumes = () => {
       ],
       publishing: false,
     });
-    await navigate("/write/resume");
+    await navigate("write");
   };
-
-  console.log("intersecting", intersecting, "fetchMoreRef", fetchMoreRef);
-
+  console.log("decodeUri", decodeUri);
   return (
     <>
       <Text
@@ -100,7 +106,8 @@ const Resumes = () => {
       >
         <Grid
           gridTemplateColumns="repeat(3, 1fr)"
-          // gridTemplateRows="repeat(2, 1fr)"
+          gridTemplateRows="repeat(3, 1fr)"
+          placeItems="center"
         >
           <Box
             as="div"
@@ -123,17 +130,20 @@ const Resumes = () => {
           </Box>
 
           {resumes.map(
-            ({
-              id,
-              createdAt,
-              imgUrl,
-              updatedAt,
-              uid,
-              resumes,
-              tag,
-            }: ResumesResponse) => (
+            (
+              {
+                id,
+                createdAt,
+                imgUrl,
+                updatedAt,
+                uid,
+                resumes,
+                tag,
+              }: ResumesResponse,
+              index
+            ) => (
               <Card
-                key={id}
+                key={`${id}-${index}`}
                 id={id}
                 uid={uid}
                 imgUrl={imgUrl}
@@ -147,7 +157,7 @@ const Resumes = () => {
             )
           )}
         </Grid>
-        <div className="fetchMore" ref={fetchMoreRef}></div>
+        {/* <div className="fetchMore" ref={fetchMoreRef}></div> */}
       </Section>
     </>
   );

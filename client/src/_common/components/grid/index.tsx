@@ -12,9 +12,15 @@ const Grid = React.forwardRef(function Grid(
      * Grid 설정
      */
     display = "grid",
-    gridTemplateAreas = "none",
-    gridTemplateColumns = "noe",
+    gridTemplateAreas = "inherit",
+    gridTemplateColumns = "inherit",
     gridTemplateRows = "auto",
+    /**
+     * 배치 설정
+     */
+    margin = 0,
+    padding = 0,
+    placeItems = "inherit",
     /**
      * 배경/테두리 스타일 설정
      */
@@ -38,6 +44,12 @@ const Grid = React.forwardRef(function Grid(
       gridTemplateAreas={gridTemplateAreas}
       gridTemplateColumns={gridTemplateColumns}
       gridTemplateRows={gridTemplateRows}
+      /**
+       * 배치 설정 Prop
+       */
+      margin={margin}
+      padding={padding}
+      placeItems={placeItems}
       /**
        * 배경/테두리 스타일 설정 Prop
        */

@@ -11,7 +11,12 @@ export type BoxType =
   /**
    *  Box의 variant에 따른 디자인된 BOX를 설정합니다.
    */
-  "primary" | "default" | "gray_200_border" | "blue_200_border";
+  | "primary"
+  | "default"
+  | "gray_200_border"
+  | "blue_200_border"
+  | "front"
+  | "back";
 
 export interface BoxProps {
   /**
@@ -233,6 +238,13 @@ export interface BoxProps {
    * @default 0
    */
   gap?: CSSProperties["gap"];
+
+  /**
+   * Box의 뒤집기 옵션을 설정합니다.
+   *
+   * @default visible
+   */
+  backfaceVisibility?: CSSProperties["backfaceVisibility"];
 }
 export interface Props extends HTMLAttributes<HTMLElement>, BoxProps {
   /**

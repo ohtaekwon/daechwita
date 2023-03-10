@@ -50,15 +50,17 @@ export const Box = styled.span<Required<BoxProps>>`
 
   border-radius: ${({ radius }) => `${radius}px`};
   box-shadow: ${({ boxShadow }) => boxShadow};
+  border-style: solid;
+  box-sizing: border-box;
   /**
   * 기타 옵션 설정
   */
+  backface-visibility: ${({ backfaceVisibility }) => backfaceVisibility};
   cursor: ${({ cursor }) => cursor};
   opacity: ${({ opacity }) => opacity};
+  gap: ${({ gap }) => gap};
 
-  border-style: solid;
-  box-sizing: border-box;
-  ${({ variant, theme }) => {
+  ${({ variant, theme, backgroundImage }) => {
     switch (variant) {
       case "primary": {
         /**
@@ -77,31 +79,15 @@ export const Box = styled.span<Required<BoxProps>>`
           }
         `;
       }
-      case "gray_200_border": {
-        /**
-         * gray 테두리 box, hover시 stone 색상
-         */
-        return css`
-          border-color: ${theme.colors.gray_300};
-          background-color: ${theme.colors.gray_50};
-          color: ${theme.colors.black};
-          transition: background-color 0.15s ease-in-out,
-            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
-          &:hover {
-            border-color: ${theme.colors.stone_300};
-            background-color: ${theme.colors.stone_300};
-            color: ${theme.colors.white};
-          }
-        `;
-      }
       case "blue_200_border": {
         /**
          * blue 테두리 box, hover시 진한 blue 색상
          */
         return css`
-          border-color: ${theme.colors.blue_200};
-          background-color: ${theme.colors.blue_200};
-          color: ${theme.colors.white};
+          border: 0;
+          border-color: ${theme.colors.blue_200}!important;
+          background-color: ${theme.colors.blue_200}!important;
+          color: ${theme.colors.white}!important;
           transition: background-color 0.15s ease-in-out,
             border-color 0.15s ease-in-out, color 0.15s ease-in-out;
           &:hover {
@@ -109,6 +95,33 @@ export const Box = styled.span<Required<BoxProps>>`
             background-color: ${theme.colors.blue_500};
             color: ${theme.colors.white};
           }
+        `;
+      }
+      case "gray_200_border": {
+        return css`
+          border-color: ${theme.colors.gray_300}!important;
+          background-color: ${theme.colors.gray_50}!important;
+          color: ${theme.colors.black}!important;
+          box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
+        `;
+      }
+      case "front": {
+        return css`
+          border-color: ${theme.colors.gray_300}!important;
+          background-color: ${theme.colors.gray_50}!important;
+          color: ${theme.colors.black};
+          transition: all ease 1s;
+          transform: rotateY(180deg);
+          backface-visibility: hidden;
+          box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
+        `;
+      }
+      case "back": {
+        return css`
+          transition: all ease 1s;
+          border-color: ${theme.colors.gray_300}!important;
+          background-color: ${theme.colors.gray_50}!important;
+          box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
         `;
       }
 
@@ -125,5 +138,5 @@ export const Box = styled.span<Required<BoxProps>>`
         `;
       }
     }
-  }}
+  }};
 `;

@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactChild } from "react";
+import { CSSProperties, HTMLAttributes, ReactChild } from "react";
 
 export interface PortalType {}
 
@@ -9,6 +9,7 @@ export interface PortalProps extends HTMLAttributes<HTMLElement>, PortalType {
   elementId: string;
   children: ReactChild | ReactChild[];
 }
+
 export interface ModalType {
   /**
    * modal의 boolean을 통한 display변환
@@ -16,7 +17,15 @@ export interface ModalType {
   show: boolean;
 }
 
-export interface ModalProps extends HTMLAttributes<HTMLElement>, ModalType {
+export interface InnerType {
+  width?: CSSProperties["width"];
+  height?: CSSProperties["height"];
+}
+
+export interface ModalProps
+  extends HTMLAttributes<HTMLElement>,
+    ModalType,
+    InnerType {
   /**
    * portal에 Prop으로 내려줄 element의 id
    */
@@ -24,6 +33,7 @@ export interface ModalProps extends HTMLAttributes<HTMLElement>, ModalType {
   /**
    * modal을 닫기 위한 토글 이벤트
    */
+
   modalType: "delete" | "update";
   cancel: (e: React.SyntheticEvent) => void;
   children?: React.ReactNode;

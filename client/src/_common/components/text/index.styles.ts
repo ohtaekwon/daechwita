@@ -29,4 +29,8 @@ export const Text = styled.span<Required<TextProps>>`
   * 기타 옵션 설정정
    */
   opacity: ${({ opacity }) => opacity};
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: ${({ whiteSpace }) => whiteSpace};
 `;

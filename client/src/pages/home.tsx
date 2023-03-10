@@ -42,13 +42,6 @@ const Home = () => {
       .then((res) => setResumes(res));
   }, []);
 
-  const handleUser = async () => {
-    const users = await getUsers();
-    return users;
-  };
-  // React.useEffect(() => {
-  //   handleUser().then((res) => console.log(res[0].numberOfPublishing));
-  // }, []);
   return (
     <>
       <Section
@@ -89,10 +82,6 @@ const Home = () => {
         <Button variant={"zinc_300"}>zinc_300</Button>
         <Button variant={"zinc_500"}>zinc_500</Button>
         <Button variant={"zinc_700_fill"}>zinc_700_fill</Button>
-
-        {resumes.map((item) => (
-          <div style={{ width: "100%", height: "400px" }}>{item.id}</div>
-        ))}
       </Section>
     </>
   );

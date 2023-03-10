@@ -49,6 +49,26 @@ export interface GridProps {
    * @default 'inherit'
    */
   backgroundColor?: keyof typeof theme.colors;
+  /**
+   * Grid의 margin을 설정합니다.
+   *
+   * @default 0
+   */
+
+  margin?: CSSProperties["margin"];
+
+  /**
+   * Grid의 padding을 설정합니다.
+   *
+   * @default 0
+   */
+  padding?: CSSProperties["padding"];
+  /**
+   * Grid의 정렬을 설정합니다.
+   *
+   * @default inherit
+   */
+  placeItems?: CSSProperties["placeItems"];
 }
 
 export interface Props extends HTMLAttributes<HTMLElement>, GridProps {}

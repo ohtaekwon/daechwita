@@ -16,6 +16,12 @@ export const Grid = styled.span<Required<GridProps>>`
   grid-template-rows: ${({ gridTemplateRows }) => gridTemplateRows};
   grid-gap: 1rem;
   /**
+  * 배치 설정
+  */
+  margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
+  place-items: ${({ placeItems }) => placeItems};
+  /**
   * 배경/테두리 스타일 설정
   */
   background-color: ${({ backgroundColor, theme }) =>

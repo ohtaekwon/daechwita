@@ -1,5 +1,6 @@
+import { css } from "@emotion/css";
 import styled from "@emotion/styled";
-import { ModalType } from "./index.types";
+import { InnerType, ModalType } from "./index.types";
 
 export const Wrapper = styled.div<Required<ModalType>>`
   /**
@@ -20,15 +21,7 @@ export const Wrapper = styled.div<Required<ModalType>>`
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(1px);
 `;
-export const Inner = styled.div`
-  /**
-  * 넓이/높이 설정
-  */
-  width: 500px;
-  height: 300px;
-  /**
-  * 배치 설정
-  */
+export const Inner = styled.div<InnerType>`
   position: absolute;
   top: 0;
   left: 0;
@@ -36,23 +29,15 @@ export const Inner = styled.div`
   bottom: 0;
   margin: auto;
   z-index: 999;
-
   display: flex;
   justify-content: center;
   align-items: center;
-  /**
-  * 배경/테두리 스타일 설정
-  */
   background-color: #fff;
+  max-width: ${({ width }) => width};
+  max-height: ${({ height }) => height};
+  overflow: scroll;
 `;
 export const Content = styled.div`
-  /**
-  * 배치 설정
-  */
-  display: flex;
-  flex-direction: column;
-  /**
-  * 간격 설정
-  */
-  column-gap: 2rem;
+  width: 100%;
+  height: 100%;
 `;

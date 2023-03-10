@@ -16,6 +16,7 @@ import MyDashBoard from "pages/my-dashBoard";
 import LeftNav from "components/leftNav";
 import { Layout } from "components/layout";
 import { generatorRandomCount } from "utils/helpers";
+import ResumesId from "pages/resumesId";
 
 const SignInRouter = () => {
   return (
@@ -42,7 +43,8 @@ const SignInRouter = () => {
             />
           }
         >
-          <Route path="/write/resume" element={<WriteResume />} />
+          <Route path="resumes/write" element={<WriteResume />} />
+          <Route path="resumes/write/:id" element={<WriteResume />} />
         </Route>
 
         <Route path="/todo" element={<MyTodo />} />
