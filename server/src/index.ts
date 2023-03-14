@@ -8,7 +8,7 @@ import resumesRoute from "./routes/resumes";
 import uploadImagesRoute from "./routes/uploadImages";
 
 export const app = express();
-
+const PORT = process.env.PORT || 8000;
 app.use(express.json()); // application/json 파싱을 위해서
 app.use(
   cors({
@@ -32,8 +32,8 @@ routes.forEach(({ method, route, upload, handler }) => {
   app[method as Method](route, upload, handler);
 });
 
-app.listen({ port: 8000 });
-console.log("server is listening on port 8000...");
+app.listen({ port: PORT });
+console.log(`server is listening on port ${PORT}...`);
 
 type Method =
   | "get"
