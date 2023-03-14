@@ -21,12 +21,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET)); // get요청이 오면 uri변�
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const routes = [
-  ...usersRoute,
-  ...resumesRoute,
-  ...schedulesRoute,
-  ...uploadImagesRoute,
-];
+const routes = [...usersRoute, ...resumesRoute, ...schedulesRoute];
 
 routes.forEach(({ method, route, upload, handler }) => {
   app[method as Method](route, upload, handler);
