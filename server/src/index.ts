@@ -7,9 +7,6 @@ import schedulesRoute from "./routes/schedules";
 import resumesRoute from "./routes/resumes";
 import uploadImagesRoute from "./routes/uploadImages";
 
-import applicationsRoute from "./routes/applications";
-import documentsRoute from "./routes/documents";
-
 export const app = express();
 
 app.use(express.json()); // application/json 파싱을 위해서
@@ -50,10 +47,3 @@ type Method =
   | "options"
   | "patch"
   | "connect";
-
-// app.get('/', (res:any,req)=>{
-//   res.send('ok')
-// })
-// app.post('/documents', (req,res)=>{
-//   ....
-// })

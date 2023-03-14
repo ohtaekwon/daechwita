@@ -1,5 +1,5 @@
 import * as express from "express";
-import { storageService } from "../../firebase";
+import { storageService } from "../firebase";
 
 import { ref, uploadString } from "firebase/storage";
 import multer from "multer";

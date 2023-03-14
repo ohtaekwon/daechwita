@@ -1,7 +1,7 @@
 import * as express from "express";
 import multer from "multer";
 
-import { dbService } from "../../firebase";
+import { dbService } from "../firebase";
 import {
   addDoc,
   collection,

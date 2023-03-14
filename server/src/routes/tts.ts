@@ -1,5 +1,5 @@
 import * as express from "express";
-import { clientId, clientSecret } from "../../clovaConfig";
+import { clientId, clientSecret } from "../clovaConfig";
 import { DBField, writeStream } from "../dbController";
 
 const setStream = () => writeStream(DBField.STREAM);

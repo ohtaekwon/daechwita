@@ -1,7 +1,7 @@
 import * as express from "express";
 import { v4 } from "uuid";
 import { DBField, readDB, writeDB } from "../dbController";
-import { dbService } from "../../firebase";
+import { dbService } from "../firebase";
 import {
   addDoc,
   collection,

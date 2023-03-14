@@ -2,7 +2,7 @@ import * as express from "express";
 import { v4 as uuid } from "uuid";
 import multer from "multer";
 
-import { dbService } from "../../firebase";
+import { dbService } from "../firebase";
 import {
   addDoc,
   collection,
