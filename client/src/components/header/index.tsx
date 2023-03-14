@@ -44,7 +44,7 @@ const Header = () => {
             }}
           />
         </Link>
-        <Link to="/todo">
+        <Link to="/schedules">
           <Button
             variant="default"
             paddingY={9}
@@ -53,7 +53,7 @@ const Header = () => {
             lineHeight="md"
             color="zinc_400"
           >
-            오늘의 할일
+            입사 지원 현황
           </Button>
         </Link>
         <Link to="/resumes">

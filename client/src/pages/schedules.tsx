@@ -4,16 +4,13 @@ import Section from "components/section";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { ScheduleType } from "types/index.types";
-import Flex from "_common/components/flex";
 import { ColumnColorSchema } from "types/schema.types";
-import { getSchedules } from "lib/apis/api/schedules";
-import { getSchedulesList } from "lib/apis/service/getSchedulesList";
 
-const MySchedule = () => {
+const Schedules = () => {
   return (
     <Section as="section" display="grid" gridTemplateColumns="repeat(4, 1fr)">
       <DndProvider backend={HTML5Backend}>
-        <Column
+        {/* <Column
           key={`${"schedule"}-1`}
           className={`KanBan__${ScheduleType.DOCUMENT_ROUND}`}
           column={ScheduleType.DOCUMENT_ROUND}
@@ -40,10 +37,10 @@ const MySchedule = () => {
           column={ScheduleType.THIRD_ROUND}
           columnColorSchema={ColumnColorSchema}
           type={"firebase"}
-        />
+        /> */}
       </DndProvider>
     </Section>
   );
 };
 
-export default MySchedule;
+export default Schedules;

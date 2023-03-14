@@ -19,6 +19,7 @@ import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
 import Flex from "_common/components/flex";
+import { emoji } from "utils/constants";
 
 const WriteResume = () => {
   const { id } = useParams();
@@ -165,7 +166,7 @@ const WriteResume = () => {
             paddingTop={30}
             color="white"
           >
-            자소서 쓰기
+            나의 자기소개서 {emoji.WRITE}
           </Text>
 
           <Box
@@ -320,6 +321,7 @@ const WriteResume = () => {
               display="flex"
               alignItems="center"
               justifyContent="center"
+              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
               style={{ border: 0 }}
             />
             <Button
@@ -369,9 +371,8 @@ const CompanySelect = ({
           // 스타일
           width="100%"
           height="50px"
-          backgroundColor="transparent"
-          borderColor="slate_50"
-          color="white"
+          variant="resume"
+          boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
           radius={8}
           marginBottom={10}
           marginTop={10}
@@ -388,9 +389,8 @@ const CompanySelect = ({
           // 스타일
           width="100%"
           height="50px"
-          backgroundColor="transparent"
-          borderColor="slate_50"
-          color="white"
+          variant="resume"
+          boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
           radius={8}
           marginBottom={10}
           marginTop={10}
@@ -489,12 +489,10 @@ const FormItem = ({
               onChange={handleChange}
               placeholder="tag를 입력해주세요"
               // 스타일
+              variant="resume"
               width="100%"
               height="50px"
-              backgroundColor="transparent"
-              borderColor="slate_50"
-              color="white"
-              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 10%), 0 4px 12px 0 rgb(0 0 0 / 6%);`}
+              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
               radius={8}
               marginTop={10}
               marginBottom={10}
@@ -510,10 +508,8 @@ const FormItem = ({
               // 스타일
               width="100%"
               height="50px"
-              backgroundColor="transparent"
-              borderColor="slate_50"
-              color="white"
-              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 10%), 0 4px 12px 0 rgb(0 0 0 / 6%);`}
+              variant="resume"
+              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
               radius={8}
               marginTop={10}
               marginBottom={10}
@@ -530,8 +526,7 @@ const FormItem = ({
               fontSize="lg"
               color="white"
               backgroundColor="transparent"
-              borderColor="slate_50"
-              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 10%), 0 4px 12px 0 rgb(0 0 0 / 6%);`}
+              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
               fontWeight={500}
               paddingBottom={10}
               paddingLeft={10}
@@ -539,6 +534,7 @@ const FormItem = ({
               paddingTop={30}
               marginTop={10}
               marginBottom={10}
+              style={{ border: 0 }}
             >
               {item.text}
             </Textarea>

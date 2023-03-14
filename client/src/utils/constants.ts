@@ -27,4 +27,5 @@ export const colors = [
 
 export const emoji = {
   DOCUMENT: "📜",
+  WRITE: "✍🏻",
 } as const;

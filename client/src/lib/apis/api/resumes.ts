@@ -60,7 +60,7 @@ export const getLatestResume = async ({ latest = false }) => {
   }
 };
 /**
- * GET resumes
+ * GET All resumes
  */
 export const getAllResumes = async () => {
   try {
@@ -125,7 +125,7 @@ export const deleteResume = async (resumeId: string) => {
     const response = await requestDelete(apiRoute);
     return response;
   } catch (error) {
-    console.error(`자기소개서를 저장하던 중 에러가 발생하였습니다!`);
+    console.error(`자기소개서를 삭제하던 중 에러가 발생하였습니다!`);
     const { code, message } = handleError(error);
     return { error: { code, message } };
   }

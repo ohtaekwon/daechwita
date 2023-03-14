@@ -1,33 +1,32 @@
-import { getSchedules } from "lib/apis/api/schedules";
 import { getSchedulesList } from "lib/apis/service/getSchedulesList";
 import React from "react";
 import { ScheduleType } from "types/index.types";
 
 function useColumnManager(column: ScheduleType) {
   const [tasks, setTasks] = React.useState([]);
-  const readValue = React.useCallback(() => {
-    getSchedules()
-      .then(getSchedulesList)
-      .then((res) => setTasks(res));
-  }, []);
+  // const readValue = React.useCallback(() => {
+  //   getSchedules()
+  //     .then(getSchedulesList)
+  //     .then((res) => setTasks(res));
+  // }, []);
 
-  React.useEffect(() => {
-    readValue();
-  }, [column]);
+  // React.useEffect(() => {
+  //   readValue();
+  // }, [column]);
 
-  const addEmptyTask = React.useCallback(() => {
-    console.log(`Adding new Empty task to ${column} column`);
+  // const addEmptyTask = React.useCallback(() => {
+  //   console.log(`Adding new Empty task to ${column} column`);
 
-    // setTasks((allTasks)=>{
+  //   // setTasks((allTasks)=>{
 
-    //   return {
-    //   ...allTasks,
-    //   }
-    // })
-  }, [column, setTasks]);
-  return {
-    tasks,
-  };
+  //   //   return {
+  //   //   ...allTasks,
+  //   //   }
+  //   // })
+  // }, [column, setTasks]);
+  // return {
+  //   tasks,
+  // };
 }
 export default useColumnManager;
 

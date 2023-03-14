@@ -1,4 +1,3 @@
-import { TItems, TItemStatus } from "pages/my-dashBoard";
 import { useEffect, useState } from "react";
 import {
   DragDropContext,
@@ -6,6 +5,7 @@ import {
   Droppable,
   DropResult,
 } from "react-beautiful-dnd";
+import { TItems, TItemStatus } from "./todoExample";
 
 export const $ = (...classnames: any[]) => {
   return classnames.filter((v) => !!v).join(" ");

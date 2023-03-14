@@ -1,36 +1,100 @@
-import { authInstance } from "../utils/instance";
+import { handleError } from "../utils/helpers";
+import {
+  requestDelete,
+  requestGet,
+  requestPost,
+  requestPut,
+} from "../utils/methods";
+
+type Column = "first" | "second" | "thirds" | "final";
+export type Schedule = {
+  id: string;
+  application: {
+    company: string;
+    department: string;
+  };
+  uid: string;
+  column: Column;
+};
 
 const BASE_URL = "/schedules";
-export const getSchedules = async () => {
+
+export const basePath = "/schedules";
+
+export const schedulesApiRoutes = {
+  updateScheduleById: (scheduleId: string) => `${basePath}/${scheduleId}`,
+  deleteScheduleById: (scheduleId: string) => `${basePath}/${scheduleId}`,
+};
+
+/**
+ * GET All schedules
+ *
+ */
+export const getAllSchedules = async () => {
   try {
-    const response = await authInstance.get(BASE_URL);
-    const { data } = response;
+    console.info(`입사 지원 현황 데이터를 전부 가져오는 중 입니다...`);
+    const { data } = await requestGet(basePath);
+    console.info("입사 지원 현황 데이터가 성공적으로 반환되었습니다.");
+    return data;
+  } catch (error) {
+    console.error(error);
+    const { code, message } = handleError(error);
+    return { error: { code, message } };
+  }
+};
+
+/**
+ * POST schedule
+ *
+ *  @param payload
+ */
+export const createSchedule = async (payload: unknown = {}) => {
+  try {
+    console.info("자입사 지원 현황 데이터를 작성성 중 입니다...");
+    const { data }: { data: Schedule } = await requestPost(basePath, payload);
+    console.info(`입사 지원 현황 데이터 ${data?.id!}가 반환되었습니다!`);
     return data;
   } catch (error) {
     console.error(error);
   }
 };
-export const createSchedules = async (payload: any) => {
+/**
+ * PUT schedule
+ *
+ * @param scheduleId
+ * @param payload
+ */
+export const updateSchedules = async (
+  scheduleId: string,
+  payload: unknown = {}
+) => {
   try {
-    const response = await authInstance.post(BASE_URL, payload);
+    const apiRoute = schedulesApiRoutes.updateScheduleById(scheduleId);
+    const response = await requestPut(apiRoute, payload);
     return response;
   } catch (error) {
-    console.error(error);
+    console.error(`입사 지원 현황 데이터를 변경하던 중 에러가 발생하였습니다!`);
+    const { code, message } = handleError(error);
+    return { error: { code, message } };
   }
 };
-export const updateSchedules = async (id: string, payload: any) => {
+/**
+ * DELETE schedule
+ *
+ * @param scheduleId
+ */
+
+export const deleteSchedules = async (scheduleId: string) => {
   try {
-    const response = await authInstance.put(`${BASE_URL}/:${id}`, payload);
+    const apiRoute = schedulesApiRoutes.deleteScheduleById(scheduleId);
+    console.info(
+      `id: ${scheduleId}가진 입사 지원현황 데이터를 삭제 중 입니다...`
+    );
+    const response = await requestDelete(apiRoute);
     return response;
   } catch (error) {
-    console.error(error);
-  }
-};
-export const deleteSchedules = async (payload: any) => {
-  try {
-    const response = await authInstance.delete(BASE_URL, payload);
-    return response;
-  } catch (error) {
-    console.error(error);
+    console.error(`입사 지원 현황 데이터를 삭제하던 중 에러가 발생하였습니다!`);
+    const { code, message } = handleError(error);
+    return { error: { code, message } };
   }
 };

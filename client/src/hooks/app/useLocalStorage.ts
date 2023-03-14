@@ -17,7 +17,6 @@ function useLocalStorage<T>(key: string, initialValue: T) {
   }, [initialValue, key]);
 
   const [storedValue, setStoredValue] = React.useState<T>(readValue);
-  console.log("store", storedValue);
   const setValue = (value: T | ((val: T) => T)) => {
     try {
       const valueToStore =

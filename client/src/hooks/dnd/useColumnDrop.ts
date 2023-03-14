@@ -31,6 +31,7 @@ function useColumnDrop(
   const [{ isOver }, dropRef] = useDrop<DragItem, void, { isOver: boolean }>({
     accept: ItemType.TASK, // 어떤 소스에서만 반응할지 결정
     drop: (dragItem) => {
+      console.log("drag", dragItem);
       // DragItem의 from과 column의 타입이 같으면
       if (!dragItem || dragItem.from === column) {
         return;

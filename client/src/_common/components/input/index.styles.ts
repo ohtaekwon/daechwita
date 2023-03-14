@@ -104,6 +104,22 @@ export const Input = styled.input<Required<InputProps>>`
           }
         `;
       }
+      case "resume": {
+        return css`
+          border: 0;
+          background-color: ${theme.colors.transparent}!important;
+          border-color: ${theme.colors.zinc_500};
+          color: ${theme.colors.gray_100}!important;
+
+          transition: background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          &:hover {
+            border-color: ${theme.colors.zinc_500};
+            background-color: ${theme.colors.zinc_200};
+            color: ${theme.colors.black};
+          }
+        `;
+      }
       default: {
         return css`
           border-color: ${theme.colors.zinc_700}!important;

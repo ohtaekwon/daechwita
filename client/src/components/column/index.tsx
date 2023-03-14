@@ -10,11 +10,7 @@ import Badge from "_common/components/badge";
 import Button from "_common/components/button";
 import Box from "_common/components/box";
 import { TodoCard as TCard, ScheduleCard as SCard } from "components/card";
-import { ColumnType, ScheduleType, TaskModel } from "types/index.types";
-import { createSchedules } from "lib/apis/api/schedules";
-import useColumnManager from "hooks/useColumnManager";
 import useUser from "lib/firebase/useUser";
-import { theme } from "styles";
 import Flex from "_common/components/flex";
 
 export const LocalStorageColumn = ({
@@ -108,32 +104,13 @@ export const FirebaseColumn = ({
   ...rest
 }: React.PropsWithChildren<FirebaseColumnProps>) => {
   const { user } = useUser();
-  const { tasks } = useColumnManager(column);
-  // const [data, setData] = React.useState([]);
+  // const { tasks } = useColumnManager(column);
 
-  // React.useEffect(() => {
-  //   getSchedules()
-  //     .then(getSchedulesList)
-  //     .then((res) => setData(res));
-  // }, []);
-  console.log(tasks);
+  // const ColumnTasks = tasks.map((task, index) => (
+  //   <SCard key={index} task={task} index={index} />
+  // ));
 
-  const ColumnTasks = tasks.map((task, index) => (
-    <SCard key={index} task={task} index={index} />
-  ));
-
-  const handleAddSchedule = () => {
-    createSchedules({
-      apply: {
-        company: "SK",
-        department: "경영",
-      },
-      column: "second round",
-      text: "임시글",
-      title: "임시제목",
-      uid: user?.uid,
-    });
-  };
+  const handleAddSchedule = () => {};
   return (
     <>
       <Styled.Wrapper as={as} className={className} {...rest}>
@@ -166,7 +143,7 @@ export const FirebaseColumn = ({
           // opacity={isOver ? 0.85 : 1}
           backgroundColor="gray_100"
         >
-          {ColumnTasks}
+          {/* {ColumnTasks} */}
         </Box>
       </Styled.Wrapper>
     </>

@@ -68,7 +68,7 @@ export const TodoCard = ({
     <Box
       ref={ref}
       as="div"
-      variant="blue_200_border"
+      variant="gray_200_border"
       role="group"
       position="relative"
       display="flex"
@@ -84,7 +84,7 @@ export const TodoCard = ({
         <Box>
           <Button
             aria-label="delete-task"
-            variant="zinc_700_fill"
+            variant="tdred_400_fill"
             position="absolute"
             top={0}
             right={0}
