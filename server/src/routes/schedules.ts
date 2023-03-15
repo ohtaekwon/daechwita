@@ -12,8 +12,7 @@ import {
   getDocs,
   increment,
   orderBy,
-  query,
-  QueryDocumentSnapshot,
+  query as firebaseQuery,
   serverTimestamp,
   updateDoc,
   where,
@@ -43,6 +42,18 @@ const schedulesRoute = [
         const schedules = await collection(dbService, "schedules");
         const queryOptions: any = [orderBy("createdAt", "desc")];
         queryOptions.unshift(where("uid", "==", uid));
+
+        const q = firebaseQuery(schedules, ...queryOptions);
+        const scheduleSnapShot = await getDocs(q);
+        const data: DocumentData[] = [];
+        scheduleSnapShot.forEach((doc) => {
+          const d = doc.data();
+          data.push({
+            id: doc.id,
+            ...d,
+          });
+        });
+        res.send({ data: data });
       } catch (error) {
         res.status(500).send({ error: error });
       }

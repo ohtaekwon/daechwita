@@ -17,11 +17,10 @@ export type Schedule = {
   column: Column;
 };
 
-const BASE_URL = "/schedules";
-
 export const basePath = "/schedules";
 
 export const schedulesApiRoutes = {
+  getScheduleById: (scheduleId: string) => `${basePath}/${scheduleId}`,
   updateScheduleById: (scheduleId: string) => `${basePath}/${scheduleId}`,
   deleteScheduleById: (scheduleId: string) => `${basePath}/${scheduleId}`,
 };
@@ -34,6 +33,23 @@ export const getAllSchedules = async () => {
   try {
     console.info(`입사 지원 현황 데이터를 전부 가져오는 중 입니다...`);
     const { data } = await requestGet(basePath);
+    console.info("입사 지원 현황 데이터가 성공적으로 반환되었습니다.");
+    return data;
+  } catch (error) {
+    console.error(error);
+    const { code, message } = handleError(error);
+    return { error: { code, message } };
+  }
+};
+/**
+ * GET schedule
+ *
+ */
+export const getSchedule = async (scheduleId: string) => {
+  try {
+    const apiRoute = schedulesApiRoutes.updateScheduleById(scheduleId);
+    console.info(`입사 지원 현황 데이터를 전부 가져오는 중 입니다...`);
+    const { data } = await requestGet(apiRoute);
     console.info("입사 지원 현황 데이터가 성공적으로 반환되었습니다.");
     return data;
   } catch (error) {

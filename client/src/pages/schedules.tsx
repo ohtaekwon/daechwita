@@ -5,9 +5,13 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { ScheduleType } from "types/index.types";
 import { ColumnColorSchema } from "types/schema.types";
+import { getAllSchedules } from "lib/apis/api/schedules";
 
 const Schedules = () => {
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    getAllSchedules().then((res) => console.log(res));
+  }, []);
+
   return (
     <Section as="section" display="grid" gridTemplateColumns="repeat(4, 1fr)">
       <DndProvider backend={HTML5Backend}>
