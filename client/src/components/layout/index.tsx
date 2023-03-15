@@ -24,7 +24,7 @@ export const Layout = React.forwardRef(function Layout(
   {
     as = "div",
     variant,
-    layoutType,
+    searchBar,
     backgroundColor = "inherit",
     backgroundImage = "inherit",
     children,
@@ -54,7 +54,7 @@ export const Layout = React.forwardRef(function Layout(
 
   return (
     <>
-      {layoutType && (
+      {searchBar && (
         <Section
           as="aside"
           width="100%"
@@ -86,42 +86,3 @@ export const Layout = React.forwardRef(function Layout(
     </>
   );
 });
-
-export const LayoutElement = ({
-  children,
-  className,
-}: {
-  children?: React.ReactNode;
-  className: string;
-}) => {
-  return <div>{children}</div>;
-};
-
-{
-  /* <Box
-            height="200px"
-            top={0}
-            bottom={0}
-            left={0}
-            display="block"
-            position="absolute"
-            backgroundImage={`linear-gradient(
-            -90deg,
-            rgba(178, 196, 229, 0) 0%,
-            rgb(178, 196, 229) 100%
-          )`}
-          />
-          <Box
-            height="200px"
-            top={0}
-            bottom={0}
-            right={0}
-            display="block"
-            position="absolute"
-            backgroundImage={`linear-gradient(
-              90deg,
-              rgba(184, 184, 184, 0) 0%,
-              rgb(184, 184, 184) 100%
-          )`}
-          /> */
-}

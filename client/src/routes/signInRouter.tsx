@@ -23,7 +23,7 @@ const SignInRouter = () => {
           <Route path="interview" element={<Interview />} />
         </Route>
 
-        <Route element={<Layout variant="lg" layoutType={true} />}>
+        <Route element={<Layout variant="lg" searchBar />}>
           <Route path="/resumes" element={<Resumes />} />
         </Route>
 
@@ -31,7 +31,7 @@ const SignInRouter = () => {
           element={
             <Layout
               variant="write"
-              layoutType={true}
+              searchBar
               backgroundImage={`url(${
                 process.env.PUBLIC_URL
               }/images/bg_0${generatorRandomCount(7)}.jpg)`}
