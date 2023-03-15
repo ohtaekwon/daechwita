@@ -7,10 +7,11 @@ import { ScheduleType } from "types/index.types";
 import { ColumnColorSchema } from "types/schema.types";
 
 const Schedules = () => {
+  React.useEffect(() => {}, []);
   return (
     <Section as="section" display="grid" gridTemplateColumns="repeat(4, 1fr)">
       <DndProvider backend={HTML5Backend}>
-        {/* <Column
+        <Column
           key={`${"schedule"}-1`}
           className={`KanBan__${ScheduleType.DOCUMENT_ROUND}`}
           column={ScheduleType.DOCUMENT_ROUND}
@@ -37,7 +38,7 @@ const Schedules = () => {
           column={ScheduleType.THIRD_ROUND}
           columnColorSchema={ColumnColorSchema}
           type={"firebase"}
-        /> */}
+        />
       </DndProvider>
     </Section>
   );

@@ -56,7 +56,7 @@ const Home = () => {
         gridTemplateRows="50px"
         padding="1rem"
       >
-        <DndProvider backend={HTML5Backend}>
+        {/* <DndProvider backend={HTML5Backend}>
           <Text
             fontSize="lg"
             fontWeight={700}
@@ -97,7 +97,7 @@ const Home = () => {
             columnColorSchema={ColumnColorSchema}
             type="localStorage"
           />
-        </DndProvider>
+        </DndProvider> */}
       </Section>
     </>
   );

@@ -22,12 +22,7 @@ function useColumnTasks<T>(key: string, column: ColumnType) {
         console.log("Task가 너무 많습니다.");
         return allTasks;
       }
-      //   allTasks: {
-      //     Todo: TaskModel[];
-      //     "In Progress": TaskModel[];
-      //     Blocked: TaskModel[];
-      //     Completed: TaskModel[];
-      // }
+
       const newColumnTask = {
         id: uuid(),
         title: `New ${column} tasks`,
@@ -74,8 +69,6 @@ function useColumnTasks<T>(key: string, column: ColumnType) {
     },
     [column, setTasks]
   );
-
-  //   handleDrop: (fromColumn: ColumnType, taskId: TaskModel["id"]) => void
 
   const dropTaskFrom = React.useCallback(
     (from: ColumnType, id: TaskModel["id"]) => {

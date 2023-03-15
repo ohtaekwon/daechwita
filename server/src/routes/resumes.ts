@@ -37,7 +37,7 @@ const resumesRoute = [
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
-          query: { latest },
+          query: { latest, publishing },
         } = req;
         // 쿠키에서 uid 가져오기
         // const cookie = req.headers.cookie;
@@ -47,15 +47,18 @@ const resumesRoute = [
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
-        console.log("여기", latest);
+        const newLatest = latest ? JSON.parse(latest as string) : false;
+        const newPublishing = JSON.parse(publishing as string) || undefined;
+
         const resumes = await collection(dbService, "resumes"); // resumes 컬렉션에 접근
         // 쿼리 조건문
         const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록
         queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
 
-        if (latest === "true") {
+        if (latest) {
           queryOptions.unshift(limit(1));
         } else {
+          queryOptions.unshift(where("publishing", "==", newPublishing)); // 해당 uid값이 있는 스케쥴 정보를 select
           queryOptions.unshift(limit(PAGE_SIZE));
         }
         const q = firebaseQuery(resumes, ...queryOptions);
@@ -130,13 +133,6 @@ const resumesRoute = [
         if (!body) throw Error("요청 정보에 body 정보가 없습니다.");
 
         const newResume = {
-          // apply: {
-          //   company: "",
-          //   department: "",
-          // },
-          // documents: [{ id: uuid(), text: "", tag: "", title: "" }],
-          // publishing: false,
-
           ...body,
           uid,
           createdAt: serverTimestamp(),

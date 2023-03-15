@@ -106,6 +106,15 @@ export const FirebaseColumn = ({
   const { user } = useUser();
   // const { tasks } = useColumnManager(column);
 
+  // const {
+  //   tasks,
+  //   addEmptyTask,
+  //   updateTask,
+  //   deleteTask,
+  //   dropTaskFrom,
+  //   swapTasks,
+  // } = useColumnTasks(localStorageKey, column);
+
   // const ColumnTasks = tasks.map((task, index) => (
   //   <SCard key={index} task={task} index={index} />
   // ));

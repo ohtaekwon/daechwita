@@ -39,6 +39,7 @@ export enum ItemType {
    * Column안의 Item의 상수를 설정합니다.
    */
   TASK = "Task",
+  STATUS = "Status",
 }
 
 /**

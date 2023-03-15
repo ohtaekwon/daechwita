@@ -13,6 +13,7 @@ export const basePath = "/resumes";
 export const resumeApiRoutes = {
   getResumeByResumeId: (resumeId: string) => `${basePath}/${resumeId}`,
   getLatestResumeByQuery: (query: string) => `${basePath}?latest=${query}`,
+  getPublishedResume: () => `${basePath}?publishing=true`,
   updateResumeByResumeId: (resumeId: string) => `${basePath}/${resumeId}`,
   deleteResumeByResumeId: (resumeId: string) => `${basePath}/${resumeId}`,
 };
@@ -64,8 +65,9 @@ export const getLatestResume = async ({ latest = false }) => {
  */
 export const getAllResumes = async () => {
   try {
+    const apiRoute = resumeApiRoutes.getPublishedResume();
     console.info(`자기소개서 전부를 가져오는 중 입니다...`);
-    const { data } = await requestGet(basePath);
+    const { data } = await requestGet(apiRoute);
     console.info(`자기소개서가 성공적으로 반환되었습니다!`);
     return { data } as any;
   } catch (error) {

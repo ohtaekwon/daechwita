@@ -4,7 +4,10 @@ import { AiOutlinePlusSquare } from "react-icons/ai";
 import { v4 as uuid } from "uuid";
 
 import { createResume, getAllResumes } from "lib/apis/api/resumes";
-import { getOnlyPublishedResumesService } from "lib/apis/service/getResumes";
+import {
+  getOnlyPublishedResumesService,
+  getResumesService,
+} from "lib/apis/service/getResumes";
 import useInterSection from "hooks/app/useInterSection";
 import { emoji } from "utils/constants";
 
@@ -61,7 +64,7 @@ const Resumes = () => {
     // }
 
     getAllResumes()
-      .then(getOnlyPublishedResumesService)
+      .then(getResumesService)
       .then((res) => setResumes(res));
   }, [, toggle]);
 
@@ -84,7 +87,6 @@ const Resumes = () => {
     });
     await navigate("write");
   };
-  console.log("decodeUri", decodeUri);
   return (
     <>
       <Text
