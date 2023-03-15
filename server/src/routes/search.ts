@@ -47,7 +47,6 @@ const searchRoute = [
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
-        console.log("여기", latest);
         const resumes = await collection(dbService, "resumes"); // resumes 컬렉션에 접근
         // 쿼리 조건문
         const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록

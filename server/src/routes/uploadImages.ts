@@ -33,14 +33,6 @@ const uploadImagesRoute = [
         });
 
         const obj = JSON.parse(JSON.stringify(body));
-        console.log(file);
-        console.log("body", obj);
-        //   let result = {
-        //     originalName : file.originalname,
-        //     size : file.size,
-        // }
-
-        // res.json(result);
 
         res.send(file);
       } catch (error) {
