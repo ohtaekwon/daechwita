@@ -5,7 +5,6 @@
   "license": "MIT",
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
-    "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.16",
     "@types/multer": "^1.4.7",
@@ -14,8 +13,6 @@
     "nodemon": "^2.0.20"
   },
   "dependencies": {
-    "connect-multiparty": "^2.2.0",
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
