@@ -11,7 +11,6 @@ type Props = {
 const Router = ({ isLoggedIn }: Props) => {
   return (
     <>
-      {isLoggedIn && <Header />}
       {isLoggedIn ? (
         <>
           <SignInRouter />

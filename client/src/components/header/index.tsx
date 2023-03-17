@@ -1,27 +1,29 @@
 import { Link } from "react-router-dom";
 import { css } from "@emotion/css";
 import * as Styled from "./index.styles";
+import { Props } from "./index.types";
+
 import theme from "styles/theme";
+
 import Button from "_common/components/button";
 import Flex from "_common/components/flex";
-import {
-  AiOutlineHome,
-  AiOutlineUser,
-  AiOutlinePlusCircle,
-} from "react-icons/ai";
+import { AiOutlineHome, AiOutlineUser } from "react-icons/ai";
 import Icons from "_common/components/icons";
 import Box from "_common/components/box";
 
-const Header = () => {
+const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
+  const isTransparent = transparent ? "white" : "black";
   return (
     <Flex
       as="header"
       alignItems="center"
       justifyContent="space-between"
-      backgroundColor="white"
+      backgroundColor="transparent"
       className={css`
         padding: 8px calc((100% - 1680px) / 2);
-        border-bottom: 1px solid ${theme.colors.zinc_200};
+        border-bottom: ${transparent
+          ? 0
+          : `1px solid ${theme.colors.zinc_200}`};
       `}
     >
       <Box
@@ -33,10 +35,10 @@ const Header = () => {
       >
         <Link to="/">
           <img
-            src="https://image.spreadshirtmedia.com/image-server/v1/compositions/T347A1PA4306PT17X1Y99D1030459599W24998H5557/views/1,width=500,height=500,noPt=true/plain-daechwita-text-womens-t-shirt.jpg"
+            src={`${process.env.PUBLIC_URL}/images/logo_${isTransparent}.png`}
             alt="로고 위치"
-            width={98}
-            height={23}
+            width={100}
+            height={50}
             style={{
               objectFit: "cover",
               justifyContent: "center",
@@ -49,9 +51,9 @@ const Header = () => {
             variant="default"
             paddingY={9}
             paddingX={16}
-            fontSize="md"
+            fontSize="lg"
             lineHeight="md"
-            color="zinc_400"
+            color={isTransparent}
           >
             입사 지원 현황
           </Button>
@@ -61,9 +63,9 @@ const Header = () => {
             variant="default"
             paddingY={9}
             paddingX={16}
-            fontSize="md"
+            fontSize="lg"
             lineHeight="md"
-            color="zinc_400"
+            color={isTransparent}
           >
             자소서
           </Button>
@@ -73,9 +75,9 @@ const Header = () => {
             variant="default"
             paddingY={9}
             paddingX={16}
-            fontSize="md"
+            fontSize="lg"
             lineHeight="md"
-            color="zinc_400"
+            color={isTransparent}
           >
             면접
           </Button>
@@ -89,27 +91,13 @@ const Header = () => {
             paddingX={16}
             fontSize="md"
             lineHeight="md"
-            color="zinc_400"
+            color={transparent ? "white" : "zinc_400"}
           >
             <Icons>
               <AiOutlineHome size={20} title="홈버튼" />
             </Icons>
           </Button>
         </Link>
-        {/* <Link to="/my-documents">
-          <Button
-            variant="default"
-            paddingY={9}
-            paddingX={16}
-            fontSize="md"
-            lineHeight="md"
-            color="black"
-          >
-            <Icons>
-              <AiOutlinePlusCircle size={20} title="자소서 쓰기" />
-            </Icons>
-          </Button>
-        </Link> */}
         <Link to="/profile">
           <Button
             variant="default"
@@ -117,7 +105,7 @@ const Header = () => {
             paddingX={16}
             fontSize="md"
             lineHeight="md"
-            color="zinc_400"
+            color={transparent ? "white" : "zinc_400"}
           >
             <Icons>
               <AiOutlineUser size={20} title="회원 정보" />

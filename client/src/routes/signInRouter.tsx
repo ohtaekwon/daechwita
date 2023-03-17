@@ -13,29 +13,31 @@ import Profile from "pages/profile";
 import { generatorRandomCount } from "utils/helpers";
 
 const SignInRouter = () => {
+  const url = process.env.PUBLIC_URL;
+  const homeImage = `url(${url}/images/bg_space.jpg)`;
+  const writeImage = `url(${url}/images/bg_0${generatorRandomCount(7)}.jpg)`;
   return (
     <>
       <Routes>
-        <Route element={<Layout variant="default" />}>
+        <Route
+          element={<Layout variant="default" background={homeImage} inHeader />}
+        >
           <Route path="/" element={<Home />} />
+        </Route>
+
+        <Route element={<Layout variant="default" header />}>
           <Route path="/schedules" element={<Schedules />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="interview" element={<Interview />} />
         </Route>
 
-        <Route element={<Layout variant="lg" searchBar />}>
+        <Route element={<Layout variant="lg" header searchBar />}>
           <Route path="/resumes" element={<Resumes />} />
         </Route>
 
         <Route
           element={
-            <Layout
-              variant="write"
-              searchBar
-              backgroundImage={`url(${
-                process.env.PUBLIC_URL
-              }/images/bg_0${generatorRandomCount(7)}.jpg)`}
-            />
+            <Layout variant="write" background={writeImage} header searchBar />
           }
         >
           <Route path="resumes/write" element={<WriteResume />} />
