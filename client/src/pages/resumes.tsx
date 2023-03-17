@@ -107,8 +107,8 @@ const Resumes = () => {
         paddingTop={10}
       >
         <Grid
-          gridTemplateColumns="repeat(3, 1fr)"
-          gridTemplateRows="repeat(3, 1fr)"
+          gridTemplateColumns="repeat(4, 1fr)"
+          gridTemplateRows="repeat(4, 1fr)"
           placeItems="center"
         >
           <Box

@@ -46,9 +46,5 @@ export const Section = styled.section<Required<SectionProps>>`
   */
   background-color: ${({ theme, backgroundColor }) =>
     theme?.colors[backgroundColor]};
-  background-image: ${({ backgroundImage }) => backgroundImage};
-  /* gap: 1rem; */
-  /* ::-webkit-scrollbar {
-    display: none;
-  } */
+  background: ${({ backgroundImage }) => backgroundImage};
 `;

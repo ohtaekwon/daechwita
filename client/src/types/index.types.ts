@@ -22,10 +22,10 @@ export enum ColumnType {
  * 컬럼은 서류전형, 1차전형, 2차전형, 3차전형(최종발표)로 구성됩니다.
  */
 export enum ScheduleType {
-  DOCUMENT_ROUND = "document screening",
-  ONE_ROUND = "first round",
-  TWO_ROUND = "second round",
-  THIRD_ROUND = "final pass",
+  FIRST = "first",
+  SECOND = "second",
+  THIRD = "third",
+  FINAL = "final",
 }
 
 export interface AllTasksModel {
@@ -72,6 +72,13 @@ export interface TaskModel {
    */
   text?: string;
 }
+export interface ScheduleModel {
+  id: string;
+  document: string;
+  company: string;
+  column: ScheduleType;
+  color: keyof typeof theme.colors;
+}
 export interface DragItem {
   index: number;
   id: TaskModel["id"];
@@ -90,8 +97,8 @@ type CreatedAt = {
 export interface SchedulesType {
   id: string;
   uid: string;
-  column: string;
-  apply: Apply;
+  column: "first" | "second" | "third" | "final";
+  application: Apply;
   text: string;
   title: string;
   createdAt: CreatedAt;

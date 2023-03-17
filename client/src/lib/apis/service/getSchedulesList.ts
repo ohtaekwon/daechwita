@@ -5,27 +5,24 @@ import { SchedulesType } from "types/index.types";
  *
  * 수정 예정 ✅
  */
-export const getSchedulesList = (rowData: SchedulesType[] | any) => {
+
+export const getSchedulesList = (rowData: SchedulesType[]) => {
   return rowData.map(
     ({
       id,
       uid,
       column,
-      apply: { department, company },
-      text,
-      title,
-      createdAt: { seconds, nanoseconds },
-    }: SchedulesType) => {
+      application: { department, company },
+    }: // createdAt: { seconds, nanoseconds },
+    SchedulesType) => {
       return {
         id,
         uid,
         column,
         department,
         company,
-        text,
-        title,
-        seconds,
-        nanoseconds,
+        // seconds,
+        // nanoseconds,
       };
     }
   );

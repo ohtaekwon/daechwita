@@ -41,6 +41,7 @@ export const Button = styled.button<Required<ButtonProps>>`
   border-radius: ${({ radius }) => `${radius}px`};
   border-width: 1px;
   border-style: solid;
+  color: ${({ color }) => color};
   ${({ variant, theme }) => {
     switch (variant) {
       case "primary": {
@@ -308,7 +309,7 @@ export const Button = styled.button<Required<ButtonProps>>`
         return css`
           border-color: ${theme.colors.transparent};
           background-color: ${theme.colors.transparent};
-          color: ${theme.colors.blackText_1_fill};
+          /* color: ${theme.colors.blackText_1_fill}; */
           transition: border-color 0.15s ease-in-out, color 0.15s ease-in-out;
           &:hover {
             border-color: ${theme.colors.transparent};

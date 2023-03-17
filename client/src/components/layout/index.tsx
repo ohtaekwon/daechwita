@@ -7,6 +7,7 @@ import { Props } from "./index.types";
 import Section from "components/section";
 import Search from "components/search";
 import Button from "_common/components/button";
+import Header from "components/header";
 
 type SideMenu = {
   name: string;
@@ -23,10 +24,12 @@ const subNavMenu: SideMenu[] = [
 export const Layout = React.forwardRef(function Layout(
   {
     as = "div",
-    variant,
+    variant = "default",
+    header,
+    inHeader,
     searchBar,
     backgroundColor = "inherit",
-    backgroundImage = "inherit",
+    background = "inherit",
     children,
     ...rest
   }: React.PropsWithChildren<Props>,
@@ -54,33 +57,18 @@ export const Layout = React.forwardRef(function Layout(
 
   return (
     <>
-      {searchBar && (
-        <Section
-          as="aside"
-          width="100%"
-          padding="1.5rem"
-          className="sub_nav"
-          backgroundColor="gray_100"
-          backgroundImage={`linear-gradient(
-      -90deg,
-      rgb(118, 84, 219, .5) 0%,
-      rgb(98, 136, 252, .8) 100%
-    )
-    
-    `}
-        >
-          <Search />
-        </Section>
-      )}
+      {header && <Header />}
+      {searchBar && <Search />}
       <Styled.Layout
         className={`layout__${variant}`}
         as={as}
         variant={variant}
         backgroundColor={backgroundColor}
-        backgroundImage={backgroundImage}
+        background={background}
         ref={forwardedRef}
         {...rest}
       >
+        {inHeader && <Header transparent />}
         <Outlet />
       </Styled.Layout>
     </>

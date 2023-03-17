@@ -2,28 +2,22 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
 import { LayoutProps } from "./index.types";
-import { theme } from "styles";
 
 export const Layout = styled.main<Required<LayoutProps>>`
-  margin: auto;
   /* display: flex;
   flex-direction: column; */
-  background-color: ${({ theme, backgroundColor }) =>
-    theme.colors[backgroundColor]};
-  background: ${({ backgroundImage }) => backgroundImage};
   /* background-repeat: repeat-y; */
   /* background-size: cover; */
+  margin: auto;
+  background-color: ${({ theme, backgroundColor }) =>
+    theme.colors[backgroundColor]};
+  background: ${({ background }) => background};
   position: relative;
   z-index: 1;
-  ${({ variant, backgroundColor }) => {
+  background-size: 100% 100%;
+
+  ${({ variant, theme, background }) => {
     switch (variant) {
-      case "default": {
-        return css`
-          width: 100%;
-          /* height: 100%; */
-          background-color: ${theme.colors.white};
-        `;
-      }
       case "xs": {
         return css`
           max-width: 320px;
@@ -44,7 +38,7 @@ export const Layout = styled.main<Required<LayoutProps>>`
       }
       case "lg": {
         return css`
-          max-width: 1280px;
+          max-width: 1680px;
           height: 100%;
           max-height: max-content;
           background-color: ${theme.colors.gray_50};
@@ -55,12 +49,7 @@ export const Layout = styled.main<Required<LayoutProps>>`
           max-width: 1600px;
         `;
       }
-      case "custom": {
-        return css`
-          margin: 0;
-          background-color: ${backgroundColor};
-        `;
-      }
+
       case "write": {
         return css`
           width: 100%;
@@ -78,9 +67,12 @@ export const Layout = styled.main<Required<LayoutProps>>`
           }
         `;
       }
+      default: {
+        return css`
+          width: 100%;
+          height: 100%;
+        `;
+      }
     }
   }}
-`;
-export const Aside = styled.aside<Required<any>>`
-  width: 20%;
 `;
