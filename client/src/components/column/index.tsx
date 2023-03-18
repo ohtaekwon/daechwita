@@ -10,7 +10,6 @@ import Badge from "_common/components/badge";
 import Button from "_common/components/button";
 import Box from "_common/components/box";
 import { TodoCard as TCard, ScheduleCard as SCard } from "components/card";
-import useUser from "lib/firebase/useUser";
 import Flex from "_common/components/flex";
 
 export const LocalStorageColumn = ({
@@ -91,19 +90,19 @@ export const LocalStorageColumn = ({
   );
 };
 
+/**
+ * firebase에서 연동하는 Apply Schedule에서 쓰이는 column 컴포넌트
+ */
 export const FirebaseColumn = ({
-  /**
-   * firebase에서 연동하는 Apply Schedule에서 쓰이는 column 컴포넌트
-   */
   as = "div",
   className,
   type,
   column,
   columnColorSchema,
+  data, // first, second, third each column data...
   children,
   ...rest
 }: React.PropsWithChildren<FirebaseColumnProps>) => {
-  const { user } = useUser();
   // const { tasks } = useColumnManager(column);
 
   // const {
@@ -115,9 +114,9 @@ export const FirebaseColumn = ({
   //   swapTasks,
   // } = useColumnTasks(localStorageKey, column);
 
-  // const ColumnTasks = tasks.map((task, index) => (
-  //   <SCard key={index} task={task} index={index} />
-  // ));
+  const ColumnTasks = data.map((d: any, index: number) => (
+    <SCard key={index} data={d} index={index} />
+  ));
 
   const handleAddSchedule = () => {};
   return (

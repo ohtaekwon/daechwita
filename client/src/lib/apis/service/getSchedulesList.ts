@@ -1,29 +1,53 @@
 import { SchedulesType } from "types/index.types";
 
 /**
- * GE Schedule의 데이터 정제
+ * GET Schedule의 데이터 정제
  *
- * 수정 예정 ✅
  */
-
+// export const getSchedulesList = (rowData: SchedulesType[]) => {
+//   let newData = rowData.sort((a, b) => a.index - b.index);
+//   return newData.map(
+//     ({
+//       id,
+//       uid,
+//       column,
+//       index,
+//       application: { department, company },
+//     }: SchedulesType) => {
+//       return {
+//         id,
+//         uid,
+//         index,
+//         column,
+//         department,
+//         company,
+//       };
+//     }
+//   );
+// };
 export const getSchedulesList = (rowData: SchedulesType[]) => {
-  return rowData.map(
-    ({
-      id,
-      uid,
-      column,
-      application: { department, company },
-    }: // createdAt: { seconds, nanoseconds },
-    SchedulesType) => {
-      return {
+  const newArray: any = { first: [], second: [], third: [], final: [] };
+  let newData = rowData.sort((a, b) => a.index - b.index);
+  newData
+    .map(
+      ({
         id,
         uid,
         column,
-        department,
-        company,
-        // seconds,
-        // nanoseconds,
-      };
-    }
-  );
+        index,
+        application: { department, company },
+      }: SchedulesType) => {
+        return {
+          id,
+          uid,
+          index,
+          column,
+          department,
+          company,
+        };
+      }
+    )
+    .map((data) => newArray[data.column].push(data));
+
+  return newArray;
 };

@@ -1,6 +1,17 @@
 import { ElementType, HTMLAttributes } from "react";
 import { SchedulesType, TaskModel } from "types/index.types";
 
+type ColumnType = "first" | "second" | "third" | "final";
+
+interface MockType {
+  id: string;
+  index: number;
+  company: string;
+  department: string;
+  column: ColumnType;
+  uid: string;
+}
+
 export interface CardProps {
   /**
    * 엘리먼트의 타입을 설정합니다.
@@ -46,7 +57,7 @@ export interface ScheduleCardProps
    * Card Item의 내부 컨텐츠의 모델을 설정합니다.
    */
 
-  task: SchedulesType;
+  data: MockType;
   children?: React.ReactNode;
 }
 

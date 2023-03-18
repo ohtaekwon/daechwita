@@ -119,7 +119,7 @@ export const TodoCard = ({
 
 export const ScheduleCard = ({
   index,
-  task,
+  data,
   children,
 }: React.PropsWithChildren<ScheduleCardProps>) => {
   /**
@@ -156,7 +156,9 @@ export const ScheduleCard = ({
       >
         <RiDeleteBin6Line />
       </Button>
-      <Textarea
+      <Text>{data.department}</Text>
+      <Text>{data.company}</Text>
+      {/* <Textarea
         width="150px"
         height={lineHeight * 27 + 90}
         margin="auto"
@@ -166,10 +168,12 @@ export const ScheduleCard = ({
         onKeyDown={checkItemEnterHandler}
       >
         {task.text}
-      </Textarea>
+      </Textarea> */}
     </Box>
   );
 };
+
+// The Card Components About Resume page
 
 export const ResumeCard = ({
   id,

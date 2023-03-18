@@ -25,5 +25,6 @@ export interface LocalStorageColumnProps extends CommonProps {
 }
 export interface FirebaseColumnProps extends CommonProps {
   column: ScheduleType;
+  data: any;
   columnColorSchema?: Record<ScheduleType, BadgeType>;
 }

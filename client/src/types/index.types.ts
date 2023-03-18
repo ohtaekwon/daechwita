@@ -97,6 +97,7 @@ type CreatedAt = {
 export interface SchedulesType {
   id: string;
   uid: string;
+  index: number;
   column: "first" | "second" | "third" | "final";
   application: Apply;
   text: string;

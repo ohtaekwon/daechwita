@@ -1,3 +1,5 @@
+import { CONNREFUSED } from "dns";
+import { updateSchedules } from "lib/apis/api/schedules";
 import React from "react";
 import { v4 as uuid } from "uuid";
 
@@ -8,6 +10,9 @@ enum ScheduleType {
   THIRD_ROUND = "third",
   FINAL = "final",
 }
+
+// 칸반... 컬럼 내 카드 컴포넌트의 Drag & Drop할 시에, index값을 변경 후, HTTP PUT 요청
+// Update,
 function useColumn(column: ScheduleType) {
   const [schedules, setSchedules] = React.useState({
     first: [],
@@ -34,6 +39,10 @@ function useColumn(column: ScheduleType) {
     });
   }, []);
 
-  return { schedules, setSchedules };
+  const update = React.useCallback((id: string, payload: unknown = {}) => {
+    updateSchedules(id, payload);
+    // dependency에 무엇을 주어야할지??? ✅ 수정 필요
+  }, []);
+  return { schedules, setSchedules, add, update };
 }
 export default useColumn;
