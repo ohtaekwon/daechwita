@@ -1,21 +1,12 @@
+import { AxiosResponse } from "axios";
 import { ElementType, HTMLAttributes } from "react";
-import { SchedulesType, TaskModel } from "types/index.types";
-
-type ColumnType = "first" | "second" | "third" | "final";
-
-interface MockType {
-  id: string;
-  index: number;
-  company: string;
-  department: string;
-  column: ColumnType;
-  uid: string;
-}
+import { UseMutateFunction } from "react-query";
+import { TaskModel } from "types/index.types";
+import { ColumnType, Schedule } from "types/schedule";
 
 export interface CardProps {
   /**
    * 엘리먼트의 타입을 설정합니다.
-   *
    * @default div
    */
   as?: ElementType;
@@ -23,42 +14,84 @@ export interface CardProps {
 export interface TodoCardProps
   extends HTMLAttributes<HTMLDivElement>,
     CardProps {
-  /**
-   * Card Item의 인덱스의 타입을 설정합니다.
-   */
-  index: number;
-  /**
-   * Card Item의 내부 컨텐츠의 모델을 설정합니다.
-   */
-  task: TaskModel;
-  /**
-   * 삭제 기능을 담당할 함수의 타입을 설정합니다.
-   */
-  onDelete: (id: TaskModel["id"]) => void;
-  /**
-   * 업데이트 기능을 담당할 함수의 타입을 설정합니다.
-   */
-  onUpdate: (id: TaskModel["id"], updatedTask: TaskModel) => void;
-  /**
-   * 드랍 기능을 담당할 함수의 타입을 설정합니다.
-   */
   onDropHover: (i: number, j: number) => void;
-  children?: React.ReactNode;
 }
 
 export interface ScheduleCardProps
   extends HTMLAttributes<HTMLDivElement>,
     CardProps {
-  /**
-   * Card Item의 인덱스의 타입을 설정합니다.
-   */
   index: number;
-  /**
-   * Card Item의 내부 컨텐츠의 모델을 설정합니다.
-   */
-
-  data: MockType;
-  children?: React.ReactNode;
+  column: ColumnType;
+  data: Schedule;
+  onUpdate: UseMutateFunction<
+    | AxiosResponse<any, any>
+    | {
+        error: {
+          code: number;
+          message: string;
+        };
+      },
+    unknown,
+    {
+      id: string;
+      index: number;
+      column: ColumnType;
+      company: string;
+      department: string;
+    },
+    null
+  >;
+  onDelete: UseMutateFunction<
+    | AxiosResponse<unknown, any>
+    | {
+        error: {
+          code: number;
+          message: string;
+        };
+      },
+    unknown,
+    string,
+    null
+  >;
+  onSwap: ({
+    fromId,
+    fromIndex,
+    toIndex,
+  }: {
+    fromId: string;
+    fromIndex: number;
+    toIndex: number;
+  }) => void;
+  // onSwap: UseMutateFunction<
+  //   [
+  //     (
+  //       | AxiosResponse<any, any>
+  //       | {
+  //           error: {
+  //             code: number;
+  //             message: string;
+  //           };
+  //         }
+  //     ),
+  //     (
+  //       | AxiosResponse<any, any>
+  //       | {
+  //           error: {
+  //             code: number;
+  //             message: string;
+  //           };
+  //         }
+  //     )
+  //   ],
+  //   unknown,
+  //   {
+  //     fromId: Schedule["id"];
+  //     fromIndex: number;
+  //     toId: Schedule["id"];
+  //     toIndex: number;
+  //   },
+  //   unknown
+  // >;
 }
 
 type TimeType = {
@@ -93,5 +126,4 @@ export interface ResumeCardProps
 
   toggle: boolean;
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
-  children?: React.ReactNode;
 }

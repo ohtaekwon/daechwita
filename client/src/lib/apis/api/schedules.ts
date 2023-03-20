@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { handleError } from "../utils/helpers";
 import {
   requestDelete,

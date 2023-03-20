@@ -4,10 +4,7 @@ import { AiOutlinePlusSquare } from "react-icons/ai";
 import { v4 as uuid } from "uuid";
 
 import { createResume, getAllResumes } from "lib/apis/api/resumes";
-import {
-  getOnlyPublishedResumesService,
-  getResumesService,
-} from "lib/apis/service/getResumes";
+import { getResumesService } from "lib/apis/service/getResumes";
 import useInterSection from "hooks/app/useInterSection";
 import { emoji } from "utils/constants";
 

@@ -2,13 +2,7 @@ import React from "react";
 import { getAllResumes } from "lib/apis/api/resumes";
 import { getResumesService } from "lib/apis/service/getResumes";
 
-import { DndProvider } from "react-dnd";
 import Section from "components/section";
-import Text from "_common/components/text";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { LocalStorageColumn as Column } from "components/column";
-import { ColumnType } from "types/index.types";
-import { ColumnColorSchema } from "types/schema.types";
 import BackGround from "components/background";
 
 type TimeType = {
@@ -38,7 +32,6 @@ interface ResumesResponse {
 }
 
 const Home = () => {
-  const [data, setData] = React.useState<any>();
   const [resumes, setResumes] = React.useState<ResumesResponse[]>([]);
 
   React.useEffect(() => {

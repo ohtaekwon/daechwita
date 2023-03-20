@@ -5,13 +5,33 @@ import { colors } from "./constants";
  * @param callback 지연시킨뒤 실행할 함수
  * @param delay 지연시킬 시간 (초)
  */
-export const debounceFunction = (callback: any, delay: any) => {
-  let timer: any;
-  return (...args: any) => {
-    // 실행한 함수(setTimeout())를 취소
+
+export function debounce<Params extends any[]>(
+  callback: (...args: Params) => any,
+  timeout: number
+): (...args: Params) => void {
+  let timer: NodeJS.Timeout;
+  return (...args: Params) => {
     clearTimeout(timer);
-    // delay가 지나면 callback 함수를 실행
-    timer = setTimeout(() => callback(...args), delay);
+    timer = setTimeout(() => {
+      callback(...args);
+    }, timeout);
+  };
+}
+
+export const throttler = <F extends (...args: any[]) => any>(
+  func: F,
+  waitFor: number
+) => {
+  let throttleCheck: NodeJS.Timeout | any;
+  const throttled = (...args: Parameters<F>) => {
+    if (!throttleCheck) {
+      throttleCheck = setTimeout(() => {
+        func(...args);
+        throttleCheck = null;
+      }, waitFor);
+    }
+    return throttled as (...args: Parameters<F>) => ReturnType<F>;
   };
 };
 
