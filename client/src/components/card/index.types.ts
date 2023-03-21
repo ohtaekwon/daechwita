@@ -1,6 +1,6 @@
 import { ElementType, HTMLAttributes } from "react";
 import { ColumnType, Schedule, TimeType } from "types/schedule";
-import { OnDelete, OnSwap, OnUpdate } from "hooks/useColumn";
+import { OnDelete, OnSwap, OnUpdate } from "hooks/dnd/useColumn";
 
 export interface CardProps {
   /**

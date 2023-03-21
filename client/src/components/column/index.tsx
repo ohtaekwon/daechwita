@@ -4,14 +4,14 @@ import * as Styled from "./index.styles";
 import { Props } from "./index.types";
 
 import { QueryKeys } from "queryClient";
-import useColumn from "hooks/useColumn";
+import useColumn from "hooks/dnd/useColumn";
 
 import Button from "_common/components/button";
 import Box from "_common/components/box";
 
 import { ScheduleCard } from "components/card";
-import useColumnDrop from "hooks/useColumnDrop";
-import { emoji, scheduleDict } from "utils/constants";
+import useColumnDrop from "hooks/dnd/useColumnDrop";
+import { emoji } from "utils/constants";
 
 const Column = ({
   className,

@@ -18,7 +18,7 @@ import { throttle } from "utils/helpers";
  * 5. DragPreview Ref: 드래그 프리뷰용 커넥터 기능으로 DOM의 미리보기 부분에 첨부될 수 있습니다.
  */
 
-function useTaskDragAndDrop<T extends HTMLElement>(
+function useColumnDragAndDrop<T extends HTMLElement>(
   { data, index }: { data: Schedule; index: number },
   handleDropHover: handleDropHover
 ) {
@@ -192,7 +192,7 @@ function useTaskDragAndDrop<T extends HTMLElement>(
   };
 }
 
-export default useTaskDragAndDrop;
+export default useColumnDragAndDrop;
 
 type handleDropHover = UseMutateFunction<
   | AxiosResponse<any, any>

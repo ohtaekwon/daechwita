@@ -1,8 +1,10 @@
 import React from "react";
-
+import { UseMutateFunction } from "react-query";
+import { AxiosResponse } from "axios";
 import { useDrop } from "react-dnd";
-import { ColumnType, ItemType, TaskModel, DragItem } from "types/index.types";
 
+import { ColumnType, DragItem, Schedule, DnDAcceptKey } from "types/schedule";
+import { OnDrop } from "./useColumn";
 /**
  * useDrop 정리
  *
@@ -24,20 +26,22 @@ import { ColumnType, ItemType, TaskModel, DragItem } from "types/index.types";
  * collect : 구성 요소에 삽입하기 위해 반환할 props의 일반 개체를 반환해야 합니다.
  */
 
-function useColumnDrop(
-  column: ColumnType,
-  handleDrop: (fromColumn: ColumnType, taskId: TaskModel["id"]) => void
-) {
+function useColumnDrop(column: ColumnType, handleDrop: OnDrop) {
   const [{ isOver }, dropRef] = useDrop<DragItem, void, { isOver: boolean }>({
-    accept: ItemType.TASK, // 어떤 소스에서만 반응할지 결정
-    drop: (dragItem) => {
-      console.log("drag", dragItem);
+    accept: DnDAcceptKey.SCHEDULES, // 어떤 소스에서만 반응할지 결정
+    drop: (dragItem: {
+      from: ColumnType;
+      id: Schedule["id"];
+      index: number;
+    }) => {
       // DragItem의 from과 column의 타입이 같으면
+      const { from, id } = dragItem;
       if (!dragItem || dragItem.from === column) {
         return;
       }
-      handleDrop(dragItem.from, dragItem.id);
+      handleDrop({ id });
     },
+
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),

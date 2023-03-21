@@ -19,7 +19,7 @@ import Flex from "_common/components/flex";
 
 import Modal from "components/modal";
 
-import useTaskDragAndDrop from "hooks/useTaskDragAndDrop";
+import useColumnDragAndDrop from "hooks/dnd/useColumnDragAndDrop";
 import { useInputReducer } from "hooks/app/useInputReducer";
 
 import {
@@ -44,7 +44,7 @@ export const ScheduleCard = ({
     department: data.department,
   });
   const [toggle, setToggle] = React.useState(false);
-  const { ref, isDragging } = useTaskDragAndDrop<HTMLElement>(
+  const { ref, isDragging } = useColumnDragAndDrop<HTMLElement>(
     { data, index },
     handleDropHover
   );
