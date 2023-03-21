@@ -16,7 +16,8 @@ export type BoxType =
   | "gray_200_border"
   | "blue_200_border"
   | "front"
-  | "back";
+  | "back"
+  | "amber";
 
 export interface BoxProps {
   /**

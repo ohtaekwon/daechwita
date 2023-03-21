@@ -1,8 +1,6 @@
-import { AxiosResponse } from "axios";
 import { ElementType, HTMLAttributes } from "react";
-import { UseMutateFunction } from "react-query";
-import { TaskModel } from "types/index.types";
-import { ColumnType, Schedule } from "types/schedule";
+import { ColumnType, Schedule, TimeType } from "types/schedule";
+import { OnDelete, OnSwap, OnUpdate } from "hooks/useColumn";
 
 export interface CardProps {
   /**
@@ -11,93 +9,16 @@ export interface CardProps {
    */
   as?: ElementType;
 }
-export interface TodoCardProps
-  extends HTMLAttributes<HTMLDivElement>,
-    CardProps {
-  onDropHover: (i: number, j: number) => void;
-}
-
 export interface ScheduleCardProps
   extends HTMLAttributes<HTMLDivElement>,
     CardProps {
   index: number;
   column: ColumnType;
   data: Schedule;
-  onUpdate: UseMutateFunction<
-    | AxiosResponse<any, any>
-    | {
-        error: {
-          code: number;
-          message: string;
-        };
-      },
-    unknown,
-    {
-      id: string;
-      index: number;
-      column: ColumnType;
-      company: string;
-      department: string;
-    },
-    null
-  >;
-  onDelete: UseMutateFunction<
-    | AxiosResponse<unknown, any>
-    | {
-        error: {
-          code: number;
-          message: string;
-        };
-      },
-    unknown,
-    string,
-    null
-  >;
-  onSwap: ({
-    fromId,
-    fromIndex,
-    toIndex,
-  }: {
-    fromId: string;
-    fromIndex: number;
-    toIndex: number;
-  }) => void;
-  // onSwap: UseMutateFunction<
-  //   [
-  //     (
-  //       | AxiosResponse<any, any>
-  //       | {
-  //           error: {
-  //             code: number;
-  //             message: string;
-  //           };
-  //         }
-  //     ),
-  //     (
-  //       | AxiosResponse<any, any>
-  //       | {
-  //           error: {
-  //             code: number;
-  //             message: string;
-  //           };
-  //         }
-  //     )
-  //   ],
-  //   unknown,
-  //   {
-  //     fromId: Schedule["id"];
-  //     fromIndex: number;
-  //     toId: Schedule["id"];
-  //     toIndex: number;
-  //   },
-  //   unknown
-  // >;
+  onUpdate: OnUpdate;
+  onDelete: OnDelete;
+  onSwap: OnSwap;
 }
-
-type TimeType = {
-  seconds: number;
-  nanoseconds: number;
-};
 
 export interface ResumeCardProps
   extends HTMLAttributes<HTMLDivElement>,
@@ -123,7 +44,6 @@ export interface ResumeCardProps
     }[];
   };
   tag: (string | undefined)[];
-
   toggle: boolean;
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }

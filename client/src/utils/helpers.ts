@@ -1,7 +1,7 @@
 import { theme } from "styles";
 import { colors } from "./constants";
 /**
- * debounce를 가져오도록 도와주는 함수
+ * @description debounce를 가져오도록 도와주는 함수
  * @param callback 지연시킨뒤 실행할 함수
  * @param delay 지연시킬 시간 (초)
  */
@@ -18,25 +18,30 @@ export function debounce<Params extends any[]>(
     }, timeout);
   };
 }
+/**
+ * @description debounce를 가져오도록 도와주는 함수
+ * @param callback 지연시킨뒤 실행할 함수
+ * @param delay 지연시킬 시간 (초)
+ */
 
-export const throttler = <F extends (...args: any[]) => any>(
-  func: F,
-  waitFor: number
+export const throttle = <F extends (...args: any[]) => any>(
+  callback: F,
+  timer: number = 1000
 ) => {
   let throttleCheck: NodeJS.Timeout | any;
-  const throttled = (...args: Parameters<F>) => {
+
+  return () => {
     if (!throttleCheck) {
       throttleCheck = setTimeout(() => {
-        func(...args);
         throttleCheck = null;
-      }, waitFor);
+        callback();
+      }, timer);
     }
-    return throttled as (...args: Parameters<F>) => ReturnType<F>;
   };
 };
 
 /**
- * formData를 가져오도록 도와주는 함수
+ * @description formData를 가져오도록 도와주는 함수
  * @param object formData
  */
 export function getFormData(object: any) {
@@ -45,8 +50,7 @@ export function getFormData(object: any) {
   return formData;
 }
 /**
- * 배열의 자리를 바꿔주는 함수
- *
+ * @description 배열의 자리를 바꿔주는 함수
  * @param array 자리 바꿀 배열
  * @param i 자리를 바꿔야할 배열의 자리
  * @param j 자리를 이동해줄 배열의 자리
@@ -59,9 +63,8 @@ export function swap<T>(array: T[], i: number, j: number): T[] {
   return snapShot;
 }
 /**
- * 칸반의 색상을 랜덤으로 설정해주는 함수
+ * @description 칸반의 색상을 랜덤으로 설정해주는 함수
  * @param variant theme에 지정한 색상에 맞게 랜덤으로 색상을 반환한다.
- *
  */
 export function pickRandomColor(variant = "") {
   const color = colors[Math.floor(Math.random() * colors.length)];
@@ -69,7 +72,7 @@ export function pickRandomColor(variant = "") {
 }
 
 /**
- * 랜덤으로 숫자를 출력해주는 함수
+ * @description 랜덤으로 숫자를 출력해주는 함수
  * @param number 숫자를 넣으면, 최대 숫자가 param의 숫자만큼인 수를 랜덤으로 반환한다.
  */
 export function generatorRandomCount(count: number) {
@@ -80,7 +83,7 @@ export function generatorRandomCount(count: number) {
 }
 
 /**
- * 날짜를 출력해주는 함수
+ * @description 날짜를 출력해주는 함수
  * @param date Date 타입을 넣어주면 0000년 00월 00일 00시 00분 으로 반환한다.
  */
 export function getFirebaseTimeToDate(date: Date | null) {
@@ -95,7 +98,7 @@ export function getFirebaseTimeToDate(date: Date | null) {
 }
 
 /**
- * 날짜에 따라, 상반기/하반기를 나타내주는 함수
+ * @description 날짜에 따라, 상반기/하반기를 나타내주는 함수
  * @param date 현재의 Date를 넣어주면, 1월 ~ 6월까지는 상반기, 7월부터 12월까지 하반기를 반환한다.
  */
 export function getFirstSecondHalf(date: Date) {
@@ -105,7 +108,7 @@ export function getFirstSecondHalf(date: Date) {
   return `${year}년 ${month >= 6 ? "하반기" : "상반기"}`;
 }
 /**
- * String의 배열안의 글자의 길이에 따른 오름차순 정렬하는 함수
+ * @description String의 배열안의 글자의 길이에 따른 오름차순 정렬하는 함수
  * @param array 배열을 넣어주면, 글자 길이에 따른 오름 차순 정렬한 배열을 반환한다.
  */
 export function getSortedArray(array: (string | undefined)[]) {

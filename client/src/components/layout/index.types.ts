@@ -2,7 +2,16 @@ import { CSSProperties } from "@emotion/serialize";
 import type { ElementType, HTMLAttributes, ReactNode } from "react";
 import { theme } from "styles";
 
-export type LayoutType = "sm" | "md" | "lg" | "xl" | "xs" | "write" | "default";
+export type LayoutType =
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "xs"
+  | "write"
+  | "default"
+  | "amber_lg"
+  | "xxl_gray";
 export interface LayoutProps {
   /**
    * 엘리먼트의 타입을 설정합니다.

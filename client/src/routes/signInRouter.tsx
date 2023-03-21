@@ -16,6 +16,7 @@ const SignInRouter = () => {
   const url = process.env.PUBLIC_URL;
   const homeImage = `url(${url}/images/bg_space.jpg)`;
   const writeImage = `url(${url}/images/bg_0${generatorRandomCount(7)}.jpg)`;
+
   return (
     <>
       <Routes>
@@ -26,9 +27,12 @@ const SignInRouter = () => {
         </Route>
 
         <Route element={<Layout variant="default" header />}>
-          <Route path="/schedules" element={<Schedules />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="interview" element={<Interview />} />
+        </Route>
+
+        <Route element={<Layout variant="amber_lg" header />}>
+          <Route path="/schedules" element={<Schedules />} />
         </Route>
 
         <Route element={<Layout variant="lg" header searchBar />}>

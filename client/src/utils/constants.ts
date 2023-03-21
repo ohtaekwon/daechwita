@@ -28,4 +28,15 @@ export const colors = [
 export const emoji = {
   DOCUMENT: "📜",
   WRITE: "✍🏻",
+  first: "1️⃣",
+  second: "2️⃣",
+  third: "3️⃣",
+  final: "🎉",
 } as const;
+
+export const scheduleDict = {
+  first: "서류 전형",
+  second: "면접 전형(1차)",
+  third: "면접 전형(2차)",
+  final: "최종 발표",
+};

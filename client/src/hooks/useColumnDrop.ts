@@ -4,8 +4,7 @@ import { AxiosResponse } from "axios";
 import { useDrop } from "react-dnd";
 
 import { ColumnType, DragItem, Schedule, DnDAcceptKey } from "types/schedule";
-import { debounce, throttler } from "utils/helpers";
-
+import { OnDrop } from "./useColumn";
 /**
  * useDrop 정리
  *
@@ -27,23 +26,7 @@ import { debounce, throttler } from "utils/helpers";
  * collect : 구성 요소에 삽입하기 위해 반환할 props의 일반 개체를 반환해야 합니다.
  */
 
-function useColumnDrop(
-  column: ColumnType,
-  handleDrop: UseMutateFunction<
-    | AxiosResponse<any, any>
-    | {
-        error: {
-          code: number;
-          message: string;
-        };
-      },
-    unknown,
-    {
-      id: string;
-    },
-    unknown
-  >
-) {
+function useColumnDrop(column: ColumnType, handleDrop: OnDrop) {
   const [{ isOver }, dropRef] = useDrop<DragItem, void, { isOver: boolean }>({
     accept: DnDAcceptKey.SCHEDULES, // 어떤 소스에서만 반응할지 결정
     drop: (dragItem: {

@@ -1,4 +1,5 @@
 import React from "react";
+import { AiOutlinePlus } from "react-icons/ai";
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";
 
@@ -10,10 +11,11 @@ import Box from "_common/components/box";
 
 import { ScheduleCard } from "components/card";
 import useColumnDrop from "hooks/useColumnDrop";
+import { emoji, scheduleDict } from "utils/constants";
 
 const Column = ({
-  as = "div",
   className,
+  badge,
   addBtn,
   column,
   data: schedules = [],
@@ -24,13 +26,12 @@ const Column = ({
     QueryKeys.SCHEDULES,
     column
   );
-
   const { isOver, dropRef } = useColumnDrop(column, onDrop);
 
   const ColumnSchedules = schedules.map((data, index) => (
     <ScheduleCard
-      key={data.index}
-      index={index}
+      key={data.id}
+      index={data.index}
       column={column}
       data={data}
       onUpdate={onUpdate}
@@ -43,30 +44,43 @@ const Column = ({
     onCreate({
       column: column,
       index: Date.now() + Math.random() * 2,
-      company: "회사명을 입력해주세요",
-      department: "부서명을 입력해주세요",
+      company: "",
+      department: "",
     });
   };
 
   return (
     <>
-      <Styled.Wrapper as={as} className={className} {...rest}>
+      <Styled.Wrapper className={className}>
         {addBtn && (
-          <Button variant="default" areaLabel="add-task" onClick={handleAdd}>
-            추가하기
-          </Button>
+          <Box padding="1rem">
+            <Button
+              areaLabel="add-task"
+              onClick={handleAdd}
+              variant="tdred_400_fill"
+              width="100%"
+              height="100%"
+              fontSize="xl"
+              fontWeight={500}
+            >
+              <AiOutlinePlus size={25} color="#eaeaea" />
+              {emoji[column]} 추가하기
+            </Button>
+          </Box>
         )}
         <Box
           ref={dropRef}
-          variant="gray_200_border"
-          width="300px"
-          height="100%"
+          variant="amber"
+          width="100%"
+          height="100vh"
           display="flex"
           direction="column"
-          justifyContent="center"
+          margin="auto"
           alignItems="center"
-          backgroundColor="gray_100"
           opacity={isOver ? 0.85 : 1}
+          style={{
+            overflowY: "scroll",
+          }}
         >
           {schedules && ColumnSchedules}
         </Box>

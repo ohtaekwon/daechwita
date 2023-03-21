@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import { Schedule } from "types/schedule";
 import { handleError } from "../utils/helpers";
 import {
   requestDelete,
@@ -6,17 +7,6 @@ import {
   requestPost,
   requestPut,
 } from "../utils/methods";
-
-type Column = "first" | "second" | "thirds" | "final";
-export type Schedule = {
-  id: string;
-  application: {
-    company: string;
-    department: string;
-  };
-  uid: string;
-  column: Column;
-};
 
 export const basePath = "/schedules";
 

@@ -19,13 +19,17 @@ import Flex from "_common/components/flex";
 
 import Modal from "components/modal";
 
+import useTaskDragAndDrop from "hooks/useTaskDragAndDrop";
+import { useInputReducer } from "hooks/app/useInputReducer";
+
 import {
   getFirebaseTimeToDate,
   getFirstSecondHalf,
   getSortedArray,
   randomButtonColor,
 } from "utils/helpers";
-import useTaskDragAndDrop from "hooks/useTaskDragAndDrop";
+import { emoji, scheduleDict } from "utils/constants";
+import Input from "_common/components/input";
 
 export const ScheduleCard = ({
   index,
@@ -35,21 +39,29 @@ export const ScheduleCard = ({
   onSwap: handleDropHover,
   data,
 }: React.PropsWithChildren<ScheduleCardProps>) => {
+  const [schedule, _, onChange] = useInputReducer({
+    company: data.company,
+    department: data.department,
+  });
+  const [toggle, setToggle] = React.useState(false);
   const { ref, isDragging } = useTaskDragAndDrop<HTMLElement>(
     { data, index },
     handleDropHover
   );
 
+  const firebaseDate = new Date(data.createdAt.seconds * 1000);
+
   const handleUpdate = () => {
     onUpdate({
       id: data.id,
+      index: data.index,
       column: data.column,
-      index: Date.now() + Math.random() * 2,
-      company: "네이버",
-      department: "프론트 엔드",
+      company: schedule.company,
+      department: schedule.department,
+      createdAt: data.createdAt,
     });
+    setToggle(!toggle);
   };
-
   const handleDelete = () => {
     onDelete(data.id);
   };
@@ -61,45 +73,125 @@ export const ScheduleCard = ({
       variant="default"
       position="relative"
       display="flex"
-      width="300px"
+      width="200px"
       height="200px"
+      backgroundColor="amber_100"
       marginTop={20}
       marginBottom={20}
       cursor="grab"
       ref={ref}
       opacity={isDragging ? 0.5 : 1}
+      style={{ minHeight: "200px" }}
     >
-      <Flex
-        as="div"
-        width="100px"
-        height="30%"
-        style={{ position: "absolute", top: 0, right: 0 }}
-      >
-        <Button
-          aria-label="delete-task"
-          variant="default"
-          zIndex={100}
-          areaLabel="delete"
-          onClick={handleDelete}
-        >
-          <RiDeleteBin6Line />
-        </Button>
-        <Button
-          aria-label="delete-task"
-          variant="default"
-          zIndex={100}
-          areaLabel="delete"
-          onClick={handleUpdate}
-        >
-          <AiOutlineEdit />
-        </Button>
-      </Flex>
-      <Flex direction="column">
-        <Text>{data.department}</Text>
-        <Text>{data.company}</Text>
-        <Text>{data.column}</Text>
-        <Text>{data.index}</Text>
-      </Flex>
+      {toggle && (
+        <Flex direction="column" as="div" width="100%" height="100%">
+          <Input
+            type="text"
+            name="company"
+            placeholder="회사를 입력해주세요"
+            className={`input__${schedule.company}`}
+            value={schedule.company}
+            onChange={onChange}
+            // 스타일
+            variant="schedule"
+            width="100%"
+            boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
+            radius={8}
+            marginBottom={10}
+            marginTop={10}
+          />
+          <Input
+            type="text"
+            name="department"
+            placeholder="부서를 입력해주세요"
+            className={`input__${schedule.department}`}
+            value={schedule.department}
+            onChange={onChange}
+            // 스타일
+            variant="schedule"
+            width="100%"
+            boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
+            radius={8}
+            marginBottom={10}
+            marginTop={10}
+          />
+          <Flex justifyContent="space-between" width="100%">
+            <Button
+              aria-label="delete-task"
+              variant="tdred_400_fill"
+              areaLabel="delete"
+              onClick={handleUpdate}
+            >
+              취소
+            </Button>
+            <Button
+              aria-label="delete-task"
+              variant="primary"
+              areaLabel="delete"
+              onClick={handleUpdate}
+            >
+              확인
+            </Button>
+          </Flex>
+        </Flex>
+      )}
+      {!toggle && (
+        <>
+          <Flex
+            as="div"
+            width="100%"
+            height="15%"
+            justifyContent="space-between"
+            style={{ position: "absolute", top: 0, right: 0 }}
+          >
+            <Button
+              aria-label="delete-task"
+              variant="default"
+              zIndex={100}
+              areaLabel="delete"
+              onClick={handleUpdate}
+            >
+              <AiOutlineEdit size={15} />
+            </Button>
+            <Button
+              aria-label="delete-task"
+              variant="default"
+              zIndex={100}
+              areaLabel="delete"
+              onClick={handleDelete}
+            >
+              <RiDeleteBin6Line size={15} />
+            </Button>
+          </Flex>
+          <Flex
+            direction="column"
+            height="85%"
+            style={{
+              position: "absolute",
+              padding: "1rem",
+              bottom: 0,
+              left: 0,
+              right: 0,
+            }}
+          >
+            <Text fontWeight={700} marginTop={5} marginBottom={5}>
+              {getFirstSecondHalf(firebaseDate)}
+            </Text>
+            <Text fontSize="lg" fontWeight={500} marginTop={5} marginBottom={5}>
+              {`${emoji[data.column]} ${scheduleDict[data.column]}`}
+            </Text>
+            <Text fontWeight={700} marginTop={5} marginBottom={5}>
+              {data.company || "회사를 입력해주세요"}
+            </Text>
+            <Text fontWeight={700} marginTop={5} marginBottom={5}>
+              {data.department || "부서를 입력해주세요"}
+            </Text>
+            <Text fontSize="sm" fontWeight={500} marginTop={5} marginBottom={5}>
+              {getFirebaseTimeToDate(firebaseDate)}
+            </Text>
+          </Flex>
+        </>
+      )}
     </Box>
   );
 };
@@ -253,7 +345,7 @@ export const ResumeCard = ({
                 }}
               >
                 {getSortedArray(tag).map((item, index) =>
-                  !item ? null : index < 5 ? (
+                  !item ? null : index < 3 ? (
                     <Button
                       key={`${tag}-${index}`}
                       variant={randomButtonColor()}
@@ -265,7 +357,7 @@ export const ResumeCard = ({
                     </Button>
                   ) : null
                 )}
-                {tag.length > 5 && (
+                {tag.length > 3 && (
                   <Button
                     variant="default"
                     onClick={() => setFrontToBack(true)}

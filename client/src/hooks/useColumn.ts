@@ -1,5 +1,5 @@
 import React from "react";
-import { useMutation } from "react-query";
+import { UseMutateFunction, useMutation } from "react-query";
 import { getClient, QueryKeysType } from "queryClient";
 
 import {
@@ -7,8 +7,15 @@ import {
   deleteSchedules,
   updateSchedules,
 } from "lib/apis/api/schedules";
-import { ColumnType, Schedule, SchedulesType } from "types/schedule";
-import { debounce } from "utils/helpers";
+import {
+  ColumnType,
+  OriginScheduleType,
+  Schedule,
+  SchedulesType,
+  TimeType,
+} from "types/schedule";
+import { throttle } from "utils/helpers";
+import { AxiosResponse } from "axios";
 
 /**
  * @description useMutation을 사용하여 미리 UI부터 변화시켜주는 낙관적 업데이트(optimistic update)를 구현하는 Custom Hook
@@ -53,18 +60,41 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
         },
       }),
     {
-      onMutate: async () => {
-        queryClient.invalidateQueries(queryKey, {
-          exact: false,
-          refetchInactive: true,
-        });
+      onMutate: async (aa) => {
+        // await queryClient.invalidateQueries(queryKey, {
+        //   exact: false,
+        //   refetchInactive: true,
+        // });
       },
-      onSuccess: async () => {
+      onSuccess: async (addData: unknown = {}, variables, ctx) => {
+        const { id, uid, index, createdAt, column, application } =
+          addData! as OriginScheduleType;
+
+        if (!addData) {
+          await queryClient.invalidateQueries(queryKey, {
+            exact: false,
+            refetchInactive: true,
+          });
+        }
         await queryClient.cancelQueries(queryKey);
         const response = queryClient.getQueriesData(queryKey) || {};
         const [key, schedulesData] = response[0];
+
         if (!schedulesData) return null;
-        const copySchedules = { ...(schedulesData as SchedulesType) };
+        let copySchedules = { ...(schedulesData as SchedulesType) };
+        copySchedules[column].push({
+          column,
+          company: application.company,
+          department: application.department,
+          index,
+          createdAt,
+          id: id,
+          uid: uid,
+        });
+        copySchedules = {
+          ...copySchedules,
+          [column]: copySchedules[column].sort((a, b) => b.index - a.index),
+        };
         queryClient.setQueryData(queryKey, copySchedules);
       },
     }
@@ -95,12 +125,14 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
       column,
       company,
       department,
+      createdAt,
     }: {
       id: string;
       index: number;
       column: ColumnType;
       company: string;
       department: string;
+      createdAt: TimeType;
     }) =>
       updateSchedules(id, {
         column,
@@ -109,6 +141,7 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
           company,
           department,
         },
+        createdAt,
       }),
     {
       onMutate: async (mutatedData) => {
@@ -118,6 +151,7 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
           department,
           id,
           index,
+          createdAt,
         } = mutatedData;
         await queryClient.cancelQueries(queryKey);
         const response = queryClient.getQueriesData(queryKey) || {};
@@ -222,6 +256,7 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
       updateSchedules(id, {
         id,
         column,
+        index: Date.now() + Math.random() * 2,
       }),
     {
       onMutate: async () => {
@@ -233,37 +268,85 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
     }
   );
 
-  // const { mutate: onSwap } = useMutation(
-  //   ({
-  //     fromId,
-  //     fromIndex,
-  //     toId,
-  //     toIndex,
-  //   }: {
-  //     fromId: Schedule["id"];
-  //     fromIndex: number;
-  //     toId: Schedule["id"];
-  //     toIndex: number;
-  //   }) =>{
-  //     return Promise.all([
-  //       updateSchedules(fromId, { index: fromIndex }),
-  //       updateSchedules(toId, { index: toIndex }),
-  //     ])
-  //   }
-  // );
-  const onSwap = ({
-    fromId,
-    fromIndex,
-    toIndex,
-  }: {
-    fromId: string;
-    fromIndex: number;
-    toIndex: number;
-  }) => {
-    console.log(fromId, fromIndex, toIndex, column);
-  };
-  // Schedule["id"];
+  const { mutate: onSwap } = useMutation(
+    async ({
+      fromId,
+      fromIndex,
+      toIndex,
+    }: {
+      fromId: Schedule["id"];
+      fromIndex: number;
+      toIndex: number;
+    }) => {
+      if (fromIndex > toIndex) {
+        // await throttle(() => console.log("대기"), 1500);
+        console.log("아래로 이동");
+        return updateSchedules(fromId, { index: toIndex - 1 });
+      } else {
+        // await throttle(() => console.log("대기"), 1500);
+        console.log("위로 이동");
+        return updateSchedules(fromId, { index: toIndex + 1 });
+      }
+    },
+    {
+      onMutate: async () => {
+        await throttle(() => console.log("대기", 1500));
+        queryClient.invalidateQueries(queryKey, {
+          exact: false,
+          refetchInactive: true,
+        });
+      },
+    }
+  );
 
   return { onCreate, onUpdate, onDelete, onDrop, onSwap };
 }
 export default useColumn;
+
+type Error = {
+  error: { code: number; message: string };
+};
+type Response = AxiosResponse<any, any> | Error;
+
+export type OnCreate = UseMutateFunction<
+  Schedule | undefined,
+  unknown,
+  {
+    column: string;
+    index: number;
+    company: string;
+    department: string;
+    createdAt: TimeType;
+  },
+  void
+>;
+
+export type OnDrop = UseMutateFunction<
+  Response,
+  unknown,
+  { id: string },
+  unknown
+>;
+
+export type OnUpdate = UseMutateFunction<
+  Response,
+  unknown,
+  {
+    id: string;
+    index: number;
+    column: ColumnType;
+    company: string;
+    department: string;
+    createdAt: TimeType;
+  },
+  null
+>;
+
+export type OnDelete = UseMutateFunction<Response, unknown, string, null>;
+
+export type OnSwap = UseMutateFunction<
+  Response,
+  unknown,
+  { fromId: Schedule["id"]; fromIndex: number; toIndex: number },
+  unknown
+>;

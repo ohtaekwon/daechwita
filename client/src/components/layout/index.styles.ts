@@ -38,15 +38,34 @@ export const Layout = styled.main<Required<LayoutProps>>`
       }
       case "lg": {
         return css`
-          max-width: 1680px;
+          max-width: 1280px;
           height: 100%;
           max-height: max-content;
           background-color: ${theme.colors.gray_50};
         `;
       }
+      case "amber_lg": {
+        return css`
+          max-width: 1280px;
+          height: 100%;
+          max-height: max-content;
+          background-color: ${theme.colors.amber_500}!important;
+        `;
+      }
       case "xl": {
         return css`
           max-width: 1600px;
+          height: 100%;
+          max-height: max-content;
+          background-color: ${theme.colors.gray_50};
+        `;
+      }
+      case "xxl_gray": {
+        return css`
+          max-width: 1600px;
+          height: 100%;
+          max-height: max-content;
+          background-color: ${theme.colors.gray_50};
         `;
       }
 

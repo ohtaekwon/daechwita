@@ -1,6 +1,9 @@
+import { AxiosResponse } from "axios";
 import React from "react";
 import { useDrag, useDrop, XYCoord } from "react-dnd";
-import { ColumnType, DragItem, Schedule, DnDAcceptKey } from "types/schedule";
+import { UseMutateFunction } from "react-query";
+import { DragItem, Schedule, DnDAcceptKey } from "types/schedule";
+import { throttle } from "utils/helpers";
 
 /**
  * useDrag 정리
@@ -17,15 +20,7 @@ import { ColumnType, DragItem, Schedule, DnDAcceptKey } from "types/schedule";
 
 function useTaskDragAndDrop<T extends HTMLElement>(
   { data, index }: { data: Schedule; index: number },
-  handleDropHover: ({
-    fromId,
-    fromIndex,
-    toIndex,
-  }: {
-    fromId: string;
-    fromIndex: number;
-    toIndex: number;
-  }) => void
+  handleDropHover: handleDropHover
 ) {
   const ref = React.useRef<T>(null);
   const [{ isDragging }, drag] = useDrag<
@@ -38,6 +33,65 @@ function useTaskDragAndDrop<T extends HTMLElement>(
     collect: (monitor) => ({
       isDragging: monitor.isDragging(), //isDragging 변수가 현재 드래깅중인지 아닌지를 리턴해주는 부분.
     }),
+    end: (item, monitor) => {
+      if (!ref.current) return;
+
+      const draggedItemIndex = item.index; // 드래그된 해당 아이템의 인덱스
+      const hoveredItemIndex = index; // 위에 올려진 해당 아이템의 인덱스
+
+      if (draggedItemIndex === hoveredItemIndex) return; // 이동하지 않은 경우
+
+      // handleDropHover({
+      //   fromId: item.id,
+      //   fromIndex: draggedItemIndex,
+      //   toIndex: hoveredItemIndex,
+      // });
+
+      const isDraggedItemAboveHovered = draggedItemIndex < hoveredItemIndex; // 위에 올려질 인덱스가 뒤에 있을 경우
+      const isDraggedItemBelowHovered = !isDraggedItemAboveHovered; // 위에 올려질 인덱스가 앞에 있을 경우
+
+      const drop = monitor.didDrop();
+      const move = monitor.getDropResult();
+
+      console.log(drop, move);
+
+      // const { x: mouseX, y: mouseY } = monitor.getClientOffset() as XYCoord;
+      // const hoveredBoundingRect = ref.current.getBoundingClientRect();
+      // const stand = monitor.getInitialSourceClientOffset()?.y || 0;
+      // const compare = hoveredBoundingRect.y || 0;
+
+      // const hoveredMiddleHeight =
+      //   (hoveredBoundingRect.bottom - hoveredBoundingRect.top) / 2;
+
+      // const mouseYRelativeToHovered = mouseY - hoveredBoundingRect.top;
+
+      // const isMouseYAboveHoveredMiddleHeight =
+      //   mouseYRelativeToHovered < hoveredMiddleHeight;
+
+      // const isMouseYBelowHoveredMiddleHeight =
+      //   mouseYRelativeToHovered > hoveredMiddleHeight;
+
+      // if (isDraggedItemAboveHovered && isMouseYAboveHoveredMiddleHeight) {
+      //   return;
+      // }
+
+      // if (isDraggedItemBelowHovered && isMouseYBelowHoveredMiddleHeight) {
+      //   return;
+      // }
+
+      if (drop && move) {
+        handleDropHover({
+          fromId: item.id,
+          fromIndex: hoveredItemIndex,
+          toIndex: draggedItemIndex,
+        });
+      }
+
+      console.log("이동 자리", draggedItemIndex);
+      console.log("원래자리", hoveredItemIndex);
+
+      item.index = draggedItemIndex;
+    },
   });
 
   const [_, drop] = useDrop<DragItem, void, unknown>({
@@ -61,6 +115,8 @@ function useTaskDragAndDrop<T extends HTMLElement>(
       // get hover한 item의 사각형 경계면
       // getBoundingClientRect | 현재 뷰포트의 브라우저 엘리먼트 좌표 값 구하기
       const hoveredBoundingRect = ref.current.getBoundingClientRect();
+      const stand = monitor.getInitialSourceClientOffset()?.y || 0;
+      const compare = hoveredBoundingRect.y || 0;
 
       // get hover한 item의 사각형 경계면의 중간 높이
       // (아래값 - 위의 값) / 2 = 중간
@@ -88,16 +144,34 @@ function useTaskDragAndDrop<T extends HTMLElement>(
         return;
       }
 
+      // console.log("드래그된 아이템 인덱스", draggedItemIndex);
+      // console.log("호버된 아이템 인덱스", hoveredItemIndex);
+
       // 다 통과되면 실제 작업 실행
       // '드래그된 해당 아이템의 인덱스'와 '위에 올려진 해당 아이템의 인덱스'를 swap
-      const { id } = item;
-      console.log("a", item);
-      console.log("b", draggedItemIndex, hoveredItemIndex);
-      handleDropHover({
-        fromId: id,
-        fromIndex: draggedItemIndex,
-        toIndex: hoveredItemIndex,
-      });
+
+      // console.log("절대 위치", stand, "상대 위치", compare);
+
+      if (Math.abs(stand - compare) < 20) {
+        console.log("원위치");
+        return (item.index = hoveredItemIndex);
+      } else if (draggedItemIndex < hoveredItemIndex) {
+        console.log("위로 이동");
+      } else {
+        console.log("아래로 이동");
+      }
+
+      // handleDropHover({
+      //   fromId: item.id,
+      //   fromIndex: draggedItemIndex,
+      //   toIndex: hoveredItemIndex,
+      // });
+
+      // console.log("didDrop", monitor.didDrop());
+
+      // console.log("canDrop", monitor.canDrop());
+
+      // console.log("isOver", monitor.isOver());
 
       // 참고: 여기에서 모니터 항목을 변경하고 있기 때문에
       // 일반적으로 mutation을 피하는 것이 좋지만,
@@ -119,3 +193,20 @@ function useTaskDragAndDrop<T extends HTMLElement>(
 }
 
 export default useTaskDragAndDrop;
+
+type handleDropHover = UseMutateFunction<
+  | AxiosResponse<any, any>
+  | {
+      error: {
+        code: number;
+        message: string;
+      };
+    },
+  unknown,
+  {
+    fromId: Schedule["id"];
+    fromIndex: number;
+    toIndex: number;
+  },
+  unknown
+>;

@@ -7,7 +7,7 @@ import type {
 } from "react";
 import { theme } from "styles";
 
-type InputVariant = "search_1" | "default" | "resume";
+type InputVariant = "search_1" | "default" | "resume" | "schedule";
 
 export interface InputProps {
   /**

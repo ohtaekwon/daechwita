@@ -1,6 +1,4 @@
-import { AxiosRequestConfig, AxiosRequestHeaders } from "axios";
-
-export enum ScheduleColumnEnum {
+export enum SchedulesEnum {
   FIRST = "first",
   SECOND = "second",
   THIRD = "third",
@@ -11,7 +9,7 @@ export enum DnDAcceptKey {
   SCHEDULES = "schedules",
 }
 
-type TimeType = {
+export type TimeType = {
   seconds: number;
   nanoseconds: number;
 };
@@ -24,6 +22,7 @@ export interface Schedule {
   company: string;
   department: string;
   column: ColumnType;
+  createdAt: TimeType;
 }
 
 export interface SchedulesType {
@@ -47,7 +46,7 @@ export interface OriginScheduleType {
     company: string;
     department: string;
   };
-  colum: ColumnType;
-  updatedAt: TimeType;
+  column: ColumnType;
   createdAt: TimeType;
+  updatedAt?: TimeType;
 }

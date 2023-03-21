@@ -27,7 +27,7 @@ import { SchedulesType } from "types/index.types";
 // };
 export const getSchedulesList = (rowData: SchedulesType[]) => {
   const newArray: any = { first: [], second: [], third: [], final: [] };
-  let newData = rowData.sort((a, b) => a.index - b.index);
+  let newData = rowData.sort((a, b) => b.index - a.index);
   newData
     .map(
       ({
@@ -36,6 +36,7 @@ export const getSchedulesList = (rowData: SchedulesType[]) => {
         column,
         index,
         application: { department, company },
+        createdAt,
       }: SchedulesType) => {
         return {
           id,
@@ -44,6 +45,7 @@ export const getSchedulesList = (rowData: SchedulesType[]) => {
           column,
           department,
           company,
+          createdAt,
         };
       }
     )

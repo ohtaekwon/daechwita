@@ -60,6 +60,10 @@ export const Box = styled.span<Required<BoxProps>>`
   opacity: ${({ opacity }) => opacity};
   gap: ${({ gap }) => gap};
 
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   ${({ variant, theme, backgroundImage }) => {
     switch (variant) {
       case "primary": {
@@ -100,7 +104,15 @@ export const Box = styled.span<Required<BoxProps>>`
       case "gray_200_border": {
         return css`
           border-color: ${theme.colors.gray_300}!important;
+          color: ${theme.colors.black}!important;
           background-color: ${theme.colors.gray_50}!important;
+          box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
+        `;
+      }
+      case "amber": {
+        return css`
+          border-color: ${theme.colors.amber_50}!important;
+          background-color: ${theme.colors.amber_500}!important;
           color: ${theme.colors.black}!important;
           box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
         `;

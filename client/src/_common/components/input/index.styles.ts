@@ -104,6 +104,22 @@ export const Input = styled.input<Required<InputProps>>`
           }
         `;
       }
+      case "schedule": {
+        return css`
+          border: 0;
+          background-color: ${theme.colors.white}!important;
+          border-color: ${theme.colors.amber}!important;
+          color: ${theme.colors.back}!important;
+          transition: background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+          
+          &:focus{
+            font-size: large;
+            border: 2px
+            background-color: red!important;
+          }
+        `;
+      }
       case "resume": {
         return css`
           border: 0;

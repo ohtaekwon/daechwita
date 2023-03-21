@@ -11,7 +11,6 @@ export const useInputReducer = (initialState = {}) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name);
     dispatch(e.target);
   };
   return [state, dispatch, onChange] as const;

@@ -18,7 +18,7 @@ const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
       as="header"
       alignItems="center"
       justifyContent="space-between"
-      backgroundColor="transparent"
+      backgroundColor={transparent ? "transparent" : "white"}
       className={css`
         padding: 8px calc((100% - 1680px) / 2);
         border-bottom: ${transparent
@@ -70,7 +70,7 @@ const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
             자소서
           </Button>
         </Link>
-        <Link to="/my-interview">
+        <Link to="/interview">
           <Button
             variant="default"
             paddingY={9}
