@@ -163,8 +163,6 @@ export interface ResumesType {
   id: string;
   uid: string;
   imgUrl: string;
-  createdAt: TimeType;
-  publishing: boolean;
   apply: {
     company: string;
     department: string;
@@ -175,7 +173,20 @@ export interface ResumesType {
     text: string;
     title: string;
   }[];
+  createdAt: TimeType;
   updatedAt: null | TimeType;
+  publishing: boolean;
 }
 
-export interface ResumesResponse<T> extends ResumesType {}
+export interface ResumesResponse
+  extends Omit<ResumesType, "apply" | "documents"> {
+  resumes: {
+    apply: { company: string; department: string };
+    documents: {
+      id: string;
+      tag: string;
+      text: string;
+      title: string;
+    }[];
+  };
+}

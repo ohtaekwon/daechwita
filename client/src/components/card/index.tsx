@@ -9,7 +9,7 @@ import { FaBuilding } from "react-icons/fa";
 import { ResumeCardProps, ScheduleCardProps } from "./index.types";
 import * as Styled from "./index.styles";
 
-import { QueryKeys } from "queryClient";
+import { getClient, QueryKeys } from "queryClient";
 import { deleteResume } from "lib/apis/api/resumes";
 
 import Box from "_common/components/box";
@@ -30,6 +30,8 @@ import {
 } from "utils/helpers";
 import { emoji, scheduleDict } from "utils/constants";
 import Input from "_common/components/input";
+import { useMutation } from "react-query";
+import { ResumesType } from "types/resumes";
 
 export const ScheduleCard = ({
   index,
@@ -209,16 +211,50 @@ export const ResumeCard = ({
   setToggle,
 }: React.PropsWithChildren<ResumeCardProps>) => {
   const navigate = useNavigate();
+  const queryClient = getClient();
+
+  const { mutate: onDelete } = useMutation((id: string) => deleteResume(id), {
+    onMutate: async (id) => {
+      await queryClient.cancelQueries(QueryKeys.RESUMES());
+      const response = queryClient.getQueriesData(QueryKeys.RESUMES());
+      const [key, resumesData] = response[0];
+
+      if (!resumesData) return null;
+
+      const targetIndex = (resumesData as ResumesType[]).findIndex(
+        (item) => item.id === id
+      );
+
+      if (!resumesData || targetIndex === undefined || targetIndex < 0) return;
+      const copyResumes = [...(resumesData as ResumesType[])];
+      copyResumes.splice(targetIndex, 1);
+      queryClient.setQueryData(QueryKeys.RESUMES(), copyResumes);
+    },
+    onSuccess: async (updateData, variables, ctx) => {
+      const response = queryClient.getQueriesData(QueryKeys.RESUMES());
+      const [key, resumesData] = response[0];
+      if (!resumesData) return null;
+
+      const targetIndex = (resumesData as ResumesType[]).findIndex(
+        (item) => item.id === variables
+      );
+      if (!resumesData || targetIndex === undefined || targetIndex < 0) return;
+      const copyResumes = [...(resumesData as ResumesType[])];
+      copyResumes.splice(targetIndex, 1);
+      queryClient.setQueryData(QueryKeys.RESUMES(), copyResumes);
+    },
+  });
 
   const [frontToBack, setFrontToBack] = React.useState<boolean>(false);
 
   /**
-   * 모달 state
+   * 모달과 관련한 상태관리
    */
-  const firebaseDate = new Date(createdAt.seconds * 1000);
-  const updateDate = updatedAt ? new Date(updatedAt.seconds * 1000) : null;
   const [updateModalShown, toggleUpdateModal] = React.useState(false);
   const [deleteModalShow, toggleDeleteModal] = React.useState(false);
+
+  const firebaseDate = new Date(createdAt.seconds * 1000);
+  const updateDate = updatedAt ? new Date(updatedAt.seconds * 1000) : null;
 
   const showModal = (e: React.SyntheticEvent) => {
     const { ariaLabel } = e.currentTarget;
@@ -238,9 +274,9 @@ export const ResumeCard = ({
     }
   };
 
-  const handleDelete = async (e: React.SyntheticEvent) => {
+  const handleDelete = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    await deleteResume(id);
+    onDelete(id);
     setToggle(!toggle);
   };
 

@@ -49,7 +49,11 @@ export const Layout = styled.main<Required<LayoutProps>>`
           max-width: 1280px;
           height: 100%;
           max-height: max-content;
-          background-color: ${theme.colors.amber_500}!important;
+          background-color: linear-gradient(
+            -90deg,
+            rgb(118, 84, 219, 0.5) 0%,
+            rgb(98, 136, 252, 0.8) 100%
+          ) !important;
         `;
       }
       case "xl": {

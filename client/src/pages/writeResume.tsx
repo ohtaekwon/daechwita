@@ -1,12 +1,15 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import { FaTrashAlt } from "react-icons/fa";
 import { HiPhotograph } from "react-icons/hi";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 
+import { useMutation, useQuery } from "react-query";
+import { getClient, QueryKeys } from "queryClient";
+
 import { useInputReducer } from "hooks/app/useInputReducer";
-import useItems from "hooks/app/useItems";
+import useItems, { ItemList, ITEM_KEY } from "hooks/app/useItems";
 import { getLatestResume, getResume, updateResume } from "lib/apis/api/resumes";
 import { postImageFile } from "lib/apis/api/formData";
 
@@ -20,11 +23,116 @@ import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
 import Flex from "_common/components/flex";
 import { emoji } from "utils/constants";
+import { ResumesResponse, ResumesType } from "types/index.types";
+
+/**
+ *
+ * 해야할 것들, publishing떄, 수정
+ *
+ * @param id
+ *
+ *
+ * @returns
+ */
+
+function QueryFn<T>(id: string | undefined) {
+  if (id) {
+    console.log("useQuery");
+    return () => getResume(id!);
+  } else {
+    console.log("useQuery");
+    return () => getLatestResume();
+  }
+}
 
 const WriteResume = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const queryClient = getClient();
+
+  const { data, isLoading, isError, refetch } = useQuery(
+    id ? QueryKeys.RESUMES(id) : QueryKeys.RESUMES(),
+    QueryFn(id)
+  );
+  const { mutate: onUpdate } = useMutation(
+    ({
+      id,
+      company,
+      department,
+      documents,
+    }: {
+      id: string;
+      company: string;
+      department: string;
+      documents: ItemList["documents"];
+    }) =>
+      updateResume(id, {
+        apply: {
+          company,
+          department,
+        },
+        documents,
+      }),
+    {
+      // onMutate: async (mutateData) => {
+      //   const { id, company, department, documents } = mutateData;
+      //   await queryClient.cancelQueries(QueryKeys.RESUMES());
+      //   const response = queryClient.getQueriesData(QueryKeys.RESUMES()) || {};
+      //   const [key, resumesData] = response[0];
+
+      //   if (!resumesData) return null;
+
+      //   const targetIndex = (resumesData as ResumesResponse[]).findIndex(
+      //     (data) => data.id === id
+      //   );
+
+      //   if (!resumesData || targetIndex === undefined || targetIndex < 0) {
+      //     return;
+      //   }
+      //   const copyResumes = [...(resumesData as ResumesResponse[])];
+
+      //   const newData: Pick<ResumesResponse, "resumes"> = {
+      //     resumes: {
+      //       apply: {
+      //         company,
+      //         department,
+      //       },
+      //       documents,
+      //     },
+      //   };
+      //   copyResumes.splice(targetIndex, 1, {
+      //     ...copyResumes[targetIndex],
+      //     // newData
+      //   });
+
+      //   console.log("resumesData", response);
+      //   console.log("mutateData", mutateData);
+      // },
+      onSuccess: async (updateData: unknown = {}, variables, ctx) => {
+        await queryClient.invalidateQueries(QueryKeys.RESUMES(), {
+          exact: false,
+          refetchInactive: true,
+        });
+      },
+    }
+  );
+  const { mutate: onPublish } = useMutation(
+    ({ id, publishing }: { id: string; publishing: boolean }) =>
+      updateResume(id, {
+        publishing,
+      }),
+    {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(QueryKeys.RESUMES(), {
+          exact: false,
+          refetchInactive: true,
+        });
+      },
+    }
+  );
+
   /**
-   * grid-repeat의 count를 관리하는 State
+   * 그리드의 반복(grid-repeat)의 개수(count)에 대한 상태관리
    * @default 1
    */
   const [count, setCount] = React.useState<number>(1);
@@ -37,19 +145,25 @@ const WriteResume = () => {
   const [applyState, dispatch, setApplyState] = useInputReducer({
     company: "",
     department: "",
+    // company: !!id ? data?.data.apply.company : "",
+    // department: !!id ? data?.data.apply.department : "",
   });
+
   /**
    * 자기소개서 입력 폼의 컨텐츠들을 관리하는 Hook
    * @default itemKey useItems의 키 값 설정
    * @default defaultValue 기본값으로 id, tag, text, title로 구성
    */
-  const { add, update, _delete, items, setItems } = useItems("documents", {
-    id: uuid(),
-    text: "",
-    title: "",
-    tag: "",
-  });
-
+  const { add, update, _delete, items, setItems } = useItems(
+    ITEM_KEY.DOCUMENTS,
+    // { documents: data?.data.documents },
+    {
+      id: uuid(),
+      text: "",
+      title: "",
+      tag: "",
+    }
+  );
   const imageInputRef = React.useRef<HTMLInputElement>(null);
   const [imageData, setImageData] = React.useState({});
   const [imageFile, setImageFile] = React.useState<any>();
@@ -69,7 +183,7 @@ const WriteResume = () => {
         setItems({ documents: res.data.documents });
       });
     } else {
-      getLatestResume({ latest: true }).then((res) => {
+      getLatestResume().then((res) => {
         setResumeId(res.data[0].id);
         setItems({ documents: res.data[0].documents });
       });
@@ -83,28 +197,37 @@ const WriteResume = () => {
      * @default resumeId resume의 id
      * @default body 업데이트할 내용
      */
-    await updateResume(resumeId, {
-      apply: applyState,
+    // await updateResume(resumeId, {
+    //   apply: applyState,
+    //   documents: items.documents,
+    // });
+    await onUpdate({
+      id: resumeId,
+      company: applyState.company,
+      department: applyState.department,
       documents: items.documents,
     });
   };
-  const onPublish = async () => {
+  const handlePublish = async () => {
     /**
      * resume REST API update request
      * @default resumeId
      * @default body publishing의 기본값 false에서 true로 변환
      */
-    await updateResume(resumeId, {
+    await onPublish({
+      id: resumeId,
       publishing: true,
     });
+    await alert("저장을 하셨습니까?");
+    await navigate("/");
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     const { ariaLabel } = e.currentTarget;
     if (ariaLabel === "save") {
-      onSave();
+      await onSave();
     } else if (ariaLabel === "publish") {
-      onPublish();
+      await handlePublish();
     }
   };
 
@@ -268,7 +391,7 @@ const WriteResume = () => {
             marginTop={10}
             marginBottom={10}
           >
-            출간하기
+            확인
           </Button>
           <Flex style={{ margin: "auto" }}>
             <select
@@ -407,7 +530,7 @@ const FormList = ({
   deleteForm,
   onChange,
 }: {
-  list: { id: string; title: string; text: string; tag: string }[] | any;
+  list: { id: string; title: string; text: string; tag: string }[];
   deleteForm: (id: string) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void;
 }) => {

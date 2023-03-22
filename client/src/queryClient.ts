@@ -20,7 +20,7 @@ export const getClient = (() => {
 })();
 
 export const QueryKeys = {
-  RESUMES: "resumes",
+  RESUMES: (id?: string) => ["resumes", id],
   SCHEDULES: "schedules",
 } as const;
 

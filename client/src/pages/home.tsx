@@ -1,9 +1,10 @@
 import React from "react";
-import { getAllResumes } from "lib/apis/api/resumes";
+import { getAllResumes, getLatestResume } from "lib/apis/api/resumes";
 import { getResumesService } from "lib/apis/service/getResumes";
 
 import Section from "components/section";
 import BackGround from "components/background";
+import { useQueries, useQuery } from "react-query";
 
 type TimeType = {
   seconds: number;
@@ -32,12 +33,15 @@ interface ResumesResponse {
 }
 
 const Home = () => {
+  // const { data } = useQuery("ket", () => getAllResumes());
   const [resumes, setResumes] = React.useState<ResumesResponse[]>([]);
 
+  // console.log(data);
+
   React.useEffect(() => {
-    getAllResumes()
-      .then(getResumesService)
-      .then((res) => setResumes(res));
+    getLatestResume().then((res) => {
+      console.log(res);
+    });
   }, []);
 
   return (

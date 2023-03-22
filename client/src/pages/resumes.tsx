@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 import { v4 as uuid } from "uuid";
+import { getClient, QueryKeys } from "queryClient";
 
 import { createResume, getAllResumes } from "lib/apis/api/resumes";
 import { getResumesService } from "lib/apis/service/getResumes";
 import useInterSection from "hooks/app/useInterSection";
-import { emoji } from "utils/constants";
 
 import Section from "components/section";
 import { ResumeCard as Card } from "components/card";
@@ -15,37 +16,51 @@ import Button from "_common/components/button";
 import Box from "_common/components/box";
 import Grid from "_common/components/grid";
 
+import { emoji } from "utils/constants";
+import { ResumesType } from "types/resumes";
+
 type TimeType = {
   seconds: number;
   nanoseconds: number;
 };
 
-interface ResumesResponse {
-  id: string;
-  createdAt: TimeType;
-  uid: string;
-  imgUrl: string;
-  updatedAt: null | TimeType;
-  resumes: {
-    apply: {
-      company: string;
-      department: string;
-    };
-    documents: {
-      id: string;
-      tag: string;
-      text: string;
-      title: string;
-    }[];
-  };
-  tag: (string | undefined)[];
-}
-
 const Resumes = () => {
+  const queryClient = getClient();
   const navigate = useNavigate();
   const location = useLocation();
   const decodeUri = decodeURI(location?.search);
-  const [resumes, setResumes] = React.useState<ResumesResponse[]>([]);
+
+  const { data, isLoading, isError, refetch } = useQuery<ResumesType[]>(
+    QueryKeys.RESUMES(),
+    () => getAllResumes().then(getResumesService)
+  );
+  const { mutate: onCreate } = useMutation(
+    () =>
+      createResume({
+        imgUrl: "",
+        apply: {
+          company: "",
+          department: "",
+        },
+        documents: [
+          {
+            id: uuid(),
+            title: "",
+            text: "",
+            tag: "",
+          },
+        ],
+        publishing: false,
+      }),
+    {
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(QueryKeys.RESUMES(), {
+          exact: false,
+          refetchInactive: true,
+        });
+      },
+    }
+  );
   const [toggle, setToggle] = React.useState<boolean>(false);
 
   const fetchMoreRef = React.useRef<HTMLDivElement>(null); // 맨 밑의 무한스크롤을 감지하기 위한 DIV 태그
@@ -54,34 +69,36 @@ const Resumes = () => {
    * @params targetRef
    */
   const intersecting = useInterSection(fetchMoreRef);
+  // const [resumes, setResumes] = React.useState<ResumesType[] | undefined>(data);
 
-  React.useEffect(() => {
-    // if (!intersecting) {
-    //   return;
-    // }
+  // React.useEffect(() => {
+  //   // if (!intersecting) {
+  //   //   return;
+  //   // }
 
-    getAllResumes()
-      .then(getResumesService)
-      .then((res) => setResumes(res));
-  }, [, toggle]);
+  //   getAllResumes()
+  //     .then(getResumesService)
+  //     .then((res) => setResumes(res));
+  // }, [, toggle]);
 
   const handleAddClick = async () => {
-    await createResume({
-      imgUrl: "",
-      apply: {
-        company: "",
-        department: "",
-      },
-      documents: [
-        {
-          id: uuid(),
-          title: "",
-          text: "",
-          tag: "",
-        },
-      ],
-      publishing: false,
-    });
+    await onCreate();
+    // await createResume({
+    //   imgUrl: "",
+    //   apply: {
+    //     company: "",
+    //     department: "",
+    //   },
+    //   documents: [
+    //     {
+    //       id: uuid(),
+    //       title: "",
+    //       text: "",
+    //       tag: "",
+    //     },
+    //   ],
+    //   publishing: false,
+    // });
     await navigate("write");
   };
   return (
@@ -128,7 +145,7 @@ const Resumes = () => {
             </Button>
           </Box>
 
-          {resumes.map(
+          {data?.map(
             (
               {
                 id,
@@ -138,7 +155,7 @@ const Resumes = () => {
                 uid,
                 resumes,
                 tag,
-              }: ResumesResponse,
+              }: ResumesType,
               index
             ) => (
               <Card

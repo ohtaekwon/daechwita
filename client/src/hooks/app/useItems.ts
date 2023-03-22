@@ -1,18 +1,30 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
 
-type ColumnType = "documents";
-
-interface ItemList {
-  documents: {
-    id: string;
-    title: string;
-    text: string;
-    tag: string;
-  }[];
+export enum ITEM_KEY {
+  DOCUMENTS = "documents",
+}
+interface Item {
+  id: string;
+  title: string;
+  text: string;
+  tag: string;
+}
+export interface ItemList {
+  documents: Item[];
 }
 
-function useItems(column: ColumnType, addItem: any) {
+function useItems(
+  column: ITEM_KEY.DOCUMENTS,
+  // initialValue: ItemList = {
+  //   documents: [],
+  // },
+  addItem: Item
+) {
+  // const defaultValue = initialValue[ITEM_KEY.DOCUMENTS]
+  //   ? initialValue
+  //   : { documents: [addItem] };
+
   const [itemList, setItemList] = React.useState<ItemList>({
     documents: [
       {
@@ -27,10 +39,9 @@ function useItems(column: ColumnType, addItem: any) {
   const add = React.useCallback(() => {
     console.log("item을 추가합니다.");
     setItemList((allItems) => {
-      console.log("allitmes", allItems);
+      console.log(`item을 추가하였습니다.`);
 
       const snapshot = allItems[column];
-      console.log("snpashot", snapshot);
       return {
         [column]: [...snapshot, addItem],
       };

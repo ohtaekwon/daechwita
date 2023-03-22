@@ -1,3 +1,4 @@
+import { getLatestResume } from "lib/apis/api/resumes";
 import React from "react";
 
 const getSpeech = (text: any) => {
@@ -60,6 +61,12 @@ const Interview = () => {
   const handleButton = () => {
     getSpeech(value);
   };
+
+  // React.useEffect(() => {
+  //   getLatestResume({ latest: true }).then((res) => {
+  //     console.log(res);
+  //   });
+  // }, []);
   return (
     <>
       <h1>TTS(한국어)</h1>
