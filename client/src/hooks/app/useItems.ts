@@ -14,17 +14,7 @@ export interface ItemList {
   documents: Item[];
 }
 
-function useItems(
-  column: ITEM_KEY.DOCUMENTS,
-  // initialValue: ItemList = {
-  //   documents: [],
-  // },
-  addItem: Item
-) {
-  // const defaultValue = initialValue[ITEM_KEY.DOCUMENTS]
-  //   ? initialValue
-  //   : { documents: [addItem] };
-
+function useItems(column: ITEM_KEY.DOCUMENTS, addItem: Item) {
   const [itemList, setItemList] = React.useState<ItemList>({
     documents: [
       {

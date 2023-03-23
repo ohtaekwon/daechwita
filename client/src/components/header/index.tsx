@@ -20,7 +20,7 @@ const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
       justifyContent="space-between"
       backgroundColor={transparent ? "transparent" : "white"}
       className={css`
-        padding: 8px calc((100% - 1680px) / 2);
+        padding: 8px calc((100% - 1280px) / 2);
         border-bottom: ${transparent
           ? 0
           : `1px solid ${theme.colors.zinc_200}`};

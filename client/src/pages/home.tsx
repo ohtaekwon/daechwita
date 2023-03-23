@@ -1,54 +1,97 @@
 import React from "react";
-import { getAllResumes, getLatestResume } from "lib/apis/api/resumes";
+import { useQuery } from "react-query";
+import { QueryKeys } from "queryClient";
+import ApexChart from "react-apexcharts";
+
+import { getAllResumes } from "lib/apis/api/resumes";
 import { getResumesService } from "lib/apis/service/getResumes";
+import { getAllSchedules } from "lib/apis/api/schedules";
+import { getSchedulesList } from "lib/apis/service/getSchedulesList";
 
-import Section from "components/section";
-import BackGround from "components/background";
-import { useQueries, useQuery } from "react-query";
+import { ResumesType } from "types/resumes";
+import { SchedulesType } from "types/schedule";
 
-type TimeType = {
-  seconds: number;
-  nanoseconds: number;
-};
+import Grid from "_common/components/grid";
+import Box from "_common/components/box";
 
-interface ResumesResponse {
-  id: string;
-  createdAt: TimeType;
-  uid: string;
-  imgUrl: string;
-  updatedAt: null | TimeType;
-  resumes: {
-    apply: {
-      company: string;
-      department: string;
-    };
-    documents: {
-      id: string;
-      tag: string;
-      text: string;
-      title: string;
-    }[];
-  };
-  tag: (string | undefined)[];
-}
+import { barOption, donutOptions, treemapOptions } from "./chartOptions";
 
 const Home = () => {
-  // const { data } = useQuery("ket", () => getAllResumes());
-  const [resumes, setResumes] = React.useState<ResumesResponse[]>([]);
+  const {
+    data: resumes,
+    isLoading: rLoading,
+    isError: rError,
+    refetch,
+  } = useQuery<ResumesType[]>(QueryKeys.RESUMES(), () =>
+    getAllResumes().then(getResumesService)
+  );
+  const {
+    data: schedules,
+    isLoading: sLoading,
+    isError: SError,
+  } = useQuery<SchedulesType>(QueryKeys.SCHEDULES, () =>
+    getAllSchedules().then(getSchedulesList)
+  );
 
-  // console.log(data);
+  console.log(resumes, schedules);
 
   React.useEffect(() => {
-    getLatestResume().then((res) => {
-      console.log(res);
-    });
+    document.body.style.backgroundColor = "#eaeaf0;";
+    return () => {
+      document.body.style.backgroundColor = "transparent";
+    };
   }, []);
-
   return (
     <>
-      <Section width="100vw" height="100vh">
+      <Grid
+        gridTemplateColumns="repeat(2, 1fr)"
+        gridTemplateRows="repeat(2, 1fr)"
+        placeItems="center"
+      >
+        <Box
+          variant="gray_200_border"
+          width="100%"
+          height="500px"
+          padding="1rem"
+        >
+          <ApexChart
+            series={barOption.series}
+            options={barOption.options}
+            type={barOption.type}
+            width="100%"
+            height="100%"
+          />
+        </Box>
+        <Box
+          variant="gray_200_border"
+          width="100%"
+          height="500px"
+          padding="1rem"
+        >
+          <ApexChart
+            type={donutOptions.type}
+            series={donutOptions.series}
+            options={donutOptions.options}
+            width="100%"
+            height="100%"
+          />
+        </Box>
+        <Box
+          variant="gray_200_border"
+          width="100%"
+          height="500px"
+          padding="1rem"
+        >
+          <ApexChart
+            type={treemapOptions.type}
+            series={treemapOptions.series}
+            options={treemapOptions.options}
+            width="100%"
+            height="100%"
+          />
+        </Box>
         {/* <BackGround /> */}
-      </Section>
+      </Grid>
     </>
   );
 };

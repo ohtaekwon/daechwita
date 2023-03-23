@@ -41,7 +41,6 @@ export const Layout = styled.main<Required<LayoutProps>>`
           max-width: 1280px;
           height: 100%;
           max-height: max-content;
-          background-color: ${theme.colors.gray_50};
         `;
       }
       case "amber_lg": {

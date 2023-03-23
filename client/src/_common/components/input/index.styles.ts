@@ -56,7 +56,7 @@ export const Input = styled.input<Required<InputProps>>`
   */
   cursor: ${({ cursor }) => cursor};
   opacity: ${({ opacity }) => opacity};
-  color: ${({ color }) => color};
+  color: ${({ color }) => color}!important;
 
   -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
   -moz-box-sizing: border-box; /* Firefox, other Gecko */
@@ -139,7 +139,7 @@ export const Input = styled.input<Required<InputProps>>`
       default: {
         return css`
           border-color: ${theme.colors.zinc_700}!important;
-          background-color: ${theme.colors.zinc_700}!important;
+          background-color: ${theme.colors.white}!important;
           color: ${theme.colors.gray_900}!important;
           transition: border-color 0.15s ease-in-out, color 0.15s ease-in-out;
           &:hover {

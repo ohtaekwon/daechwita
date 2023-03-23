@@ -32,6 +32,7 @@ export const emoji = {
   second: "2️⃣",
   third: "3️⃣",
   final: "🎉",
+  INTERVIEW: "🗣",
 } as const;
 
 export const scheduleDict = {

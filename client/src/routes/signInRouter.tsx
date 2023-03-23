@@ -14,36 +14,36 @@ import { generatorRandomCount } from "utils/helpers";
 
 const SignInRouter = () => {
   const url = process.env.PUBLIC_URL;
-  const homeImage = `url(${url}/images/bg_space.jpg)`;
-  const writeImage = `url(${url}/images/bg_0${generatorRandomCount(7)}.jpg)`;
+  const home = `url(${url}/images/bg_space.jpg)`;
+  const write = `url(${url}/images/bg_0${generatorRandomCount(7)}.jpg)`;
+  const interview = `url(${url}/images/bg_color.jpg)`;
 
   return (
     <>
       <Routes>
-        <Route
-          element={<Layout variant="default" background={homeImage} inHeader />}
-        >
+        {/* <Route
+          element={<Layout variant="default" background={home} inHeader />}
+        > */}
+        <Route element={<Layout variant="lg" header />}>
           <Route path="/" element={<Home />} />
         </Route>
 
         <Route element={<Layout variant="default" header />}>
           <Route path="/profile" element={<Profile />} />
-          <Route path="interview" element={<Interview />} />
-        </Route>
-
-        <Route element={<Layout variant="amber_lg" header />}>
-          <Route path="/schedules" element={<Schedules />} />
-        </Route>
-
-        <Route element={<Layout variant="lg" header searchBar />}>
-          <Route path="/resumes" element={<Resumes />} />
         </Route>
 
         <Route
-          element={
-            <Layout variant="write" background={writeImage} header searchBar />
-          }
+          element={<Layout variant="default" background={interview} header />}
         >
+          <Route path="interview" element={<Interview />} />
+        </Route>
+        <Route element={<Layout variant="amber_lg" header />}>
+          <Route path="/schedules" element={<Schedules />} />
+        </Route>
+        <Route element={<Layout variant="lg" header searchBar />}>
+          <Route path="/resumes" element={<Resumes />} />
+        </Route>
+        <Route element={<Layout variant="write" background={write} header />}>
           <Route path="resumes/write" element={<WriteResume />} />
           <Route path="resumes/write/:id" element={<WriteResume />} />
         </Route>

@@ -5,12 +5,12 @@ import { FaTrashAlt } from "react-icons/fa";
 import { HiPhotograph } from "react-icons/hi";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 
-import { useMutation, useQuery } from "react-query";
 import { getClient, QueryKeys } from "queryClient";
 
+import useResumes from "hooks/app/useResumes";
 import { useInputReducer } from "hooks/app/useInputReducer";
-import useItems, { ItemList, ITEM_KEY } from "hooks/app/useItems";
-import { getLatestResume, getResume, updateResume } from "lib/apis/api/resumes";
+import useItems, { ITEM_KEY } from "hooks/app/useItems";
+import { getLatestResume, getResume } from "lib/apis/api/resumes";
 import { postImageFile } from "lib/apis/api/formData";
 
 import Section from "components/section";
@@ -22,18 +22,8 @@ import Button from "_common/components/button";
 import Textarea from "_common/components/textarea";
 import Grid from "_common/components/grid";
 import Flex from "_common/components/flex";
-import { emoji } from "utils/constants";
-import { ResumesResponse, ResumesType } from "types/index.types";
 
-/**
- *
- * 해야할 것들, publishing떄, 수정
- *
- * @param id
- *
- *
- * @returns
- */
+import { emoji } from "utils/constants";
 
 function QueryFn<T>(id: string | undefined) {
   if (id) {
@@ -44,119 +34,47 @@ function QueryFn<T>(id: string | undefined) {
     return () => getLatestResume();
   }
 }
+// const { data, isLoading, isError, refetch } = useQuery(
+//   id ? QueryKeys.RESUMES(id) : QueryKeys.RESUMES(),
+//   QueryFn(id)
+// );
 
 const WriteResume = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const queryClient = getClient();
-
-  const { data, isLoading, isError, refetch } = useQuery(
-    id ? QueryKeys.RESUMES(id) : QueryKeys.RESUMES(),
-    QueryFn(id)
-  );
-  const { mutate: onUpdate } = useMutation(
-    ({
-      id,
-      company,
-      department,
-      documents,
-    }: {
-      id: string;
-      company: string;
-      department: string;
-      documents: ItemList["documents"];
-    }) =>
-      updateResume(id, {
-        apply: {
-          company,
-          department,
-        },
-        documents,
-      }),
-    {
-      // onMutate: async (mutateData) => {
-      //   const { id, company, department, documents } = mutateData;
-      //   await queryClient.cancelQueries(QueryKeys.RESUMES());
-      //   const response = queryClient.getQueriesData(QueryKeys.RESUMES()) || {};
-      //   const [key, resumesData] = response[0];
-
-      //   if (!resumesData) return null;
-
-      //   const targetIndex = (resumesData as ResumesResponse[]).findIndex(
-      //     (data) => data.id === id
-      //   );
-
-      //   if (!resumesData || targetIndex === undefined || targetIndex < 0) {
-      //     return;
-      //   }
-      //   const copyResumes = [...(resumesData as ResumesResponse[])];
-
-      //   const newData: Pick<ResumesResponse, "resumes"> = {
-      //     resumes: {
-      //       apply: {
-      //         company,
-      //         department,
-      //       },
-      //       documents,
-      //     },
-      //   };
-      //   copyResumes.splice(targetIndex, 1, {
-      //     ...copyResumes[targetIndex],
-      //     // newData
-      //   });
-
-      //   console.log("resumesData", response);
-      //   console.log("mutateData", mutateData);
-      // },
-      onSuccess: async (updateData: unknown = {}, variables, ctx) => {
-        await queryClient.invalidateQueries(QueryKeys.RESUMES(), {
-          exact: false,
-          refetchInactive: true,
-        });
-      },
-    }
-  );
-  const { mutate: onPublish } = useMutation(
-    ({ id, publishing }: { id: string; publishing: boolean }) =>
-      updateResume(id, {
-        publishing,
-      }),
-    {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries(QueryKeys.RESUMES(), {
-          exact: false,
-          refetchInactive: true,
-        });
-      },
-    }
-  );
+  const { onUpdate, onPublish } = useResumes(queryClient, QueryKeys);
 
   /**
-   * 그리드의 반복(grid-repeat)의 개수(count)에 대한 상태관리
+   * @description 그리드의 반복(grid-repeat)의 개수(count)에 대한 상태관리
    * @default 1
    */
   const [count, setCount] = React.useState<number>(1);
   /**
-   * resume의 id값을 관리하는 State
+   *  @description resume의 id에 대한 상태관리
    * @default ""
    */
   const [resumeId, setResumeId] = React.useState<string>("");
 
+  /**
+   * @description resumes의 apply {company, department}에 대한 상태관리
+   * @param initialState company(회사명), department(부서명)
+   * @default company ""
+   * @default department ""
+   */
   const [applyState, dispatch, setApplyState] = useInputReducer({
     company: "",
     department: "",
-    // company: !!id ? data?.data.apply.company : "",
-    // department: !!id ? data?.data.apply.department : "",
   });
 
   /**
-   * 자기소개서 입력 폼의 컨텐츠들을 관리하는 Hook
-   * @default itemKey useItems의 키 값 설정
-   * @default defaultValue 기본값으로 id, tag, text, title로 구성
+   * @description 자기소개서 입력 폼의 컨텐츠에 대한 커스텀 훅(Hook)
+   * @param itemKey useItems의 키 값 설정
+   * @param addItem useItems의 추가할 아이템의 요소로 구성
+   * @items 기본값으로 id, tag, text, title로 구성
    */
   const { add, update, _delete, items, setItems } = useItems(
     ITEM_KEY.DOCUMENTS,
-    // { documents: data?.data.documents },
     {
       id: uuid(),
       text: "",
@@ -190,17 +108,17 @@ const WriteResume = () => {
     }
   }, []);
 
-  // 임시 저장 기능의 함수
+  /**
+   * @abstract 임시 저장 기능의 함수
+   * @description Resume REST API UPDATE Request
+   * @default resumeId resume의 id
+   * @default body 업데이트할 내용
+   */
   const onSave = async () => {
     /**
-     * resume REST API update request
-     * @default resumeId resume의 id
-     * @default body 업데이트할 내용
+     * @description useResumes의 Return 요소 중 하나로 Resumes 데이터들을 useMutation으로 캐싱 데이터를 관리하는 훅
+     * @abstract update시에, 쿼리 무효화를 하고 reFetch를 실행
      */
-    // await updateResume(resumeId, {
-    //   apply: applyState,
-    //   documents: items.documents,
-    // });
     await onUpdate({
       id: resumeId,
       company: applyState.company,

@@ -13,21 +13,11 @@ import Grid from "_common/components/grid";
 import { SchedulesEnum, SchedulesType } from "types/schedule";
 
 const Schedules = () => {
-  const [loading, setLoading] = React.useState(false);
   const { data, isLoading, isError } = useQuery<SchedulesType>(
     QueryKeys.SCHEDULES,
     () => getAllSchedules().then(getSchedulesList)
   );
 
-  React.useEffect(() => {
-    let timer = setTimeout(() => {
-      setLoading(!loading);
-    }, 500);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
   React.useEffect(() => {
     document.body.style.backgroundColor = "#f59e0b";
     return () => {

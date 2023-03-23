@@ -10,7 +10,6 @@ import { ResumeCardProps, ScheduleCardProps } from "./index.types";
 import * as Styled from "./index.styles";
 
 import { getClient, QueryKeys } from "queryClient";
-import { deleteResume } from "lib/apis/api/resumes";
 
 import Box from "_common/components/box";
 import Button from "_common/components/button";
@@ -19,6 +18,7 @@ import Flex from "_common/components/flex";
 
 import Modal from "components/modal";
 
+import useResumes from "hooks/app/useResumes";
 import useColumnDragAndDrop from "hooks/dnd/useColumnDragAndDrop";
 import { useInputReducer } from "hooks/app/useInputReducer";
 
@@ -30,8 +30,6 @@ import {
 } from "utils/helpers";
 import { emoji, scheduleDict } from "utils/constants";
 import Input from "_common/components/input";
-import { useMutation } from "react-query";
-import { ResumesType } from "types/resumes";
 
 export const ScheduleCard = ({
   index,
@@ -213,38 +211,7 @@ export const ResumeCard = ({
   const navigate = useNavigate();
   const queryClient = getClient();
 
-  const { mutate: onDelete } = useMutation((id: string) => deleteResume(id), {
-    onMutate: async (id) => {
-      await queryClient.cancelQueries(QueryKeys.RESUMES());
-      const response = queryClient.getQueriesData(QueryKeys.RESUMES());
-      const [key, resumesData] = response[0];
-
-      if (!resumesData) return null;
-
-      const targetIndex = (resumesData as ResumesType[]).findIndex(
-        (item) => item.id === id
-      );
-
-      if (!resumesData || targetIndex === undefined || targetIndex < 0) return;
-      const copyResumes = [...(resumesData as ResumesType[])];
-      copyResumes.splice(targetIndex, 1);
-      queryClient.setQueryData(QueryKeys.RESUMES(), copyResumes);
-    },
-    onSuccess: async (updateData, variables, ctx) => {
-      const response = queryClient.getQueriesData(QueryKeys.RESUMES());
-      const [key, resumesData] = response[0];
-      if (!resumesData) return null;
-
-      const targetIndex = (resumesData as ResumesType[]).findIndex(
-        (item) => item.id === variables
-      );
-      if (!resumesData || targetIndex === undefined || targetIndex < 0) return;
-      const copyResumes = [...(resumesData as ResumesType[])];
-      copyResumes.splice(targetIndex, 1);
-      queryClient.setQueryData(QueryKeys.RESUMES(), copyResumes);
-    },
-  });
-
+  const { onDelete } = useResumes(queryClient, QueryKeys);
   const [frontToBack, setFrontToBack] = React.useState<boolean>(false);
 
   /**

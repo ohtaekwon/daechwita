@@ -1,11 +1,10 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { AiOutlinePlusSquare } from "react-icons/ai";
-import { v4 as uuid } from "uuid";
 import { getClient, QueryKeys } from "queryClient";
 
-import { createResume, getAllResumes } from "lib/apis/api/resumes";
+import { getAllResumes } from "lib/apis/api/resumes";
 import { getResumesService } from "lib/apis/service/getResumes";
 import useInterSection from "hooks/app/useInterSection";
 
@@ -18,11 +17,7 @@ import Grid from "_common/components/grid";
 
 import { emoji } from "utils/constants";
 import { ResumesType } from "types/resumes";
-
-type TimeType = {
-  seconds: number;
-  nanoseconds: number;
-};
+import useResumes from "hooks/app/useResumes";
 
 const Resumes = () => {
   const queryClient = getClient();
@@ -34,73 +29,40 @@ const Resumes = () => {
     QueryKeys.RESUMES(),
     () => getAllResumes().then(getResumesService)
   );
-  const { mutate: onCreate } = useMutation(
-    () =>
-      createResume({
-        imgUrl: "",
-        apply: {
-          company: "",
-          department: "",
-        },
-        documents: [
-          {
-            id: uuid(),
-            title: "",
-            text: "",
-            tag: "",
-          },
-        ],
-        publishing: false,
-      }),
-    {
-      onSuccess: async () => {
-        await queryClient.invalidateQueries(QueryKeys.RESUMES(), {
-          exact: false,
-          refetchInactive: true,
-        });
-      },
-    }
-  );
-  const [toggle, setToggle] = React.useState<boolean>(false);
-
-  const fetchMoreRef = React.useRef<HTMLDivElement>(null); // 맨 밑의 무한스크롤을 감지하기 위한 DIV 태그
   /**
-   * 무한스크롤 커스텀 훅
+   * @abstract Resumes 서버 데이터의 상태관리를 위한 훅
+   * @description Resumes의 쿼리 데이터를 useMutation하여 CRUD를 하는 훅
+   * @param queryClient 쿼리 클라이언트
+   * @param QueryKeys 쿼리키
+   * @return onCreate onDelete onUpdate onPublishing
+   */
+  const { onCreate } = useResumes(queryClient, QueryKeys);
+
+  const [toggle, setToggle] = React.useState<boolean>(false); // 모달 창 open/close를 위한 상태관리
+  const fetchMoreRef = React.useRef<HTMLDivElement>(null); // 맨 밑의 무한스크롤을 감지하기 위한 DIV 태그
+
+  /**
+   * @description 무한스크롤을 위한 커스텀 훅
    * @params targetRef
    */
   const intersecting = useInterSection(fetchMoreRef);
-  // const [resumes, setResumes] = React.useState<ResumesType[] | undefined>(data);
-
-  // React.useEffect(() => {
-  //   // if (!intersecting) {
-  //   //   return;
-  //   // }
-
-  //   getAllResumes()
-  //     .then(getResumesService)
-  //     .then((res) => setResumes(res));
-  // }, [, toggle]);
 
   const handleAddClick = async () => {
+    /**
+     * @description useResumes의 Return 요소 중 하나로 Resumes 데이터들을 useMutation으로 캐싱 데이터를 관리하는 훅
+     * @abstract POST 요청시에, 쿼리 무효화를 하고 reFetch를 실행
+     */
     await onCreate();
-    // await createResume({
-    //   imgUrl: "",
-    //   apply: {
-    //     company: "",
-    //     department: "",
-    //   },
-    //   documents: [
-    //     {
-    //       id: uuid(),
-    //       title: "",
-    //       text: "",
-    //       tag: "",
-    //     },
-    //   ],
-    //   publishing: false,
-    // });
     await navigate("write");
   };
+
+  React.useEffect(() => {
+    document.body.style.backgroundColor = "#eaeaf0;";
+    return () => {
+      document.body.style.backgroundColor = "transparent";
+    };
+  }, []);
+
   return (
     <>
       <Text
