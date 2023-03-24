@@ -9,17 +9,6 @@ type Props = {
 };
 
 const Router = ({ isLoggedIn }: Props) => {
-  return (
-    <>
-      {isLoggedIn ? (
-        <>
-          <SignInRouter />
-        </>
-      ) : (
-        <DefaultRouter />
-      )}
-      {/* {isLoggedIn && <Footer />} */}
-    </>
-  );
+  return <>{isLoggedIn ? <SignInRouter /> : <DefaultRouter />}</>;
 };
 export default Router;

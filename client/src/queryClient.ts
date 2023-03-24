@@ -22,6 +22,7 @@ export const getClient = (() => {
 export const QueryKeys = {
   RESUMES: (id?: string) => ["resumes", id],
   SCHEDULES: "schedules",
+  ALL_DATA: (id?: string) => ["all", id],
 } as const;
 
 export type QueryKeysType = "schedules" | "resumes";

@@ -36,12 +36,7 @@ function App() {
     handleAuthStatus(cookie);
   }, []);
 
-  return (
-    <>
-      {init ? <Router isLoggedIn={isLoggedIn} /> : "Iniitiallize..."}
-      {/* <Footer /> */}
-    </>
-  );
+  return <>{init ? <Router isLoggedIn={isLoggedIn} /> : "loading..."}</>;
 }
 
 export default App;

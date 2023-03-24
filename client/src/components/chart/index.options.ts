@@ -1,21 +1,4 @@
-type chartType =
-  | "bar"
-  | "treemap"
-  | "area"
-  | "line"
-  | "histogram"
-  | "pie"
-  | "donut"
-  | "radialBar"
-  | "scatter"
-  | "bubble"
-  | "heatmap"
-  | "boxPlot"
-  | "candlestick"
-  | "radar"
-  | "polarArea"
-  | "rangeBar"
-  | undefined;
+import { chartType } from "./index.types";
 
 export const barOption = {
   type: "bar" as chartType,
@@ -80,13 +63,17 @@ export const barOption = {
     },
     yaxis: {
       title: {
-        text: "내가 지원한 기업의 수",
-        rotate: -90,
+        text: "나의 지원 수",
+        rotate: 360,
         style: {
-          color: "red",
+          color: "#18181b",
           fontSize: "1rem",
           cssClass: "apexcharts-yaxis-label",
         },
+      },
+
+      crosshairs: {
+        position: "back",
       },
     },
     fill: {

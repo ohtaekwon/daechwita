@@ -4,6 +4,8 @@ import cors from "cors";
 import usersRoute from "./routes/users";
 import schedulesRoute from "./routes/schedules";
 import resumesRoute from "./routes/resumes";
+import allServerData from "./routes/allServerData";
+// import allSchedulesData from "./routes/allSchedules";
 
 export const app = express();
 const PORT = process.env.PORT || 8000;
@@ -18,7 +20,12 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const routes = [...usersRoute, ...resumesRoute, ...schedulesRoute];
+const routes = [
+  ...allServerData,
+  ...usersRoute,
+  ...resumesRoute,
+  ...schedulesRoute,
+];
 
 routes.forEach(({ method, route, upload, handler }) => {
   app[method as Method](route, upload, handler);

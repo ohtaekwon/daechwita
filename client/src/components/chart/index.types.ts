@@ -1,3 +1,4 @@
+import { CSSProperties } from "@emotion/serialize";
 import { ApexOptions } from "apexcharts";
 import { ElementType, HTMLAttributes } from "react";
 
@@ -30,5 +31,7 @@ export interface ChartProps {
 export interface Props extends HTMLAttributes<HTMLDivElement>, ChartProps {
   series: ApexOptions["series"];
   type: chartType;
-  options?: ApexOptions;
+  options: ApexOptions;
+  width?: string | number;
+  height?: string | number;
 }

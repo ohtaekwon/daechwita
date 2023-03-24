@@ -55,9 +55,8 @@ const Resumes = () => {
     await onCreate();
     await navigate("write");
   };
-
   React.useEffect(() => {
-    document.body.style.backgroundColor = "#eaeaf0;";
+    document.body.style.backgroundColor = "#EFF4F7";
     return () => {
       document.body.style.backgroundColor = "transparent";
     };
