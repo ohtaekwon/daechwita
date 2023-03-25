@@ -33,6 +33,8 @@ export const emoji = {
   third: "3️⃣",
   final: "🎉",
   INTERVIEW: "🗣",
+  SCHEDULE: "📋",
+  ME: "👥",
 } as const;
 
 export const scheduleDict = {
@@ -40,4 +42,11 @@ export const scheduleDict = {
   second: "면접 전형(1차)",
   third: "면접 전형(2차)",
   final: "최종 발표",
+};
+
+export const scheduleChartDict = {
+  first: "1.서류 전형",
+  second: "2.면접 전형(1차)",
+  third: "3.면접 전형(2차)",
+  final: "4.최종 발표",
 };

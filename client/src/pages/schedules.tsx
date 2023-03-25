@@ -13,7 +13,7 @@ import Grid from "_common/components/grid";
 import { SchedulesEnum, SchedulesType } from "types/schedule";
 
 const Schedules = () => {
-  const { data, isLoading, isError } = useQuery<SchedulesType>(
+  const { data, isLoading, isError, refetch } = useQuery<SchedulesType>(
     QueryKeys.SCHEDULES,
     () => getAllSchedules().then(getSchedulesList)
   );

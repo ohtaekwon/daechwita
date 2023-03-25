@@ -325,6 +325,8 @@ export const ResumeCard = ({
                 fontWeight={500}
                 marginLeft={10}
                 marginBottom={5}
+                whiteSpace="nowrap"
+                style={{ width: "100%" }}
               >
                 생성일 : {getFirebaseTimeToDate(firebaseDate)}
               </Text>
@@ -333,6 +335,7 @@ export const ResumeCard = ({
                 fontWeight={500}
                 marginLeft={10}
                 marginBottom={5}
+                whiteSpace="nowrap"
               >
                 수정일 : {getFirebaseTimeToDate(updateDate)}
               </Text>

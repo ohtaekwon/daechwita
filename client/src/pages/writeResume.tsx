@@ -137,7 +137,7 @@ const WriteResume = () => {
       publishing: true,
     });
     await alert("저장을 하셨습니까?");
-    await navigate("/");
+    await navigate("/resumes");
   };
 
   const handleSubmit = async (e: React.SyntheticEvent) => {

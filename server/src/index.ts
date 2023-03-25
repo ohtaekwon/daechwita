@@ -4,7 +4,7 @@ import cors from "cors";
 import usersRoute from "./routes/users";
 import schedulesRoute from "./routes/schedules";
 import resumesRoute from "./routes/resumes";
-import allServerData from "./routes/allServerData";
+import chartData from "./routes/chartData";
 // import allSchedulesData from "./routes/allSchedules";
 
 export const app = express();
@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const routes = [
-  ...allServerData,
+  ...chartData,
   ...usersRoute,
   ...resumesRoute,
   ...schedulesRoute,

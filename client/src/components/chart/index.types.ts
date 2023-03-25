@@ -28,10 +28,17 @@ export interface ChartProps {
    */
   as?: ElementType;
 }
+export type SubOption = {
+  text?: string;
+  label?: string[];
+  categories?: string | string[];
+};
 export interface Props extends HTMLAttributes<HTMLDivElement>, ChartProps {
-  series: ApexOptions["series"];
+  series?: ApexOptions["series"];
   type: chartType;
-  options: ApexOptions;
+  label?: string[];
+  options?: ApexOptions;
+  subOption?: SubOption;
   width?: string | number;
   height?: string | number;
 }
