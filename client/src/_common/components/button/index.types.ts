@@ -1,3 +1,4 @@
+import { SerializedStyles } from "@emotion/react";
 import type { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 import { theme } from "styles";
 
@@ -173,4 +174,6 @@ export interface Props
    * @default static
    */
   type?: "button" | "submit" | "reset" | undefined;
+
+  css?: SerializedStyles;
 }

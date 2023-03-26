@@ -1,13 +1,17 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
+import { css } from "@emotion/react";
 import { FcSpeaker } from "react-icons/fc";
+
+import useSpeech from "hooks/app/useSpeech";
+
+import Spinner from "components/Spinner";
 
 import Button from "_common/components/button";
 import Input from "_common/components/input";
 import Flex from "_common/components/flex";
 import Text from "_common/components/text";
 import { emoji } from "utils/constants";
-import Spinner from "components/Spinner";
-import useSpeech from "hooks/app/useSpeech";
 
 const getSpeech = (text: any) => {
   let voices: any[] = [];
@@ -90,7 +94,9 @@ const Interview = () => {
       justifyContent="center"
       alignItems="center"
       width="100%"
-      style={{ minHeight: "100vh" }}
+      css={css`
+        min-height: 100vh;
+      `}
     >
       <Text
         fontSize="xxxl"
@@ -99,12 +105,7 @@ const Interview = () => {
         color="white"
         marginTop={10}
         marginBottom={10}
-        style={{
-          width: "50%",
-          height: "100%",
-          padding: "2rem 0",
-          display: "inline-block",
-        }}
+        css={textStyle}
       >
         나의 면접 대비
       </Text>
@@ -115,12 +116,7 @@ const Interview = () => {
         color="white"
         marginTop={10}
         marginBottom={10}
-        style={{
-          width: "100%",
-          height: "100%",
-          padding: "2rem 0",
-          display: "inline-block",
-        }}
+        css={textStyle}
       >
         면접 질문을 생각하고, 텍스트를 입력하여, 스피커 버튼을 클릭하면 음성이
         나옵니다.
@@ -129,7 +125,10 @@ const Interview = () => {
       <Flex
         as="div"
         height="50px"
-        style={{ marginTop: "20px", position: "relative" }}
+        css={css`
+          margin-top: 20px;
+          position: relative;
+        `}
       >
         <Input
           type="text"
@@ -146,7 +145,9 @@ const Interview = () => {
           boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
           radius={8}
           placeholderColor="white"
-          style={{ color: "black" }}
+          css={css`
+            color: black;
+          `}
         />
         <Button
           onClick={handleButton}
@@ -164,3 +165,10 @@ const Interview = () => {
 };
 
 export default Interview;
+
+const textStyle = css`
+  width: 100%;
+  height: 100%;
+  padding: 2rem 0;
+  display: inline-block;
+`;

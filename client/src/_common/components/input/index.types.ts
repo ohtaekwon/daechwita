@@ -241,4 +241,10 @@ export interface Props extends HTMLAttributes<HTMLInputElement>, InputProps {
    * @required ''
    */
   value?: any;
+  /**
+   * input의 HTML속성 required를 설정합니다.
+   *
+   * @required ''
+   */
+  required?: boolean | undefined;
 }

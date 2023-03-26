@@ -28,7 +28,6 @@ const Chart = ({
     return allOptions.barOption(subOption);
   };
 
-  console.log(series);
   return (
     <Box
       variant="gray_200_border"

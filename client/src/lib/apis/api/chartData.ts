@@ -11,7 +11,8 @@ const dict = {
 
 export const allServerDataApiRoutes = {
   getTotalDataByRoute: (route: string) => `${basePathAll}/${route}`,
-  getUserAllDataByRoute: (route: string) => `${basePathUser}/${route}`,
+  getUserAllDataByRoute: (route: string, query?: boolean) =>
+    `${basePathUser}/${route}?publishing=${query}`,
 };
 
 export const getTotalChartData = async (route: "resumes" | "schedules") => {
@@ -29,9 +30,12 @@ export const getTotalChartData = async (route: "resumes" | "schedules") => {
   }
 };
 
-export const getUserChartData = async (route: "resumes" | "schedules") => {
+export const getUserChartData = async (
+  route: "resumes" | "schedules",
+  query: boolean = true
+) => {
   try {
-    const apiRoute = allServerDataApiRoutes.getUserAllDataByRoute(route);
+    const apiRoute = allServerDataApiRoutes.getUserAllDataByRoute(route, query);
     console.info(`${dict[route]}의 모든 데이터를 가져오는 중 입니다...`);
     const { data } = await requestGet(apiRoute);
     return data;

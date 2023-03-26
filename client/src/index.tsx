@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { Global, ThemeProvider } from "@emotion/react";
 import { globalStyle, theme } from "./styles";
 import { BrowserRouter } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "react-query";
 
 import App from "./App";
 import { getClient } from "queryClient";

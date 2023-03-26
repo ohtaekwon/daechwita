@@ -124,6 +124,10 @@ const chartData = [
 
         // 토큰에서 uid 가져오기
 
+        const newPublishing = JSON.parse(publishing as string);
+
+        console.log(newPublishing);
+
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
@@ -131,7 +135,10 @@ const chartData = [
         // 쿼리 조건문
         const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록
         queryOptions.unshift(where("uid", "==", uid));
-        queryOptions.unshift(where("publishing", "==", true)); // 해당 uid값이 있는 스케쥴 정보를 select
+
+        if (newPublishing) {
+          queryOptions.unshift(where("publishing", "==", true));
+        }
 
         const q = firebaseQuery(resumes, ...queryOptions);
         const resumesSnapshot = await getDocs(q);
@@ -144,7 +151,7 @@ const chartData = [
             ...d,
           });
         });
-
+        console.log(data);
         const refinedData: DocumentData[] = [];
         data.forEach((item) => {
           refinedData.push({

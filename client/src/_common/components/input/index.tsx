@@ -12,6 +12,7 @@ const Input = React.forwardRef(function Input(
     value,
     role = "",
     accept,
+    required = true,
     /**
      * input의 유형 설정
      */
@@ -74,6 +75,7 @@ const Input = React.forwardRef(function Input(
       accept={accept}
       name={name}
       value={value}
+      required={required}
       /**
        * input의 유형 설정
        */

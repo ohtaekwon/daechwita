@@ -1,4 +1,5 @@
 import React from "react";
+
 import { useQuery } from "react-query";
 import { QueryKeys } from "queryClient";
 
@@ -11,9 +12,12 @@ import Chart from "components/chart";
 
 import { ChartResumes, ChartSchedules } from "types/chart";
 import { ColumnType } from "types/schedule";
-import { emoji, scheduleChartDict, scheduleDict } from "utils/constants";
+import { emoji, scheduleChartDict } from "utils/constants";
+import useUser from "lib/firebase/useUser";
 
 const Home = () => {
+  const { user } = useUser();
+
   /**
    * @description 차트에서 사용할 데이터의 useQuery
    *
@@ -23,34 +27,49 @@ const Home = () => {
    * @constant userChartResumes 자신의 이력서 전체 데이터
    * @constant userChartSchedules 자신의 입사 지원 현황 전체 데이터
    */
+
   const { data: totalChartResumes } = useQuery(
-    QueryKeys.TOTAL_CHART("resumes"),
+    QueryKeys.TOTAL_CHART_RESUMES(user?.uid),
     () => getTotalChartData("resumes"),
     {
       refetchOnMount: "always",
+      refetchOnReconnect: "always",
+      retry: true,
     }
   );
-  // const { data: totalSchedules } = useQuery(
-  //   QueryKeys.TOTAL_CHART("schedules"),
-  //   () => getTotalChartData("schedules")
-  // );
+  const { data: totalSchedules } = useQuery(
+    QueryKeys.TOTAL_CHART_SCHEDULES(user?.uid),
+    () => getTotalChartData("schedules")
+  );
   const { data: userChartResumes } = useQuery(
-    QueryKeys.USER_CHART("resumes"),
+    QueryKeys.USER_CHART_RESUMES(user?.uid),
     () => getUserChartData("resumes"),
     {
       refetchOnMount: "always",
+      refetchOnReconnect: "always",
+      retry: true,
     }
   );
-  const { data: userChartSchedules } = useQuery(
-    QueryKeys.USER_CHART("schedules"),
-    () => getUserChartData("schedules"),
+  const { data: userChartAllResumes } = useQuery(
+    QueryKeys.USER_CHART_RESUMES(`${user?.uid}-all`),
+    () => getUserChartData("resumes", false),
     {
       refetchOnMount: "always",
+      refetchOnReconnect: "always",
+      retry: true,
     }
   );
 
+  const { data: userChartSchedules } = useQuery(
+    QueryKeys.USER_CHART_SCHEDULES(user?.uid),
+    () => getUserChartData("schedules"),
+    {
+      refetchOnMount: "always",
+      refetchOnReconnect: "always",
+      retry: true,
+    }
+  );
   /**
-   * 차트에서 사용할 정제된 데이터의 상태관리
    * @abstract 전체 데이터
    * @constant refinedTotalResumes 1. 정제된 이력서 전체 데이터(resumes) - 전체 가장 자소서 많이 쓴 유형 상태관리(treemap 차트)
    * @constant
@@ -65,6 +84,9 @@ const Home = () => {
   const [refinedTotalResumes, setRefinedTotalResumes] = React.useState<
     { x: string; y: number }[]
   >([]);
+  const [refinedTotalSchedules, setRefinedTotalSchedules] = React.useState<
+    { name: string; data: number[] }[]
+  >([]);
 
   // 마이데이터
   const [refinedUserResumes, setRefinedUserResumes] = React.useState<
@@ -76,6 +98,10 @@ const Home = () => {
   const [refinedUserApply, setRefinedUserApply] = React.useState<
     { job: string; count: number }[]
   >([]);
+  const [refinedUserWrite, setRefinedUserWrite] = React.useState<{
+    finish: number;
+    yet: number;
+  }>({ finish: 0, yet: 0 });
 
   // 1. 전체 데이터 - 전체 가장 자소서 많이 쓴 유형
   React.useMemo(() => {
@@ -106,6 +132,38 @@ const Home = () => {
       })
     );
   }, [totalChartResumes]);
+
+  React.useMemo(() => {
+    /**
+     * @description  totalSchedules 모든 입사 지원 현황의 전체 데이터
+     */
+    totalSchedules?.map(({ application: { company } }: ChartSchedules) => {
+      setRefinedTotalSchedules((allData) => {
+        const snapshot = allData;
+
+        const target = snapshot.find(
+          ({ name, data }: { name: string; data: number[] }) => name === company
+        );
+
+        if (target?.name === "") {
+          console.log("노네임", target);
+          return [...allData];
+        }
+
+        const targetIndex = snapshot.findIndex(
+          ({ name, data }: { name: string; data: number[] }) => name === company
+        );
+
+        if (targetIndex < 0) {
+          return [...allData, { name: company, data: [1] }];
+        } else {
+          const newData = { name: company, data: [(target!.data[0] += 1)] };
+          snapshot.splice(targetIndex, 1, newData);
+          return snapshot;
+        }
+      });
+    });
+  }, [totalSchedules]);
 
   // 3. 마이 데이터 - 나의 가장 많이 쓴 자소서 유형
   React.useMemo(() => {
@@ -198,18 +256,38 @@ const Home = () => {
     });
   }, [userChartSchedules]);
 
+  // 6. 마이데이터 - 나의 자기소개서 작성 현황
+  React.useMemo(() => {
+    userChartAllResumes?.map(({ apply, tag }: ChartResumes) => {
+      setRefinedUserWrite((allData) => {
+        const snapshot = { ...allData };
+
+        if (apply.company === "" || apply.department === "" || tag[0] === "") {
+          return {
+            ...allData,
+            yet: snapshot.yet + 1,
+          };
+        }
+        return {
+          ...allData,
+          finish: snapshot.finish + 1,
+        };
+      });
+    });
+  }, [userChartAllResumes]);
+
+  const newTotalSchedules = refinedTotalSchedules
+    .map((item) => {
+      return { name: item.name, data: item.data };
+    })
+    .sort((a, b) => b.data[0] - a.data[0]);
+
   const newUserSchedules = refinedUserSchedules
     .map((item) => {
       return { name: scheduleChartDict[item.name], data: item.data };
     })
     .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
 
-  // console.log(
-  //   "순서",
-  //   newUserSchedules.sort((a, b) =>
-  //     a.name < b.name ? -1 : a.name > b.name ? 1 : 0
-  //   )
-  // );
   // 마이데이터 - 내가 많이 지원한 직무
   const polarAreaJobArray: string[] = [];
   const polarAreaCountArray: number[] = [];
@@ -230,8 +308,10 @@ const Home = () => {
   function checkSeries(array: any[] = []) {
     return array.length > 0 ? array : undefined;
   }
+  // console.log(newTotalSchedules, totalSchedules);
+  // console.log(totalChartResumes);
 
-  console.log("여기", refinedUserResumes);
+  console.log("완료 ", userChartAllResumes);
   return (
     <>
       <Text
@@ -255,24 +335,7 @@ const Home = () => {
             text: "유저들이 가장 많이 지원한 기업 TOP 20",
             categories: ["TOP 20 기업"],
           }}
-          series={[
-            {
-              name: "삼성",
-              data: [1],
-            },
-            {
-              name: "현대",
-              data: [4],
-            },
-            {
-              name: "네이버",
-              data: [3],
-            },
-            {
-              name: "쿠팡",
-              data: [1],
-            },
-          ].slice(0, 20)}
+          series={checkSeries(newTotalSchedules)?.splice(0, 20)}
         />
 
         <Chart
@@ -358,7 +421,11 @@ const Home = () => {
         />
         <Chart
           type="donut"
-          series={[69.1, 100 - 69.1]}
+          series={
+            refinedUserWrite.finish > 0
+              ? [refinedUserWrite.finish, refinedUserWrite.yet]
+              : undefined
+          }
           subOption={{
             text: "나의 자기소개서 작성 현황",
             label: ["작성 완료", "작성 중"],

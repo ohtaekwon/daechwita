@@ -7,7 +7,7 @@ export const getClient = (() => {
       client = new QueryClient({
         defaultOptions: {
           queries: {
-            cacheTime: Infinity,
+            cacheTime: 60 * 30 * 1000,
             staleTime: Infinity,
             refetchOnMount: false,
             refetchOnReconnect: false,
@@ -22,8 +22,10 @@ export const getClient = (() => {
 export const QueryKeys = {
   RESUMES: (id?: string) => ["resumes", id],
   SCHEDULES: "schedules",
-  TOTAL_CHART: (id?: string) => ["total", id],
-  USER_CHART: (id?: string) => ["user", id],
+  TOTAL_CHART_SCHEDULES: (id?: string) => ["total", "schedules", id],
+  TOTAL_CHART_RESUMES: (id?: string) => ["total", "resumes", id],
+  USER_CHART_SCHEDULES: (id?: string) => ["user", "schedules", id],
+  USER_CHART_RESUMES: (id?: string) => ["user", "resumes", id],
 } as const;
 
 export type QueryKeysType = "schedules" | "resumes";

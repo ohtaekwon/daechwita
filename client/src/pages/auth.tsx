@@ -9,6 +9,9 @@ import { setUserCookie } from "lib/firebase/userCookies";
 import { mapUserData } from "lib/firebase/mapUserData";
 
 import FirebaseAuth from "components/auth";
+import Text from "_common/components/text";
+import BackGround from "components/background";
+import Flex from "_common/components/flex";
 
 type ErrorWithMessage = {
   message: string;
@@ -56,19 +59,26 @@ const Auth = () => {
   }, []);
   return (
     <>
-      <h1>Auth 페이지 입니다.</h1>
-      <FirebaseAuth
-        as="div"
-        email={email}
-        password={password}
-        handleSubmit={onSubmit}
-        handleEmailChange={handleEmailChange}
-        handlePasswordChange={handlePasswordChange}
-        newAccount={newAccount}
-        toggleAccount={toggleAccount}
-        error={error}
-        renderAuth={renderAuth}
-      />
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+        height="100%"
+      >
+        <FirebaseAuth
+          email={email}
+          password={password}
+          handleSubmit={onSubmit}
+          handleEmailChange={handleEmailChange}
+          handlePasswordChange={handlePasswordChange}
+          newAccount={newAccount}
+          toggleAccount={toggleAccount}
+          error={error}
+          renderAuth={renderAuth}
+        />
+      </Flex>
+
+      {/* <BackGround /> */}
     </>
   );
 };
