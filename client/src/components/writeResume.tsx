@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
@@ -24,6 +26,15 @@ import Grid from "_common/components/grid";
 import Flex from "_common/components/flex";
 
 import { emoji } from "utils/constants";
+import { css } from "@emotion/react";
+
+const inputStyle = css`
+  border: 0;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%);
+`;
+const borderStyle = css`
+  border: 0;
+`;
 
 function QueryFn<T>(id: string | undefined) {
   if (id) {
@@ -170,7 +181,6 @@ const WriteResume = () => {
     }
   };
   const handleAttach = async (e: React.SyntheticEvent) => {
-    // console.log(imageData);
     const formData: any = new FormData();
     formData.append("files", imageData);
     await postImageFile({ data: imageFile });
@@ -179,14 +189,22 @@ const WriteResume = () => {
   const onCickImageUpload = () => {
     imageInputRef.current?.click();
   };
+
+  React.useEffect(() => {
+    document.body.style.backgroundImage =
+      "linear-gradient(to right, #5f72bd 0%, #9b23ea 100%";
+    return () => {
+      document.body.style.backgroundImage = "none";
+    };
+  }, []);
   return (
     <>
       <Flex
-        style={{
-          margin: "auto",
-          width: "1680px",
-          backgroundColor: "transparent",
-        }}
+        css={css`
+          margin: auto;
+          width: 100%;
+          background-color: transparent;
+        `}
       >
         <Section
           width="100%"
@@ -202,64 +220,76 @@ const WriteResume = () => {
           <Text
             fontSize="xxxl"
             fontWeight={700}
-            textAlign="center"
+            textAlign="left"
             paddingBottom={30}
             paddingTop={30}
+            marginTop={10}
+            marginBottom={10}
             color="white"
           >
             나의 자기소개서 {emoji.WRITE}
           </Text>
 
-          <Box
-            display="flex"
-            width="300px"
-            height="300px"
-            justifyContent="left"
-            alignItems="center"
-            margin={0}
-            radius={8}
-            style={{ boxSizing: "border-box" }}
-          >
-            {imageFile && (
-              <img
-                src={imageFile}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  backgroundImage: imageFile,
-                }}
-              />
-            )}
-            {!!!imageFile && (
-              <Box
-                onClick={onCickImageUpload}
-                width={"100%"}
-                height={"100%"}
-                backgroundColor="transparent"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                style={{ border: "3px solid #f8fafc", cursor: "pointer" }}
-              >
-                <Text color="white"> 기업의 로고 사진을 첨부해주세요</Text>
-              </Box>
-            )}
-
-            <Button
-              onClick={handleAttach}
-              // 스타일
+          <Flex>
+            <Box
               width="300px"
-              variant="skyblue_100"
-              areaLabel="publish"
+              height="300px"
+              display="flex"
+              direction="column"
+              justifyContent="left"
+              alignItems="center"
+              margin={0}
+              radius={8}
+              css={css`
+                box-sizing: border-box;
+              `}
             >
-              이미지 확인
-            </Button>
-          </Box>
-          <CompanySelect
-            company={applyState.company}
-            department={applyState.department}
-            setCompanyInfo={setApplyState}
-          />
+              {imageFile && (
+                <img
+                  src={imageFile}
+                  css={css`
+                    width: 100%;
+                    height: 100%;
+                    background-image: ${imageFile};
+                  `}
+                />
+              )}
+              {!!!imageFile && (
+                <Box
+                  onClick={onCickImageUpload}
+                  width={"100%"}
+                  height={"100%"}
+                  backgroundColor="transparent"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  css={css`
+                    border: 3px solid #f8fafc;
+                    cursor: pointer;
+                  `}
+                >
+                  <Text color="white"> 기업의 로고 사진을 첨부해주세요</Text>
+                </Box>
+              )}
+
+              <Button
+                onClick={handleAttach}
+                width="300px"
+                variant="skyblue_100"
+                areaLabel="publish"
+              >
+                이미지 확인
+              </Button>
+            </Box>
+
+            <AdditionalSelect
+              company={applyState.company}
+              department={applyState.department}
+              setAdditionalInfo={setApplyState}
+            />
+          </Flex>
+
+          {/* 자소서 form */}
 
           <Grid gridTemplateColumns={`repeat(${count}, 1fr)`}>
             <FormList
@@ -270,6 +300,7 @@ const WriteResume = () => {
           </Grid>
         </Section>
 
+        {/*  사이드 옵션 박스 */}
         <Box
           as="aside"
           width="300px"
@@ -280,11 +311,13 @@ const WriteResume = () => {
           right={0}
           marginTop={50}
           backgroundColor="gray_100"
-          style={{
-            boxShadow: `rgb(0 0 0 / 10%) 10px 10px 30px`,
-            position: "sticky",
-            top: "200px",
-          }}
+          css={css`
+            position: absolute;
+            box-shadow: rgb(0 0 0 / 10%) 10px 10px 30px;
+            position: sticky;
+            top: 200px;
+            z-index: 9;
+          `}
         >
           <Button
             areaLabel="save"
@@ -311,24 +344,27 @@ const WriteResume = () => {
           >
             확인
           </Button>
-          <Flex style={{ margin: "auto" }}>
+          <Flex
+            css={css`
+              margin: auto;
+            `}
+          >
             <select
               name="count"
               id="count-documents"
               onChange={handleSelect}
-              style={{
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                margin: "auto",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "8px",
-                marginInline: "1rem",
-                fontSize: "1.5rem",
-                paddingLeft: "1rem",
-                paddingRight: "1rem",
-              }}
+              css={css`
+                width: 100%;
+                height: 100%;
+                margin: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 8px;
+                margin-inline: 1rem;
+                padding: 0 1rem;
+                font-size: 1.5rem;
+              `}
             >
               <option value="1">1</option>
               <option value="2">2</option>
@@ -340,11 +376,11 @@ const WriteResume = () => {
               onClick={onCickImageUpload}
               variant="default"
               height="100%"
-              style={{
-                display: "inline-block",
-                lineHeight: "normal",
-                verticalAlign: "middle",
-              }}
+              css={css`
+                display: inline-block;
+                line-height: "normal";
+                vertical-align: middle;
+              `}
             >
               <HiPhotograph size={35} />
             </Button>
@@ -362,8 +398,7 @@ const WriteResume = () => {
               display="flex"
               alignItems="center"
               justifyContent="center"
-              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
-              style={{ border: 0 }}
+              css={inputStyle}
             />
             <Button
               onClick={add}
@@ -381,90 +416,95 @@ const WriteResume = () => {
 };
 export default WriteResume;
 
-const CompanySelect = ({
-  company,
-  department,
-  setCompanyInfo,
-}: {
-  company: string;
-  department: string;
-  setCompanyInfo: any;
-}) => {
-  return (
-    <>
-      <Box
-        width="100%"
-        height="70px"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        backgroundColor="transparent"
-        padding={0}
-        style={{ border: 0 }}
-      >
-        <Input
-          type="text"
-          name="company"
-          placeholder="회사를 입력해주세요"
-          className="input__company"
-          value={company}
-          onChange={setCompanyInfo}
-          // 스타일
+const AdditionalSelect = React.memo(
+  ({
+    company,
+    department,
+    setAdditionalInfo,
+  }: {
+    company: string;
+    department: string;
+    setAdditionalInfo: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  }) => {
+    console.log("addition", company, department);
+    return (
+      <>
+        <Box
           width="100%"
-          height="50px"
-          variant="resume"
-          boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
-          radius={8}
-          marginBottom={10}
-          marginTop={10}
-          marginLeft={10}
-          marginRight={10}
-        />
-        <Input
-          type="text"
-          name="department"
-          placeholder="부서를 입력해주세요"
-          className="input__department"
-          value={department}
-          onChange={setCompanyInfo}
-          // 스타일
-          width="100%"
-          height="50px"
-          variant="resume"
-          boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
-          radius={8}
-          marginBottom={10}
-          marginTop={10}
-          marginLeft={10}
-          marginRight={10}
-        />
-      </Box>
-    </>
-  );
-};
+          height="300px"
+          display="flex"
+          direction="column"
+          justifyContent="flex-end"
+          alignItems="end"
+          backgroundColor="transparent"
+          css={borderStyle}
+        >
+          <Input
+            type="text"
+            name="company"
+            placeholder="회사를 입력해주세요"
+            className="input__company"
+            value={company}
+            onChange={setAdditionalInfo}
+            // 스타일
+            width="500px"
+            height="50px"
+            variant="resume"
+            radius={8}
+            marginBottom={10}
+            marginTop={10}
+            marginLeft={10}
+            marginRight={10}
+            css={inputStyle}
+          />
+          <Input
+            type="text"
+            name="department"
+            placeholder="부서를 입력해주세요"
+            className="input__department"
+            value={department}
+            onChange={setAdditionalInfo}
+            // 스타일
+            width="500px"
+            height="50px"
+            variant="resume"
+            radius={8}
+            marginBottom={10}
+            marginTop={10}
+            marginLeft={10}
+            marginRight={10}
+            css={inputStyle}
+          />
+        </Box>
+      </>
+    );
+  }
+);
 
-const FormList = ({
-  list,
-  deleteForm,
-  onChange,
-}: {
-  list: { id: string; title: string; text: string; tag: string }[];
-  deleteForm: (id: string) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void;
-}) => {
-  return (
-    <>
-      {list?.map((item: any, key: React.Key) => (
-        <FormItem
-          key={key}
-          item={item}
-          onDelete={deleteForm}
-          onChange={onChange}
-        />
-      ))}
-    </>
-  );
-};
+const FormList = React.memo(
+  ({
+    list,
+    deleteForm,
+    onChange,
+  }: {
+    list: { id: string; title: string; text: string; tag: string }[];
+    deleteForm: (id: string) => void;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void;
+  }) => {
+    return (
+      <>
+        {list?.map((item: any, key: React.Key) => (
+          <FormItem
+            key={key}
+            item={item}
+            onDelete={deleteForm}
+            onChange={onChange}
+          />
+        ))}
+      </>
+    );
+  }
+);
 
 const FormItem = ({
   item,
@@ -491,11 +531,11 @@ const FormItem = ({
         height="100%"
         position="relative"
         backgroundColor="transparent"
-        boxShadow={`rgb(0 0 0 / 10%) 3px 3px 16px`}
-        style={{
-          border: "0",
-          borderColor: "transparent",
-        }}
+        css={css`
+          /* box-shadow: rgb(0 0 0 / 10%) 3px 3px 16px; */
+          border: 0;
+          border-color: transparent;
+        `}
       >
         <Button
           type="button"
@@ -511,7 +551,7 @@ const FormItem = ({
         <Form
           id={item.id}
           className="form__item"
-          style={{ position: "relative" }}
+          position="relative"
           height="auto"
         >
           <Box
@@ -533,10 +573,10 @@ const FormItem = ({
               variant="resume"
               width="100%"
               height="50px"
-              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
               radius={8}
               marginTop={10}
               marginBottom={10}
+              css={inputStyle}
             />
             <Input
               type="text"
@@ -550,10 +590,10 @@ const FormItem = ({
               width="100%"
               height="50px"
               variant="resume"
-              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
               radius={8}
               marginTop={10}
               marginBottom={10}
+              css={inputStyle}
             />
             <Textarea
               name="text"
@@ -567,7 +607,6 @@ const FormItem = ({
               fontSize="lg"
               color="white"
               backgroundColor="transparent"
-              boxShadow={`0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%)`}
               fontWeight={500}
               paddingBottom={10}
               paddingLeft={10}
@@ -575,7 +614,7 @@ const FormItem = ({
               paddingTop={30}
               marginTop={10}
               marginBottom={10}
-              style={{ border: 0 }}
+              css={inputStyle}
             >
               {item.text}
             </Textarea>

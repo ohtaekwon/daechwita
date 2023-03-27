@@ -3,7 +3,6 @@ import React from "react";
 import { useDrag, useDrop, XYCoord } from "react-dnd";
 import { UseMutateFunction } from "react-query";
 import { DragItem, Schedule, DnDAcceptKey } from "types/schedule";
-import { throttle } from "utils/helpers";
 
 /**
  * useDrag 정리
@@ -53,8 +52,6 @@ function useColumnDragAndDrop<T extends HTMLElement>(
       const drop = monitor.didDrop();
       const move = monitor.getDropResult();
 
-      console.log(drop, move);
-
       // const { x: mouseX, y: mouseY } = monitor.getClientOffset() as XYCoord;
       // const hoveredBoundingRect = ref.current.getBoundingClientRect();
       // const stand = monitor.getInitialSourceClientOffset()?.y || 0;
@@ -86,9 +83,6 @@ function useColumnDragAndDrop<T extends HTMLElement>(
           toIndex: draggedItemIndex,
         });
       }
-
-      console.log("이동 자리", draggedItemIndex);
-      console.log("원래자리", hoveredItemIndex);
 
       item.index = draggedItemIndex;
     },

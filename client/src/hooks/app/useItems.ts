@@ -29,8 +29,6 @@ function useItems(column: ITEM_KEY.DOCUMENTS, addItem: Item) {
   const add = React.useCallback(() => {
     console.log("item을 추가합니다.");
     setItemList((allItems) => {
-      console.log(`item을 추가하였습니다.`);
-
       const snapshot = allItems[column];
       return {
         [column]: [...snapshot, addItem],
@@ -63,7 +61,6 @@ function useItems(column: ITEM_KEY.DOCUMENTS, addItem: Item) {
         snapshot[targetIndex][e.target.name as "title" | "text" | "tag"] =
           e.target.value;
         newData = snapshot;
-
         return {
           ...allItems,
           [column]: newData,

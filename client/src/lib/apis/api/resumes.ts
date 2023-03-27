@@ -101,6 +101,7 @@ export const updateResume = async (resumeId: string, payload: unknown = {}) => {
     const apiRoute = resumeApiRoutes.updateResumeByResumeId(resumeId);
     console.info(`id: ${resumeId}가진 자기소개서를 저장 중 입니다...`);
     const response = await requestPut(apiRoute, payload);
+    console.log("response", response);
     return response;
   } catch (error) {
     console.error(`자기소개서를 저장하던 중 에러가 발생하였습니다!`);

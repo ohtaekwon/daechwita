@@ -1,4 +1,6 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
+import _ from "lodash";
 import { useNavigate } from "react-router-dom";
 import { FaTrashAlt, FaHashtag } from "react-icons/fa";
 import { AiOutlineSearch, AiOutlineEdit } from "react-icons/ai";
@@ -30,6 +32,7 @@ import {
 } from "utils/helpers";
 import { emoji, scheduleDict } from "utils/constants";
 import Input from "_common/components/input";
+import { css } from "@emotion/react";
 
 export const ScheduleCard = ({
   index,
@@ -205,6 +208,7 @@ export const ResumeCard = ({
   updatedAt,
   resumes,
   tag,
+  colors,
   toggle,
   setToggle,
 }: React.PropsWithChildren<ResumeCardProps>) => {
@@ -251,9 +255,34 @@ export const ResumeCard = ({
     navigate(`write/${id}`);
   };
 
+  const rightPosition = css`
+    position: absolute;
+    top: 0;
+    right: 0;
+  `;
+  const imageStyle = css`
+    width: 100%;
+    height: 170px;
+    background-size: cover;
+    border-radius: 8px;
+  `;
+  const marginStyle = css`
+    margin: 0.3rem 0;
+  `;
+  // const color = React.useMemo(() => {
+  //   const newColor = randomButtonColor();
+  //   return newColor;
+  // }, []);
+  const newColor = React.useCallback(() => {
+    return randomButtonColor();
+  }, []);
+
   return (
     <>
-      <Styled.Wrapper as="div" onMouseLeave={() => setFrontToBack(false)}>
+      <Styled.Wrapper
+        as="div"
+        onMouseLeave={_.debounce(() => setFrontToBack(false), 1000)}
+      >
         <Box
           variant={frontToBack ? "front" : "gray_200_border"}
           width="100%"
@@ -261,7 +290,7 @@ export const ResumeCard = ({
           zIndex={10}
           position="absolute"
         >
-          <div style={{ position: "absolute", top: 0, right: 0 }}>
+          <div css={rightPosition}>
             <Button areaLabel="update" onClick={showModal} variant="primary">
               <AiOutlineSearch color="white" />
             </Button>
@@ -274,16 +303,12 @@ export const ResumeCard = ({
             </Button>
           </div>
 
-          <Flex direction="column">
+          <Flex direction="column" backgroundColor="transparent">
             <img
               src={imgUrl}
               alt="이미지가 없습니다."
               loading="lazy"
-              style={{
-                width: "100%",
-                height: "170px",
-                backgroundSize: "cover",
-              }}
+              css={imageStyle}
             />
             <Text
               fontSize="xxl"
@@ -295,7 +320,7 @@ export const ResumeCard = ({
             >
               {getFirstSecondHalf(firebaseDate)}
             </Text>
-            <Flex style={{ margin: ".3rem 0" }}>
+            <Flex css={marginStyle}>
               <Text
                 fontSize="lg"
                 fontWeight={700}
@@ -306,7 +331,7 @@ export const ResumeCard = ({
               </Text>
               <Text fontSize="lg">{resumes.apply.company}</Text>
             </Flex>
-            <Flex style={{ margin: ".3rem 0" }}>
+            <Flex css={marginStyle}>
               <Text
                 fontSize="lg"
                 fontWeight={700}
@@ -319,7 +344,7 @@ export const ResumeCard = ({
                 {resumes.apply.department}
               </Text>
             </Flex>
-            <Flex direction="column" style={{ margin: ".3rem 0" }}>
+            <Flex direction="column" css={marginStyle}>
               <Text
                 fontSize="md"
                 fontWeight={500}
@@ -346,15 +371,15 @@ export const ResumeCard = ({
                 width="100%"
                 height="100%"
                 wrap="wrap"
-                style={{
-                  padding: ".5rem",
-                }}
+                css={css`
+                  padding: 0.5rem; ;
+                `}
               >
                 {getSortedArray(tag).map((item, index) =>
                   !item ? null : index < 3 ? (
                     <Button
                       key={`${tag}-${index}`}
-                      variant={randomButtonColor()}
+                      variant={colors[index]}
                       marginRight={5}
                       marginBottom={5}
                     >
@@ -385,13 +410,13 @@ export const ResumeCard = ({
         >
           <img
             src={process.env.PUBLIC_URL + "images/resume_alt_01.jpg"}
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              zIndex: 6,
-              opacity: 0.6,
-            }}
+            css={css`
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              z-index: 6;
+              opacity: 0.6;
+            `}
           />
           <Flex
             width="100%"
@@ -411,7 +436,7 @@ export const ResumeCard = ({
             {tag.map((item, index) => (
               <Button
                 key={`${item}-${index}`}
-                variant={randomButtonColor()}
+                variant={newColor()}
                 radius={15}
                 marginTop={5}
                 marginBottom={5}

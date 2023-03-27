@@ -75,6 +75,8 @@ export const Layout = styled.main<Required<LayoutProps>>`
       case "write": {
         return css`
           width: 100%;
+          height: 100%;
+          max-height: max-content;
           background-color: rgba(255, 255, 255, 0.5);
 
           ::before {
@@ -82,10 +84,10 @@ export const Layout = styled.main<Required<LayoutProps>>`
             height: 100%;
             content: "";
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             z-index: -1;
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.3);
           }
         `;
       }

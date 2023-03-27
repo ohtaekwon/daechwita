@@ -15,9 +15,9 @@ import { generatorRandomCount } from "utils/helpers";
 const SignInRouter = () => {
   const url = process.env.PUBLIC_URL;
   const home = `url(${url}/images/bg_space.jpg)`;
-  const write = `url(${url}/images/bg_0${generatorRandomCount(7)}.jpg)`;
+  // const write = `url(${url}/images/bg_0${generatorRandomCount(7)}.jpg)`;
   const interview = `url(${url}/images/bg_color.jpg)`;
-
+  const write = `url(${url}/images/bg-mock.jpg)`;
   return (
     <>
       <Routes>
@@ -43,7 +43,7 @@ const SignInRouter = () => {
         <Route element={<Layout variant="lg" header searchBar />}>
           <Route path="/resumes" element={<Resumes />} />
         </Route>
-        <Route element={<Layout variant="write" background={write} header />}>
+        <Route element={<Layout variant="lg" header />}>
           <Route path="resumes/write" element={<WriteResume />} />
           <Route path="resumes/write/:id" element={<WriteResume />} />
         </Route>

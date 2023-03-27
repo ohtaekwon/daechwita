@@ -73,6 +73,7 @@ function useResumes(queryClient: QueryClient, QueryKeys: QueryKeys) {
       }),
     {
       onSuccess: async (updateData: unknown = {}, variables, ctx) => {
+        console.log(updateData);
         await queryClient.invalidateQueries(QueryKeys.RESUMES(), {
           exact: false,
           refetchInactive: true,

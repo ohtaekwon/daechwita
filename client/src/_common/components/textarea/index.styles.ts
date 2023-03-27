@@ -36,6 +36,7 @@ export const TextArea = styled.textarea<Required<TextareaProps>>`
   /**
   * 배경/테두리 스타일 설정
   */
+  border: 0;
   background-color: ${({ backgroundColor, theme }) =>
     `${theme.colors[backgroundColor]}!important`};
   border-color: ${({ borderColor, theme }) =>

@@ -50,7 +50,6 @@ const Button = React.forwardRef(function Button(
     marginRight = 0,
     marginBottom = 0,
     marginLeft = 0,
-
     children,
     ...rest
   }: React.PropsWithChildren<Props>,

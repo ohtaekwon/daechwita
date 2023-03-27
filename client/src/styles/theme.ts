@@ -1,10 +1,10 @@
-const breakpoint = {
+export const breakpoint = {
   mobile: "320px",
   tablet: "768px",
   desktop: "1280px",
 };
 
-const theme = {
+export const theme = {
   colors: {
     inherit: "inherit",
     current: "currentColor",
