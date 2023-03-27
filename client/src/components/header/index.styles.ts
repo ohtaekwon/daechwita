@@ -11,9 +11,3 @@ export const Wrapper = styled.header`
   border-bottom: 1px solid ${({ theme }) => theme.colors.zinc_200};
   background-color: ${({ theme }) => theme.colors.white};
 `;
-
-export const Left = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 24px;
-`;

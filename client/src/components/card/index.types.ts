@@ -1,6 +1,7 @@
 import { ElementType, HTMLAttributes } from "react";
 import { ColumnType, Schedule, TimeType } from "types/schedule";
 import { OnDelete, OnSwap, OnUpdate } from "hooks/dnd/useColumn";
+import { color } from "utils/helpers";
 
 export interface CardProps {
   /**
@@ -44,6 +45,7 @@ export interface ResumeCardProps
     }[];
   };
   tag: (string | undefined)[];
+  colors: color[];
   toggle: boolean;
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }

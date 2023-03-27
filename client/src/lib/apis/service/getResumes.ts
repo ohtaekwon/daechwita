@@ -1,4 +1,5 @@
 import { ResumesType } from "types/index.types";
+import { randomButtonColor } from "utils/helpers";
 
 /**
  * GET Resumes 데이터 정제
@@ -30,6 +31,7 @@ export const getResumesService = (rowData: { data: ResumesType[] }) => {
             item.tag !== "태그를 입력해주세요." ? item.tag : undefined
           ),
         ],
+        colors: [...documents.map((item) => randomButtonColor())],
       };
     }
   );

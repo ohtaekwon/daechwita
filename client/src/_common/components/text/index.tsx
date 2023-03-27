@@ -42,7 +42,6 @@ const Text = React.forwardRef(function Text(
   }: React.PropsWithChildren<Props>,
   forwardedRef: React.Ref<HTMLElement>
 ) {
-  console.log(rest);
   return (
     <Styled.Text
       as={as}

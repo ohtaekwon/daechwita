@@ -174,6 +174,4 @@ export interface Props
    * @default static
    */
   type?: "button" | "submit" | "reset" | undefined;
-
-  css?: SerializedStyles;
 }

@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -18,6 +19,7 @@ import Grid from "_common/components/grid";
 import { emoji } from "utils/constants";
 import { ResumesType } from "types/resumes";
 import useResumes from "hooks/app/useResumes";
+import { css } from "@emotion/react";
 
 const Resumes = () => {
   const queryClient = getClient();
@@ -68,7 +70,10 @@ const Resumes = () => {
         fontSize="xxxl"
         fontWeight={700}
         textAlign="center"
-        style={{ height: "10px", padding: "2rem 0" }}
+        css={css`
+          height: 10px;
+          padding: 2rem 0;
+        `}
       >
         나의 자소서 목록 {emoji.DOCUMENT}
       </Text>
@@ -116,6 +121,7 @@ const Resumes = () => {
                 uid,
                 resumes,
                 tag,
+                colors,
               }: ResumesType,
               index
             ) => (
@@ -129,6 +135,7 @@ const Resumes = () => {
                 resumes={resumes}
                 tag={tag}
                 toggle={toggle}
+                colors={colors}
                 setToggle={setToggle}
               />
             )

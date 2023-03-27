@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import * as Styled from "./index.styles";
@@ -12,6 +13,7 @@ import Box from "_common/components/box";
 import { ScheduleCard } from "components/card";
 import useColumnDrop from "hooks/dnd/useColumnDrop";
 import { emoji } from "utils/constants";
+import { css } from "@emotion/react";
 
 const Column = ({
   className,
@@ -70,7 +72,7 @@ const Column = ({
         )}
         <Box
           ref={dropRef}
-          variant="amber"
+          variant="gray_200_border"
           width="100%"
           height="100vh"
           display="flex"
@@ -78,9 +80,9 @@ const Column = ({
           margin="auto"
           alignItems="center"
           opacity={isOver ? 0.85 : 1}
-          style={{
-            overflowY: "scroll",
-          }}
+          css={css`
+            overflow-y: scroll;
+          `}
         >
           {schedules && ColumnSchedules}
         </Box>

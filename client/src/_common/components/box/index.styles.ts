@@ -122,7 +122,7 @@ export const Box = styled.span<Required<BoxProps>>`
           border-color: ${theme.colors.gray_300}!important;
           background-color: ${theme.colors.gray_50}!important;
           color: ${theme.colors.black};
-          transition: all ease 1s;
+          transition: all 1s ease-out;
           transform: rotateY(180deg);
           backface-visibility: hidden;
           box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
@@ -131,6 +131,8 @@ export const Box = styled.span<Required<BoxProps>>`
       case "back": {
         return css`
           transition: all ease 1s;
+          backface-visibility: hidden;
+
           border-color: ${theme.colors.gray_300}!important;
           background-color: ${theme.colors.gray_50}!important;
           box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);

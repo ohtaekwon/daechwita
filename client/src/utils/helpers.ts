@@ -30,12 +30,16 @@ export const throttle = <F extends (...args: any[]) => any>(
 ) => {
   let throttleCheck: NodeJS.Timeout | any;
 
-  return () => {
+  return (event: any) => {
     if (!throttleCheck) {
-      throttleCheck = setTimeout(() => {
-        throttleCheck = null;
-        callback();
-      }, timer);
+      throttleCheck = setTimeout(
+        () => {
+          throttleCheck = null;
+          callback();
+        },
+        timer,
+        event
+      );
     }
   };
 };
@@ -116,7 +120,7 @@ export function getSortedArray(array: (string | undefined)[]) {
   return array.sort((a, b) => (a as string).length - (b as string).length);
 }
 
-type color =
+export type color =
   | "primary"
   | "default"
   | "zinc_200_filled"

@@ -1,3 +1,4 @@
+import { color } from "utils/helpers";
 import { TimeType } from "./schedule";
 
 export interface ResumesType {
@@ -19,4 +20,5 @@ export interface ResumesType {
     }[];
   };
   tag: (string | undefined)[];
+  colors: color[];
 }

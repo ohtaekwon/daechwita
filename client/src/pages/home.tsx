@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 
 import { useQuery } from "react-query";
@@ -14,6 +15,7 @@ import { ChartResumes, ChartSchedules } from "types/chart";
 import { ColumnType } from "types/schedule";
 import { emoji, scheduleChartDict } from "utils/constants";
 import useUser from "lib/firebase/useUser";
+import { css } from "@emotion/react";
 
 const Home = () => {
   const { user } = useUser();
@@ -104,7 +106,7 @@ const Home = () => {
   }>({ finish: 0, yet: 0 });
 
   // 1. 전체 데이터 - 전체 가장 자소서 많이 쓴 유형
-  React.useMemo(() => {
+  React.useEffect(() => {
     /**
      * @description totalChartResumes 모든 이력서 전체 데이터
      */
@@ -131,9 +133,10 @@ const Home = () => {
         });
       })
     );
+    return () => setRefinedTotalResumes([]);
   }, [totalChartResumes]);
 
-  React.useMemo(() => {
+  React.useEffect(() => {
     /**
      * @description  totalSchedules 모든 입사 지원 현황의 전체 데이터
      */
@@ -146,7 +149,6 @@ const Home = () => {
         );
 
         if (target?.name === "") {
-          console.log("노네임", target);
           return [...allData];
         }
 
@@ -163,10 +165,12 @@ const Home = () => {
         }
       });
     });
+    return () => setRefinedTotalSchedules([]);
   }, [totalSchedules]);
+  // console.log("new", refinedTotalSchedules);
 
   // 3. 마이 데이터 - 나의 가장 많이 쓴 자소서 유형
-  React.useMemo(() => {
+  React.useEffect(() => {
     /**
      * @description userChartResumes 자신의 이력서 전체 데이터
      */
@@ -194,10 +198,11 @@ const Home = () => {
         });
       })
     );
+    return () => setRefinedUserResumes([]);
   }, [userChartResumes]);
 
   // 4. 마이 데이터 - 나의 입사 지원 현황
-  React.useMemo(() => {
+  React.useEffect(() => {
     /**
      * @description userChartSchedules 자신의 입사 지원 현황 데이터
      */
@@ -223,10 +228,11 @@ const Home = () => {
         }
       });
     });
+    return () => setRefinedUserSchedules([]);
   }, [userChartSchedules]);
 
   // 5. 마이 데이터 - 내가 가장 많이 지원한 직무
-  React.useMemo(() => {
+  React.useEffect(() => {
     /**
      * @description userChartSchedules 자신의 입사 지원 현황 데이터
      */
@@ -254,10 +260,11 @@ const Home = () => {
         }
       });
     });
+    return () => setRefinedUserApply([]);
   }, [userChartSchedules]);
 
   // 6. 마이데이터 - 나의 자기소개서 작성 현황
-  React.useMemo(() => {
+  React.useEffect(() => {
     userChartAllResumes?.map(({ apply, tag }: ChartResumes) => {
       setRefinedUserWrite((allData) => {
         const snapshot = { ...allData };
@@ -274,6 +281,7 @@ const Home = () => {
         };
       });
     });
+    return () => setRefinedUserWrite({ finish: 0, yet: 0 });
   }, [userChartAllResumes]);
 
   const newTotalSchedules = refinedTotalSchedules
@@ -308,10 +316,7 @@ const Home = () => {
   function checkSeries(array: any[] = []) {
     return array.length > 0 ? array : undefined;
   }
-  // console.log(newTotalSchedules, totalSchedules);
-  // console.log(totalChartResumes);
 
-  console.log("완료 ", userChartAllResumes);
   return (
     <>
       <Text
@@ -327,7 +332,7 @@ const Home = () => {
       <Grid
         gridTemplateColumns="repeat(1, 1fr)"
         placeItems="center"
-        padding="1rem 0 "
+        css={gridStyle}
       >
         <Chart
           type="bar"
@@ -354,7 +359,7 @@ const Home = () => {
         textAlign="left"
         paddingTop={20}
         paddingBottom={20}
-        style={{ display: "block", height: "50px" }}
+        css={textStyle}
       >
         마이 데이터 분석
       </Text>
@@ -363,14 +368,14 @@ const Home = () => {
         fontWeight={700}
         textAlign="left"
         paddingTop={20}
-        style={{ display: "block", height: "50px" }}
+        css={textStyle}
       >
         1. 나의 입사 지원 현황 분석 {emoji.SCHEDULE}
       </Text>
       <Grid
         gridTemplateColumns="repeat(2, 1fr)"
         placeItems="center"
-        padding="1rem 0 "
+        css={gridStyle}
       >
         <Chart
           type="bar"
@@ -394,7 +399,7 @@ const Home = () => {
         fontWeight={700}
         textAlign="left"
         paddingTop={20}
-        style={{ display: "block", height: "50px" }}
+        css={textStyle}
       >
         2. 나의 자기소개서 분석 {emoji.ME}
       </Text>
@@ -402,7 +407,7 @@ const Home = () => {
       <Grid
         gridTemplateColumns="repeat(2, 1fr)"
         placeItems="center"
-        padding="1rem 0 "
+        css={gridStyle}
       >
         <Chart
           type="treemap"
@@ -437,45 +442,10 @@ const Home = () => {
 };
 export default Home;
 
-{
-  /* <BackGround /> */
-}
-// const {
-//   data: resumes,
-//   isLoading: rLoading,
-//   isError: rError,
-//   refetch,
-// } = useQuery<ResumesType[]>(QueryKeys.RESUMES(), () =>
-//   getAllResumes().then(getResumesService)
-// );
-// const {
-//   data: schedules,
-//   isLoading: sLoading,
-//   isError: SError,
-// } = useQuery<SchedulesType>(QueryKeys.SCHEDULES, () =>
-//   getAllSchedules().then(getSchedulesList)
-// );
-
-// const [totalData, setTotalData] = React.useState({
-//   allResumes: [],
-//   allSchedules: [],
-// });
-
-// React.useEffect(() => {
-//   getTotalChartData("resumes").then((res) =>
-//     setTotalData((allData: any) => {
-//       return {
-//         ...allData,
-//         ["allResumes"]: res,
-//       };
-//     })
-//   );
-//   getTotalChartData("schedules").then((res) =>
-//     setTotalData((allData: any) => {
-//       return {
-//         ...allData,
-//         ["allSchedules"]: res,
-//       };
-//     })
-//   );
-// }, []);
+const textStyle = css`
+  display: block;
+  height: 50px;
+`;
+const gridStyle = css`
+  padding: 1rem 0;
+`;

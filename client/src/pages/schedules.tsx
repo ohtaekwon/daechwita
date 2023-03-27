@@ -19,9 +19,11 @@ const Schedules = () => {
   );
 
   React.useEffect(() => {
-    document.body.style.backgroundColor = "#f59e0b";
+    document.body.style.backgroundImage =
+      " linear-gradient(to right, #e14fad 0%, #f9d423 100%)";
+
     return () => {
-      document.body.style.backgroundColor = "transparent";
+      document.body.style.backgroundImage = "none";
     };
   }, []);
   return (
