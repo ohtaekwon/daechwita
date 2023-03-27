@@ -1,8 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { Layout } from "components/layout";
-
 import Home from "pages/home";
 import Resumes from "pages/resumes";
 import WriteResume from "pages/writeResume";
@@ -10,7 +8,7 @@ import Schedules from "pages/schedules";
 import Interview from "pages/interview";
 import Profile from "pages/profile";
 
-import { generatorRandomCount } from "utils/helpers";
+import { Layout } from "components/layout";
 
 const SignInRouter = () => {
   const url = process.env.PUBLIC_URL;
