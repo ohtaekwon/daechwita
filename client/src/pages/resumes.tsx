@@ -1,13 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
+import _ from "lodash";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useQuery } from "react-query";
+import { css } from "@emotion/react";
+import { v4 as uuid } from "uuid";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 import { getClient, QueryKeys } from "queryClient";
 
-import { getAllResumes } from "lib/apis/api/resumes";
+import {
+  createResume,
+  getAllResumes,
+  getLatestResume,
+} from "lib/apis/api/resumes";
 import { getResumesService } from "lib/apis/service/getResumes";
 import useInterSection from "hooks/app/useInterSection";
+import useResumes from "hooks/app/useResumes";
 
 import Section from "components/section";
 import { ResumeCard as Card } from "components/card";
@@ -18,8 +26,7 @@ import Grid from "_common/components/grid";
 
 import { emoji } from "utils/constants";
 import { ResumesType } from "types/resumes";
-import useResumes from "hooks/app/useResumes";
-import { css } from "@emotion/react";
+import { Resume } from "types/index.types";
 
 const Resumes = () => {
   const queryClient = getClient();
@@ -54,8 +61,31 @@ const Resumes = () => {
      * @description useResumes의 Return 요소 중 하나로 Resumes 데이터들을 useMutation으로 캐싱 데이터를 관리하는 훅
      * @abstract POST 요청시에, 쿼리 무효화를 하고 reFetch를 실행
      */
-    await onCreate();
-    await navigate("write");
+    // await onCreate();
+
+    const createData: any = await createResume({
+      imgUrl: "",
+      apply: {
+        company: "",
+        department: "",
+      },
+      documents: [
+        {
+          id: uuid(),
+          title: "",
+          text: "",
+          tag: "",
+        },
+      ],
+      publishing: false,
+    });
+
+    // const data = await getLatestResume().then((res) => res.data);
+
+    await navigate(`write/${createData.id}`, {
+      replace: true,
+      state: createData,
+    });
   };
   React.useEffect(() => {
     document.body.style.backgroundColor = "#EFF4F7";

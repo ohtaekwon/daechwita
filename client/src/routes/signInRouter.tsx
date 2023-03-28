@@ -1,16 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import { Layout } from "components/layout";
-
 import Home from "pages/home";
 import Resumes from "pages/resumes";
-import WriteResume from "pages/writeResume";
 import Schedules from "pages/schedules";
 import Interview from "pages/interview";
 import Profile from "pages/profile";
+import WriteResume from "pages/writeResume/index";
 
-import { generatorRandomCount } from "utils/helpers";
+import { Layout } from "components/layout";
 
 const SignInRouter = () => {
   const url = process.env.PUBLIC_URL;
@@ -44,6 +42,8 @@ const SignInRouter = () => {
           <Route path="/resumes" element={<Resumes />} />
         </Route>
         <Route element={<Layout variant="lg" header />}>
+          <Route path="/*" element={<Home />} />
+
           <Route path="resumes/write" element={<WriteResume />} />
           <Route path="resumes/write/:id" element={<WriteResume />} />
         </Route>

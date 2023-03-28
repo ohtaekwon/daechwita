@@ -44,8 +44,7 @@ const resumesRoute = [
         // const uid = cookie?.split("%22")[3];
 
         // 토큰에서 uid 가져오기
-
-        console.log("맨처음", latest, publishing);
+        console.log("start", latest, publishing);
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
@@ -58,7 +57,7 @@ const resumesRoute = [
         // 쿼리 조건문
         const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록
         queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
-
+        // console.log(' mockLatest', mockLatest)
         console.log(newLatest, newPublishing);
         if (newLatest) {
           queryOptions.unshift(where("publishing", "==", newPublishing)); // 해당 uid값이 있는 스케쥴 정보를 select
@@ -67,7 +66,6 @@ const resumesRoute = [
           queryOptions.unshift(where("publishing", "==", newPublishing)); // 해당 uid값이 있는 스케쥴 정보를 select
           queryOptions.unshift(limit(PAGE_SIZE));
         }
-        console.log("here3");
 
         const q = firebaseQuery(resumes, ...queryOptions);
         const resumesSnapshot = await getDocs(q);

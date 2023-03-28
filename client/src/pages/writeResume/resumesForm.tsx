@@ -30,15 +30,20 @@ export const FormList = ({
 }) => {
   return (
     <>
-      {list?.map((item: any, key: React.Key) => (
-        <FormItem
-          key={key}
-          item={item}
-          onDelete={deleteForm}
-          onChange={onChange}
-          toggle={toggle}
-        />
-      ))}
+      {list?.map(
+        (
+          item: { id: string; title: string; text: string; tag: string },
+          key: React.Key
+        ) => (
+          <FormItem
+            key={key}
+            item={item}
+            onDelete={deleteForm}
+            onChange={onChange}
+            toggle={toggle}
+          />
+        )
+      )}
     </>
   );
 };
@@ -66,7 +71,6 @@ const FormItem = ({
   return (
     <>
       <Box
-        role="form"
         width="100%"
         height="100%"
         position="relative"

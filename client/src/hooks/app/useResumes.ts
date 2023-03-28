@@ -12,7 +12,7 @@ type QueryKeys = {
 };
 
 /**
- * @abstract Resumes 서버 데이터의 상태관리를 위한 훅
+ * @description Resumes 서버 데이터의 상태관리를 위한 훅
  * @description Resumes의 쿼리 데이터를 useMutation하여 CRUD를 하는 훅
  * @param queryClient 쿼리 클라이언트
  * @param QueryKeys 쿼리키

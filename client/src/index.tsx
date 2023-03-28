@@ -7,6 +7,7 @@ import { QueryClientProvider } from "react-query";
 
 import App from "./App";
 import { getClient } from "queryClient";
+// import ReactDOM from "react-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

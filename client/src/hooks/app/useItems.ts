@@ -14,6 +14,13 @@ export interface ItemList {
   documents: Item[];
 }
 
+/**
+ * @description 자기소개서 입력 폼의 컨텐츠에 대한 커스텀 훅(Hook)
+ * @param itemKey useItems의 키 값 설정
+ * @param addItem useItems의 추가할 아이템의 요소로 구성
+ * @items 기본값으로 id, tag, text, title로 구성
+ */
+
 function useItems(column: ITEM_KEY.DOCUMENTS, addItem: Item) {
   const [itemList, setItemList] = React.useState<ItemList>({
     documents: [

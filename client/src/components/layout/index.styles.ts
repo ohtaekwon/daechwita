@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
 import { LayoutProps } from "./index.types";
+import { media } from "utils/media";
+import { breakpoint } from "styles/theme";
 
 export const Layout = styled.main<Required<LayoutProps>>`
   /* display: flex;
@@ -38,7 +40,7 @@ export const Layout = styled.main<Required<LayoutProps>>`
       }
       case "lg": {
         return css`
-          max-width: 1280px;
+          width: 1280px;
           height: 100%;
           max-height: max-content;
         `;
@@ -99,4 +101,15 @@ export const Layout = styled.main<Required<LayoutProps>>`
       }
     }
   }}
+`;
+const responsive = css`
+  ${media[0]} {
+    display: none;
+  }
+  ${media[1]} {
+    display: block;
+  }
+  ${media[2]} {
+    display: block;
+  }
 `;
