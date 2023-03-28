@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
+import { css } from "@emotion/react";
 
 import { useQuery } from "react-query";
 import { QueryKeys } from "queryClient";
@@ -15,7 +16,8 @@ import { ChartResumes, ChartSchedules } from "types/chart";
 import { ColumnType } from "types/schedule";
 import { emoji, scheduleChartDict } from "utils/constants";
 import useUser from "lib/firebase/useUser";
-import { css } from "@emotion/react";
+import { media } from "utils/media";
+import { breakpoint } from "styles/theme";
 
 const Home = () => {
   const { user } = useUser();
@@ -375,7 +377,7 @@ const Home = () => {
       <Grid
         gridTemplateColumns="repeat(2, 1fr)"
         placeItems="center"
-        css={gridStyle}
+        css={newGridStyle}
       >
         <Chart
           type="bar"
@@ -407,7 +409,7 @@ const Home = () => {
       <Grid
         gridTemplateColumns="repeat(2, 1fr)"
         placeItems="center"
-        css={gridStyle}
+        css={newGridStyle}
       >
         <Chart
           type="treemap"
@@ -449,3 +451,41 @@ const textStyle = css`
 const gridStyle = css`
   padding: 1rem 0;
 `;
+
+const newGridStyle = css`
+  padding: 1rem 0;
+  width: 100%;
+
+  ${media[0]} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  ${media[1]} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  ${media[2]} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+/* 
+          @media (320px <= width <=759px) {
+            width: 100%;
+          }
+          @media (${breakpoint.tablet} <= width <= ${breakpoint.desktop}) {
+            width: 100%;
+          } */
+
+/* 
+          ${media[0]} {
+            margin: 0;
+            width: ${breakpoint.mobile};
+          }
+          ${media[1]} {
+            margin: 0;
+            min-width: ${breakpoint.tablet};
+            width: 100%;
+          }
+          ${media[2]} {
+            margin: auto;
+            width: ${breakpoint.desktop};
+          } */

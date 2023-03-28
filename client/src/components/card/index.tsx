@@ -436,7 +436,7 @@ export const ResumeCard = ({
             {tag.map((item, index) => (
               <Button
                 key={`${item}-${index}`}
-                variant={newColor()}
+                variant={colors[index]}
                 radius={15}
                 marginTop={5}
                 marginBottom={5}

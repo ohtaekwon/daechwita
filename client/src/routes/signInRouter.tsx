@@ -3,10 +3,10 @@ import { Route, Routes } from "react-router-dom";
 
 import Home from "pages/home";
 import Resumes from "pages/resumes";
-import WriteResume from "pages/writeResume";
 import Schedules from "pages/schedules";
 import Interview from "pages/interview";
 import Profile from "pages/profile";
+import WriteResume from "pages/writeResume/index";
 
 import { Layout } from "components/layout";
 
