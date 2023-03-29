@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { QueryKeys } from "queryClient";
 
 import { getTotalChartData, getUserChartData } from "lib/apis/api/chartData";
+import useUser from "lib/firebase/useUser";
 
 import Text from "_common/components/text";
 import Grid from "_common/components/grid";
@@ -14,10 +15,9 @@ import Chart from "components/chart";
 
 import { ChartResumes, ChartSchedules } from "types/chart";
 import { ColumnType } from "types/schedule";
+
 import { emoji, scheduleChartDict } from "utils/constants";
-import useUser from "lib/firebase/useUser";
 import { media } from "utils/media";
-import { breakpoint } from "styles/theme";
 
 const Home = () => {
   const { user } = useUser();
@@ -466,26 +466,3 @@ const newGridStyle = css`
     grid-template-columns: repeat(2, 1fr);
   }
 `;
-
-/* 
-          @media (320px <= width <=759px) {
-            width: 100%;
-          }
-          @media (${breakpoint.tablet} <= width <= ${breakpoint.desktop}) {
-            width: 100%;
-          } */
-
-/* 
-          ${media[0]} {
-            margin: 0;
-            width: ${breakpoint.mobile};
-          }
-          ${media[1]} {
-            margin: 0;
-            min-width: ${breakpoint.tablet};
-            width: 100%;
-          }
-          ${media[2]} {
-            margin: auto;
-            width: ${breakpoint.desktop};
-          } */

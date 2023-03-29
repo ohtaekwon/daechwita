@@ -34,7 +34,7 @@ export interface ModalProps
    * modal을 닫기 위한 토글 이벤트
    */
 
-  modalType: "delete" | "update";
+  modalType?: "delete" | "update";
   cancel: (e: React.SyntheticEvent) => void;
   children?: React.ReactNode;
 }

@@ -6,7 +6,7 @@ type Option = {
   replace: boolean;
 };
 
-function useGoBack(options?: Option, callback?: any) {
+function useModal(options?: Option, callback?: any) {
   const navigate = useNavigate();
   const [modalShow, toggleModal] = React.useState(false);
 
@@ -29,4 +29,4 @@ function useGoBack(options?: Option, callback?: any) {
     handleGoBackAction,
   };
 }
-export default useGoBack;
+export default useModal;

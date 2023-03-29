@@ -42,8 +42,6 @@ const SignInRouter = () => {
           <Route path="/resumes" element={<Resumes />} />
         </Route>
         <Route element={<Layout variant="lg" header />}>
-          <Route path="/*" element={<Home />} />
-
           <Route path="resumes/write" element={<WriteResume />} />
           <Route path="resumes/write/:id" element={<WriteResume />} />
         </Route>
