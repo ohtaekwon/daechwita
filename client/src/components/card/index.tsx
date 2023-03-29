@@ -34,6 +34,44 @@ import { emoji, scheduleDict } from "utils/constants";
 import Input from "_common/components/input";
 import { css } from "@emotion/react";
 
+const scheduleCardStyle = css`
+  min-height: 200px;
+
+  @media screen and (min-width: 320px) {
+    width: 300px;
+  }
+  @media screen and (min-width: 420px) {
+    width: 400px;
+  }
+  @media screen and (min-width: 520px) {
+    width: 450px;
+  }
+  @media screen and (min-width: 620px) {
+    width: 350px;
+  }
+  @media screen and (min-width: 720px) {
+    width: 400px;
+  }
+  @media screen and (min-width: 820px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 920px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1020px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1120px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1220px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1280px) {
+    width: 200px;
+  }
+`;
+
 export const ScheduleCard = ({
   index,
   column,
@@ -84,7 +122,7 @@ export const ScheduleCard = ({
       cursor="grab"
       ref={ref}
       opacity={isDragging ? 0.5 : 1}
-      style={{ minHeight: "200px" }}
+      css={scheduleCardStyle}
     >
       {toggle && (
         <Flex direction="column" as="div" width="100%" height="100%">
@@ -451,7 +489,7 @@ export const ResumeCard = ({
       {/* 삭제하기 버튼 모달창 */}
       <Modal
         modalType="delete"
-        elementId="deleteModal"
+        elementId="modal"
         width="500px"
         height="300px"
         show={deleteModalShow}

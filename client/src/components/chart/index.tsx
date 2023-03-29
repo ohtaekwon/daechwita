@@ -33,9 +33,9 @@ const Chart = ({
 
   return (
     <Box
-      variant="gray_200_border"
+      variant="chart_border"
       padding="1rem"
-      width="100%"
+      width="1280px"
       height="500px"
       marginTop={20}
       marginBottom={10}
@@ -74,15 +74,40 @@ export default Chart;
 const boxStyle = css`
   padding: 1rem 0;
 
-  /* ${media[0]} {
+  @media screen and (min-width: 320px) {
+    width: 300px;
+  }
+  @media screen and (min-width: 420px) {
+    width: 400px;
+  }
+  @media screen and (min-width: 520px) {
+    width: 500px;
+  }
+  @media screen and (min-width: 620px) {
+    width: 600px;
+  }
+  @media screen and (min-width: 720px) {
+    width: 700px;
+  }
+  @media screen and (min-width: 820px) {
+    width: 800px;
+  }
+  @media screen and (min-width: 920px) {
+    width: 900px;
+  }
+  @media screen and (min-width: 1020px) {
+    width: 1000px;
+  }
+  @media screen and (min-width: 1120px) {
+    width: 1100px;
+  }
+  @media screen and (min-width: 1220px) {
+    width: 1200px;
+  }
+  @media screen and (min-width: 1280px) {
     width: 100%;
   }
-  ${media[1]} {
-    width: 100%;
-  } */
-
-  /* ${media[2]} {
-    width: 100%;
-    height: 500px;
-  } */
 `;
+// mobile: "320px",
+// tablet: "768px",
+// desktop: "1280px",

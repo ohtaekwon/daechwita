@@ -1,6 +1,5 @@
 import type {
   AriaRole,
-  Attributes,
   CSSProperties,
   ElementType,
   HTMLAttributes,
@@ -17,7 +16,8 @@ export type BoxType =
   | "blue_200_border"
   | "front"
   | "back"
-  | "amber";
+  | "amber"
+  | "chart_border";
 
 export interface BoxProps {
   /**

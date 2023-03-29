@@ -40,9 +40,19 @@ export const Layout = styled.main<Required<LayoutProps>>`
       }
       case "lg": {
         return css`
-          width: 1280px;
+          /* width: 1280px; */
           height: 100%;
           max-height: max-content;
+
+          ${media[0]} {
+            width: 100%;
+          }
+          ${media[1]} {
+            width: 100%;
+          }
+          ${media[2]} {
+            width: 1280px;
+          }
         `;
       }
       case "amber_lg": {

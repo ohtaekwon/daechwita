@@ -112,6 +112,48 @@ export const Box = styled.span<Required<BoxProps>>`
           box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
         `;
       }
+      case "chart_border": {
+        return css`
+          border-color: ${theme.colors.gray_300}!important;
+          color: ${theme.colors.black}!important;
+          background-color: ${theme.colors.gray_50}!important;
+          box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
+
+          @media screen and (min-width: 320px) {
+            width: 300px;
+          }
+          @media screen and (min-width: 420px) {
+            width: 400px;
+          }
+          @media screen and (min-width: 520px) {
+            width: 500px;
+          }
+          @media screen and (min-width: 620px) {
+            width: 600px;
+          }
+          @media screen and (min-width: 720px) {
+            width: 700px;
+          }
+          @media screen and (min-width: 820px) {
+            width: 800px;
+          }
+          @media screen and (min-width: 920px) {
+            width: 900px;
+          }
+          @media screen and (min-width: 1020px) {
+            width: 1000px;
+          }
+          @media screen and (min-width: 1120px) {
+            width: 1100px;
+          }
+          @media screen and (min-width: 1220px) {
+            width: 1200px;
+          }
+          @media screen and (min-width: 1280px) {
+            width: 100%;
+          }
+        `;
+      }
       case "amber": {
         return css`
           border-color: ${theme.colors.amber_50}!important;

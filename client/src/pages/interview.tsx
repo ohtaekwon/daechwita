@@ -116,9 +116,11 @@ const Interview = () => {
         color="white"
         marginTop={10}
         marginBottom={10}
+        lineHeight="xxl"
         css={textStyle}
       >
-        면접 질문을 생각하고, 텍스트를 입력하여, 스피커 버튼을 클릭하면 음성이
+        면접 질문을 생각하고, 텍스트를 입력하여, <br />
+        스피커 버튼을 클릭하면 음성이 <br />
         나옵니다.
       </Text>
       <Spinner />
@@ -171,4 +173,42 @@ const textStyle = css`
   height: 100%;
   padding: 2rem 0;
   display: inline-block;
+`;
+
+const scheduleCardStyle = css`
+  min-height: 200px;
+
+  @media screen and (min-width: 320px) {
+    width: 300px;
+  }
+  @media screen and (min-width: 420px) {
+    width: 400px;
+  }
+  @media screen and (min-width: 520px) {
+    width: 450px;
+  }
+  @media screen and (min-width: 620px) {
+    width: 350px;
+  }
+  @media screen and (min-width: 720px) {
+    width: 400px;
+  }
+  @media screen and (min-width: 820px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 920px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1020px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1120px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1220px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1280px) {
+    width: 200px;
+  }
 `;

@@ -10,7 +10,7 @@ import { getClient, QueryKeys } from "queryClient";
 import useResumes from "hooks/app/useResumes";
 import { useInputReducer } from "hooks/app/useInputReducer";
 import useItems, { ITEM_KEY } from "hooks/app/useItems";
-import useGoBack from "hooks/app/useGoBack";
+import useModal from "hooks/app/useGoBack";
 
 import { deleteResume, getLatestResume, getResume } from "lib/apis/api/resumes";
 import { postImageFile } from "lib/apis/api/formData";
@@ -73,7 +73,7 @@ const WriteResume = () => {
   /**
    * @description 뒤로가기시 모달을 내려주는 훅(Hook)
    */
-  const { modalShow, toggleModal, cancel, handleGoBackAction } = useGoBack(
+  const { modalShow, toggleModal, cancel, handleGoBackAction } = useModal(
     { route: "/", replace: true },
     () => deleteResume(id!)
   );
@@ -348,7 +348,7 @@ const WriteResume = () => {
       {/* 뒤로가기 할때 모달창 */}
       <Modal
         modalType="delete"
-        elementId="gobackModal"
+        elementId="modal"
         width="500px"
         height="300px"
         show={modalShow}

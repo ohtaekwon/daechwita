@@ -27,6 +27,7 @@ import Grid from "_common/components/grid";
 import { emoji } from "utils/constants";
 import { ResumesType } from "types/resumes";
 import { Resume } from "types/index.types";
+import { media } from "utils/media";
 
 const Resumes = () => {
   const queryClient = getClient();
@@ -120,6 +121,7 @@ const Resumes = () => {
           gridTemplateColumns="repeat(4, 1fr)"
           gridTemplateRows="repeat(4, 1fr)"
           placeItems="center"
+          css={gridStyle}
         >
           <Box
             as="div"
@@ -178,3 +180,21 @@ const Resumes = () => {
 };
 
 export default Resumes;
+
+const gridStyle = css`
+  padding: 1rem 0;
+  width: 100%;
+
+  ${media[0]} {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+  }
+  ${media[1]} {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+  ${media[2]} {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+  }
+`;
