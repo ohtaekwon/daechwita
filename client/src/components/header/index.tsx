@@ -76,19 +76,21 @@ const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
             />
           </Link>
           {leftNavMenu.map((menu) => (
-            <Link to={menu.route}>
-              <Button
-                variant="default"
-                paddingY={9}
-                paddingX={16}
-                fontSize="lg"
-                lineHeight="md"
-                color={isTransparent}
-                css={responsive}
-              >
-                {menu.name}
-              </Button>
-            </Link>
+            <React.Fragment key={menu.name}>
+              <Link to={menu.route}>
+                <Button
+                  variant="default"
+                  paddingY={9}
+                  paddingX={16}
+                  fontSize="lg"
+                  lineHeight="md"
+                  color={isTransparent}
+                  css={responsive}
+                >
+                  {menu.name}
+                </Button>
+              </Link>
+            </React.Fragment>
           ))}
         </Box>
         <Flex
@@ -98,19 +100,21 @@ const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
           `}
         >
           {rightNavMenu.map((menu) => (
-            <Link to={menu.route}>
-              <Button
-                variant="default"
-                paddingY={9}
-                paddingX={16}
-                fontSize="md"
-                lineHeight="md"
-                color={transparent ? "white" : "zinc_400"}
-                css={responsive}
-              >
-                <Icons>{menu.icon}</Icons>
-              </Button>
-            </Link>
+            <React.Fragment key={menu.name}>
+              <Link to={menu.route}>
+                <Button
+                  variant="default"
+                  paddingY={9}
+                  paddingX={16}
+                  fontSize="md"
+                  lineHeight="md"
+                  color={transparent ? "white" : "zinc_400"}
+                  css={responsive}
+                >
+                  <Icons>{menu.icon}</Icons>
+                </Button>
+              </Link>
+            </React.Fragment>
           ))}
 
           <Button
@@ -167,10 +171,9 @@ const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
                   box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.37);
                 `}
               >
-                <Link to="/resumes">
+                <Link to="/temp/resumes">
                   <li css={toggleMenuStyles}>임시글</li>
                 </Link>
-                <li css={toggleMenuStyles}>회원 정보</li>
                 <li css={toggleMenuStyles} onClick={handleLogOut}>
                   로그아웃
                 </li>
@@ -246,8 +249,8 @@ const rightNavMenu = [
 
 const hamburgerMenu = [
   { route: "/", name: "홈" },
-  { route: "/schedules", name: "회원 정보" },
-  { route: "/resumes", name: "임시 글" },
+  // { route: "/schedules", name: "회원 정보" },
+  { route: "/temp/resumes", name: "임시 글" },
   { route: "/schedules", name: "입사 지원 현황" },
   { route: "/resumes", name: "자기소개서" },
   { route: "/interview", name: "면접" },

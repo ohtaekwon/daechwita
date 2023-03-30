@@ -26,9 +26,9 @@ function useItems(column: ITEM_KEY.DOCUMENTS, addItem: Item) {
     documents: [
       {
         id: "",
-        text: "본문을 입력해주세요.",
-        title: "제목을 입력해주세요.",
-        tag: "태그를 입력해주세요.",
+        text: "",
+        title: "",
+        tag: "",
       },
     ],
   });

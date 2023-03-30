@@ -1,4 +1,6 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
+
 import { useNavigate, useParams } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 
@@ -9,6 +11,8 @@ import Box from "_common/components/box";
 import Button from "_common/components/button";
 import Form from "_common/components/form";
 import Section from "components/section";
+import { css } from "@emotion/react";
+import { media } from "utils/media";
 
 const Search = () => {
   const navigate = useNavigate();
@@ -41,32 +45,31 @@ const Search = () => {
     `}
       >
         <Box
-          width="1000px"
-          height="100%"
           display="flex"
           justifyContent="center"
           alignItems="center"
           backgroundColor="white"
           position="relative"
           margin="auto"
+          css={responsive}
         >
           <Form onSubmit={onSubmit}>
             <select
               name="count"
               id="count-documents"
               onChange={onSelect}
-              style={{
-                display: "flex",
-                margin: "auto",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "8px",
-                marginInline: "1rem",
-                fontSize: "1.5rem",
-                paddingLeft: "1rem",
-                paddingRight: "1rem",
-                border: 0,
-              }}
+              css={css`
+                display: flex;
+                margin: auto;
+                justify-content: center;
+                align-items: center;
+                border-radius: 8px;
+                margin-inline: 1rem;
+                font-size: 1.5rem;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                border: 0;
+              `}
             >
               <option value="all">전체</option>
               <option value="tag">유형</option>
@@ -91,7 +94,9 @@ const Search = () => {
               height="100%"
               top={0}
               right={0}
-              style={{ padding: 0 }}
+              css={css`
+                padding: 0;
+              `}
             >
               <AiOutlineSearch size={30} />
             </Button>
@@ -103,3 +108,16 @@ const Search = () => {
 };
 
 export default Search;
+
+const responsive = css`
+  height: 100%;
+  ${media[0]} {
+    width: 100%;
+  }
+  ${media[1]} {
+    width: 100%;
+  }
+  ${media[2]} {
+    width: 1300px;
+  }
+`;

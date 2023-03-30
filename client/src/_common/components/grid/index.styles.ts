@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { GridProps, GridContainerProps } from "./index.types";
 
-export const Grid = styled.span<Required<GridProps>>`
+export const Grid = styled.div<Required<GridProps>>`
   /**
   * 넓이/높이 설정
   */

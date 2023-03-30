@@ -3,8 +3,10 @@ import { v4 as uuid } from "uuid";
 import { QueryClient, useMutation } from "react-query";
 
 import { createResume, deleteResume, updateResume } from "lib/apis/api/resumes";
-import { ResumesType } from "types/index.types";
+import { Resume, ResumesType } from "types/index.types";
 import { ItemList } from "./useItems";
+import { useRecoilState } from "recoil";
+import { resumesIdAtom } from "store/atoms";
 
 type QueryKeys = {
   readonly RESUMES: (id?: string) => (string | undefined)[];
@@ -20,30 +22,36 @@ type QueryKeys = {
  */
 
 function useResumes(queryClient: QueryClient, QueryKeys: QueryKeys) {
+  const [resumeId, setResumeId] = useRecoilState(resumesIdAtom);
+
   const { mutate: onCreate } = useMutation(
-    () =>
+    ({
+      imgUrl,
+      apply,
+      documents,
+      publishing,
+    }: {
+      imgUrl: string;
+      apply: {
+        company: string;
+        department: string;
+      };
+      documents: ItemList["documents"];
+      publishing: boolean;
+    }) =>
       createResume({
-        imgUrl: "",
-        apply: {
-          company: "",
-          department: "",
-        },
-        documents: [
-          {
-            id: uuid(),
-            title: "",
-            text: "",
-            tag: "",
-          },
-        ],
-        publishing: false,
+        imgUrl,
+        apply,
+        documents,
+        publishing,
       }),
     {
-      onSuccess: async () => {
+      onSuccess: async (updateData, variables) => {
         await queryClient.invalidateQueries(QueryKeys.RESUMES(), {
           exact: false,
           refetchInactive: true,
         });
+        setResumeId((updateData as Resume).id);
       },
     }
   );
@@ -73,7 +81,6 @@ function useResumes(queryClient: QueryClient, QueryKeys: QueryKeys) {
       }),
     {
       onSuccess: async (updateData: unknown = {}, variables, ctx) => {
-        console.log(updateData);
         await queryClient.invalidateQueries(QueryKeys.RESUMES(), {
           exact: false,
           refetchInactive: true,

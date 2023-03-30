@@ -1,4 +1,6 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
+import { css } from "@emotion/react";
 import * as Styled from "./index.styles";
 import { ModalProps, PortalProps } from "./index.types";
 
@@ -6,6 +8,7 @@ import { createPortal } from "react-dom";
 import { MdCancel } from "react-icons/md";
 
 import Button from "_common/components/button";
+import { media } from "utils/media";
 
 const ModalPortal = ({
   elementId,
@@ -23,11 +26,12 @@ const Modal = ({
   cancel,
   children,
 }: React.PropsWithChildren<ModalProps>) => {
+  const style = modalType === "update" && modalStyle;
   return show ? (
     <ModalPortal elementId={elementId}>
       <Styled.Wrapper show={show}>
-        <Styled.Inner className="modal__inner" width={width} height={height}>
-          <Styled.Content className="modal__content">
+        <Styled.Inner width={width} height={height} css={style}>
+          <Styled.Content>
             <Button
               areaLabel={modalType === "update" ? "updateCancel" : "delete"}
               onClick={cancel}
@@ -51,3 +55,17 @@ export default Modal;
 {
   /* <Modal show={modalShown} cancel={cancel} /> */
 }
+const modalStyle = css`
+  ${media[0]} {
+    width: 90%;
+    height: 90%;
+  }
+  ${media[1]} {
+    width: 80%;
+    height: 90%;
+  }
+  ${media[2]} {
+    width: 50%;
+    height: 90%;
+  }
+`;

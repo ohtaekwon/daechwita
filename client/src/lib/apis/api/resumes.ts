@@ -13,7 +13,8 @@ export const basePath = "/resumes";
 export const resumeApiRoutes = {
   getResumeByResumeId: (resumeId: string) => `${basePath}/${resumeId}`,
   getLatestResumeByQuery: () => `${basePath}?latest=true`,
-  getPublishedResume: () => `${basePath}?publishing=true`,
+  getPublishedResume: (pageParam = "") =>
+    `${basePath}?publishing=true&page=${pageParam}`,
   updateResumeByResumeId: (resumeId: string) => `${basePath}/${resumeId}`,
   deleteResumeByResumeId: (resumeId: string) => `${basePath}/${resumeId}`,
 };
@@ -57,9 +58,9 @@ export const getLatestResume = async () => {
 /**
  * GET All resumes
  */
-export const getAllResumes = async () => {
+export const getAllResumes = async ({ pageParam = "" }) => {
   try {
-    const apiRoute = resumeApiRoutes.getPublishedResume();
+    const apiRoute = resumeApiRoutes.getPublishedResume(pageParam);
     console.info(`자기소개서 전부를 가져오는 중 입니다...`);
     const { data } = await requestGet(apiRoute);
     console.info(`자기소개서가 성공적으로 반환되었습니다!`);
@@ -81,7 +82,6 @@ export const createResume = async (payload: unknown = {}) => {
     console.info("자기소개서를 작성성 중 입니다...");
     const { data }: { data: Resume } = await requestPost(basePath, payload);
     console.info(`임시 자기소개서 ${data?.id!}가 반환되었습니다!`);
-
     return data as Resume;
   } catch (error) {
     console.error(`자기소개서를 작성하던 중 에러가 발생하였습니다!`);

@@ -1,4 +1,3 @@
-import { CSSProperties } from "@emotion/serialize";
 import { ApexOptions } from "apexcharts";
 import { ElementType, HTMLAttributes } from "react";
 

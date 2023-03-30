@@ -1,28 +1,14 @@
 import React from "react";
 import AdditionalSelect from "./additionalSelect";
-import FormItem, {
-  FormList,
-  TagInput,
-  TextWrite,
-  TitleInput,
-} from "./resumesForm";
+import FormItem, { TagInput, TextWrite, TitleInput } from "./resumesForm";
 import { OptionBox } from "./optionBox";
 
 /**
- * 사이드 옵션 박스
+ * @description memo 파일입니다. 무분별한 리랜더링을 제어하기 위한 기능입니다.
  *
- * @param prevProps
- * @param nextProps
- * @returns boolean
+ * 회사 / 부서명 입력폼
+ * 태그 / 제목 / 텍스트 입력폼
  */
-const OptionBoxPropsAreEqual = (
-  prevOptionBoxProps: { toggle: boolean },
-  nextOptionBoxProps: { toggle: boolean }
-) => {
-  return prevOptionBoxProps.toggle === nextOptionBoxProps.toggle;
-};
-
-export const MemoizedOptionBox = React.memo(OptionBox, OptionBoxPropsAreEqual);
 
 /**
  * 회사 / 부서 선택 Input
@@ -108,3 +94,19 @@ const TextPropsAreEqual = (
 };
 
 export const MemoizedTextWrite = React.memo(TextWrite, TextPropsAreEqual);
+
+/**
+ * 사이드 옵션 박스
+ *
+ * @param prevProps
+ * @param nextProps
+ * @returns boolean
+ */
+const OptionBoxPropsAreEqual = (
+  prevOptionBoxProps: { toggle: boolean },
+  nextOptionBoxProps: { toggle: boolean }
+) => {
+  return prevOptionBoxProps.toggle === nextOptionBoxProps.toggle;
+};
+
+export const MemoizedOptionBox = React.memo(OptionBox, OptionBoxPropsAreEqual);

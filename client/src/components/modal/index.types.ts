@@ -1,3 +1,4 @@
+import { SerializedStyles } from "@emotion/react";
 import { CSSProperties, HTMLAttributes, ReactChild } from "react";
 
 export interface PortalType {}

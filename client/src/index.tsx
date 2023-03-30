@@ -4,6 +4,7 @@ import { Global, ThemeProvider } from "@emotion/react";
 import { globalStyle, theme } from "./styles";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider } from "react-query";
+import { RecoilRoot } from "recoil";
 
 import App from "./App";
 import { getClient } from "queryClient";
@@ -16,13 +17,15 @@ const queryClient = getClient();
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
-        <Global styles={globalStyle} />
-      </ThemeProvider>
-    </BrowserRouter>
+    <RecoilRoot>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
+          <Global styles={globalStyle} />
+        </ThemeProvider>
+      </BrowserRouter>
+    </RecoilRoot>
   </React.StrictMode>
 );

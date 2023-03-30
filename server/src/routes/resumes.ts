@@ -17,11 +17,12 @@ import {
   query as firebaseQuery,
   serverTimestamp,
   setDoc,
+  startAfter,
   updateDoc,
   where,
 } from "firebase/firestore";
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 15;
 const upload = multer();
 
 /**
@@ -37,14 +38,13 @@ const resumesRoute = [
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
-          query: { latest, publishing },
+          query: { latest, publishing, page = "" },
         } = req;
         // 쿠키에서 uid 가져오기
         // const cookie = req.headers.cookie;
         // const uid = cookie?.split("%22")[3];
 
         // 토큰에서 uid 가져오기
-        console.log("start", latest, publishing);
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
@@ -57,13 +57,18 @@ const resumesRoute = [
         // 쿼리 조건문
         const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록
         queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
-        // console.log(' mockLatest', mockLatest)
-        console.log(newLatest, newPublishing);
+
         if (newLatest) {
-          queryOptions.unshift(where("publishing", "==", newPublishing)); // 해당 uid값이 있는 스케쥴 정보를 select
+          queryOptions.unshift(where("publishing", "==", newPublishing));
           queryOptions.unshift(limit(1));
         } else {
-          queryOptions.unshift(where("publishing", "==", newPublishing)); // 해당 uid값이 있는 스케쥴 정보를 select
+          queryOptions.unshift(where("publishing", "==", newPublishing));
+          if (page) {
+            const snapshot = await getDoc(
+              doc(dbService, "resumes", page as string)
+            );
+            queryOptions.push(startAfter(snapshot));
+          }
           queryOptions.unshift(limit(PAGE_SIZE));
         }
 

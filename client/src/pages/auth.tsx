@@ -1,4 +1,7 @@
-import React, { SyntheticEvent } from "react";
+/** @jsxImportSource @emotion/react */
+import React from "react";
+import { css } from "@emotion/react";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,24 +12,19 @@ import { setUserCookie } from "lib/firebase/userCookies";
 import { mapUserData } from "lib/firebase/mapUserData";
 
 import FirebaseAuth from "components/auth";
-import Text from "_common/components/text";
-import BackGround from "components/background";
-import Flex from "_common/components/flex";
+import Grid from "_common/components/grid";
 
-type ErrorWithMessage = {
-  message: string;
-};
 const Auth = () => {
   const [email, handleEmailChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
 
-  const [newAccount, setNewAccount] = React.useState(false);
+  const [newAccount, setNewAccount] = React.useState(true);
   const [error, setError] = React.useState("");
   const [token, setToken] = React.useState("");
 
   const [renderAuth, setRenderAuth] = React.useState(false);
 
-  const onSubmit = async (e: SyntheticEvent) => {
+  const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       let data;
@@ -57,13 +55,18 @@ const Auth = () => {
       setRenderAuth(true);
     }
   }, []);
+
   return (
     <>
-      <Flex
-        justifyContent="center"
-        alignItems="center"
-        width="100%"
-        height="100%"
+      <Grid
+        as="main"
+        display="grid"
+        placeItems="center"
+        css={css`
+          width: 100%;
+          height: 100%;
+          background: -webkit-linear-gradient(left, #a445b2, #fa4299);
+        `}
       >
         <FirebaseAuth
           email={email}
@@ -76,9 +79,7 @@ const Auth = () => {
           error={error}
           renderAuth={renderAuth}
         />
-      </Flex>
-
-      {/* <BackGround /> */}
+      </Grid>
     </>
   );
 };

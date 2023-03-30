@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import React from "react";
 import { css } from "@emotion/react";
 import { useQuery } from "react-query";
@@ -83,13 +85,13 @@ const gridStyle = css`
     grid-template-columns: repeat(1, 1fr);
   }
   ${media[1]} {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
   ${media[2]} {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  @media screen and (min-width: 320px) {
+  /* @media screen and (min-width: 320px) {
     grid-template-columns: repeat(1, 1fr);
   }
   @media screen and (min-width: 420px) {
@@ -127,5 +129,5 @@ const gridStyle = css`
   }
   @media screen and (min-width: 1480px) {
     grid-template-columns: repeat(4, 1fr);
-  }
+  } */
 `;

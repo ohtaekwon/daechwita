@@ -1,5 +1,6 @@
 import { css } from "@emotion/css";
 import styled from "@emotion/styled";
+import { media } from "utils/media";
 import { InnerType, ModalType } from "./index.types";
 
 export const Wrapper = styled.div<Required<ModalType>>`

@@ -11,6 +11,7 @@ export const theme = {
     transparent: "transparent",
     black: "#000",
     white: "#fff",
+    lightBlue_50: "#EFF4F7",
     slate_50: "#f8fafc",
     slate_100: "#f1f5f9",
     slate_200: "#e2e8f0",

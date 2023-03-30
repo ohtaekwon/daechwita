@@ -2,20 +2,21 @@
 // eslint-disable-next-line no-restricted-globals
 
 import React from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { css } from "@emotion/react";
 import { v4 as uuid } from "uuid";
 import { getClient, QueryKeys } from "queryClient";
+import { useRecoilState } from "recoil";
 
 import useResumes from "hooks/app/useResumes";
 import { useInputReducer } from "hooks/app/useInputReducer";
 import useItems, { ITEM_KEY } from "hooks/app/useItems";
 import useModal from "hooks/app/useGoBack";
 
-import { deleteResume, getLatestResume, getResume } from "lib/apis/api/resumes";
+import { deleteResume, getResume } from "lib/apis/api/resumes";
 import { postImageFile } from "lib/apis/api/formData";
 
-import { MemoizedOptionBox, MemoizedAdditionalSelect } from "./memorized";
+import { MemoizedAdditionalSelect } from "./memorized";
 
 import Modal from "components/modal";
 import { OptionBox } from "./optionBox";
@@ -29,37 +30,31 @@ import Button from "_common/components/button";
 import Grid from "_common/components/grid";
 
 import { emoji } from "utils/constants";
+import { resumesIdAtom } from "store/atoms";
 
 const WriteResume = () => {
+  // ------------------ 1. Basic Hook, Custom Hook ------------------
+
   const queryClient = getClient();
   const { id } = useParams();
   const navigate = useNavigate();
-  // const locations = useLocation();
 
   /**
-   * @description Custom Hook
-   * 1. Resumes 서버 데이터의 상태관리를 위한 훅
-   * 2. Resumes의 apply(company, department)에 대한 상태관리
-   * 3. 자기소개서 입력 폼의 컨텐츠에 대한 커스텀 훅
-   * 4. 뒤로가기시 모달을 내려주는 훅
-   * */
-
-  /**
-   * @description Resumes 서버 데이터의 상태관리를 위한 훅입니다. Resumes의 쿼리 데이터를 useMutation하여 CRUD를 하는 훅 @param queryClient 쿼리 클라이언트 @param QueryKeys 쿼리키 @return onCreate onDelete onUpdate onPublishing
+   * @description Resumes 서버 데이터의 상태관리를 위한 Hokk입니다. Resumes의 쿼리 데이터를 useMutation하여 CRUD를 하는 훅
+   * @param queryClient 쿼리 클라이언트 @param QueryKeys 쿼리키 @return onCreate onDelete onUpdate onPublishing
    */
-  const { onUpdate, onPublish } = useResumes(queryClient, QueryKeys);
+  const { onCreate, onUpdate, onPublish } = useResumes(queryClient, QueryKeys);
 
   /**
-   * @description resumes의 apply {company, department}에 대한 상태관리 훅(Hook) @param initialState company(회사명), department(부서명)  @default company ""  @default department ""
+   * @description resumes의 apply {company, department}에 대한 상태관리 Hook입니다.
+   * @param initialState company(회사명), department(부서명)  @default company ""  @default department ""
    */
   const [applyState, dispatch, setApplyState] = useInputReducer({
     company: "",
     department: "",
   });
 
-  /**
-   * @description 자기소개서 입력 폼의 컨텐츠에 대한 커스텀 훅(Hook)
-   */
+  /** * @description 자기소개서 입력 폼의 컨텐츠에 대한 Hook입니다. */
   const { add, update, _delete, items, setItems } = useItems(
     ITEM_KEY.DOCUMENTS,
     {
@@ -70,65 +65,69 @@ const WriteResume = () => {
     }
   );
 
-  /**
-   * @description 뒤로가기시 모달을 내려주는 훅(Hook)
-   */
+  /** * @description 뒤로가기시 모달을 내려주는 훅(Hook)  */
   const { modalShow, toggleModal, cancel, handleGoBackAction } = useModal(
     { route: "/", replace: true },
     () => deleteResume(id!)
   );
 
-  /**
-   * @description 상태관리(state)
-   * 1. 그리드에 쓰이는 숫자(count) 상태관리
-   * 2. 이력서 ID 데이터 상태관리
-   * 3. 이미지 데이터 상태관리
-   * 4. 토글 상태관리
-   */
+  // ------------------ 2. 상태관리 ------------------
 
-  /**
-   * @description 그리드의 반복(grid-repeat)의 개수(count)에 대한 상태관리 @default 1
-   */
+  /** * @description Recoil 전역상태 관리로 id값을 관리합니다. @default ""*/
+  const [resumeId, setResumeId] = useRecoilState(resumesIdAtom);
+
+  /** * @description 그리드의 반복(grid-repeat)의 개수(count)에 대한 상태관리 @default 1*/
   const [count, setCount] = React.useState<number>(1);
 
-  /**
-   * @description resume의 id에 대한 상태관리 @default ""
-   */
-  const [resumeId, setResumeId] = React.useState<string>("");
-
   const [imageData, setImageData] = React.useState({});
+
+  /** * @description 이미지 데이터 상태관리 @default ""*/
   const [imageFile, setImageFile] = React.useState<any>();
+
+  /** * @description 토글 상태관리 @default false*/
   const [toggle, setToggle] = React.useState(false);
 
-  /** * @description Ref 1. 이미지 박스 input ref */
+  /** * @description 이미지 Input 박스의 Ref @default null*/
   const imageInputRef = React.useRef<HTMLInputElement>(null);
 
+  // ------------------ 3. Functions ------------------
   /**
-   * @description Functions
-   * 1. 저장 기능 함수
-   * 2. 확인 버튼 기능 함수
-   * 3. 제출 기능 함수
-   * 4. SELECT 기능 함수 - 입력폼 보여지는 개수
-   */
-
-  /**
-   * @description 임시 저장 기능의 함수입니다. Resume REST API UPDATE Request @default resumeId resume의 id  @default body 업데이트할 내용
+   * @description 임시 저장 기능입니다. resumeId가 없을 경우 POST 요청을 위한 useMutation - onCreate, 있을 경우 PUT요청을 위한 useMutation - onUpdate
    */
   const handleSave = async () => {
     /**
-     * @description useResumes의 Return 요소 중 하나로 Resumes 데이터들을 useMutation으로 캐싱 데이터를 관리하는 훅 @abstract update시에, 쿼리 무효화를 하고 reFetch를 실행
+     * @description useResumes의 Return 요소 중 하나로 Resumes 데이터들을 useMutation으로 캐싱 데이터를 관리하는 훅
+     * @description UPDATE시에, 쿼리 무효화를 하고 reFetch를 실행
      */
-    await onUpdate({
-      id: resumeId,
-      company: applyState.company,
-      department: applyState.department,
-      documents: items.documents,
-    });
+    if (resumeId) {
+      await onUpdate({
+        id: resumeId,
+        company: applyState.company,
+        department: applyState.department,
+        documents: items.documents,
+      });
+    } else {
+      /**
+       * @description useResumes의 Return 요소 중 하나로 Resumes 데이터들을 useMutation으로 캐싱 데이터를 관리하는 훅
+       * @description POST 요청시에, 쿼리 무효화를 하고 reFetch를 실행
+       */
+      await onCreate({
+        imgUrl: "",
+        apply: applyState,
+        documents: items.documents,
+        publishing: false,
+      });
+    }
   };
+
+  /**
+   * @description 확인 버튼 시, 임시 상태에서 출간 상태로 변경 기능입니다.
+   */
   const handlePublish = async () => {
     /**
      * @description Resume REST API update request @default resumeId @default body publishing의 기본값 false에서 true로 변환
      */
+    if (!resumeId) return alert("먼저 저장을 완료 하셔야합니다.");
     await onPublish({
       id: resumeId,
       publishing: true,
@@ -144,7 +143,6 @@ const WriteResume = () => {
       alert("회사명 또는 부서명은 필수 입력 사항입니다.");
       return;
     }
-
     const { ariaLabel } = e.currentTarget;
     if (ariaLabel === "save") {
       await handleSave();
@@ -153,6 +151,9 @@ const WriteResume = () => {
     }
   };
 
+  /**
+   * @description SELECT 기능입니다. - 입력폼 보여지는 개수
+   */
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCount(Number(e.target.value as string));
   };
@@ -188,22 +189,10 @@ const WriteResume = () => {
     toggleModal(true);
   };
 
-  // 브라우저에 렌더링 시 한 번만 실행하는 코드
+  // ------------------ 4. useEffect ------------------
   React.useEffect(() => {
-    (() => {
-      history.pushState(null, "", location.href);
-      window.addEventListener("popstate", preventGoBack);
-    })();
-
-    return () => {
-      window.removeEventListener("popstate", preventGoBack);
-    };
-  }, []);
-
-  React.useEffect(() => {
-    // if (id) {
+    if (!id) return setResumeId("");
     getResume(id!).then((res) => {
-      console.log(res.data);
       setResumeId(res.data?.id);
       dispatch({
         name: "department",
@@ -215,12 +204,22 @@ const WriteResume = () => {
       });
       setItems({ documents: res.data?.documents });
     });
-    // } else {
-    //   getLatestResume().then((res) => {
-    //     setResumeId(res.data[0].id);
-    //     setItems({ documents: res.data[0].documents });
-    //   });
-    // }
+  }, []);
+
+  /**
+   * @description 뒤로가기를 막고 이벤트 핸들러를 넣어주는 로직
+   */
+  React.useEffect(() => {
+    // 브라우저에 렌더링 시 한 번만 실행하는 코드
+
+    (() => {
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", preventGoBack);
+    })();
+
+    return () => {
+      window.removeEventListener("popstate", preventGoBack);
+    };
   }, []);
 
   React.useEffect(() => {

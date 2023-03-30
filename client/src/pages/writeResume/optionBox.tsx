@@ -1,16 +1,14 @@
 /** @jsxImportSource @emotion/react */
-
 import React from "react";
+import { css } from "@emotion/react";
+
 import { HiPhotograph } from "react-icons/hi";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 
 import Box from "_common/components/box";
 import Input from "_common/components/input";
 import Button from "_common/components/button";
-
 import Flex from "_common/components/flex";
-
-import { css } from "@emotion/react";
 
 /**
  * 사이드 옵션 박스 (memo)

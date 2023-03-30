@@ -9,19 +9,17 @@ import Profile from "pages/profile";
 import WriteResume from "pages/writeResume/index";
 
 import { Layout } from "components/layout";
+import Mock from "pages/mock";
+import TempResumes from "pages/tempResumes";
 
 const SignInRouter = () => {
   const url = process.env.PUBLIC_URL;
-  const home = `url(${url}/images/bg_space.jpg)`;
   // const write = `url(${url}/images/bg_0${generatorRandomCount(7)}.jpg)`;
   const interview = `url(${url}/images/bg_color.jpg)`;
   const write = `url(${url}/images/bg-mock.jpg)`;
   return (
     <>
       <Routes>
-        {/* <Route
-          element={<Layout variant="default" background={home} inHeader />}
-        > */}
         <Route element={<Layout variant="lg" header />}>
           <Route path="/" element={<Home />} />
         </Route>
@@ -45,6 +43,11 @@ const SignInRouter = () => {
           <Route path="resumes/write" element={<WriteResume />} />
           <Route path="resumes/write/:id" element={<WriteResume />} />
         </Route>
+        <Route element={<Layout variant="lg" header />}>
+          <Route path="temp/resumes" element={<TempResumes />} />
+        </Route>
+
+        <Route path="mock" element={<Mock />} />
       </Routes>
     </>
   );

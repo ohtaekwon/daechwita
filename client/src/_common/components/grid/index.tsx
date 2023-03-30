@@ -32,7 +32,7 @@ const Grid = React.forwardRef(function Grid(
     gap = 0,
     ...rest
   }: React.PropsWithChildren<Props>,
-  forwardedRef: React.Ref<HTMLElement>
+  forwardedRef: React.Ref<HTMLDivElement>
 ) {
   return (
     <Styled.Grid

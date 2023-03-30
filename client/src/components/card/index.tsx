@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
+import { css } from "@emotion/react";
 import _ from "lodash";
 import { useNavigate } from "react-router-dom";
 import { FaTrashAlt, FaHashtag } from "react-icons/fa";
@@ -17,6 +18,7 @@ import Box from "_common/components/box";
 import Button from "_common/components/button";
 import Text from "_common/components/text";
 import Flex from "_common/components/flex";
+import Input from "_common/components/input";
 
 import Modal from "components/modal";
 
@@ -28,50 +30,13 @@ import {
   getFirebaseTimeToDate,
   getFirstSecondHalf,
   getSortedArray,
-  randomButtonColor,
 } from "utils/helpers";
 import { emoji, scheduleDict } from "utils/constants";
-import Input from "_common/components/input";
-import { css } from "@emotion/react";
+import { media } from "utils/media";
 
-const scheduleCardStyle = css`
-  min-height: 200px;
-
-  @media screen and (min-width: 320px) {
-    width: 300px;
-  }
-  @media screen and (min-width: 420px) {
-    width: 400px;
-  }
-  @media screen and (min-width: 520px) {
-    width: 450px;
-  }
-  @media screen and (min-width: 620px) {
-    width: 350px;
-  }
-  @media screen and (min-width: 720px) {
-    width: 400px;
-  }
-  @media screen and (min-width: 820px) {
-    width: 200px;
-  }
-  @media screen and (min-width: 920px) {
-    width: 200px;
-  }
-  @media screen and (min-width: 1020px) {
-    width: 200px;
-  }
-  @media screen and (min-width: 1120px) {
-    width: 200px;
-  }
-  @media screen and (min-width: 1220px) {
-    width: 200px;
-  }
-  @media screen and (min-width: 1280px) {
-    width: 200px;
-  }
-`;
-
+/**
+ * @description The Card Components About 입사 지원 현황
+ */
 export const ScheduleCard = ({
   index,
   column,
@@ -183,7 +148,11 @@ export const ScheduleCard = ({
             width="100%"
             height="15%"
             justifyContent="space-between"
-            style={{ position: "absolute", top: 0, right: 0 }}
+            css={css`
+              top: 0;
+              right: 0;
+              position: absolute;
+            `}
           >
             <Button
               aria-label="delete-task"
@@ -207,13 +176,13 @@ export const ScheduleCard = ({
           <Flex
             direction="column"
             height="85%"
-            style={{
-              position: "absolute",
-              padding: "1rem",
-              bottom: 0,
-              left: 0,
-              right: 0,
-            }}
+            css={css`
+              position: absolute;
+              padding: 1rem;
+              bottom: 0;
+              left: 0;
+              right: 0;
+            `}
           >
             <Text fontWeight={700} marginTop={5} marginBottom={5}>
               {getFirstSecondHalf(firebaseDate)}
@@ -237,7 +206,47 @@ export const ScheduleCard = ({
   );
 };
 
-// The Card Components About Resume page
+const scheduleCardStyle = css`
+  min-height: 200px;
+
+  @media screen and (min-width: 320px) {
+    width: 300px;
+  }
+  @media screen and (min-width: 420px) {
+    width: 400px;
+  }
+  @media screen and (min-width: 520px) {
+    width: 450px;
+  }
+  @media screen and (min-width: 620px) {
+    width: 550px;
+  }
+  @media screen and (min-width: 720px) {
+    width: 620px;
+  }
+  @media screen and (min-width: 820px) {
+    width: 100%;
+  }
+  @media screen and (min-width: 920px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1020px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1120px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1220px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 1280px) {
+    width: 200px;
+  }
+`;
+
+/**
+ * @description The Card Components About 자기소개서
+ */
 export const ResumeCard = ({
   id,
   uid,
@@ -257,7 +266,7 @@ export const ResumeCard = ({
   const [frontToBack, setFrontToBack] = React.useState<boolean>(false);
 
   /**
-   * 모달과 관련한 상태관리
+   * @description 모달과 관련한 상태관리
    */
   const [updateModalShown, toggleUpdateModal] = React.useState(false);
   const [deleteModalShow, toggleDeleteModal] = React.useState(false);
@@ -292,28 +301,6 @@ export const ResumeCard = ({
   const handleUpdateButtonClick = () => {
     navigate(`write/${id}`);
   };
-
-  const rightPosition = css`
-    position: absolute;
-    top: 0;
-    right: 0;
-  `;
-  const imageStyle = css`
-    width: 100%;
-    height: 170px;
-    background-size: cover;
-    border-radius: 8px;
-  `;
-  const marginStyle = css`
-    margin: 0.3rem 0;
-  `;
-  // const color = React.useMemo(() => {
-  //   const newColor = randomButtonColor();
-  //   return newColor;
-  // }, []);
-  const newColor = React.useCallback(() => {
-    return randomButtonColor();
-  }, []);
 
   return (
     <>
@@ -464,12 +451,12 @@ export const ResumeCard = ({
             justifyContent="center"
             alignItems="center"
             wrap="wrap"
-            style={{
-              zIndex: 7,
-              position: "absolute",
-              margin: "auto",
-              padding: "1rem",
-            }}
+            css={css`
+              z-index: 7;
+              position: absolute;
+              margin: auto;
+              padding: 1rem;
+            `}
           >
             {tag.map((item, index) => (
               <Button
@@ -508,7 +495,10 @@ export const ResumeCard = ({
             textAlign="center"
             marginTop={50}
             marginBottom={50}
-            style={{ gridArea: "heading", height: "10px", padding: "2rem" }}
+            css={css`
+              height: 10px;
+              padding: 2rem;
+            `}
           >
             정말 삭제하시겠습니까?
           </Text>
@@ -536,25 +526,24 @@ export const ResumeCard = ({
       <Modal
         modalType="update"
         elementId="modal"
-        width="50%"
-        height="90%"
         show={updateModalShown}
         cancel={cancel}
+        css={modalStyle}
       >
         <Box
           display="flex"
           direction="column"
           padding="1rem"
           width="100%"
-          height="100%"
+          height="90vh"
         >
           <Flex
             width="100%"
             justifyContent="space-around"
-            style={{
-              borderBottom: "1px solid #000",
-              padding: "1rem 0",
-            }}
+            css={css`
+              border-bottom: 1px solid #000;
+              padding: 1rem 0;
+            `}
           >
             <Text
               fontSize="xxl"
@@ -581,7 +570,14 @@ export const ResumeCard = ({
             </Text>
           </Flex>
           {resumes.documents.map((doc, index) => (
-            <Flex key={index} direction="column" style={{ marginTop: "1rem" }}>
+            <Flex
+              key={index}
+              direction="column"
+              css={css`
+                margin: 1rem 0;
+                height: 100vh;
+              `}
+            >
               <Text
                 fontSize="xl"
                 fontWeight={700}
@@ -618,9 +614,8 @@ export const ResumeCard = ({
           ))}
           <Box
             width="100%"
-            height="auto"
+            height="100px"
             position="sticky"
-            marginTop={400}
             bottom={0}
             left={0}
             right={0}
@@ -641,3 +636,30 @@ export const ResumeCard = ({
     </>
   );
 };
+
+const rightPosition = css`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
+const imageStyle = css`
+  width: 100%;
+  height: 170px;
+  background-size: cover;
+  border-radius: 8px;
+`;
+const marginStyle = css`
+  margin: 0.3rem 0;
+`;
+
+const modalStyle = css`
+  ${media[0]} {
+    width: 90%;
+  }
+  ${media[1]} {
+    width: 70%;
+  }
+  ${media[2]} {
+    width: 50%;
+  }
+`;

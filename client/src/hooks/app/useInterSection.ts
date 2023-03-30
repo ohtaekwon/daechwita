@@ -2,7 +2,7 @@ import React from "react";
 
 /**
  * 무한스크롤 커스텀 훅
- * @default targetRef 감지해야할 ref
+ * @default targetRef 감지하고있는 목표 Ref
  */
 
 const useInterSection = (targetRef: React.RefObject<HTMLElement>) => {

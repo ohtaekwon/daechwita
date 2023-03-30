@@ -1,18 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import _ from "lodash";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { useInfiniteQuery } from "react-query";
 import { css } from "@emotion/react";
 import { v4 as uuid } from "uuid";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 import { getClient, QueryKeys } from "queryClient";
 
-import {
-  createResume,
-  getAllResumes,
-  getLatestResume,
-} from "lib/apis/api/resumes";
+import { createResume, getAllResumes } from "lib/apis/api/resumes";
 import { getResumesService } from "lib/apis/service/getResumes";
 import useInterSection from "hooks/app/useInterSection";
 import useResumes from "hooks/app/useResumes";
@@ -26,68 +22,60 @@ import Grid from "_common/components/grid";
 
 import { emoji } from "utils/constants";
 import { ResumesType } from "types/resumes";
-import { Resume } from "types/index.types";
 import { media } from "utils/media";
 
 const Resumes = () => {
   const queryClient = getClient();
   const navigate = useNavigate();
-  const location = useLocation();
-  const decodeUri = decodeURI(location?.search);
 
-  const { data, isLoading, isError, refetch } = useQuery<ResumesType[]>(
-    QueryKeys.RESUMES(),
-    () => getAllResumes().then(getResumesService)
-  );
-  /**
-   * @abstract Resumes 서버 데이터의 상태관리를 위한 훅
-   * @description Resumes의 쿼리 데이터를 useMutation하여 CRUD를 하는 훅
-   * @param queryClient 쿼리 클라이언트
-   * @param QueryKeys 쿼리키
-   * @return onCreate onDelete onUpdate onPublishing
-   */
-  const { onCreate } = useResumes(queryClient, QueryKeys);
+  /** *@description  resumes 데이터를 위한 상태관리 */
+  const [resumes, setResumes] = React.useState<ResumesType[][] | undefined>([]);
 
-  const [toggle, setToggle] = React.useState<boolean>(false); // 모달 창 open/close를 위한 상태관리
-  const fetchMoreRef = React.useRef<HTMLDivElement>(null); // 맨 밑의 무한스크롤을 감지하기 위한 DIV 태그
+  /** *@description  모달 창 open/close를 위한 상태관리 */
+  const [toggle, setToggle] = React.useState<boolean>(false);
 
-  /**
-   * @description 무한스크롤을 위한 커스텀 훅
-   * @params targetRef
-   */
+  /** *@description  맨 밑의 무한스크롤을 감지하기 위한 DIV 태그 */
+  const fetchMoreRef = React.useRef<HTMLDivElement>(null);
+
+  /** * @description 무한스크롤을 위한 커스텀 훅 @params targetRef */
   const intersecting = useInterSection(fetchMoreRef);
 
-  const handleAddClick = async () => {
-    /**
-     * @description useResumes의 Return 요소 중 하나로 Resumes 데이터들을 useMutation으로 캐싱 데이터를 관리하는 훅
-     * @abstract POST 요청시에, 쿼리 무효화를 하고 reFetch를 실행
-     */
-    // await onCreate();
-
-    const createData: any = await createResume({
-      imgUrl: "",
-      apply: {
-        company: "",
-        department: "",
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isSuccess,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery<ResumesType[]>(
+    QueryKeys.RESUMES("dd"),
+    ({ pageParam = "" }) =>
+      getAllResumes({ pageParam }).then(getResumesService),
+    {
+      getNextPageParam: (lastPage, allPage) => {
+        return lastPage.at(-1)?.id;
       },
-      documents: [
-        {
-          id: uuid(),
-          title: "",
-          text: "",
-          tag: "",
-        },
-      ],
-      publishing: false,
-    });
+    }
+  );
+  /** @description 화면 맨 마지막에 도달할 시, 다음 id값을 기준으로 데이터패칭 */
+  React.useEffect(() => {
+    if (!intersecting || !isSuccess || !hasNextPage || isFetchingNextPage) {
+      return;
+    }
+    fetchNextPage();
+  }, [intersecting]);
 
-    // const data = await getLatestResume().then((res) => res.data);
-
-    await navigate(`write/${createData.id}`, {
-      replace: true,
-      state: createData,
-    });
+  /**
+   * @description Resumes 서버 데이터의 상태관리를 위한 훅 Resumes의 쿼리 데이터를 useMutation하여 CRUD를 하는 훅
+   * @param queryClient 쿼리 클라이언트 @param QueryKeys 쿼리키 @return onCreate onDelete onUpdate onPublishing
+   */
+  const handleAddClick = async () => {
+    await navigate("write", { replace: true });
   };
+
+  /** @description onmount시 색상 */
   React.useEffect(() => {
     document.body.style.backgroundColor = "#EFF4F7";
     return () => {
@@ -95,6 +83,29 @@ const Resumes = () => {
     };
   }, []);
 
+  // console.log(queryData);
+  React.useEffect(() => {
+    if (!data?.pages) return;
+    setResumes(data?.pages);
+  }, [data?.pages]);
+
+  console.log(data);
+
+  if (error) return null;
+  if (isLoading)
+    return (
+      <Text
+        fontSize="xxxl"
+        fontWeight={700}
+        textAlign="center"
+        css={css`
+          height: 10px;
+          padding: 2rem 0;
+        `}
+      >
+        로딩중입니다.
+      </Text>
+    );
   return (
     <>
       <Text
@@ -142,38 +153,43 @@ const Resumes = () => {
               <AiOutlinePlusSquare size={100} />
             </Button>
           </Box>
-
-          {data?.map(
-            (
-              {
-                id,
-                createdAt,
-                imgUrl,
-                updatedAt,
-                uid,
-                resumes,
-                tag,
-                colors,
-              }: ResumesType,
-              index
-            ) => (
-              <Card
-                key={`${id}-${index}`}
-                id={id}
-                uid={uid}
-                imgUrl={imgUrl}
-                createdAt={createdAt}
-                updatedAt={updatedAt}
-                resumes={resumes}
-                tag={tag}
-                toggle={toggle}
-                colors={colors}
-                setToggle={setToggle}
-              />
+          {resumes?.map((page) =>
+            page.map(
+              (
+                {
+                  id,
+                  createdAt,
+                  imgUrl,
+                  updatedAt,
+                  uid,
+                  resumes,
+                  tag,
+                  colors,
+                }: ResumesType,
+                index: number
+              ) => (
+                <Card
+                  key={`${id}-${index}`}
+                  id={id}
+                  uid={uid}
+                  imgUrl={imgUrl}
+                  createdAt={createdAt}
+                  updatedAt={updatedAt}
+                  resumes={resumes}
+                  tag={tag}
+                  toggle={toggle}
+                  colors={colors}
+                  setToggle={setToggle}
+                />
+              )
             )
           )}
         </Grid>
-        {/* <div className="fetchMore" ref={fetchMoreRef}></div> */}
+        <div
+          className="fetchMore"
+          ref={fetchMoreRef}
+          css={fetchMoreStyle}
+        ></div>
       </Section>
     </>
   );
@@ -197,4 +213,11 @@ const gridStyle = css`
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
   }
+`;
+
+const fetchMoreStyle = css`
+  height: 1px;
+  padding-bottom: 1px;
+  margin-bottom: 5rem;
+  height: 100px;
 `;

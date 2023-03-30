@@ -39,7 +39,9 @@ const Chart = ({
       height="500px"
       marginTop={20}
       marginBottom={10}
-      css={boxStyle}
+      css={css`
+        padding: 1rem 0;
+      `}
     >
       {!series && (
         <Text
@@ -71,10 +73,7 @@ const Chart = ({
 };
 export default Chart;
 
-const boxStyle = css`
-  padding: 1rem 0;
-
-  @media screen and (min-width: 320px) {
+/* @media screen and (min-width: 320px) {
     width: 300px;
   }
   @media screen and (min-width: 420px) {
@@ -106,8 +105,4 @@ const boxStyle = css`
   }
   @media screen and (min-width: 1280px) {
     width: 100%;
-  }
-`;
-// mobile: "320px",
-// tablet: "768px",
-// desktop: "1280px",
+  } */
