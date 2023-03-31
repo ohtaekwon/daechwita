@@ -9,7 +9,11 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { ImTree } from "react-icons/im";
 import { FaBuilding } from "react-icons/fa";
 
-import { ResumeCardProps, ScheduleCardProps } from "./index.types";
+import {
+  ResumeCardProps,
+  ScheduleCardProps,
+  TempCardProps,
+} from "./index.types";
 import * as Styled from "./index.styles";
 
 import { getClient, QueryKeys } from "queryClient";
@@ -305,7 +309,6 @@ export const ResumeCard = ({
   return (
     <>
       <Styled.Wrapper
-        as="div"
         onMouseLeave={_.debounce(() => setFrontToBack(false), 1000)}
       >
         <Box
@@ -662,4 +665,41 @@ const modalStyle = css`
   ${media[2]} {
     width: 50%;
   }
+`;
+
+export const TempResumeCard = ({
+  id,
+  uid,
+  imgUrl,
+  createdAt,
+  updatedAt,
+  resumes,
+  tag,
+  colors,
+}: React.PropsWithChildren<TempCardProps>) => {
+  return (
+    <Styled.TempWrapper>
+      <Flex alignItems="center">
+        <Box width="300px" height="300px">
+          <img
+            src={imgUrl}
+            alt="이미지가 없습니다."
+            loading="lazy"
+            css={tempImg}
+          />
+        </Box>
+        <Text>{resumes.apply.company}</Text>
+        <Text>{resumes.apply.department}</Text>
+      </Flex>
+    </Styled.TempWrapper>
+  );
+};
+
+const tempImg = css`
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

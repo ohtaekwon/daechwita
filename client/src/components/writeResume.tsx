@@ -28,28 +28,6 @@ import Flex from "_common/components/flex";
 import { emoji } from "utils/constants";
 import { css } from "@emotion/react";
 
-const inputStyle = css`
-  border: 0;
-  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%);
-`;
-const borderStyle = css`
-  border: 0;
-`;
-
-function QueryFn<T>(id: string | undefined) {
-  if (id) {
-    console.log("useQuery");
-    return () => getResume(id!);
-  } else {
-    console.log("useQuery");
-    return () => getLatestResume();
-  }
-}
-// const { data, isLoading, isError, refetch } = useQuery(
-//   id ? QueryKeys.RESUMES(id) : QueryKeys.RESUMES(),
-//   QueryFn(id)
-// );
-
 const WriteResume = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -627,3 +605,10 @@ const FormItem = ({
     </>
   );
 };
+const inputStyle = css`
+  border: 0;
+  box-shadow: 0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%);
+`;
+const borderStyle = css`
+  border: 0;
+`;

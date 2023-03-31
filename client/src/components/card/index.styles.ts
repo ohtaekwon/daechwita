@@ -1,11 +1,17 @@
 import styled from "@emotion/styled";
-import { CardProps } from "./index.types";
 
-export const Wrapper = styled.span<Required<CardProps>>`
+export const Wrapper = styled.div`
   position: relative;
   width: 100%;
   height: 420px;
   margin: "auto";
+  cursor: pointer;
+  box-sizing: border-box;
+`;
+
+export const TempWrapper = styled.div`
+  width: 100%;
+  height: 300px;
   cursor: pointer;
   box-sizing: border-box;
 `;

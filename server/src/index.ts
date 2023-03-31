@@ -8,7 +8,17 @@ import charts from "./routes/charts";
 
 export const app = express();
 const PORT = process.env.PORT || 8000;
-app.use(express.json()); // application/json 파싱을 위해서
+app.use(
+  express.json({
+    limit: "50mb",
+  })
+); // application/json 파싱을 위해서
+app.use(
+  express.urlencoded({
+    limit: "50mb",
+    extended: false,
+  })
+);
 app.use(
   cors({
     origin: "http://localhost:3000",

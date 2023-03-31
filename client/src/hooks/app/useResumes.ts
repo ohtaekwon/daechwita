@@ -7,11 +7,7 @@ import { Resume, ResumesType } from "types/index.types";
 import { ItemList } from "./useItems";
 import { useRecoilState } from "recoil";
 import { resumesIdAtom } from "store/atoms";
-
-type QueryKeys = {
-  readonly RESUMES: (id?: string) => (string | undefined)[];
-  readonly SCHEDULES: "schedules";
-};
+import { QueryKeysType } from "queryClient";
 
 /**
  * @description Resumes 서버 데이터의 상태관리를 위한 훅
@@ -21,17 +17,17 @@ type QueryKeys = {
  * @return onCreate onDelete onUpdate onPublishing
  */
 
-function useResumes(queryClient: QueryClient, QueryKeys: QueryKeys) {
+function useResumes(queryClient: QueryClient, QueryKeys: QueryKeysType) {
   const [resumeId, setResumeId] = useRecoilState(resumesIdAtom);
 
   const { mutate: onCreate } = useMutation(
     ({
-      imgUrl,
+      imgUrl = "",
       apply,
       documents,
       publishing,
     }: {
-      imgUrl: string;
+      imgUrl?: string;
       apply: {
         company: string;
         department: string;
@@ -58,11 +54,13 @@ function useResumes(queryClient: QueryClient, QueryKeys: QueryKeys) {
   const { mutate: onUpdate } = useMutation(
     ({
       id,
+      imgUrl,
       company,
       department,
       documents,
     }: {
       id: string;
+      imgUrl?: string;
       company: string;
       department: string;
       documents: ItemList["documents"];
@@ -73,6 +71,7 @@ function useResumes(queryClient: QueryClient, QueryKeys: QueryKeys) {
        * @param body 업데이트할 내용의 body
        */
       updateResume(id, {
+        imgUrl,
         apply: {
           company,
           department,
@@ -112,33 +111,38 @@ function useResumes(queryClient: QueryClient, QueryKeys: QueryKeys) {
 
   const { mutate: onDelete } = useMutation((id: string) => deleteResume(id), {
     onMutate: async (id) => {
-      await queryClient.cancelQueries(QueryKeys.RESUMES());
-      const response = queryClient.getQueriesData(QueryKeys.RESUMES());
-      const [key, resumesData] = response[0];
+      console.log(id);
+      // await queryClient.cancelQueries(QueryKeys.RESUMES());
+      // const response = queryClient.getQueriesData(QueryKeys.RESUMES());
+      // const [key, resumesData] = response[0];
 
-      if (!resumesData) return null;
+      // if (!resumesData) return null;
 
-      const targetIndex = (resumesData as ResumesType[]).findIndex(
-        (item) => item.id === id
-      );
+      // const targetIndex = (resumesData as ResumesType[]).findIndex(
+      //   (item) => item.id === id
+      // );
 
-      if (!resumesData || targetIndex === undefined || targetIndex < 0) return;
-      const copyResumes = [...(resumesData as ResumesType[])];
-      copyResumes.splice(targetIndex, 1);
-      queryClient.setQueryData(QueryKeys.RESUMES(), copyResumes);
+      // if (!resumesData || targetIndex === undefined || targetIndex < 0) return;
+      // const copyResumes = [...(resumesData as ResumesType[])];
+      // copyResumes.splice(targetIndex, 1);
+      // queryClient.setQueryData(QueryKeys.RESUMES(), copyResumes);
     },
     onSuccess: async (updateData, variables, ctx) => {
-      const response = queryClient.getQueriesData(QueryKeys.RESUMES());
-      const [key, resumesData] = response[0];
-      if (!resumesData) return null;
+      await queryClient.invalidateQueries(QueryKeys.RESUMES(), {
+        exact: false,
+        refetchInactive: true,
+      });
+      // const response = queryClient.getQueriesData(QueryKeys.RESUMES());
+      // const [key, resumesData] = response[0];
+      // if (!resumesData) return null;
 
-      const targetIndex = (resumesData as ResumesType[]).findIndex(
-        (item) => item.id === variables
-      );
-      if (!resumesData || targetIndex === undefined || targetIndex < 0) return;
-      const copyResumes = [...(resumesData as ResumesType[])];
-      copyResumes.splice(targetIndex, 1);
-      queryClient.setQueryData(QueryKeys.RESUMES(), copyResumes);
+      // const targetIndex = (resumesData as ResumesType[]).findIndex(
+      //   (item) => item.id === variables
+      // );
+      // if (!resumesData || targetIndex === undefined || targetIndex < 0) return;
+      // const copyResumes = [...(resumesData as ResumesType[])];
+      // copyResumes.splice(targetIndex, 1);
+      // queryClient.setQueryData(QueryKeys.RESUMES(), copyResumes);
     },
   });
 

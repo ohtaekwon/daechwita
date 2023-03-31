@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";

@@ -4,9 +4,10 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { css } from "@emotion/react";
-import { v4 as uuid } from "uuid";
+import { ImCancelCircle } from "react-icons/im";
 import { getClient, QueryKeys } from "queryClient";
 import { useRecoilState } from "recoil";
+import { v4 as uuid } from "uuid";
 
 import useResumes from "hooks/app/useResumes";
 import { useInputReducer } from "hooks/app/useInputReducer";
@@ -79,9 +80,9 @@ const WriteResume = () => {
   /** * @description 그리드의 반복(grid-repeat)의 개수(count)에 대한 상태관리 @default 1*/
   const [count, setCount] = React.useState<number>(1);
 
-  const [imageData, setImageData] = React.useState({});
-
   /** * @description 이미지 데이터 상태관리 @default ""*/
+  const [fileData, setFileData] = React.useState({});
+
   const [imageFile, setImageFile] = React.useState<any>();
 
   /** * @description 토글 상태관리 @default false*/
@@ -102,6 +103,7 @@ const WriteResume = () => {
     if (resumeId) {
       await onUpdate({
         id: resumeId,
+        imgUrl: imageFile,
         company: applyState.company,
         department: applyState.department,
         documents: items.documents,
@@ -112,7 +114,7 @@ const WriteResume = () => {
        * @description POST 요청시에, 쿼리 무효화를 하고 reFetch를 실행
        */
       await onCreate({
-        imgUrl: "",
+        imgUrl: imageFile,
         apply: applyState,
         documents: items.documents,
         publishing: false,
@@ -132,7 +134,7 @@ const WriteResume = () => {
       id: resumeId,
       publishing: true,
     });
-    await alert("해당 파일을 저장하셨습니까?");
+    await alert("해당 자기소개서를 저장하셨습니까?");
     await navigate("/resumes", { replace: false });
   };
 
@@ -161,24 +163,30 @@ const WriteResume = () => {
   const handleChangeImg = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files) return;
-    const imageFile = files[0];
-    setImageData(imageFile);
+    const imgFile = files[0];
+    setFileData(imgFile);
 
     const reader = new FileReader();
+
     reader.onloadend = (finishedEvent: ProgressEvent<FileReader>) => {
       if (!finishedEvent.currentTarget) throw Error("파일을 읽지 못했습니다.");
       const { result } = finishedEvent.currentTarget as FileReader;
       setImageFile(result);
     };
-    if (Boolean(imageFile)) {
-      reader.readAsDataURL(imageFile);
+    if (Boolean(imgFile)) {
+      reader.readAsDataURL(imgFile); // 파일 읽기
     }
   };
-  const handleAttach = async (e: React.SyntheticEvent) => {
-    const formData: any = new FormData();
-    formData.append("files", imageData);
-    await postImageFile({ data: imageFile });
+  console.log(imageFile);
+
+  const handleClear = () => {
+    setImageFile("");
   };
+  // const handleAttach = async (e: React.SyntheticEvent) => {
+  //   const formData: any = new FormData();
+  //   formData.append("files", imageData);
+  //   await postImageFile({ data: imageFile });
+  // };
 
   const handleCickImageUpload = (e: React.SyntheticEvent) => {
     imageInputRef.current?.click();
@@ -203,6 +211,7 @@ const WriteResume = () => {
         value: res.data?.apply.company,
       });
       setItems({ documents: res.data?.documents });
+      setImageFile(res.data?.imgUrl);
     });
   }, []);
 
@@ -271,6 +280,7 @@ const WriteResume = () => {
               direction="column"
               justifyContent="left"
               alignItems="center"
+              position="relative"
               margin={0}
               radius={8}
               css={css`
@@ -278,20 +288,32 @@ const WriteResume = () => {
               `}
             >
               {imageFile && (
-                <img
-                  src={imageFile}
-                  css={css`
-                    width: 100%;
-                    height: 100%;
-                    background-image: ${imageFile};
-                  `}
-                />
+                <>
+                  <Button
+                    variant="default"
+                    areaLabel="publish"
+                    position="absolute"
+                    top={0}
+                    right={0}
+                    onClick={handleClear}
+                  >
+                    <ImCancelCircle size={30} color="#fff" />
+                  </Button>
+                  <img
+                    src={imageFile}
+                    css={css`
+                      width: 300px;
+                      height: 300px;
+                      background-image: ${imageFile};
+                    `}
+                  />
+                </>
               )}
               {!!!imageFile && (
                 <Box
                   onClick={handleCickImageUpload}
-                  width={"100%"}
-                  height={"100%"}
+                  width="300px"
+                  height="300px"
                   backgroundColor="transparent"
                   display="flex"
                   justifyContent="center"
@@ -305,14 +327,15 @@ const WriteResume = () => {
                 </Box>
               )}
 
-              <Button
-                onClick={handleAttach}
-                width="300px"
+              {/* <Button
+                width="150px"
                 variant="skyblue_100"
                 areaLabel="publish"
+
+                // onClick={handleAttach}
               >
-                이미지 확인
-              </Button>
+                확인
+              </Button> */}
             </Box>
             {/* additionalSelect (회사/부서명) 추가 선택 컴포넌트*/}
             <MemoizedAdditionalSelect

@@ -19,7 +19,7 @@ export const getResumesService = (rowData: { data: ResumesType[] }) => {
       return {
         id,
         uid,
-        imgUrl: imgUrl || process.env.PUBLIC_URL + "images/resume_alt_01.jpg",
+        imgUrl: imgUrl || `${process.env.PUBLIC_URL}/images/resume_alt_01.jpg`,
         resumes: {
           apply,
           documents,
@@ -40,12 +40,11 @@ export const getResumesService = (rowData: { data: ResumesType[] }) => {
 /**
  * GET Resumes 데이터 정제
  * @param rowData getResume를 통해 반환된 Promise 값을 정제
- * publishing이 True인 것만 반환하도록 한다.
+ * publishing이 False인 것만 반환하도록 한다.
  */
-export const getOnlyPublishedResumesService = (rowData: {
-  data: ResumesType[];
-}) => {
-  const newData = rowData.data.filter((item) => item.publishing) || [];
+export const getTempResumesService = (rowData: { data: ResumesType[] }) => {
+  const newData =
+    rowData.data.filter((item) => item.publishing === false) || [];
   return newData.map(
     ({
       id,
@@ -60,7 +59,7 @@ export const getOnlyPublishedResumesService = (rowData: {
       return {
         id,
         uid,
-        imgUrl: imgUrl || process.env.PUBLIC_URL + "images/resume_alt_01.jpg",
+        imgUrl: imgUrl || `${process.env.PUBLIC_URL}/images/noimg.jpg`,
         resumes: {
           apply,
           documents,
@@ -72,6 +71,7 @@ export const getOnlyPublishedResumesService = (rowData: {
             item.tag !== "태그를 입력해주세요." ? item.tag : undefined
           ),
         ],
+        colors: [...documents.map((item) => randomButtonColor())],
       };
     }
   );

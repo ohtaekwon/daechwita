@@ -2,12 +2,11 @@ import React from "react";
 import { css } from "@emotion/react";
 
 import ApexChart from "react-apexcharts";
-import { allOptions, donutOptions } from "./index.options";
+import { allOptions } from "./index.options";
 import { Props, SubOption } from "./index.types";
 
 import Box from "_common/components/box";
 import Text from "_common/components/text";
-import { media } from "utils/media";
 
 const Chart = ({
   type,
@@ -72,37 +71,3 @@ const Chart = ({
   );
 };
 export default Chart;
-
-/* @media screen and (min-width: 320px) {
-    width: 300px;
-  }
-  @media screen and (min-width: 420px) {
-    width: 400px;
-  }
-  @media screen and (min-width: 520px) {
-    width: 500px;
-  }
-  @media screen and (min-width: 620px) {
-    width: 600px;
-  }
-  @media screen and (min-width: 720px) {
-    width: 700px;
-  }
-  @media screen and (min-width: 820px) {
-    width: 800px;
-  }
-  @media screen and (min-width: 920px) {
-    width: 900px;
-  }
-  @media screen and (min-width: 1020px) {
-    width: 1000px;
-  }
-  @media screen and (min-width: 1120px) {
-    width: 1100px;
-  }
-  @media screen and (min-width: 1220px) {
-    width: 1200px;
-  }
-  @media screen and (min-width: 1280px) {
-    width: 100%;
-  } */

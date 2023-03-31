@@ -1,3 +1,4 @@
+import { getClient, QueryKeys } from "queryClient";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "./firebase.config";
@@ -15,6 +16,7 @@ type User = {
 const useUser = () => {
   const [user, setUser] = React.useState<User>();
   const navigate = useNavigate();
+  const queryClient = getClient();
 
   // 로그아웃할 경우 쿠키값 제거하는 함수
   // 쿠키값이 제거시, app파일에 설정한대로, Auth 페이지로 자동 이동하며,
@@ -22,6 +24,7 @@ const useUser = () => {
     try {
       await authService.signOut();
       removeUserCookie();
+      await queryClient.clear();
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -43,8 +46,7 @@ const useUser = () => {
     const userFromCookie = getUserFromCookie();
     setUser(userFromCookie);
 
-    // clean-up
-    // componentWillUnmount
+    // clean-up componentWillUnmount
     return () => {
       cancelAuthListener();
     };

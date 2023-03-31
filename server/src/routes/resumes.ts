@@ -1,8 +1,8 @@
 import * as express from "express";
-import { v4 as uuid } from "uuid";
 import multer from "multer";
+import { v4 as uuid } from "uuid";
 
-import { dbService } from "../firebase";
+import { dbService, storageService } from "../firebase";
 import {
   addDoc,
   collection,
@@ -21,6 +21,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 const PAGE_SIZE = 15;
 const upload = multer();
@@ -29,6 +30,7 @@ const upload = multer();
  * POST MAN에서 사용시 Header에 token값으로 인증 사용
  * 그 외는 캐시 데이터의 uid로 인증 사용
  */
+
 const resumesRoute = [
   // GET RESUMES
   {
@@ -133,6 +135,7 @@ const resumesRoute = [
 
     handler: async (req: express.Request, res: express.Response) => {
       const { body } = req;
+      let newResume;
       try {
         // 쿠키에서 uid 가져오
         // const cookie = req.headers.cookie;
@@ -143,12 +146,24 @@ const resumesRoute = [
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
         if (!body) throw Error("요청 정보에 body 정보가 없습니다.");
 
-        const newResume = {
-          ...body,
-          uid,
-          createdAt: serverTimestamp(),
-          updatedAt: null,
-        };
+        if (body.imgUrL) {
+          const fileRef = ref(storageService, `${uid}/${uuid()}`);
+          const response = await uploadString(fileRef, body.imgUrl, "data_url"); // (  파일 ref , 보낼 파일 데이터 , 포맷)
+          const photoUrl = await getDownloadURL(response.ref);
+          newResume = {
+            ...body,
+            imgUrl: photoUrl,
+            createdAt: serverTimestamp(),
+            updatedAt: null,
+          };
+        } else {
+          newResume = {
+            ...body,
+            uid,
+            createdAt: serverTimestamp(),
+            updatedAt: null,
+          };
+        }
 
         const addResume = await addDoc(
           collection(dbService, "resumes"),
@@ -178,6 +193,7 @@ const resumesRoute = [
         headers,
       } = req;
       try {
+        let newData;
         // 쿠키에서 uid 가져오기
         // const cookie = req.headers.cookie;
         // const uid = cookie?.split("%22")[3];
@@ -191,27 +207,41 @@ const resumesRoute = [
         const resumesRef = doc(dbService, "resumes", id);
         if (!resumesRef) throw Error("해당 id의 자기소개서가 없습니다.");
 
-        await updateDoc(resumesRef, {
-          /**
-           * 기존 상태 유지 body 요소
-           *
-           * uid : 유저 고유의 데이터로 고정
-           * createdAt : 처음 만들어진 후 고정
-           *
-           * 업데이트로 변경될 body 요소
-           *
-           * apply : { company, department}
-           * documents : [ {id, text, tag, title}]
-           * publishing: true (출간 시) / false (기본)
-           *
-           *
-           * updatedAt : 업데이트될 때마다 변경
-           */
+        if (body.imgUrL) {
+          const fileRef = ref(storageService, `${uid}/${uuid()}`);
+          const response = await uploadString(fileRef, body.imgUrl, "data_url"); // (  파일 ref , 보낼 파일 데이터 , 포맷)
+          const photoUrl = await getDownloadURL(response.ref);
+          newData = {
+            ...body,
+            imgUrL: photoUrl,
+            uid,
+            updatedAt: serverTimestamp(),
+          };
+        } else {
+          newData = {
+            ...body,
+            uid,
+            updatedAt: serverTimestamp(),
+          };
+        }
 
-          ...body,
-          uid,
-          updatedAt: serverTimestamp(),
-        });
+        /**
+         * 기존 상태 유지 body 요소
+         *
+         * uid : 유저 고유의 데이터로 고정
+         * createdAt : 처음 만들어진 후 고정
+         *
+         * 업데이트로 변경될 body 요소
+         *
+         * apply : { company, department}
+         * documents : [ {id, text, tag, title}]
+         * publishing: true (출간 시) / false (기본)
+         *
+         *
+         * updatedAt : 업데이트될 때마다 변경
+         */
+
+        await updateDoc(resumesRef, newData);
 
         const snapShot = await getDoc(resumesRef);
         res.send({

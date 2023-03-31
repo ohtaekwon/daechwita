@@ -4,14 +4,12 @@ import _ from "lodash";
 import { useNavigate } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";
 import { css } from "@emotion/react";
-import { v4 as uuid } from "uuid";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 import { getClient, QueryKeys } from "queryClient";
 
-import { createResume, getAllResumes } from "lib/apis/api/resumes";
+import { getAllResumes } from "lib/apis/api/resumes";
 import { getResumesService } from "lib/apis/service/getResumes";
 import useInterSection from "hooks/app/useInterSection";
-import useResumes from "hooks/app/useResumes";
 
 import Section from "components/section";
 import { ResumeCard as Card } from "components/card";
@@ -21,8 +19,10 @@ import Box from "_common/components/box";
 import Grid from "_common/components/grid";
 
 import { emoji } from "utils/constants";
-import { ResumesType } from "types/resumes";
 import { media } from "utils/media";
+
+import { ResumesType } from "types/resumes";
+import { theme } from "styles";
 
 const Resumes = () => {
   const queryClient = getClient();
@@ -50,7 +50,7 @@ const Resumes = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery<ResumesType[]>(
-    QueryKeys.RESUMES("dd"),
+    QueryKeys.RESUMES(),
     ({ pageParam = "" }) =>
       getAllResumes({ pageParam }).then(getResumesService),
     {
@@ -75,11 +75,11 @@ const Resumes = () => {
     await navigate("write", { replace: true });
   };
 
-  /** @description onmount시 색상 */
+  /** @description mount시 색상 */
   React.useEffect(() => {
-    document.body.style.backgroundColor = "#EFF4F7";
+    document.body.style.backgroundColor = theme.colors.lightBlue_50;
     return () => {
-      document.body.style.backgroundColor = "transparent";
+      document.body.style.backgroundColor = theme.colors.transparent;
     };
   }, []);
 

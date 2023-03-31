@@ -18,6 +18,7 @@ import { ColumnType } from "types/schedule";
 
 import { emoji, scheduleChartDict } from "utils/constants";
 import { media } from "utils/media";
+import { theme } from "styles";
 
 const Home = () => {
   const { user } = useUser();
@@ -34,11 +35,11 @@ const Home = () => {
 
   // 전체 데이터
   const { data: totalSchedules } = useQuery(
-    QueryKeys.TOTAL_CHART_SCHEDULES(user?.uid),
+    QueryKeys.TOTAL_CHART_SCHEDULES(),
     () => getTotalChartData("schedules")
   );
   const { data: totalChartResumes } = useQuery(
-    QueryKeys.TOTAL_CHART_RESUMES(user?.uid),
+    QueryKeys.TOTAL_CHART_RESUMES(),
     () => getTotalChartData("resumes"),
     {
       // refetchOnMount: "always",
@@ -48,7 +49,7 @@ const Home = () => {
 
   // 마이 데이터
   const { data: userChartSchedules } = useQuery(
-    QueryKeys.USER_CHART_SCHEDULES(user?.uid),
+    QueryKeys.USER_CHART_SCHEDULES(),
     () => getUserChartData("schedules"),
     {
       // refetchOnMount: "always",
@@ -57,7 +58,7 @@ const Home = () => {
   );
 
   const { data: userChartAllResumesIsPub } = useQuery(
-    QueryKeys.USER_CHART_ALL_RESUMES(`${user?.uid}, isPublishing`),
+    QueryKeys.USER_CHART_RESUMES(),
     () => getUserChartData("resumes", true),
     {
       // refetchOnMount: "always",
@@ -268,9 +269,9 @@ const Home = () => {
   }, [userChartAllResumesIsNotPub]);
 
   React.useEffect(() => {
-    document.body.style.backgroundColor = "#EFF4F7";
+    document.body.style.backgroundColor = theme.colors.lightBlue_50;
     return () => {
-      document.body.style.backgroundColor = "transparent";
+      document.body.style.backgroundColor = theme.colors.transparent;
     };
   }, []);
 

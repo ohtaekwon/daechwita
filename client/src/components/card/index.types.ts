@@ -3,16 +3,7 @@ import { ColumnType, Schedule, TimeType } from "types/schedule";
 import { OnDelete, OnSwap, OnUpdate } from "hooks/dnd/useColumn";
 import { color } from "utils/helpers";
 
-export interface CardProps {
-  /**
-   * 엘리먼트의 타입을 설정합니다.
-   * @default div
-   */
-  as?: ElementType;
-}
-export interface ScheduleCardProps
-  extends HTMLAttributes<HTMLDivElement>,
-    CardProps {
+export interface ScheduleCardProps extends HTMLAttributes<HTMLDivElement> {
   index: number;
   column: ColumnType;
   data: Schedule;
@@ -21,12 +12,7 @@ export interface ScheduleCardProps
   onSwap: OnSwap;
 }
 
-export interface ResumeCardProps
-  extends HTMLAttributes<HTMLDivElement>,
-    CardProps {
-  /**
-   * Card Item의 내부 컨텐츠의 모델의 타입을 설정합니다.
-   */
+export interface CommonCard extends HTMLAttributes<HTMLDivElement> {
   id: string;
   imgUrl: string;
   createdAt: TimeType;
@@ -46,6 +32,11 @@ export interface ResumeCardProps
   };
   tag: (string | undefined)[];
   colors: color[];
+}
+
+export interface ResumeCardProps extends CommonCard {
   toggle: boolean;
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface TempCardProps extends CommonCard {}

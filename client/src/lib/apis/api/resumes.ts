@@ -13,8 +13,8 @@ export const basePath = "/resumes";
 export const resumeApiRoutes = {
   getResumeByResumeId: (resumeId: string) => `${basePath}/${resumeId}`,
   getLatestResumeByQuery: () => `${basePath}?latest=true`,
-  getPublishedResume: (pageParam = "") =>
-    `${basePath}?publishing=true&page=${pageParam}`,
+  getPublishedResume: (publishing = true, pageParam = "") =>
+    `${basePath}?publishing=${publishing}&page=${pageParam}`,
   updateResumeByResumeId: (resumeId: string) => `${basePath}/${resumeId}`,
   deleteResumeByResumeId: (resumeId: string) => `${basePath}/${resumeId}`,
 };
@@ -58,9 +58,9 @@ export const getLatestResume = async () => {
 /**
  * GET All resumes
  */
-export const getAllResumes = async ({ pageParam = "" }) => {
+export const getAllResumes = async ({ publishing = true, pageParam = "" }) => {
   try {
-    const apiRoute = resumeApiRoutes.getPublishedResume(pageParam);
+    const apiRoute = resumeApiRoutes.getPublishedResume(publishing, pageParam);
     console.info(`자기소개서 전부를 가져오는 중 입니다...`);
     const { data } = await requestGet(apiRoute);
     console.info(`자기소개서가 성공적으로 반환되었습니다!`);

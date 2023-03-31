@@ -23,7 +23,7 @@ import { AxiosResponse } from "axios";
  * @param queryKey 쿼리 키 - schedules
  * @param column 컬럼명 - first / second / third / final
  */
-function useColumn(queryKey: QueryKeysType, column: ColumnType) {
+function useColumn(queryKey: QueryKeysType["SCHEDULES"], column: ColumnType) {
   const queryClient = getClient();
 
   /**
@@ -71,13 +71,13 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
           addData! as OriginScheduleType;
 
         if (!addData) {
-          await queryClient.invalidateQueries(queryKey, {
+          await queryClient.invalidateQueries(queryKey(), {
             exact: false,
             refetchInactive: true,
           });
         }
-        await queryClient.cancelQueries(queryKey);
-        const response = queryClient.getQueriesData(queryKey) || {};
+        await queryClient.cancelQueries(queryKey());
+        const response = queryClient.getQueriesData(queryKey()) || {};
         const [key, schedulesData] = response[0];
 
         if (!schedulesData) return null;
@@ -95,7 +95,7 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
           ...copySchedules,
           [column]: copySchedules[column].sort((a, b) => b.index - a.index),
         };
-        queryClient.setQueryData(queryKey, copySchedules);
+        queryClient.setQueryData(queryKey(), copySchedules);
       },
     }
   );
@@ -153,8 +153,8 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
           index,
           createdAt,
         } = mutatedData;
-        await queryClient.cancelQueries(queryKey);
-        const response = queryClient.getQueriesData(queryKey) || {};
+        await queryClient.cancelQueries(queryKey());
+        const response = queryClient.getQueriesData(queryKey()) || {};
         const [key, schedulesData] = response[0];
 
         if (!schedulesData) return null;
@@ -174,13 +174,13 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
           department,
           index,
         });
-        queryClient.setQueryData(queryKey, copySchedules);
+        queryClient.setQueryData(queryKey(), copySchedules);
       },
       onSuccess: async (updateData, variables, ctx) => {
         const { column: newColumn, company, department, id, index } = variables;
 
-        await queryClient.cancelQueries(queryKey);
-        const response = queryClient.getQueriesData(queryKey) || {};
+        await queryClient.cancelQueries(queryKey());
+        const response = queryClient.getQueriesData(queryKey()) || {};
         const [key, schedulesData] = response[0];
 
         if (!schedulesData) return null;
@@ -198,7 +198,7 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
           department,
           index,
         });
-        queryClient.setQueryData(queryKey, copySchedules);
+        queryClient.setQueryData(queryKey(), copySchedules);
       },
     }
   );
@@ -211,8 +211,8 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
     (id: string) => deleteSchedules(id),
     {
       onMutate: async (id) => {
-        await queryClient.cancelQueries(queryKey);
-        const response = queryClient.getQueriesData(queryKey) || {
+        await queryClient.cancelQueries(queryKey());
+        const response = queryClient.getQueriesData(queryKey()) || {
           data: [],
         };
         const [key, schedulesData] = response[0];
@@ -228,10 +228,10 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
 
         const copySchedules = { ...schedulesData };
         (copySchedules as SchedulesType)[column].splice(targetIndex, 1);
-        queryClient.setQueryData(queryKey, copySchedules);
+        queryClient.setQueryData(queryKey(), copySchedules);
       },
       onSuccess: async (updateData, variables, ctx) => {
-        const response = queryClient.getQueriesData(queryKey) || {
+        const response = queryClient.getQueriesData(queryKey()) || {
           data: [],
         };
         const [key, schedulesData] = response[0];
@@ -246,7 +246,7 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
         const copySchedules = { ...newData };
         copySchedules[column].splice(targetIndex, 1);
 
-        queryClient.setQueryData(queryKey, { copySchedules });
+        queryClient.setQueryData(queryKey(), { copySchedules });
       },
     }
   );
@@ -260,7 +260,7 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
       }),
     {
       onMutate: async () => {
-        queryClient.invalidateQueries(queryKey, {
+        queryClient.invalidateQueries(queryKey(), {
           exact: false,
           refetchInactive: true,
         });
@@ -291,7 +291,7 @@ function useColumn(queryKey: QueryKeysType, column: ColumnType) {
     {
       onMutate: async () => {
         await throttle(() => console.log("대기", 1500));
-        queryClient.invalidateQueries(queryKey, {
+        queryClient.invalidateQueries(queryKey(), {
           exact: false,
           refetchInactive: true,
         });

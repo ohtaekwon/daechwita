@@ -18,7 +18,7 @@ import { media } from "utils/media";
 
 const Schedules = () => {
   const { data, isLoading, isError } = useQuery<SchedulesType>(
-    QueryKeys.SCHEDULES,
+    QueryKeys.SCHEDULES(),
     () => getAllSchedules().then(getSchedulesList)
   );
 
