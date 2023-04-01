@@ -2,13 +2,27 @@ import React from "react";
 import AdditionalSelect from "./additionalSelect";
 import FormItem, { TagInput, TextWrite, TitleInput } from "./resumesForm";
 import { OptionBox } from "./optionBox";
+import ImageBox from "./imageBox";
 
 /**
  * @description memo 파일입니다. 무분별한 리랜더링을 제어하기 위한 기능입니다.
  *
+ * 이미지 박스
  * 회사 / 부서명 입력폼
  * 태그 / 제목 / 텍스트 입력폼
  */
+
+const AdditionalImagePropsAreEqual = (
+  prevAdditionalProps: { imageFile: any },
+  nextAdditionalProps: { imageFile: any }
+) => {
+  return prevAdditionalProps.imageFile === nextAdditionalProps.imageFile;
+};
+
+export const MemoizedImageBox = React.memo(
+  ImageBox,
+  AdditionalImagePropsAreEqual
+);
 
 /**
  * 회사 / 부서 선택 Input

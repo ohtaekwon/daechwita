@@ -21,7 +21,12 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadString,
+} from "firebase/storage";
 
 const PAGE_SIZE = 15;
 const upload = multer();
@@ -208,6 +213,15 @@ const resumesRoute = [
         if (!resumesRef) throw Error("해당 id의 자기소개서가 없습니다.");
 
         if (body.imgUrL) {
+          // body에 이미지 URL이 있을 경우
+          const firstSnapshot = await getDoc(resumesRef);
+          if (firstSnapshot.data()?.imgUrL) {
+            // 기존에 이미지가 있는 확인 후, 있으면 스토리지에서 삭제
+            await deleteObject(
+              ref(storageService, firstSnapshot.data()?.imgUrL)
+            );
+          }
+          // 삭제 후, 다시 업로드 후 변경된 이미지 URL을 업데이트 한다.
           const fileRef = ref(storageService, `${uid}/${uuid()}`);
           const response = await uploadString(fileRef, body.imgUrl, "data_url"); // (  파일 ref , 보낼 파일 데이터 , 포맷)
           const photoUrl = await getDownloadURL(response.ref);
@@ -276,6 +290,12 @@ const resumesRoute = [
 
         const resumesRef = doc(dbService, "resumes", id);
         if (!resumesRef) throw Error("해당 id의 자기소개서가 없습니다.");
+
+        const snapshot = await getDoc(resumesRef);
+        if (snapshot.data()?.imgUrL) {
+          // 삭제할 데이터에 이미지가 있을 경우 스토리지에서 삭제를 유도
+          await deleteObject(ref(storageService, snapshot.data()?.imgUrL));
+        }
 
         await deleteDoc(resumesRef).then(() => {
           console.log("성공적으로 삭제가 완료되었습니다.");

@@ -75,7 +75,7 @@ const Resumes = () => {
     await navigate("write", { replace: true });
   };
 
-  /** @description mount시 색상 */
+  /** @description mount시 배경색 색상 변경 */
   React.useEffect(() => {
     document.body.style.backgroundColor = theme.colors.lightBlue_50;
     return () => {

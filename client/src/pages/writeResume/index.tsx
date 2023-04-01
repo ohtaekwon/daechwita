@@ -5,6 +5,8 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { css } from "@emotion/react";
 import { ImCancelCircle } from "react-icons/im";
+import { AiOutlinePlusSquare } from "react-icons/ai";
+
 import { getClient, QueryKeys } from "queryClient";
 import { useRecoilState } from "recoil";
 import { v4 as uuid } from "uuid";
@@ -15,9 +17,7 @@ import useItems, { ITEM_KEY } from "hooks/app/useItems";
 import useModal from "hooks/app/useGoBack";
 
 import { deleteResume, getResume } from "lib/apis/api/resumes";
-import { postImageFile } from "lib/apis/api/formData";
-
-import { MemoizedAdditionalSelect } from "./memorized";
+import { MemoizedAdditionalSelect, MemoizedImageBox } from "./memorized";
 
 import Modal from "components/modal";
 import { OptionBox } from "./optionBox";
@@ -32,13 +32,14 @@ import Grid from "_common/components/grid";
 
 import { emoji } from "utils/constants";
 import { resumesIdAtom } from "store/atoms";
+import { media } from "utils/media";
 
 const WriteResume = () => {
-  // ------------------ 1. Basic Hook, Custom Hook ------------------
-
   const queryClient = getClient();
   const { id } = useParams();
   const navigate = useNavigate();
+
+  // ------------------ 1. Custom Hook ------------------
 
   /**
    * @description Resumes 서버 데이터의 상태관리를 위한 Hokk입니다. Resumes의 쿼리 데이터를 useMutation하여 CRUD를 하는 훅
@@ -58,52 +59,103 @@ const WriteResume = () => {
   /** * @description 자기소개서 입력 폼의 컨텐츠에 대한 Hook입니다. */
   const { add, update, _delete, items, setItems } = useItems(
     ITEM_KEY.DOCUMENTS,
-    {
-      id: uuid(),
-      text: "",
-      title: "",
-      tag: "",
-    }
+    { id: uuid(), text: "", title: "", tag: "" }
   );
 
   /** * @description 뒤로가기시 모달을 내려주는 훅(Hook)  */
-  const { modalShow, toggleModal, cancel, handleGoBackAction } = useModal(
-    { route: "/", replace: true },
-    () => deleteResume(id!)
-  );
+  const { modalShow, toggleModal, cancel, handleGoBackAction } = useModal({
+    route: "/",
+    replace: true,
+  });
 
   // ------------------ 2. 상태관리 ------------------
 
-  /** * @description Recoil 전역상태 관리로 id값을 관리합니다. @default ""*/
+  /** * @description Recoil 전역상태 관리로 id값을 관리합니다. @default "" */
   const [resumeId, setResumeId] = useRecoilState(resumesIdAtom);
 
-  /** * @description 그리드의 반복(grid-repeat)의 개수(count)에 대한 상태관리 @default 1*/
+  /** * @description 그리드의 반복(grid-repeat)의 개수(count)에 대한 상태관리 @default 1 */
   const [count, setCount] = React.useState<number>(1);
 
-  /** * @description 이미지 데이터 상태관리 @default ""*/
-  const [fileData, setFileData] = React.useState({});
-
-  const [imageFile, setImageFile] = React.useState<any>();
+  /** * @description 이미지 데이터 상태관리 @default "" */
+  const [imageFile, setImageFile] = React.useState<any>("");
 
   /** * @description 토글 상태관리 @default false*/
   const [toggle, setToggle] = React.useState(false);
 
-  /** * @description 이미지 Input 박스의 Ref @default null*/
+  const [toolToggle, setToolToggle] = React.useState(false);
+
+  /** * @description 이미지 Input 박스의 Ref @default null */
   const imageInputRef = React.useRef<HTMLInputElement>(null);
 
   // ------------------ 3. Functions ------------------
-  /**
-   * @description 임시 저장 기능입니다. resumeId가 없을 경우 POST 요청을 위한 useMutation - onCreate, 있을 경우 PUT요청을 위한 useMutation - onUpdate
-   */
+
+  /** * @description SELECT 기능. - 입력폼 보여지는 개수 */
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCount(Number(e.target.value as string));
+  };
+
+  /** * @description Image onChange기능 */
+  const handleChangeImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { files },
+    } = e;
+    const imgFile = files![0];
+    setToggle(true);
+
+    if (files![0].size > 1 * 1024 * 1024) {
+      // 1mb로 사이즈 제한
+      alert("이미지 파일 용량이 너무 큽니다.");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onloadend = (finishedEvent: ProgressEvent<FileReader>) => {
+      if (!finishedEvent.currentTarget) throw Error("파일을 읽지 못했습니다.");
+      const { result } = finishedEvent.currentTarget as FileReader;
+      setImageFile(result);
+    };
+
+    if (Boolean(imgFile)) {
+      reader.readAsDataURL(imgFile); // 파일 읽기
+    }
+  };
+
+  /** * @description 이미지를 삭제하는 기능 */
+  const handleClear = () => setImageFile(null);
+
+  /** * @description 이미지를 업로드 창을 불러오는 기능 */
+  const handleClickImageUpload = () => {
+    imageInputRef.current?.click();
+  };
+
+  /** * @description 뒤로가기시에 발생하는 이벤트 기능 */
+  const preventGoBack = () => {
+    history.pushState(null, "", location.href);
+    toggleModal(true);
+  };
+
+  /** * @description 임시 저장 기능입니다. */
+  /** * @description  resumeId가 없을 경우 POST 요청을 위한 useMutation - onCreate */
+  /** * @description  있을 경우 PUT요청을 위한 useMutation - onUpdate */
   const handleSave = async () => {
     /**
      * @description useResumes의 Return 요소 중 하나로 Resumes 데이터들을 useMutation으로 캐싱 데이터를 관리하는 훅
      * @description UPDATE시에, 쿼리 무효화를 하고 reFetch를 실행
      */
-    if (resumeId) {
+    if (resumeId && toggle) {
+      // 이미지를 변경했을 경우
       await onUpdate({
         id: resumeId,
         imgUrl: imageFile,
+        company: applyState.company,
+        department: applyState.department,
+        documents: items.documents,
+      });
+    } else if (resumeId && !toggle) {
+      // 이미지는 변경하지 않고 내용만 변경했을 경우 이미지 URL은 보내지 않음음
+      await onUpdate({
+        id: resumeId,
         company: applyState.company,
         department: applyState.department,
         documents: items.documents,
@@ -122,12 +174,11 @@ const WriteResume = () => {
     }
   };
 
-  /**
-   * @description 확인 버튼 시, 임시 상태에서 출간 상태로 변경 기능입니다.
-   */
+  /** * @description 확인 버튼 시, 임시 상태에서 출간 상태로 변경 기능입니다.  */
   const handlePublish = async () => {
     /**
-     * @description Resume REST API update request @default resumeId @default body publishing의 기본값 false에서 true로 변환
+     * @description Resume REST API update request
+     * @default resumeId @default body publishing의 기본값 false에서 true로 변환
      */
     if (!resumeId) return alert("먼저 저장을 완료 하셔야합니다.");
     await onPublish({
@@ -153,51 +204,11 @@ const WriteResume = () => {
     }
   };
 
-  /**
-   * @description SELECT 기능입니다. - 입력폼 보여지는 개수
-   */
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCount(Number(e.target.value as string));
-  };
+  // ------------------ 4. component mount / unMount ------------------
 
-  const handleChangeImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    if (!files) return;
-    const imgFile = files[0];
-    setFileData(imgFile);
-
-    const reader = new FileReader();
-
-    reader.onloadend = (finishedEvent: ProgressEvent<FileReader>) => {
-      if (!finishedEvent.currentTarget) throw Error("파일을 읽지 못했습니다.");
-      const { result } = finishedEvent.currentTarget as FileReader;
-      setImageFile(result);
-    };
-    if (Boolean(imgFile)) {
-      reader.readAsDataURL(imgFile); // 파일 읽기
-    }
-  };
-  console.log(imageFile);
-
-  const handleClear = () => {
-    setImageFile("");
-  };
-  // const handleAttach = async (e: React.SyntheticEvent) => {
-  //   const formData: any = new FormData();
-  //   formData.append("files", imageData);
-  //   await postImageFile({ data: imageFile });
-  // };
-
-  const handleCickImageUpload = (e: React.SyntheticEvent) => {
-    imageInputRef.current?.click();
-  };
-
-  const preventGoBack = () => {
-    history.pushState(null, "", location.href);
-    toggleModal(true);
-  };
-
-  // ------------------ 4. useEffect ------------------
+  /** * @description mount시 url에 param이 있을 떄, 없을 때 구분하여 request  */
+  /** * @description 없을 경우, id값 전역상태를 default로 설정  */
+  /** * @description 있을 경우, 해당 param의 데이터를 가져온다.  */
   React.useEffect(() => {
     if (!id) return setResumeId("");
     getResume(id!).then((res) => {
@@ -215,9 +226,7 @@ const WriteResume = () => {
     });
   }, []);
 
-  /**
-   * @description 뒤로가기를 막고 이벤트 핸들러를 넣어주는 로직
-   */
+  /** * @description 뒤로가기를 막고 이벤트 핸들러를 넣어주는 로직  */
   React.useEffect(() => {
     // 브라우저에 렌더링 시 한 번만 실행하는 코드
 
@@ -231,6 +240,7 @@ const WriteResume = () => {
     };
   }, []);
 
+  /** *@description mount시 색상 배경 이미지 변경 */
   React.useEffect(() => {
     document.body.style.backgroundImage =
       "linear-gradient(to right, #5f72bd 0%, #9b23ea 100%";
@@ -244,6 +254,7 @@ const WriteResume = () => {
       <Flex
         css={css`
           margin: auto;
+          padding: 2px;
           width: 100%;
           background-color: transparent;
         `}
@@ -272,71 +283,13 @@ const WriteResume = () => {
             나의 자기소개서 {emoji.WRITE}
           </Text>
 
-          <Flex>
-            <Box
-              width="300px"
-              height="300px"
-              display="flex"
-              direction="column"
-              justifyContent="left"
-              alignItems="center"
-              position="relative"
-              margin={0}
-              radius={8}
-              css={css`
-                box-sizing: border-box;
-              `}
-            >
-              {imageFile && (
-                <>
-                  <Button
-                    variant="default"
-                    areaLabel="publish"
-                    position="absolute"
-                    top={0}
-                    right={0}
-                    onClick={handleClear}
-                  >
-                    <ImCancelCircle size={30} color="#fff" />
-                  </Button>
-                  <img
-                    src={imageFile}
-                    css={css`
-                      width: 300px;
-                      height: 300px;
-                      background-image: ${imageFile};
-                    `}
-                  />
-                </>
-              )}
-              {!!!imageFile && (
-                <Box
-                  onClick={handleCickImageUpload}
-                  width="300px"
-                  height="300px"
-                  backgroundColor="transparent"
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                  css={css`
-                    border: 3px solid #f8fafc;
-                    cursor: pointer;
-                  `}
-                >
-                  <Text color="white"> 기업의 로고 사진을 첨부해주세요</Text>
-                </Box>
-              )}
-
-              {/* <Button
-                width="150px"
-                variant="skyblue_100"
-                areaLabel="publish"
-
-                // onClick={handleAttach}
-              >
-                확인
-              </Button> */}
-            </Box>
+          <Flex css={flexStyle}>
+            {/* 이미지 선택 컴포넌트 */}
+            <MemoizedImageBox
+              imageFile={imageFile}
+              onClear={handleClear}
+              onImageUpload={handleClickImageUpload}
+            />
             {/* additionalSelect (회사/부서명) 추가 선택 컴포넌트*/}
             <MemoizedAdditionalSelect
               company={applyState.company}
@@ -361,12 +314,106 @@ const WriteResume = () => {
           toggle={toggle}
           handleSubmit={handleSubmit}
           handleSelect={handleSelect}
-          handleCickImageUpload={handleCickImageUpload}
+          handleCickImageUpload={handleClickImageUpload}
           handleChangeImg={handleChangeImg}
           handleAdd={add}
           ref={imageInputRef}
         />
       </Flex>
+      <div
+        css={css`
+          top: 90%;
+          transition: all 1s ease-out;
+          // 90%
+          position: fixed;
+          ${media[0]} {
+            display: block;
+            left: ${toolToggle ? "90%" : "38%"};
+          }
+          ${media[1]} {
+            display: block;
+            left: ${toolToggle ? "90%" : "58%"};
+          }
+          ${media[2]} {
+            display: none;
+          }
+        `}
+      >
+        {toolToggle && (
+          <img
+            src={`${process.env.PUBLIC_URL}/images/gear.jpg`}
+            onClick={() =>
+              setToolToggle((prev) => {
+                return !prev;
+              })
+            }
+            css={gearStyle}
+          />
+        )}
+        {!toolToggle && (
+          <Box
+            backgroundColor="violet_50"
+            display="flex"
+            width="300px"
+            height="300px"
+          >
+            <Button
+              areaLabel="save"
+              onClick={handleSubmit}
+              // 스타일
+              variant="tdred_400"
+              width="100%"
+              height="70px"
+              marginTop={10}
+              marginBottom={10}
+            >
+              저장
+            </Button>
+            <Button
+              areaLabel="publish"
+              onClick={handleSubmit}
+              // 스타일
+              variant="tdred_400_fill"
+              width="100%"
+              height="70px"
+              fontSize="lg"
+              marginTop={10}
+              marginBottom={10}
+            >
+              확인
+            </Button>
+            <Button
+              onClick={add}
+              // 스타일
+              variant="default"
+              width="100%"
+              height="70px"
+              fontSize="lg"
+              marginTop={10}
+              marginBottom={10}
+            >
+              <AiOutlinePlusSquare size={25} />
+            </Button>
+            <Button
+              areaLabel="publish"
+              onClick={() =>
+                setToolToggle((prev) => {
+                  return !prev;
+                })
+              } // 스타일
+              variant="default"
+              width="100%"
+              height="70px"
+              fontSize="lg"
+              marginTop={10}
+              marginBottom={10}
+            >
+              <ImCancelCircle size={25} />
+            </Button>
+          </Box>
+        )}
+        {/* {!toolToggle  } */}
+      </div>
       {/* 뒤로가기 할때 모달창 */}
       <Modal
         modalType="delete"
@@ -418,4 +465,27 @@ export default WriteResume;
 const modalButtonStyle = css`
   width: 200px;
   height: 70px;
+`;
+
+const flexStyle = css`
+  ${media[0]} {
+    flex-direction: row;
+    height: 100%;
+  }
+  ${media[1]} {
+    flex-direction: row;
+    height: 100%;
+  }
+  ${media[2]} {
+    flex-direction: row;
+    height: 250px;
+  }
+`;
+const gearStyle = css`
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  z-index: 9;
+  border-radius: 70%;
+  cursor: pointer;
 `;

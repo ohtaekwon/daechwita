@@ -9,6 +9,7 @@ import Box from "_common/components/box";
 import Input from "_common/components/input";
 import Button from "_common/components/button";
 import Flex from "_common/components/flex";
+import { media } from "utils/media";
 
 /**
  * 사이드 옵션 박스 (memo)
@@ -45,15 +46,10 @@ export const OptionBox = React.forwardRef(function OptionBox(
       direction="column"
       top={0}
       right={0}
+      marginLeft={10}
       marginTop={50}
       backgroundColor="gray_100"
-      css={css`
-        position: absolute;
-        box-shadow: rgb(0 0 0 / 10%) 10px 10px 30px;
-        position: sticky;
-        top: 200px;
-        z-index: 9;
-      `}
+      css={boxStyle}
     >
       <Button
         areaLabel="save"
@@ -150,3 +146,20 @@ export const OptionBox = React.forwardRef(function OptionBox(
     </Box>
   );
 });
+const boxStyle = css`
+  position: absolute;
+  box-shadow: rgb(0 0 0 / 10%) 10px 10px 30px;
+  position: sticky;
+  top: 200px;
+  z-index: 9;
+
+  ${media[0]} {
+    display: none;
+  }
+  ${media[1]} {
+    display: none;
+  }
+  ${media[2]} {
+    display: block;
+  }
+`;
