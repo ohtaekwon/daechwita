@@ -4,6 +4,8 @@ import { Global, ThemeProvider } from "@emotion/react";
 import { globalStyle, theme } from "./styles";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
 import { RecoilRoot } from "recoil";
 
 import App from "./App";
@@ -22,6 +24,7 @@ root.render(
         <ThemeProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
             <App />
+            <ReactQueryDevtools />
           </QueryClientProvider>
           <Global styles={globalStyle} />
         </ThemeProvider>

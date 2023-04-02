@@ -22,10 +22,10 @@ import Modal from "components/modal";
 import useModal from "hooks/app/useGoBack";
 import useUser from "lib/firebase/useUser";
 // import { css } from "@emotion/css";
+import { useQueryClient } from "react-query";
 
 const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
   const { user, logout } = useUser();
-
   const headerStyles = css`
     padding: 8px calc((100% - 1280px) / 2);
     border-bottom: ${transparent ? 0 : `1px solid ${theme.colors.zinc_200}`};

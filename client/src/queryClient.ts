@@ -12,6 +12,7 @@ export const getClient = (() => {
             // refetchOnMount: false,
             refetchOnWindowFocus: false,
             refetchOnReconnect: true,
+            retry: false,
           },
         },
       });
@@ -22,6 +23,10 @@ export const QueryKeys = {
   all: ["daechwita"] as const,
   RESUMES: () => [...QueryKeys.all, "resumes"] as const,
   SCHEDULES: () => [...QueryKeys.all, "schedules"] as const,
+  TOTAL_CHART_SCHEDULES_BY_CATEGORY: (category: string) =>
+    [...QueryKeys.SCHEDULES(), category] as const,
+
+  //
   TOTAL_CHART_RESUMES: () => [...QueryKeys.RESUMES(), "total"] as const,
   TOTAL_CHART_SCHEDULES: () => [...QueryKeys.SCHEDULES(), "total"] as const,
   USER_CHART_RESUMES: () =>
@@ -31,7 +36,7 @@ export const QueryKeys = {
   USER_CHART_ALL_RESUMES: (id?: string) =>
     [...QueryKeys.USER_CHART_RESUMES(), "all", id] as const,
 };
-// export type QueryKeysType = "schedules" | "resumes";
+
 export type QueryKeysType = {
   all: readonly ["daechwita"];
   RESUMES: () => readonly ["daechwita", "resumes"];

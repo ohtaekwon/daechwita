@@ -18,6 +18,89 @@ const upload = multer();
  * 그 외는 캐시 데이터의 uid로 인증 사용
  */
 const charts = [
+  {
+    method: "get",
+    route: "/total/schedules",
+    upload: upload.none(),
+    handler: async (req: express.Request, res: express.Response) => {
+      try {
+        const {
+          query: { category = "" },
+        } = req;
+        // 토큰에서 uid 가져오기
+
+        const uid = req.headers.authorization?.split(" ")[1].trim();
+        if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
+
+        const schedules = await collection(dbService, "schedules");
+        const queryOptions: any = [orderBy("createdAt", "desc")];
+
+        const q = firebaseQuery(schedules, ...queryOptions);
+        const schedulesSnapshot = await getDocs(q);
+        const data: DocumentData[] = [];
+
+        schedulesSnapshot.forEach((doc) => {
+          const d = doc.data();
+          data.push({
+            id: doc.id,
+            application: d.application,
+          });
+        });
+        let refinedData: DocumentData[] = [];
+
+        // company의 데이터만 정제
+        if (category === "company") {
+          const newArray = data.filter(
+            (item) => item.application.company !== ""
+          );
+          newArray.forEach((item) => {
+            const targetIndex = refinedData.findIndex(
+              (d) => d.company === item.application.company
+            );
+
+            if (targetIndex < 0) {
+              refinedData.push({
+                company: item.application.company,
+                count: 1,
+              });
+            } else {
+              refinedData.splice(targetIndex, 1, {
+                ...refinedData[targetIndex],
+                count: refinedData[targetIndex].count + 1,
+              });
+            }
+          });
+        }
+        // department의 데이터만 정제
+        else if (category === "department") {
+          const newArray = data.filter(
+            (item) => item.application.department !== ""
+          );
+          newArray.forEach((item) => {
+            const targetIndex = refinedData.findIndex(
+              (d) => d.department === item.application.department
+            );
+
+            if (targetIndex < 0) {
+              refinedData.push({
+                department: item.application.department,
+                count: 1,
+              });
+            } else {
+              refinedData.splice(targetIndex, 1, {
+                ...refinedData[targetIndex],
+                count: refinedData[targetIndex].count + 1,
+              });
+            }
+          });
+        }
+
+        res.send({ data: refinedData });
+      } catch (error) {
+        res.status(404).send({ error: error });
+      }
+    },
+  },
   // GET RESUMES
   {
     method: "get",
@@ -127,7 +210,6 @@ const charts = [
           ? JSON.parse(publishing as string)
           : false;
 
-        console.log("new-chart", newPublishing);
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
@@ -149,7 +231,7 @@ const charts = [
             ...d,
           });
         });
-        console.log(data);
+        console.log("/user/resumes", data);
         const refinedData: DocumentData[] = [];
         data.forEach((item) => {
           refinedData.push({

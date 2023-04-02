@@ -9,6 +9,7 @@ import WriteResume from "pages/writeResume/index";
 
 import { Layout } from "components/layout";
 import TempResumes from "pages/tempResumes";
+// import WriteResume from "components/writeResume";
 
 const url = process.env.PUBLIC_URL;
 const img = `url(${url}/images/bg_color.jpg)`;

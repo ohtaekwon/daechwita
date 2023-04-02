@@ -24,6 +24,12 @@ const Auth = () => {
 
   const [renderAuth, setRenderAuth] = React.useState(false);
 
+  const refs = {
+    emailRef: React.useRef<HTMLInputElement | string | any>(null),
+    passwordRef: React.useRef<HTMLInputElement | any>(null),
+    passwordCheckRef: React.useRef<HTMLInputElement>(null),
+  };
+
   const onSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
@@ -35,8 +41,8 @@ const Auth = () => {
         // CREATE ACCOUNT
         data = await createUserWithEmailAndPassword(
           authService,
-          email,
-          password
+          refs.emailRef.current,
+          refs.passwordRef.current
         );
       }
 
@@ -55,6 +61,8 @@ const Auth = () => {
       setRenderAuth(true);
     }
   }, []);
+
+  console.log(refs.emailRef.current);
 
   return (
     <>
@@ -78,6 +86,7 @@ const Auth = () => {
           toggleAccount={toggleAccount}
           error={error}
           renderAuth={renderAuth}
+          refs={refs}
         />
       </Grid>
     </>

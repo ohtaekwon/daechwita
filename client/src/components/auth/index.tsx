@@ -2,6 +2,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { Props } from "./index.types";
+import SignUp from "./signUp";
 
 const FirebaseAuth = ({
   className = "",
@@ -15,10 +16,10 @@ const FirebaseAuth = ({
   toggleAccount,
   error,
   children,
+  refs,
   ...rest
 }: React.PropsWithChildren<Props>) => {
   const [value, setValue] = React.useState("login");
-
   const submitValue = newAccount ? "로그인" : "회원가입";
 
   const loginFormRef = React.useRef<HTMLFormElement>(null);
@@ -39,6 +40,14 @@ const FirebaseAuth = ({
       loginFormRef.current!.style.marginLeft = "0%";
       loginTextRef.current!.style.marginLeft = "0%";
     }
+  };
+
+  const handleNewChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    ref: React.MutableRefObject<any>
+  ) => {
+    ref.current = e.target.value;
+    console.log(ref.current);
   };
 
   return (
@@ -242,52 +251,16 @@ const FirebaseAuth = ({
                   </div>
                 </form>
 
-                <form
-                  className="signup"
-                  onSubmit={handleSubmit}
-                  ref={signUpFormRef}
-                  css={formStyle}
-                >
-                  <div className="field" css={fieldStyle}>
-                    <input
-                      type="text"
-                      value={email}
-                      placeholder="이메일 주소"
-                      onChange={handleEmailChange}
-                      required
-                      css={inputStyle}
-                    />
-                  </div>
-                  <div className="field" css={fieldStyle}>
-                    <input
-                      type="password"
-                      value={password}
-                      placeholder="비밀 번호 6자리 이상"
-                      onChange={handlePasswordChange}
-                      required
-                      css={inputStyle}
-                    />
-                  </div>
-                  {/* <div className="field" css={fieldStyle}>
-                    <input
-                      type="password"
-                      value={password}
-                      placeholder="비밀 번호 확인"
-                      onChange={handlePasswordChange}
-                      required
-                      css={inputStyle}
-                    />
-                  </div> */}
-
-                  <div className="field" css={fieldStyle}>
-                    <input
-                      type="submit"
-                      name="submit"
-                      value={submitValue}
-                      css={submitStyle}
-                    />
-                  </div>
-                </form>
+                <SignUp
+                  email={email}
+                  password={password}
+                  handleEmailChange={handleEmailChange}
+                  handlePasswordChange={handlePasswordChange}
+                  handleSubmit={handleSubmit}
+                  submitValue={submitValue}
+                  handleNewChange={handleNewChange}
+                  refs={refs}
+                />
               </div>
             </div>
           </div>

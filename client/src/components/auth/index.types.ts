@@ -11,4 +11,11 @@ export interface Props extends HTMLAttributes<HTMLElement> {
   toggleAccount: () => void;
   error: string;
   renderAuth: boolean;
+  refs: Refs;
 }
+
+type Refs = {
+  emailRef: React.RefObject<HTMLInputElement>;
+  passwordRef: React.RefObject<HTMLInputElement>;
+  passwordCheckRef: React.RefObject<HTMLInputElement>;
+};

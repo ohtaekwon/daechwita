@@ -5,11 +5,7 @@ import { css } from "@emotion/react";
 import { useQuery } from "react-query";
 import { QueryKeys } from "queryClient";
 
-import {
-  getTotalChartData,
-  getTotalSchedulesByCategory,
-  getUserChartData,
-} from "lib/apis/api/charts";
+import { getTotalChartData, getUserChartData } from "lib/apis/api/charts";
 import useUser from "lib/firebase/useUser";
 
 import Text from "_common/components/text";
@@ -23,15 +19,9 @@ import { ColumnType } from "types/schedule";
 import { emoji, scheduleChartDict } from "utils/constants";
 import { media } from "utils/media";
 import { theme } from "styles";
-import TotalDataChart from "./home/TotalDataChart";
 
 const Home = () => {
   const { user } = useUser();
-
-  const { data: totalCompanyOfSchedules } = useQuery(
-    QueryKeys.TOTAL_CHART_SCHEDULES_BY_CATEGORY("company"),
-    () => getTotalSchedulesByCategory("company")
-  );
 
   /**
    * @description 차트에서 사용할 데이터의 useQuery
@@ -72,6 +62,7 @@ const Home = () => {
     () => getUserChartData("resumes", false),
     {}
   );
+  console.log(userChartSchedules);
 
   /**
    * @abstract 전체 데이터
@@ -108,13 +99,8 @@ const Home = () => {
     yet: number;
   }>({ finish: 0, yet: 0 });
 
-  const [totalSchedulesCompany, setTotalSchedulesCompany] = React.useState([]);
-
+  console.log(refinedUserSchedules);
   const [userResumes, setUserResumes] = React.useState([]);
-
-  React.useEffect(() => {
-    setTotalSchedulesCompany(totalCompanyOfSchedules);
-  }, [totalSchedules]);
 
   // 1. 전체 데이터 - 유저들이 가장 많이 지원한 기업 TOP 20
   React.useEffect(() => {
@@ -329,8 +315,6 @@ const Home = () => {
     })
   );
 
-  console.log("newTotalSchedules", totalChartResumes);
-
   return (
     <>
       <Text
@@ -348,7 +332,14 @@ const Home = () => {
         placeItems="center"
         css={gridStyle}
       >
-        <TotalDataChart schedules={totalSchedulesCompany} />
+        <Chart
+          type="bar"
+          subOption={{
+            text: "유저들이 가장 많이 지원한 기업 TOP 20",
+            categories: ["TOP 20 기업"],
+          }}
+          series={checkSeries(newTotalSchedules)?.splice(0, 20)}
+        />
 
         <Chart
           type="treemap"
@@ -471,32 +462,3 @@ const newGridStyle = css`
     grid-template-columns: repeat(2, 1fr);
   }
 `;
-
-// // 6. 마이 데이터 - 나의 자기소개서 작성 현황
-
-// const [refinedUserWrite, setRefinedUserWrite] = React.useState<{
-//   finish: number;
-//   yet: number;
-// }>({ finish: 0, yet: 0 });
-
-// React.useEffect(() => {
-//   userChartAllResumesIsPub?.map(({ apply, tag }: ChartResumes) => {
-//     setRefinedUserWrite((allData) => {
-//       const snapshot = { ...allData };
-
-//       if (apply.company === "" || apply.department === "" || tag[0] === "") {
-//         return {
-//           ...allData,
-//           yet: snapshot.yet + 1,
-//         };
-//       }
-//       return {
-//         ...allData,
-//         finish: snapshot.finish + 1,
-//       };
-//     });
-//   });
-//   return () => {
-//     setRefinedUserWrite({ finish: 0, yet: 0 });
-//   };
-// }, [userChartAllResumesIsPub]);

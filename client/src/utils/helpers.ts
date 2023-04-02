@@ -148,3 +148,11 @@ export function randomButtonColor(): color {
   ];
   return colorArray[Math.floor(Math.random() * colorArray.length)] as color;
 }
+
+export function checkSeries(array: any[] = []) {
+  return array.length > 0 ? array : undefined;
+}
+/**
+ * @description 이메일 정규식 검사 함수
+ *
+ */
