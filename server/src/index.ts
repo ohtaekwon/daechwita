@@ -31,8 +31,8 @@ app.use(bodyParser.json());
 
 const routes = [...charts, ...usersRoute, ...resumesRoute, ...schedulesRoute];
 
-routes.forEach(({ method, route, upload, handler }) => {
-  app[method as Method](route, upload, handler);
+routes.forEach(({ method, route, handler }) => {
+  app[method as Method](route, handler);
 });
 
 app.listen({ port: PORT });

@@ -1,7 +1,6 @@
 import * as express from "express";
 import { DBField, readDB, writeDB } from "../dbController";
 import { v4 as uuid } from "uuid";
-import multer from "multer";
 
 import { dbService } from "../firebase";
 import {
@@ -24,7 +23,6 @@ import {
 
 const getUsers = () => readDB(DBField.USERS);
 const setUsers = (data: any) => writeDB(DBField.USERS, data);
-const upload = multer();
 
 const usersRoute = [
   // 유저 회원 정보 관련 메서드
@@ -32,7 +30,6 @@ const usersRoute = [
   {
     method: "get",
     route: "/users",
-    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
@@ -60,7 +57,6 @@ const usersRoute = [
   {
     method: "get",
     route: "/users/:id",
-    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       const {
         params: { id },
@@ -90,7 +86,6 @@ const usersRoute = [
   {
     method: "post",
     route: "/users",
-    upload: upload.none(),
     handler: (req: express.Request, res: express.Response) => {
       const { body, params, query } = req.signedCookies;
       const email = Object.keys(body)[0];
@@ -113,7 +108,6 @@ const usersRoute = [
   {
     method: "put",
     route: "/users/:id",
-    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       const {
         body,

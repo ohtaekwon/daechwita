@@ -1,6 +1,5 @@
 import * as express from "express";
 import { v4 as uuid } from "uuid";
-import multer from "multer";
 
 import { dbService } from "../firebase";
 import {
@@ -22,7 +21,6 @@ import {
 } from "firebase/firestore";
 
 const PAGE_SIZE = 20;
-const upload = multer();
 
 /**
  * POST MAN에서 사용시 Header에 token값으로 인증 사용
@@ -33,7 +31,6 @@ const searchRoute = [
   {
     method: "get",
     route: "/resumes",
-    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
@@ -78,7 +75,6 @@ const searchRoute = [
   {
     method: "get",
     route: "/resumes/:id",
-    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       const {
         params: { id },

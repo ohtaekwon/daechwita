@@ -2,7 +2,7 @@
 import React from "react";
 import _ from "lodash";
 import { useNavigate } from "react-router-dom";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import { css } from "@emotion/react";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 import { getClient, QueryKeys } from "queryClient";
@@ -23,6 +23,7 @@ import { media } from "utils/media";
 
 import { ResumesType } from "types/resumes";
 import { theme } from "styles";
+import { getUserResumesByCategory } from "lib/apis/api/charts";
 
 const Resumes = () => {
   const queryClient = getClient();
@@ -39,6 +40,10 @@ const Resumes = () => {
 
   /** * @description 무한스크롤을 위한 커스텀 훅 @params targetRef */
   const intersecting = useInterSection(fetchMoreRef);
+  const { data: userTagOfResumes } = useQuery<{ tag: string; count: number }[]>(
+    QueryKeys.USER_CHART_RESUMES_BY_CATEGORY("tag"),
+    () => getUserResumesByCategory({ category: "tag", publishing: true })
+  );
 
   const {
     data,
@@ -83,13 +88,11 @@ const Resumes = () => {
     };
   }, []);
 
-  // console.log(queryData);
   React.useEffect(() => {
     if (!data?.pages) return;
     setResumes(data?.pages);
   }, [data?.pages]);
-
-  console.log(data);
+  console.log(userTagOfResumes, data);
 
   if (error) return null;
   if (isLoading)

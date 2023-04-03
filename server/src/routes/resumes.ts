@@ -1,5 +1,4 @@
 import * as express from "express";
-import multer from "multer";
 import { v4 as uuid } from "uuid";
 
 import { dbService, storageService } from "../firebase";
@@ -12,11 +11,9 @@ import {
   getDoc,
   getDocs,
   limit,
-  onSnapshot,
   orderBy,
   query as firebaseQuery,
   serverTimestamp,
-  setDoc,
   startAfter,
   updateDoc,
   where,
@@ -29,7 +26,6 @@ import {
 } from "firebase/storage";
 
 const PAGE_SIZE = 15;
-const upload = multer();
 
 /**
  * POST MAN에서 사용시 Header에 token값으로 인증 사용
@@ -41,7 +37,6 @@ const resumesRoute = [
   {
     method: "get",
     route: "/resumes",
-    upload: upload.none(),
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
@@ -100,7 +95,6 @@ const resumesRoute = [
   {
     method: "get",
     route: "/resumes/:id",
-    upload: upload.none(),
 
     handler: async (req: express.Request, res: express.Response) => {
       const {
@@ -136,8 +130,6 @@ const resumesRoute = [
   {
     method: "post",
     route: "/resumes",
-    upload: upload.none(),
-
     handler: async (req: express.Request, res: express.Response) => {
       const { body } = req;
       let newResume;
@@ -189,8 +181,6 @@ const resumesRoute = [
   {
     method: "put",
     route: "/resumes/:id",
-    upload: upload.none(),
-
     handler: async (req: express.Request, res: express.Response) => {
       const {
         body,
@@ -271,8 +261,6 @@ const resumesRoute = [
   {
     method: "delete",
     route: "/resumes/:id",
-    upload: upload.none(),
-
     handler: async (req: express.Request, res: express.Response) => {
       const {
         params: { id },

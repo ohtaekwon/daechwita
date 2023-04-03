@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import multer from "multer";
 
 import { dbService } from "../firebase";
 import {
@@ -10,15 +9,12 @@ import {
   DocumentData,
   getDoc,
   getDocs,
-  increment,
   orderBy,
   query as firebaseQuery,
   serverTimestamp,
   updateDoc,
   where,
 } from "firebase/firestore";
-
-const upload = multer();
 
 const MAX_SIZE = 100;
 
@@ -27,7 +23,6 @@ const schedulesRoute = [
   {
     method: "get",
     route: "/schedules",
-    upload: upload.none(),
     handler: async (req: Request, res: Response) => {
       const { headers } = req;
       try {
@@ -62,8 +57,6 @@ const schedulesRoute = [
   {
     method: "get",
     route: "/schedules/:id",
-    upload: upload.none(),
-
     handler: async (req: Request, res: Response) => {
       const {
         headers,
@@ -93,7 +86,6 @@ const schedulesRoute = [
   {
     method: "post",
     route: "/schedules",
-    upload: upload.none(),
     handler: async (req: Request, res: Response) => {
       const { body } = req;
       try {
@@ -130,7 +122,6 @@ const schedulesRoute = [
   {
     method: "put",
     route: "/schedules/:id",
-    upload: upload.none(),
     handler: async (req: Request, res: Response) => {
       const {
         body,
@@ -170,8 +161,6 @@ const schedulesRoute = [
   {
     method: "delete",
     route: "/schedules/:id",
-    upload: upload.none(),
-
     handler: async (req: Request, res: Response) => {
       const {
         params: { id },
