@@ -14,11 +14,15 @@ const { uid } = cookie || "";
 /**
  * 기본 API Axios Instance
  */
-const axiosApi = (url: string, options?: any): AxiosInstance => {
-  const instance = axios.create({ baseURL: url, ...options });
+const basicApi = (url: string, options?: any): AxiosInstance => {
+  const instance = axios.create({
+    baseURL: url,
+    headers: {
+      withCredentials: true,
+    },
+  });
   return instance;
 };
-export const baseInstance = axiosApi(baseUrl!);
 
 /**
  * 인증 필요한 API Axios Instance
@@ -33,4 +37,5 @@ const authApi = (url: string, options?: any): AxiosInstance => {
     ...options,
   });
 };
+export const baseInstance = basicApi(baseUrl!);
 export const authInstance = authApi(baseUrl!, { withCredentials: true });

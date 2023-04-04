@@ -11,6 +11,9 @@ import theme from "styles/theme";
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";
 
+import useModal from "hooks/app/useGoBack";
+import useUser from "lib/firebase/useUser";
+
 import Button from "_common/components/button";
 import Flex from "_common/components/flex";
 import Icons from "_common/components/icons";
@@ -19,13 +22,10 @@ import Text from "_common/components/text";
 
 import { media } from "utils/media";
 import Modal from "components/modal";
-import useModal from "hooks/app/useGoBack";
-import useUser from "lib/firebase/useUser";
-// import { css } from "@emotion/css";
-import { useQueryClient } from "react-query";
 
 const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
   const { user, logout } = useUser();
+
   const headerStyles = css`
     padding: 8px calc((100% - 1280px) / 2);
     border-bottom: ${transparent ? 0 : `1px solid ${theme.colors.zinc_200}`};
@@ -44,7 +44,10 @@ const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
     toggleModal(true);
   };
 
-  const handleLogOut = () => logout();
+  const handleLogOut = async () => {
+    await cancel;
+    logout();
+  };
 
   return (
     <>
@@ -224,6 +227,15 @@ const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
                 </Link>
               </React.Fragment>
             ))}
+            <Text
+              fontSize="xxl"
+              fontWeight={700}
+              textAlign="center"
+              css={textStyle}
+              onClick={handleLogOut}
+            >
+              로그아웃
+            </Text>
           </Flex>
         </Box>
       </Modal>

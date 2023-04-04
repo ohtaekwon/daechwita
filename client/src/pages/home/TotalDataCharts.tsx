@@ -1,4 +1,7 @@
+/** @jsxImportSource @emotion/react */
+
 import React from "react";
+import { css } from "@emotion/react";
 
 import { useQuery } from "react-query";
 import { QueryKeys } from "queryClient";
@@ -7,8 +10,12 @@ import {
   getTotalSchedulesByCategory,
 } from "lib/apis/api/charts";
 import Chart from "components/chart";
-import { checkSeries } from "utils/helpers";
 
+import Text from "_common/components/text";
+import Grid from "_common/components/grid";
+
+import { checkSeries } from "utils/helpers";
+import { media } from "utils/media";
 const TotalDataCharts = () => {
   /**
    * @description 차트에서 사용할 TOTAL 데이터의 useQuery
@@ -79,24 +86,44 @@ const TotalDataCharts = () => {
 
   return (
     <>
-      <Chart
-        type="bar"
-        subOption={{
-          text: "유저들이 가장 많이 지원한 기업 TOP 20",
-          categories: ["TOP 20 기업"],
-        }}
-        series={checkSeries(totalSchedulesCompany)}
-      />
-      <Chart
-        type="treemap"
-        subOption={{ text: "다른 사람들이 가장 많이 쓴 자소서 유형 TOP20" }}
-        series={[
-          {
-            data: totalResumesTag?.map(({ tag: x, count: y }) => ({ x, y })),
-          },
-        ]}
-      />
+      <Text
+        fontSize="xxxl"
+        fontWeight={700}
+        textAlign="center"
+        paddingTop={20}
+        paddingBottom={20}
+      >
+        전체 데이터 분석
+      </Text>
+
+      <Grid
+        gridTemplateColumns="repeat(1, 1fr)"
+        placeItems="center"
+        css={gridStyle}
+      >
+        <Chart
+          type="bar"
+          subOption={{
+            text: "유저들이 가장 많이 지원한 기업 TOP 20",
+            categories: ["TOP 20 기업"],
+          }}
+          series={checkSeries(totalSchedulesCompany)}
+        />
+        <Chart
+          type="treemap"
+          subOption={{ text: "다른 사람들이 가장 많이 쓴 자소서 유형 TOP20" }}
+          series={[
+            {
+              data: totalResumesTag?.map(({ tag: x, count: y }) => ({ x, y })),
+            },
+          ]}
+        />
+      </Grid>
     </>
   );
 };
 export default TotalDataCharts;
+
+const gridStyle = css`
+  padding: 1rem 0;
+`;

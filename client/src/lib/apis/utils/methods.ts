@@ -1,17 +1,27 @@
-import { authInstance } from "./instance";
+import { AxiosInstance } from "axios";
 
-export function requestGet(url = "") {
-  return authInstance.get(url).then((response) => response.data);
+export function requestGet(axiosInstance: AxiosInstance, url = "") {
+  return axiosInstance.get(url).then((response) => response.data);
 }
 
-export function requestPost<T>(url = "", data: unknown, config = {}) {
-  return authInstance.post<T>(url, data, config);
+export function requestPost<T>(
+  axiosInstance: AxiosInstance,
+  url = "",
+  data: unknown,
+  config = {}
+) {
+  return axiosInstance.post<T>(url, data, config);
 }
 
-export function requestPut(url = "", data: unknown, config = {}) {
-  return authInstance.put(url, data, config);
+export function requestPut(
+  axiosInstance: AxiosInstance,
+  url = "",
+  data: unknown,
+  config = {}
+) {
+  return axiosInstance.put(url, data, config);
 }
 
-export function requestDelete<T>(url = "") {
-  return authInstance.delete<T>(url);
+export function requestDelete<T>(axiosInstance: AxiosInstance, url = "") {
+  return axiosInstance.delete<T>(url);
 }

@@ -1,25 +1,25 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
-
+import { css } from "@emotion/react";
 import { useQuery } from "react-query";
 import { QueryKeys } from "queryClient";
 
-import Chart from "components/chart";
-import { checkSeries } from "utils/helpers";
 import {
   getUserResumesAll,
   getUserResumesByCategory,
   getUserSchedulesByCategory,
 } from "lib/apis/api/charts";
-import { ColumnType } from "types/schedule";
-import { scheduleChartDict } from "utils/constants";
 
-const MyDataCharts = ({
-  schedules,
-  resumes,
-}: {
-  schedules?: boolean;
-  resumes?: boolean;
-}) => {
+import Chart from "components/chart";
+import Text from "_common/components/text";
+import Grid from "_common/components/grid";
+
+import { emoji, scheduleChartDict } from "utils/constants";
+import { checkSeries } from "utils/helpers";
+import { media } from "utils/media";
+import { ColumnType } from "types/schedule";
+
+const MyDataCharts = ({}) => {
   /**
    * @description 차트에서 사용할 TOTAL 데이터의 useQuery
    * Schedules
@@ -41,17 +41,16 @@ const MyDataCharts = ({
     getUserSchedulesByCategory("department")
   );
 
-  const { data: userTagOfResumes } = useQuery<{ tag: string; count: number }[]>(
-    [{ type: "resumes", category: "tag" }],
-    // QueryKeys.USER_CHART_RESUMES_BY_CATEGORY("tag"),
-    () => getUserResumesByCategory({ category: "tag", publishing: true })
+  const { data: userTagOfResumes, refetch: userTagOfResumesRefetch } = useQuery<
+    { tag: string; count: number }[]
+  >(
+    QueryKeys.USER_CHART_RESUMES_BY_CATEGORY("tag"),
+    () => getUserResumesByCategory({ category: "tag", publishing: true }),
+    {
+      enabled: true, // 요청 활성화
+      refetchOnMount: true, // 페이지 마운트시 refetch
+    }
   );
-
-  // const { data: newUserTagOfResumes } = useQuery<
-  //   { tag: string; count: number }[]
-  // >([{ type: "resumes", category: "tag" }], () =>
-  //   getUserResumesByCategory({ category: "tag", publishing: true })
-  // );
 
   const { data: userAllOfResumes } = useQuery<{
     isPublishing: number;
@@ -86,6 +85,7 @@ const MyDataCharts = ({
 
   // 나의 입사 지원 현황
   React.useEffect(() => {
+    console.log("useEffect");
     /**
      * @description userColumnOfSchedules에서 column 전처리
      */
@@ -108,7 +108,7 @@ const MyDataCharts = ({
 
     setUserSchedulesColumn(refinedColumnOfUserSchedules);
 
-    // return () => setUserSchedulesColumn([]);
+    return () => setUserSchedulesColumn([]);
   }, [userColumnOfSchedules]);
 
   // 내가 가장 많이 지원한 직무 TOP 20
@@ -124,7 +124,7 @@ const MyDataCharts = ({
 
     setUserSchedulesDepartment(refinedDepartmentOfUserDepartment);
 
-    // return () => setUserSchedulesDepartment([]);
+    return () => setUserSchedulesDepartment([]);
   }, [userDepartmentOfSchedules]);
 
   // 나의 가장 많이 쓴 자소서 유형 TOP 20
@@ -142,7 +142,7 @@ const MyDataCharts = ({
 
     setResumesTag(tagOfResumes);
 
-    // return () => setResumesTag([]);
+    return () => setResumesTag([]);
   }, [userTagOfResumes]);
 
   React.useEffect(() => {
@@ -152,76 +152,135 @@ const MyDataCharts = ({
     if (!userAllOfResumes) return;
     setResumesAll(userAllOfResumes);
 
-    // return () => setResumesAll({ isNotPublishing: 0, isPublishing: 0 });
+    return () => setResumesAll({ isNotPublishing: 0, isPublishing: 0 });
   }, [userAllOfResumes]);
 
-  console.log(userTagOfResumes, userResumesTag);
+  React.useEffect(() => {
+    /**
+     * @de페이지 마운트시 userTagOfResumes refetch
+     */
+    userTagOfResumesRefetch();
+
+    return () => {
+      userTagOfResumesRefetch();
+    };
+  }, []);
+
   return (
     <>
-      {schedules && (
-        <>
-          <Chart
-            type="bar"
-            subOption={{
-              text: "나의 입사 지원 현황",
-              categories: ["2023 상반기 (1월 ~ 6월)"],
-            }}
-            series={checkSeries(
-              userSchedulesColumn.map(({ column: name, count: data }) => ({
-                name,
-                data,
-              }))
-            )}
-          />
-          <Chart
-            type="polarArea"
-            subOption={{
-              label: userSchedulesDepartment.map(
-                ({ department }) => department
-              ),
-              text: "내가 가장 많이 지원한 직무 TOP 20",
-            }}
-            series={userSchedulesDepartment.map(({ count }) => count)}
-          />
-        </>
-      )}
-      {resumes && (
-        <>
-          <Chart
-            type="treemap"
-            subOption={{ text: "나의 가장 많이 쓴 자소서 유형 TOP 20" }}
-            series={
-              userResumesTag.length > 0
-                ? [
-                    {
-                      data: userResumesTag.map(({ tag: x, count: y }) => ({
-                        x,
-                        y,
-                      })),
-                    },
-                  ]
-                : undefined
-            }
-          />
+      <Text
+        fontSize="xxxl"
+        fontWeight={700}
+        textAlign="left"
+        paddingTop={20}
+        paddingBottom={20}
+        css={textStyle}
+      >
+        마이 데이터 분석
+      </Text>
+      <Text
+        fontSize="xl"
+        fontWeight={700}
+        textAlign="left"
+        paddingTop={20}
+        css={textStyle}
+      >
+        1. 나의 입사 지원 현황 분석 {emoji.SCHEDULE}
+      </Text>
+      <Grid
+        gridTemplateColumns="repeat(2, 1fr)"
+        placeItems="center"
+        css={newGridStyle}
+      >
+        <Chart
+          type="bar"
+          subOption={{
+            text: "나의 입사 지원 현황",
+            categories: ["2023 상반기 (1월 ~ 6월)"],
+          }}
+          series={checkSeries(
+            userSchedulesColumn.map(({ column: name, count: data }) => ({
+              name,
+              data,
+            }))
+          )}
+        />
+        <Chart
+          type="polarArea"
+          subOption={{
+            label: userSchedulesDepartment.map(({ department }) => department),
+            text: "내가 가장 많이 지원한 직무 TOP 20",
+          }}
+          series={userSchedulesDepartment.map(({ count }) => count)}
+        />
+      </Grid>
 
-          <Chart
-            type="donut"
-            series={
-              userResumesAll?.isPublishing || userResumesAll?.isNotPublishing
-                ? [
-                    userResumesAll?.isPublishing,
-                    userResumesAll?.isNotPublishing,
-                  ]
-                : undefined
-            }
-            subOption={{
-              text: "나의 자기소개서 작성 현황",
-              label: ["작성 완료", "작성 중"],
-            }}
-          />
-        </>
-      )}
+      <Text
+        fontSize="xl"
+        fontWeight={700}
+        textAlign="left"
+        paddingTop={20}
+        css={textStyle}
+      >
+        2. 나의 자기소개서 분석 {emoji.ME}
+      </Text>
+
+      <Grid
+        gridTemplateColumns="repeat(2, 1fr)"
+        placeItems="center"
+        css={newGridStyle}
+      >
+        <Chart
+          type="treemap"
+          subOption={{ text: "나의 가장 많이 쓴 자소서 유형 TOP 20" }}
+          series={
+            userResumesTag.length > 0
+              ? [
+                  {
+                    data: userResumesTag.map(({ tag: x, count: y }) => ({
+                      x,
+                      y,
+                    })),
+                  },
+                ]
+              : undefined
+          }
+        />
+
+        <Chart
+          type="donut"
+          series={
+            userResumesAll?.isPublishing || userResumesAll?.isNotPublishing
+              ? [userResumesAll?.isPublishing, userResumesAll?.isNotPublishing]
+              : undefined
+          }
+          subOption={{
+            text: "나의 자기소개서 작성 현황",
+            label: ["작성 완료", "작성 중"],
+          }}
+        />
+      </Grid>
     </>
   );
 };
 export default MyDataCharts;
+
+const textStyle = css`
+  display: block;
+  height: 50px;
+`;
+
+const newGridStyle = css`
+  padding: 1rem 0;
+  width: 100%;
+
+  ${media[0]} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  ${media[1]} {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  ${media[2]} {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;

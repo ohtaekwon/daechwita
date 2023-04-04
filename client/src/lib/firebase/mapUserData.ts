@@ -10,6 +10,5 @@ export const mapUserData = (user: any) => {
     token: accessToken,
     name: displayName,
     profilePic: photoURL,
-    phoneNumber,
   };
 };

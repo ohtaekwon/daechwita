@@ -1,4 +1,4 @@
-import { BASE_URL_USERS } from "utils/constants";
+import { authInstance } from "../utils/instance";
 import { handleError } from "../utils/helpers";
 import { requestGet, requestPost, requestPut } from "../utils/methods";
 
@@ -15,7 +15,7 @@ export const usersApiRoutes = {
 export const getAllUsers = async () => {
   try {
     console.info(`유저 정보를 가져오는 중 입니다...`);
-    const { data } = await requestGet(basePath);
+    const { data } = await requestGet(authInstance, basePath);
     console.info(`유저 정보를 성공적으로 반환되었습니다!`);
     return { data };
   } catch (error) {
@@ -35,7 +35,7 @@ export const getUser = async (id: string) => {
   try {
     const apiRoute = usersApiRoutes.getUsersById(id);
     console.info(`id : ${id}를 가진 유저의 정보를 가져오는 중 입니다.`);
-    const { data } = await requestGet(apiRoute);
+    const { data } = await requestGet(authInstance, apiRoute);
     return { data };
   } catch (error) {
     console.error(
@@ -53,7 +53,7 @@ export const getUser = async (id: string) => {
 export const createUser = async (payload: unknown = {}) => {
   try {
     console.info("유저의 회원 가입을 하는 중 입니다.");
-    const { data } = await requestPost(basePath, payload);
+    const { data } = await requestPost(authInstance, basePath, payload);
     console.info(`회원 가입이 성공적으로 되었습니다!`);
     return data;
   } catch (error) {
@@ -72,7 +72,7 @@ export const updateUser = async (id: string, payload: unknown = {}) => {
   try {
     const apiRoute = usersApiRoutes.updateUsersById(id);
     console.info(`id: ${id}를 가진 유저의 정보를 변경 중 입니다.`);
-    const response = await requestPut(apiRoute, payload);
+    const response = await requestPut(authInstance, apiRoute, payload);
     return response;
   } catch (error) {
     console.error("유저 정보를 변경하던 중 에러가 발생하였습니다.");

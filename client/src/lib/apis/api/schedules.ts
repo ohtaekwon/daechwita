@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import { authInstance } from "../utils/instance";
 import { Schedule } from "types/schedule";
 import { handleError } from "../utils/helpers";
 import {
@@ -23,7 +23,7 @@ export const schedulesApiRoutes = {
 export const getAllSchedules = async () => {
   try {
     console.info(`입사 지원 현황 데이터를 전부 가져오는 중 입니다...`);
-    const { data } = await requestGet(basePath);
+    const { data } = await requestGet(authInstance, basePath);
     console.info("입사 지원 현황 데이터가 성공적으로 반환되었습니다.");
     return data;
   } catch (error) {
@@ -40,7 +40,7 @@ export const getSchedule = async (scheduleId: string) => {
   try {
     const apiRoute = schedulesApiRoutes.updateScheduleById(scheduleId);
     console.info(`입사 지원 현황 데이터를 전부 가져오는 중 입니다...`);
-    const { data } = await requestGet(apiRoute);
+    const { data } = await requestGet(authInstance, apiRoute);
     console.info("입사 지원 현황 데이터가 성공적으로 반환되었습니다.");
     return data;
   } catch (error) {
@@ -58,7 +58,11 @@ export const getSchedule = async (scheduleId: string) => {
 export const createSchedule = async (payload: unknown = {}) => {
   try {
     console.info("자입사 지원 현황 데이터를 작성성 중 입니다...");
-    const { data }: { data: Schedule } = await requestPost(basePath, payload);
+    const { data }: { data: Schedule } = await requestPost(
+      authInstance,
+      basePath,
+      payload
+    );
     console.info(`입사 지원 현황 데이터 ${data?.id!}가 반환되었습니다!`);
     return data;
   } catch (error) {
@@ -77,7 +81,7 @@ export const updateSchedules = async (
 ) => {
   try {
     const apiRoute = schedulesApiRoutes.updateScheduleById(scheduleId);
-    const response = await requestPut(apiRoute, payload);
+    const response = await requestPut(authInstance, apiRoute, payload);
     return response;
   } catch (error) {
     console.error(`입사 지원 현황 데이터를 변경하던 중 에러가 발생하였습니다!`);
@@ -97,7 +101,7 @@ export const deleteSchedules = async (scheduleId: string) => {
     console.info(
       `id: ${scheduleId}가진 입사 지원현황 데이터를 삭제 중 입니다...`
     );
-    const response = await requestDelete(apiRoute);
+    const response = await requestDelete(authInstance, apiRoute);
     return response;
   } catch (error) {
     console.error(`입사 지원 현황 데이터를 삭제하던 중 에러가 발생하였습니다!`);

@@ -1,3 +1,5 @@
+import { authInstance } from "../utils/instance";
+
 import { handleError } from "../utils/helpers";
 import { requestGet } from "../utils/methods";
 
@@ -45,7 +47,7 @@ export const getTotalSchedulesByCategory = async (
     console.info(`전체 입사지원형황 데이터를 가져오는 중입니다.`);
     const apiRoute =
       allServerDataApiRoutes.getTotalSchedulesByCategory(category);
-    const { data } = await requestGet(apiRoute);
+    const { data } = await requestGet(authInstance, apiRoute);
     return data;
   } catch (error) {
     console.error(
@@ -60,7 +62,7 @@ export const getTotalResumesByCategory = async (category: ResumesCategory) => {
   try {
     console.info(`전체 자기소개 데이터를 가져오는 중입니다.`);
     const apiRoute = allServerDataApiRoutes.getTotalResumesByCategory(category);
-    const { data } = await requestGet(apiRoute);
+    const { data } = await requestGet(authInstance, apiRoute);
     return data;
   } catch (error) {
     console.error(
@@ -78,7 +80,7 @@ export const getUserSchedulesByCategory = async (
     console.info(`사용자의 입사지원현황 데이터를 가져오는 중입니다.`);
     const apiRoute =
       allServerDataApiRoutes.getUserSchedulesByCategory(category);
-    const { data } = await requestGet(apiRoute);
+    const { data } = await requestGet(authInstance, apiRoute);
     return data;
   } catch (error) {
     console.error(
@@ -102,7 +104,7 @@ export const getUserResumesByCategory = async ({
       category,
       publishing,
     });
-    const { data } = await requestGet(apiRoute);
+    const { data } = await requestGet(authInstance, apiRoute);
     return data;
   } catch (error) {
     console.error(
@@ -117,7 +119,7 @@ export const getUserResumesAll = async () => {
   try {
     console.info(`사용자의 자기소개서 데이터를 가져오는 중입니다.`);
     const apiRoute = allServerDataApiRoutes.getUserResumesAll();
-    const { data } = await requestGet(apiRoute);
+    const { data } = await requestGet(authInstance, apiRoute);
     return data;
   } catch (error) {
     console.error(

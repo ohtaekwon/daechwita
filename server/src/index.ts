@@ -1,11 +1,18 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import usersRoute from "./routes/users";
+import cookieParser from "cookie-parser";
+import compression from "compression";
+import "dotenv/config";
+
+import authRoute from "./routes/auth";
 import schedulesRoute from "./routes/schedules";
 import resumesRoute from "./routes/resumes";
 import charts from "./routes/charts";
 
+/**
+ * 서버 구동
+ */
 export const app = express();
 const PORT = process.env.PORT || 8000;
 app.use(
@@ -25,11 +32,12 @@ app.use(
     credentials: true,
   })
 );
-
+app.use(compression());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const routes = [...charts, ...usersRoute, ...resumesRoute, ...schedulesRoute];
+const routes = [...authRoute, ...charts, ...resumesRoute, ...schedulesRoute];
 
 routes.forEach(({ method, route, handler }) => {
   app[method as Method](route, handler);

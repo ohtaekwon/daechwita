@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getAuth } from "firebase/auth";
 
 import "dotenv/config";
 
@@ -15,7 +16,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-
 export default app;
-export const dbService = getFirestore(app);
-export const storageService = getStorage(app);
+
+export const dbService = getFirestore(app); // DB
+export const storageService = getStorage(app); // uploading file
+export const authService = getAuth(app);

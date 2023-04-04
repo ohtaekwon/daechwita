@@ -223,6 +223,7 @@ const charts = [
         // 토큰에서 uid 가져오기
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
+        console.log(uid);
 
         const schedules = await collection(dbService, "schedules");
         const queryOptions: any = [orderBy("createdAt", "desc")];
@@ -346,17 +347,18 @@ const charts = [
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
+        console.log(uid);
         const resumes = await collection(dbService, "resumes");
         const queryOptions: any = [orderBy("createdAt", "desc")];
         queryOptions.unshift(where("uid", "==", uid));
         queryOptions.unshift(where("publishing", "==", newPublishing));
 
-        const q = firebaseQuery(resumes, ...queryOptions);
+        const q = await firebaseQuery(resumes, ...queryOptions);
         const resumesSnapshot = await getDocs(q);
         let data: DocumentData[] = [];
         let refinedResumes: DocumentData[] = [];
 
-        resumesSnapshot.forEach((doc) => {
+        await resumesSnapshot.forEach((doc) => {
           const d = doc.data();
           data.push({
             id: doc.id,

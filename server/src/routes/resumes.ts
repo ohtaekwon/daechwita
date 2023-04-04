@@ -1,6 +1,5 @@
 import * as express from "express";
 import { v4 as uuid } from "uuid";
-
 import { dbService, storageService } from "../firebase";
 import {
   addDoc,
@@ -49,7 +48,6 @@ const resumesRoute = [
         // 토큰에서 uid 가져오기
         const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
-
         const newLatest = latest ? JSON.parse(latest as string) : false;
         const newPublishing = publishing
           ? JSON.parse(publishing as string)

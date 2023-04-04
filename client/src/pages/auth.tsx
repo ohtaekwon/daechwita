@@ -13,6 +13,7 @@ import { mapUserData } from "lib/firebase/mapUserData";
 
 import FirebaseAuth from "components/auth";
 import Grid from "_common/components/grid";
+import { login, signUp } from "lib/apis/api/auth";
 
 const Auth = () => {
   const [email, handleEmailChange] = useInput("");
@@ -36,18 +37,23 @@ const Auth = () => {
       let data;
       if (newAccount) {
         // LOG IN
-        data = await signInWithEmailAndPassword(authService, email, password);
+
+        data = await login({
+          email: email,
+          password: password,
+        });
       } else {
         // CREATE ACCOUNT
-        data = await createUserWithEmailAndPassword(
-          authService,
-          refs.emailRef.current,
-          refs.passwordRef.current
-        );
+        data = await signUp({
+          email: refs.emailRef.current,
+          password: refs.passwordRef.current,
+        });
       }
 
-      const userData = mapUserData(data.user);
-      setUserCookie(userData);
+      console.log(data);
+
+      // const userData = mapUserData(data.user);
+      // setUserCookie(userData);
     } catch (error) {
       {
         error instanceof Error && setError(error.message);
@@ -61,8 +67,6 @@ const Auth = () => {
       setRenderAuth(true);
     }
   }, []);
-
-  console.log(refs.emailRef.current);
 
   return (
     <>

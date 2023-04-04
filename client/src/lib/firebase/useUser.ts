@@ -12,7 +12,6 @@ type User = {
   token: string;
   name: string;
   profilePic: string;
-  phoneNumber: any;
 };
 const useUser = () => {
   const [user, setUser] = React.useState<User>();
@@ -23,9 +22,10 @@ const useUser = () => {
   // 쿠키값이 제거시, app파일에 설정한대로, Auth 페이지로 자동 이동하며,
   const logout = async () => {
     try {
-      queryClient.invalidateQueries();
       await authService.signOut();
       removeUserCookie();
+      // 모든 캐시된 데이터를 무효화
+      await queryClient.invalidateQueries();
       navigate("/");
     } catch (error) {
       console.log(error);

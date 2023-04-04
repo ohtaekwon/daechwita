@@ -23,7 +23,6 @@ import { media } from "utils/media";
 
 import { ResumesType } from "types/resumes";
 import { theme } from "styles";
-import { getUserResumesByCategory } from "lib/apis/api/charts";
 
 const Resumes = () => {
   const queryClient = getClient();
@@ -40,10 +39,6 @@ const Resumes = () => {
 
   /** * @description 무한스크롤을 위한 커스텀 훅 @params targetRef */
   const intersecting = useInterSection(fetchMoreRef);
-  const { data: userTagOfResumes } = useQuery<{ tag: string; count: number }[]>(
-    QueryKeys.USER_CHART_RESUMES_BY_CATEGORY("tag"),
-    () => getUserResumesByCategory({ category: "tag", publishing: true })
-  );
 
   const {
     data,
@@ -92,7 +87,6 @@ const Resumes = () => {
     if (!data?.pages) return;
     setResumes(data?.pages);
   }, [data?.pages]);
-  console.log(userTagOfResumes, data);
 
   if (error) return null;
   if (isLoading)
