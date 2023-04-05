@@ -15,7 +15,7 @@ import Text from "_common/components/text";
 import Grid from "_common/components/grid";
 
 import { checkSeries } from "utils/helpers";
-import { media } from "utils/media";
+
 const TotalDataCharts = () => {
   /**
    * @description 차트에서 사용할 TOTAL 데이터의 useQuery

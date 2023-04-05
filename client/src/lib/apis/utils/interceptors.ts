@@ -1,9 +1,6 @@
 import { getUserFromCookie } from "lib/firebase/userCookies";
 import { authInstance } from "./instance";
 
-const cookie = getUserFromCookie();
-const { uid } = cookie || "";
-
 /**
  1. 요청 인터셉터 (2개의 콜백 함수를 받습니다.)
  */

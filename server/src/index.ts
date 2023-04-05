@@ -5,10 +5,13 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import "dotenv/config";
 
+import verifyTokenAuthMiddleware from "./middleware/verifyTokenAuthMiddleware";
+
 import authRoute from "./routes/auth";
 import schedulesRoute from "./routes/schedules";
 import resumesRoute from "./routes/resumes";
 import charts from "./routes/charts";
+import authMiddleware from "./middleware/authMiddleware";
 
 /**
  * 서버 구동
@@ -39,10 +42,17 @@ app.use(bodyParser.json());
 
 const routes = [...authRoute, ...charts, ...resumesRoute, ...schedulesRoute];
 
-routes.forEach(({ method, route, handler }) => {
-  app[method as Method](route, handler);
-});
+const passMiddleWare = authRoute.map(({ method, route, handler }) => route);
 
+routes.forEach(({ method, route, handler }) => {
+  const newRoute = passMiddleWare.includes(route);
+  if (newRoute) {
+    app[method as Method](route, handler);
+  } else {
+    // 로그인 했을 떄, 토큰을 확인하는 미들웨어 설정
+    app[method as Method](route, authMiddleware, handler);
+  }
+});
 app.listen({ port: PORT });
 console.log(`server is listening on port ${PORT}...`);
 

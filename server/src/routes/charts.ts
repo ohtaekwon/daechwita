@@ -17,15 +17,15 @@ const charts = [
   // GET TOTAL SCHEDULES
   {
     method: "get",
-    route: "/total/schedules",
+    route: "/api/v1/total/schedules",
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
           query: { category = "" },
         } = req;
-        // 토큰에서 uid 가져오기
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
 
-        const uid = req.headers.authorization?.split(" ")[1].trim();
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
         const schedules = await collection(dbService, "schedules");
@@ -45,10 +45,13 @@ const charts = [
         let refinedData: DocumentData[] = [];
 
         // company의 데이터만 정제
+
         if (category === "company") {
+          console.log("data", data);
           const newArray = data.filter(
             (item) => item.application.company !== ""
           );
+
           newArray.forEach((item) => {
             const targetIndex = refinedData.findIndex(
               (d) => d.company === item.application.company
@@ -100,14 +103,15 @@ const charts = [
   // GET TOTAL RESUMES
   {
     method: "get",
-    route: "/total/resumes",
+    route: "/api/v1/total/resumes",
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
           query: { category = "" },
         } = req;
 
-        const uid = req.headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
         const resumes = await collection(dbService, "resumes");
@@ -214,14 +218,14 @@ const charts = [
   },
   {
     method: "get",
-    route: "/user/schedules",
+    route: "/api/v1/user/schedules",
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
           query: { category = "" },
         } = req;
-        // 토큰에서 uid 가져오기
-        const uid = req.headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
         console.log(uid);
 
@@ -332,7 +336,7 @@ const charts = [
   },
   {
     method: "get",
-    route: "/user/resumes",
+    route: "/api/v1/user/resumes",
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
@@ -343,11 +347,10 @@ const charts = [
           ? JSON.parse(publishing as string)
           : false;
 
-        // 토큰에서 uid 가져오기
-        const uid = req.headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
-        console.log(uid);
         const resumes = await collection(dbService, "resumes");
         const queryOptions: any = [orderBy("createdAt", "desc")];
         queryOptions.unshift(where("uid", "==", uid));
@@ -455,7 +458,7 @@ const charts = [
 
   {
     method: "get",
-    route: "/user/resumes/all",
+    route: "/api/v1/user/resumes/all",
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
@@ -466,8 +469,8 @@ const charts = [
           ? JSON.parse(publishing as string)
           : false;
 
-        // 토큰에서 uid 가져오기
-        const uid = req.headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
         const resumes = await collection(dbService, "resumes");

@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { getUserFromCookie } from "lib/firebase/userCookies";
+import cookies from "js-cookie";
 
 /**
  * express server base
@@ -8,9 +9,12 @@ const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
 /**
  * cookie 값에서 uid 가져온 뒤, 토큰에 넣기
  */
-const cookie = getUserFromCookie();
-const { uid } = cookie || "";
+// const cookie = getUserFromCookie();
+// const newCookie = cookie || "";
 
+const newData = cookies.get("Daechwita");
+
+console.log("instance", newData);
 /**
  * 기본 API Axios Instance
  */
@@ -32,7 +36,7 @@ const authApi = (url: string, options?: any): AxiosInstance => {
     baseURL: url,
     headers: {
       // "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${uid}`, // 토큰값으로 uid
+      Authorization: `Bearer ${newData}`, // 토큰값으로 uid
     },
     ...options,
   });

@@ -8,7 +8,7 @@ import {
   requestPut,
 } from "../utils/methods";
 
-export const basePath = "/schedules";
+export const basePath = "/api/v1/schedules";
 
 export const schedulesApiRoutes = {
   getScheduleById: (scheduleId: string) => `${basePath}/${scheduleId}`,

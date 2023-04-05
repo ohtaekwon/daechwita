@@ -9,7 +9,7 @@ import { handleError } from "../utils/helpers";
 import { Resume } from "types/index.types";
 import { createResume, updateResume } from "./resumes";
 
-export const basePath = "/resumes";
+export const basePath = "/api/v1/resumes";
 
 /**
  * Temp Save Resume 임시 저장을 위한 REST API

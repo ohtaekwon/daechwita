@@ -22,16 +22,12 @@ const schedulesRoute = [
   // GET SCHEDULES
   {
     method: "get",
-    route: "/schedules",
+    route: "/api/v1/schedules",
     handler: async (req: Request, res: Response) => {
       const { headers } = req;
       try {
-        // 쿠키에서 uid 가져오기
-        // const cookie = req.headers.cookie;
-        // const uid = cookie?.split("%22")[3];
-
         // 토큰에서 uid 가져오기
-        const uid = headers.authorization?.split(" ")[1].trim();
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
         const schedules = await collection(dbService, "schedules");
@@ -56,14 +52,14 @@ const schedulesRoute = [
   },
   {
     method: "get",
-    route: "/schedules/:id",
+    route: "/api/v1/schedules/:id",
     handler: async (req: Request, res: Response) => {
       const {
-        headers,
         params: { id },
       } = req;
       try {
-        const uid = headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
         if (!id) throw Error("요청한 정보의 id값이 없습니다.");
 
@@ -85,16 +81,12 @@ const schedulesRoute = [
   // CREATE SCHEDULES
   {
     method: "post",
-    route: "/schedules",
+    route: "/api/v1/schedules",
     handler: async (req: Request, res: Response) => {
       const { body } = req;
       try {
-        // 쿠키에서 uid 가져오
-        // const cookie = req.headers.cookie;
-        // const uid = cookie?.split("%22")[3];
-
-        // 토큰에서 uid 가져오기
-        const uid = req.headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
         if (!body) throw Error("요청 정보에 body 정보가 없습니다.");
 
@@ -121,20 +113,15 @@ const schedulesRoute = [
   // UPDATE SCHEDULES
   {
     method: "put",
-    route: "/schedules/:id",
+    route: "/api/v1/schedules/:id",
     handler: async (req: Request, res: Response) => {
       const {
         body,
         params: { id },
-        headers,
       } = req;
       try {
-        // 쿠키에서 uid 가져오기
-        // const cookie = req.headers.cookie;
-        // const uid = cookie?.split("%22")[3];
-
-        // 토큰에서 uid 가져오기
-        const uid = headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("유저 아이디가 없습니다.");
         if (!id) throw Error("요청한 정보의 id값이 없습니다.");
         if (!body) throw Error("요청 정보에 body 정보가 없습니다.");
@@ -160,19 +147,14 @@ const schedulesRoute = [
   // DELETE SCHEDULES
   {
     method: "delete",
-    route: "/schedules/:id",
+    route: "/api/v1/schedules/:id",
     handler: async (req: Request, res: Response) => {
       const {
         params: { id },
-        headers,
       } = req;
       try {
-        // 쿠키에서 uid 가져오기
-        // const cookie = req.headers.cookie;
-        // const uid = cookie?.split("%22")[3];
-
-        // 토큰에서 uid 가져오기
-        const uid = headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("유저 아이디가 없습니다.");
         if (!id) throw Error("요청한 정보의 id값이 없습니다.");
 

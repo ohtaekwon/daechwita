@@ -1,6 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { css } from "@emotion/react";
+import { useRecoilState } from "recoil";
+import { tokenAtom } from "store/atoms";
+import cookies from "js-cookie";
 
 import {
   createUserWithEmailAndPassword,
@@ -8,7 +11,7 @@ import {
 } from "firebase/auth";
 import useInput from "hooks/app/useInput";
 import { authService } from "lib/firebase/firebase.config";
-import { setUserCookie } from "lib/firebase/userCookies";
+import { getUserFromCookie, setUserCookie } from "lib/firebase/userCookies";
 import { mapUserData } from "lib/firebase/mapUserData";
 
 import FirebaseAuth from "components/auth";
@@ -16,12 +19,13 @@ import Grid from "_common/components/grid";
 import { login, signUp } from "lib/apis/api/auth";
 
 const Auth = () => {
+  const [token, setToken] = useRecoilState(tokenAtom);
+
   const [email, handleEmailChange] = useInput("");
   const [password, handlePasswordChange] = useInput("");
 
   const [newAccount, setNewAccount] = React.useState(true);
   const [error, setError] = React.useState("");
-  const [token, setToken] = React.useState("");
 
   const [renderAuth, setRenderAuth] = React.useState(false);
 
@@ -36,24 +40,36 @@ const Auth = () => {
     try {
       let data;
       if (newAccount) {
-        // LOG IN
+        /**
+         * @description LOGIN
+         */
+        data = await signInWithEmailAndPassword(authService, email, password);
 
-        data = await login({
-          email: email,
-          password: password,
-        });
+        // data = await login({
+        //   email: email,
+        //   password: password,
+        // });
       } else {
-        // CREATE ACCOUNT
-        data = await signUp({
-          email: refs.emailRef.current,
-          password: refs.passwordRef.current,
-        });
+        /**
+         * @description SIGNUP
+         */
+        data = await createUserWithEmailAndPassword(
+          authService,
+          refs?.emailRef.current,
+          refs?.passwordRef.current
+        );
+
+        // data = await signUp({
+        //   email: refs.emailRef.current,
+        //   password: refs.passwordRef.current,
+        // });
       }
+      // const userData = mapUserData(data .user);
 
-      console.log(data);
+      const token = await data.user.getIdToken();
 
-      // const userData = mapUserData(data.user);
-      // setUserCookie(userData);
+      setToken(token);
+      setUserCookie(token);
     } catch (error) {
       {
         error instanceof Error && setError(error.message);

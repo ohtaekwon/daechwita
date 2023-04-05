@@ -8,7 +8,7 @@ import {
 import { handleError } from "../utils/helpers";
 import { Resume } from "types/index.types";
 
-export const basePath = "/resumes";
+export const basePath = "/api/v1/resumes";
 
 export const resumeApiRoutes = {
   getResumeByResumeId: (resumeId: string) => `${basePath}/${resumeId}`,

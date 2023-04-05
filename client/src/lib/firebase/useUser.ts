@@ -5,6 +5,8 @@ import { authService } from "./firebase.config";
 import { mapUserData } from "./mapUserData";
 import { getUserFromCookie, removeUserCookie } from "./userCookies";
 import { useQueryClient } from "react-query";
+import { useRecoilState } from "recoil";
+import { tokenAtom } from "store/atoms";
 
 type User = {
   uid: string;
@@ -14,6 +16,8 @@ type User = {
   profilePic: string;
 };
 const useUser = () => {
+  const [token, setToken] = useRecoilState(tokenAtom);
+
   const [user, setUser] = React.useState<User>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -24,6 +28,8 @@ const useUser = () => {
     try {
       await authService.signOut();
       removeUserCookie();
+      setToken("");
+
       // 모든 캐시된 데이터를 무효화
       await queryClient.invalidateQueries();
       navigate("/");
@@ -44,8 +50,8 @@ const useUser = () => {
       }
     });
     // 쿠키 가져와서 user state에 넣는다.
-    const userFromCookie = getUserFromCookie();
-    setUser(userFromCookie);
+    // const userFromCookie = getUserFromCookie();
+    // setUser(userFromCookie);
 
     // clean-up componentWillUnmount
     return () => {

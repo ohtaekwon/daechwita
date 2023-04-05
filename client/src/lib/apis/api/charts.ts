@@ -3,16 +3,16 @@ import { authInstance } from "../utils/instance";
 import { handleError } from "../utils/helpers";
 import { requestGet } from "../utils/methods";
 
-type SchedulesCategory = "column" | "company" | "department" | "";
-type ResumesCategory = "tag" | "department" | "company" | "";
-
-const BASE_PATH_TOTAL = "total";
-const BASE_PATH_USER = "user";
-
 const dict = {
   resumes: "자기소개서",
   schedules: "입사 지원현황",
 };
+
+type SchedulesCategory = "column" | "company" | "department" | "";
+type ResumesCategory = "tag" | "department" | "company" | "";
+
+const BASE_PATH_TOTAL = "/api/v1/total";
+const BASE_PATH_USER = "/api/v1/user";
 
 export const allServerDataApiRoutes = {
   // 전체 데이터

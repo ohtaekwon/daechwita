@@ -35,18 +35,14 @@ const resumesRoute = [
   // GET RESUMES
   {
     method: "get",
-    route: "/resumes",
+    route: "/api/v1/resumes",
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
           query: { latest, publishing, page = "" },
         } = req;
-        // 쿠키에서 uid 가져오기
-        // const cookie = req.headers.cookie;
-        // const uid = cookie?.split("%22")[3];
-
-        // 토큰에서 uid 가져오기
-        const uid = req.headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
         const newLatest = latest ? JSON.parse(latest as string) : false;
         const newPublishing = publishing
@@ -92,19 +88,15 @@ const resumesRoute = [
   // GET RESUME
   {
     method: "get",
-    route: "/resumes/:id",
+    route: "/api/v1/resumes/:id",
 
     handler: async (req: express.Request, res: express.Response) => {
       const {
         params: { id },
       } = req;
       try {
-        // 쿠키에서 uid 가져오기
-        // const cookie = req.headers.cookie;
-        // const uid = cookie?.split("%22")[3];
-
-        // 토큰에서 uid 가져오기
-        const uid = req.headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
         if (!id) throw Error("요청한 정보의 id값이 없습니다.");
 
@@ -127,17 +119,13 @@ const resumesRoute = [
   // CREATE RESUME
   {
     method: "post",
-    route: "/resumes",
+    route: "/api/v1/resumes",
     handler: async (req: express.Request, res: express.Response) => {
       const { body } = req;
       let newResume;
       try {
-        // 쿠키에서 uid 가져오
-        // const cookie = req.headers.cookie;
-        // const uid = cookie?.split("%22")[3];
-
-        // 토큰에서 uid 가져오기
-        const uid = req.headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
         if (!body) throw Error("요청 정보에 body 정보가 없습니다.");
 
@@ -178,27 +166,22 @@ const resumesRoute = [
   // UPDATE RESUME
   {
     method: "put",
-    route: "/resumes/:id",
+    route: "/api/v1/resumes/:id",
     handler: async (req: express.Request, res: express.Response) => {
       const {
         body,
         params: { id },
-        headers,
       } = req;
       try {
-        let newData;
-        // 쿠키에서 uid 가져오기
-        // const cookie = req.headers.cookie;
-        // const uid = cookie?.split("%22")[3];
-
-        // 토큰에서 uid 가져오기
-        const uid = headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("유저 아이디가 없습니다.");
         if (!id) throw Error("요청한 정보의 id값이 없습니다.");
         if (!body) throw Error("요청 정보에 body 정보가 없습니다.");
 
         const resumesRef = doc(dbService, "resumes", id);
         if (!resumesRef) throw Error("해당 id의 자기소개서가 없습니다.");
+        let newData;
 
         if (body.imgUrL) {
           // body에 이미지 URL이 있을 경우
@@ -258,7 +241,7 @@ const resumesRoute = [
   // DELETE RESUME
   {
     method: "delete",
-    route: "/resumes/:id",
+    route: "/api/v1/resumes/:id",
     handler: async (req: express.Request, res: express.Response) => {
       const {
         params: { id },
@@ -269,8 +252,8 @@ const resumesRoute = [
         // const cookie = req.headers.cookie;
         // const uid = cookie?.split("%22")[3];
 
-        // 토큰에서 uid 가져오기
-        const uid = headers.authorization?.split(" ")[1].trim();
+        // GET uid from middleware
+        const uid = (req as any).decodedToken!.uid;
         if (!uid) throw Error("유저 아이디가 없습니다.");
         if (!id) throw Error("요청한 정보의 id값이 없습니다.");
 
