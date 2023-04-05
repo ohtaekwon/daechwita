@@ -1,12 +1,7 @@
 import React from "react";
 import { HTMLAttributes } from "react";
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-} from "react-query";
-import { ColumnType, Schedule, SchedulesType } from "types/schedule";
-import { BadgeType } from "_common/components/badge/index.types";
+
+import { ColumnType, Schedule } from "types/schedule";
 
 export interface ColumnProps {}
 export interface Props extends HTMLAttributes<HTMLDivElement>, ColumnProps {

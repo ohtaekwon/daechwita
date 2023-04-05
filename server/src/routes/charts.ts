@@ -25,7 +25,7 @@ const charts = [
         } = req;
         // GET uid from middleware
         const uid = (req as any).decodedToken!.uid;
-
+        console.log("uid", uid);
         if (!uid) throw Error("쿠키에 유저 인증키가 없습니다.");
 
         const schedules = await collection(dbService, "schedules");

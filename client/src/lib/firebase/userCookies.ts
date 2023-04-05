@@ -9,7 +9,7 @@ export const getUserFromCookie = () => {
     return undefined;
   }
 
-  return JSON.parse(JSON.parse(JSON.stringify(cookie)));
+  return JSON.parse(cookie);
 };
 
 /**

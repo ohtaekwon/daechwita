@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-
 import React from "react";
 import { css } from "@emotion/react";
 import { useQuery } from "react-query";
@@ -10,8 +9,8 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { getAllSchedules } from "lib/apis/api/schedules";
 import { getSchedulesList } from "lib/apis/service/getSchedulesList";
 
-import Column from "components/column";
-import Grid from "_common/components/grid";
+import Column from "components/Column";
+import Grid from "_common/components/Grid";
 
 import { SchedulesEnum, SchedulesType } from "types/schedule";
 import { media } from "utils/media";

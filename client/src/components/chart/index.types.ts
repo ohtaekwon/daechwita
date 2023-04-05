@@ -36,7 +36,6 @@ export interface Props extends HTMLAttributes<HTMLDivElement>, ChartProps {
   series?: ApexOptions["series"];
   type: chartType;
   label?: string[];
-  options?: ApexOptions;
   subOption?: SubOption;
   width?: string | number;
   height?: string | number;

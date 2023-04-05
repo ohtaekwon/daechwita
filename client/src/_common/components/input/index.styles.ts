@@ -16,7 +16,6 @@ export const Input = styled.input<Required<InputProps>>`
   flex-direction: ${({ direction }) => direction};
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
-  grid-area: ${({ gridArea }) => gridArea};
   /**
   * padding 설정
   */

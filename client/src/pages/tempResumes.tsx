@@ -7,15 +7,12 @@ import { QueryKeys } from "queryClient";
 import useInterSection from "hooks/app/useInterSection";
 
 import { getAllResumes } from "lib/apis/api/resumes";
-import {
-  getResumesService,
-  getTempResumesService,
-} from "lib/apis/service/getResumes";
+import { getTempResumesService } from "lib/apis/service/getResumes";
 
-import { TempResumeCard as Card } from "components/card";
+import { TempResumeCard as Card } from "components/Card";
 
-import Text from "_common/components/text";
-import Grid from "_common/components/grid";
+import Text from "_common/components/Text";
+import Grid from "_common/components/Grid";
 
 import { media } from "utils/media";
 import { ResumesType } from "types/resumes";

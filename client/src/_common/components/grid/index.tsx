@@ -4,30 +4,20 @@ import { Props } from "./index.types";
 
 const Grid = React.forwardRef(function Grid(
   {
-    /**
-     * 엘리먼트의 타입 설정
-     */
+    /** @description 엘리먼트의 타입 설정 */
     as = "div",
-    /**
-     * Grid 설정
-     */
+    /** @description Grid 설정 */
     display = "grid",
     gridTemplateAreas = "inherit",
     gridTemplateColumns = "inherit",
     gridTemplateRows = "auto",
-    /**
-     * 배치 설정
-     */
+    /** @description 배치 설정 */
     margin = 0,
     padding = 0,
     placeItems = "inherit",
-    /**
-     * 배경/테두리 스타일 설정
-     */
+    /** @description 배경/테두리 스타일 설정 */
     backgroundColor = "inherit",
-    /**
-     * 기타 옵션 설정
-     */
+    /** @description 기타 옵션 설정 */
     children,
     gap = 0,
     ...rest
@@ -37,30 +27,20 @@ const Grid = React.forwardRef(function Grid(
   return (
     <Styled.Grid
       as={as}
-      /**
-       * Grid 설정 Prop
-       */
+      /** @description Grid 설정 */
       display={display}
       gridTemplateAreas={gridTemplateAreas}
       gridTemplateColumns={gridTemplateColumns}
       gridTemplateRows={gridTemplateRows}
-      /**
-       * 배치 설정 Prop
-       */
+      /** @description 배치 설정 */
       margin={margin}
       padding={padding}
       placeItems={placeItems}
-      /**
-       * 배경/테두리 스타일 설정 Prop
-       */
+      /** @description 배경/테두리 스타일 설정  */
       backgroundColor={backgroundColor}
-      /**
-       * 기타 옵션 설정 Prop
-       */
+      /** @description 기타 옵션 설정 */
       gap={gap}
-      /**
-       * ref 설정
-       */
+      /** @description ref 설정  */
       ref={forwardedRef}
       {...rest}
     >

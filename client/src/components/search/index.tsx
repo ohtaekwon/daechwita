@@ -1,23 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-
-import { useNavigate, useParams } from "react-router-dom";
+import { css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 
 import useInput from "hooks/app/useInput";
 
-import Input from "_common/components/input";
-import Box from "_common/components/box";
-import Button from "_common/components/button";
-import Form from "_common/components/form";
-import Section from "components/section";
-import { css } from "@emotion/react";
+import Input from "_common/components/Input";
+import Box from "_common/components/Box";
+import Button from "_common/components/Button";
+import Form from "_common/components/Form";
+import Section from "_common/components/Section";
 import { media } from "utils/media";
 
 const Search = () => {
   const navigate = useNavigate();
   const [select, setSelect] = React.useState("all");
-  const [search, onChange, setSearch] = useInput("");
+  const [search, onChange] = useInput("");
 
   const onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelect(e.target.value);

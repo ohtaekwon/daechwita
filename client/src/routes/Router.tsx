@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "components/header";
+import Header from "components/Header";
 import SignInRouter from "./signInRouter";
 import DefaultRouter from "./defaultRouter";
-import Footer from "components/footer";
+import Footer from "components/Footer";
 
 type Props = {
   isLoggedIn: Boolean;

@@ -1,6 +1,6 @@
 import React from "react";
 import * as Styled from "./index.styles";
-import { IconsItemType, Props } from "./index.types";
+import { Props } from "./index.types";
 
 const Icons = React.forwardRef(function Icons(
   {

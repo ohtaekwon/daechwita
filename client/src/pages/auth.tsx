@@ -3,7 +3,6 @@ import React from "react";
 import { css } from "@emotion/react";
 import { useRecoilState } from "recoil";
 import { tokenAtom } from "store/atoms";
-import cookies from "js-cookie";
 
 import {
   createUserWithEmailAndPassword,
@@ -11,11 +10,10 @@ import {
 } from "firebase/auth";
 import useInput from "hooks/app/useInput";
 import { authService } from "lib/firebase/firebase.config";
-import { getUserFromCookie, setUserCookie } from "lib/firebase/userCookies";
-import { mapUserData } from "lib/firebase/mapUserData";
+import { setUserCookie } from "lib/firebase/userCookies";
 
-import FirebaseAuth from "components/auth";
-import Grid from "_common/components/grid";
+import FirebaseAuth from "components/Auth";
+import Grid from "_common/components/Grid";
 import { login, signUp } from "lib/apis/api/auth";
 
 const Auth = () => {
@@ -64,7 +62,7 @@ const Auth = () => {
         //   password: refs.passwordRef.current,
         // });
       }
-      // const userData = mapUserData(data .user);
+      // const userData = mapUserData(data .user)
 
       const token = await data.user.getIdToken();
 

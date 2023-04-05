@@ -18,13 +18,13 @@ import * as Styled from "./index.styles";
 
 import { getClient, QueryKeys } from "queryClient";
 
-import Box from "_common/components/box";
-import Button from "_common/components/button";
-import Text from "_common/components/text";
-import Flex from "_common/components/flex";
-import Input from "_common/components/input";
+import Box from "_common/components/Box";
+import Button from "_common/components/Button";
+import Text from "_common/components/Text";
+import Flex from "_common/components/Flex";
+import Input from "_common/components/Input";
 
-import Modal from "components/modal";
+import Modal from "components/Modal";
 
 import useResumes from "hooks/app/useResumes";
 import useColumnDragAndDrop from "hooks/dnd/useColumnDragAndDrop";
@@ -43,7 +43,6 @@ import { media } from "utils/media";
  */
 export const ScheduleCard = ({
   index,
-  column,
   onDelete,
   onUpdate,
   onSwap: handleDropHover,

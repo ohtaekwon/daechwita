@@ -1,13 +1,13 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Home from "pages/home";
-import Resumes from "pages/resumes";
-import Schedules from "pages/schedules";
-import Interview from "pages/interview";
-import WriteResume from "pages/writeResume/index";
+import Home from "pages/Home";
+import Resumes from "pages/Resumes";
+import Schedules from "pages/Schedules";
+import Interview from "pages/Interview";
+import WriteResume from "pages/WriteResume/index";
 
-import { Layout } from "components/layout";
+import { Layout } from "components/Layout";
 import TempResumes from "pages/tempResumes";
 // import WriteResume from "components/writeResume";
 

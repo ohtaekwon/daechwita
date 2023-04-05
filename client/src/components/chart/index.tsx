@@ -5,13 +5,12 @@ import ApexChart from "react-apexcharts";
 import { allOptions } from "./index.options";
 import { Props, SubOption } from "./index.types";
 
-import Box from "_common/components/box";
-import Text from "_common/components/text";
+import Box from "_common/components/Box";
+import Text from "_common/components/Text";
 
 const Chart = ({
   type,
   series,
-  options,
   subOption = {},
   width = "100%",
   height = "100%",

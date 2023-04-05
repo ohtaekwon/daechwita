@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-
 import { ButtonProps } from "./index.types";
 
 export const Button = styled.button<Required<ButtonProps>>`

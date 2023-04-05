@@ -5,10 +5,10 @@ import { css } from "@emotion/react";
 import { HiPhotograph } from "react-icons/hi";
 import { AiOutlinePlusSquare } from "react-icons/ai";
 
-import Box from "_common/components/box";
-import Input from "_common/components/input";
-import Button from "_common/components/button";
-import Flex from "_common/components/flex";
+import Box from "_common/components/Box";
+import Input from "_common/components/Input";
+import Button from "_common/components/Button";
+import Flex from "_common/components/Flex";
 import { media } from "utils/media";
 
 /**

@@ -7,10 +7,10 @@ import { Props } from "./index.types";
 import { QueryKeys } from "queryClient";
 import useColumn from "hooks/dnd/useColumn";
 
-import Button from "_common/components/button";
-import Box from "_common/components/box";
+import Button from "_common/components/Button";
+import Box from "_common/components/Box";
 
-import { ScheduleCard } from "components/card";
+import { ScheduleCard } from "components/Card";
 import useColumnDrop from "hooks/dnd/useColumnDrop";
 import { emoji } from "utils/constants";
 import { css } from "@emotion/react";

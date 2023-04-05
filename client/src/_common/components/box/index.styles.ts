@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { BoxProps } from "./index.types";
-import { breakpoint } from "styles/theme";
 
 export const Box = styled.span<Required<BoxProps>>`
   ${({ as }) => as === "span" && `display: inline-block;`};

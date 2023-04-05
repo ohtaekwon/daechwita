@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Props, TextProps } from "./index.types";
+import { TextProps } from "./index.types";
 
 export const Text = styled.span<Required<TextProps>>`
   ${({ as }) => as === "span" && `display: inline-block;`}

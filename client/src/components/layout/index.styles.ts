@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 
 import { LayoutProps } from "./index.types";
 import { media } from "utils/media";
-import { breakpoint } from "styles/theme";
 
 export const Layout = styled.main<Required<LayoutProps>>`
   /* display: flex;

@@ -4,48 +4,32 @@ import { Props } from "./index.types";
 
 const Button = React.forwardRef(function Button(
   {
-    /**
-     * HTML태그 설정
-     */
+    /** @description HTML태그 설정 */
     type = "button",
     areaLabel = "",
-    /**
-     * Button의 유형 설정
-     */
+    /** @description Button의 유형 설정 */
     variant = "default",
-    /**
-     * 넓이/높이 설정
-     */
+    /** @description 넓이/높이 설정 */
     width = "auto",
     height = "auto",
-    /**
-     * 배치 설정
-     */
+    /** @description 배치 설정 */
     position = "static",
     zIndex = "auto",
     top = "inherit",
     left = "inherit",
     bottom = "inherit",
     right = "inherit",
-    /**
-     * 배경/테두리 스타일 설정
-     */
+    /** @description 배경/테두리 스타일 설정 */
     backgroundColor = "inherit",
     radius = 8,
-    /**
-     * padding 설정
-     */
+    /** @description padding 설정 */
     paddingX = 16,
     paddingY = 8,
-    /**
-     * font 스타일 설정
-     */
+    /** @description font 스타일 설정 */
     fontSize = "md",
     lineHeight = "md",
     fontWeight = 400,
-    /**
-     * margin 설정
-     */
+    /** @description margin 설정 */
     marginTop = 0,
     marginRight = 0,
     marginBottom = 0,
@@ -57,55 +41,37 @@ const Button = React.forwardRef(function Button(
 ) {
   return (
     <Styled.Button
-      /**
-       * HTML태그 설정
-       */
+      /** @description HTML태그 설정 */
       type={type}
       aria-label={areaLabel}
-      /**
-       * Button의 유형 설정
-       */
+      /** @description Button의 유형 설정 */
       variant={variant}
-      /**
-       * 넓이/높이 설정
-       */
+      /** @description 넓이/높이 설정 */
       width={width}
       height={height}
-      /**
-       * 배치 설정
-       */
+      /** @description 배치 설정 */
       position={position}
       top={top}
       bottom={bottom}
       right={right}
       left={left}
       zIndex={zIndex}
-      /**
-       * font 스타일 설정
-       */
+      /** @description font 스타일 설정*/
       fontSize={fontSize}
       lineHeight={lineHeight}
       fontWeight={fontWeight}
-      /**
-       * margin 설정
-       */
+      /** @description margin 설정 */
       marginTop={marginTop}
       marginRight={marginRight}
       marginBottom={marginBottom}
       marginLeft={marginLeft}
-      /**
-       * padding 설정
-       */
+      /** @description padding 설정 */
       paddingX={paddingX}
       paddingY={paddingY}
-      /**
-       * 배경/테두리 스타일 설정
-       */
+      /** @description 배경/테두리 스타일 설정 */
       backgroundColor={backgroundColor}
       radius={radius}
-      /**
-       * ref 설정
-       */
+      /** @description ref 설정 */
       ref={forwardedRef}
       {...rest}
     >

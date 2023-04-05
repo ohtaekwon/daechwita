@@ -4,12 +4,12 @@ import React from "react";
 import { css } from "@emotion/react";
 import { FaTrashAlt } from "react-icons/fa";
 
-import Text from "_common/components/text";
-import Form from "_common/components/form";
-import Box from "_common/components/box";
-import Input from "_common/components/input";
-import Button from "_common/components/button";
-import Textarea from "_common/components/textarea";
+import Text from "_common/components/Text";
+import Form from "_common/components/Form";
+import Box from "_common/components/Box";
+import Input from "_common/components/Input";
+import Button from "_common/components/Button";
+import Textarea from "_common/components/Textarea";
 
 import {
   MemoizedTagInput,

@@ -1,8 +1,6 @@
 /** @jsxImportSource @emotion/react */
-
 import React from "react";
 import { fieldStyle, formStyle, inputStyle, submitStyle } from "./index.styles";
-import { error } from "console";
 
 type Refs = {
   emailRef: React.RefObject<HTMLInputElement>;

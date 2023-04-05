@@ -1,13 +1,12 @@
 /** @jsxImportSource @emotion/react */
-
 import React from "react";
 import { Outlet } from "react-router-dom";
 
 import * as Styled from "./index.styles";
 import { Props } from "./index.types";
 
-import Search from "components/search";
-import Header from "components/header";
+import Search from "components/Search";
+import Header from "components/Header";
 
 export const Layout = React.forwardRef(function Layout(
   {

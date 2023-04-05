@@ -2,8 +2,8 @@
 import React from "react";
 import { css } from "@emotion/react";
 
-import Box from "_common/components/box";
-import Input from "_common/components/input";
+import Box from "_common/components/Box";
+import Input from "_common/components/Input";
 import { media } from "utils/media";
 
 /**

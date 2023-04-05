@@ -3,9 +3,9 @@ import React from "react";
 import { css } from "@emotion/react";
 import { ImCancelCircle } from "react-icons/im";
 
-import Box from "_common/components/box";
-import Button from "_common/components/button";
-import Text from "_common/components/text";
+import Box from "_common/components/Box";
+import Button from "_common/components/Button";
+import Text from "_common/components/Text";
 import { media } from "utils/media";
 
 const ImageBox = ({

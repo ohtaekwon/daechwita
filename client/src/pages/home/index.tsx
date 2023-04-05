@@ -1,16 +1,9 @@
-/** @jsxImportSource @emotion/react */
 import React from "react";
-import { css } from "@emotion/react";
-
-import Text from "_common/components/text";
-import Grid from "_common/components/grid";
-
-import { emoji } from "utils/constants";
-import { media } from "utils/media";
-import { theme } from "styles";
 
 import TotalDataCharts from "./TotalDataCharts";
 import MyDataCharts from "./MyDataCharts";
+
+import { theme } from "styles";
 
 const Home = () => {
   React.useEffect(() => {

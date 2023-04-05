@@ -1,22 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import _ from "lodash";
 import { useNavigate } from "react-router-dom";
-import { useInfiniteQuery, useQuery } from "react-query";
 import { css } from "@emotion/react";
-import { AiOutlinePlusSquare } from "react-icons/ai";
+import _ from "lodash";
+import { useInfiniteQuery } from "react-query";
 import { getClient, QueryKeys } from "queryClient";
+import { AiOutlinePlusSquare } from "react-icons/ai";
 
 import { getAllResumes } from "lib/apis/api/resumes";
 import { getResumesService } from "lib/apis/service/getResumes";
 import useInterSection from "hooks/app/useInterSection";
 
-import Section from "components/section";
-import { ResumeCard as Card } from "components/card";
-import Text from "_common/components/text";
-import Button from "_common/components/button";
-import Box from "_common/components/box";
-import Grid from "_common/components/grid";
+import Section from "_common/components/Section";
+import { ResumeCard as Card } from "components/Card";
+import Text from "_common/components/Text";
+import Button from "_common/components/Button";
+import Box from "_common/components/Box";
+import Grid from "_common/components/Grid";
 
 import { emoji } from "utils/constants";
 import { media } from "utils/media";

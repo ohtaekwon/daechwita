@@ -2,7 +2,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { Props } from "./index.types";
-import SignUp from "./signUp";
+import SignUp from "./SignUp";
 
 const FirebaseAuth = ({
   className = "",

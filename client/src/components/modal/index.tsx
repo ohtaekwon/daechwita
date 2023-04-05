@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
+import { createPortal } from "react-dom";
 import { css } from "@emotion/react";
+import { MdCancel } from "react-icons/md";
+
 import * as Styled from "./index.styles";
 import { ModalProps, PortalProps } from "./index.types";
 
-import { createPortal } from "react-dom";
-import { MdCancel } from "react-icons/md";
-
-import Button from "_common/components/button";
+import Button from "_common/components/Button";
 import { media } from "utils/media";
 
 const ModalPortal = ({
@@ -52,9 +52,7 @@ const Modal = ({
 };
 
 export default Modal;
-{
-  /* <Modal show={modalShown} cancel={cancel} /> */
-}
+
 const modalStyle = css`
   ${media[0]} {
     width: 90%;

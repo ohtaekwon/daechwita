@@ -3,15 +3,12 @@ import React from "react";
 import { css } from "@emotion/react";
 import { FcSpeaker } from "react-icons/fc";
 
-import useSpeech from "hooks/app/useSpeech";
-
 import Spinner from "components/Spinner";
 
-import Button from "_common/components/button";
-import Input from "_common/components/input";
-import Flex from "_common/components/flex";
-import Text from "_common/components/text";
-import { emoji } from "utils/constants";
+import Button from "_common/components/Button";
+import Input from "_common/components/Input";
+import Flex from "_common/components/Flex";
+import Text from "_common/components/Text";
 
 const getSpeech = (text: any) => {
   let voices: any[] = [];

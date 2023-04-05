@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { GridProps, GridContainerProps } from "./index.types";
+import { GridProps } from "./index.types";
 
 export const Grid = styled.div<Required<GridProps>>`
   /**

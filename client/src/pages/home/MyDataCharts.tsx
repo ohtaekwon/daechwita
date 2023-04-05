@@ -10,9 +10,9 @@ import {
   getUserSchedulesByCategory,
 } from "lib/apis/api/charts";
 
-import Chart from "components/chart";
-import Text from "_common/components/text";
-import Grid from "_common/components/grid";
+import Chart from "components/Chart";
+import Text from "_common/components/Text";
+import Grid from "_common/components/Grid";
 
 import { emoji, scheduleChartDict } from "utils/constants";
 import { checkSeries } from "utils/helpers";

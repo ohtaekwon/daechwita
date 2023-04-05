@@ -17,9 +17,7 @@ const verifyTokenAuthMiddleware = (
       if (error) {
         res.status(401).send("토큰이 유효하지 않습니다.");
       } else {
-        const decodeToken = decoded;
-        console.log("decoded", decodeToken);
-        (req as any).user = decoded; // 디코드한 JWT를 USER에 할당
+        (req as any).decodedToken = decoded; // 디코드한 JWT를 USER에 할당
         next();
       }
     });

@@ -19,16 +19,16 @@ import useModal from "hooks/app/useGoBack";
 import { deleteResume, getResume } from "lib/apis/api/resumes";
 import { MemoizedAdditionalSelect, MemoizedImageBox } from "./memorized";
 
-import Modal from "components/modal";
+import Modal from "components/Modal";
 import { OptionBox } from "./optionBox";
 import { FormList } from "./resumesForm";
 
-import Section from "components/section";
-import Text from "_common/components/text";
-import Box from "_common/components/box";
-import Flex from "_common/components/flex";
-import Button from "_common/components/button";
-import Grid from "_common/components/grid";
+import Section from "_common/components/Section";
+import Text from "_common/components/Text";
+import Box from "_common/components/Box";
+import Flex from "_common/components/Flex";
+import Button from "_common/components/Button";
+import Grid from "_common/components/Grid";
 
 import { emoji } from "utils/constants";
 import { resumesIdAtom } from "store/atoms";

@@ -3,28 +3,25 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { css } from "@emotion/react";
 import _ from "lodash";
-
 import { AiOutlineHome, AiOutlineUser } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import theme from "styles/theme";
-
-import * as Styled from "./index.styles";
 import { Props } from "./index.types";
 
 import useModal from "hooks/app/useGoBack";
 import useUser from "lib/firebase/useUser";
 
-import Button from "_common/components/button";
-import Flex from "_common/components/flex";
-import Icons from "_common/components/icons";
-import Box from "_common/components/box";
-import Text from "_common/components/text";
+import Button from "_common/components/Button";
+import Flex from "_common/components/Flex";
+import Icons from "_common/components/Icons";
+import Box from "_common/components/Box";
+import Text from "_common/components/Text";
 
 import { media } from "utils/media";
-import Modal from "components/modal";
+import Modal from "components/Modal";
 
 const Header = ({ transparent }: React.PropsWithChildren<Props>) => {
-  const { user, logout } = useUser();
+  const { logout } = useUser();
 
   const headerStyles = css`
     padding: 8px calc((100% - 1280px) / 2);
