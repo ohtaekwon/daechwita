@@ -1,4 +1,4 @@
-import { authInstance } from "../utils/instance";
+import authInstance from "../utils/interceptors";
 import {
   requestDelete,
   requestGet,

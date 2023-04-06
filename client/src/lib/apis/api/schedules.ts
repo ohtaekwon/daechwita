@@ -1,4 +1,4 @@
-import { authInstance } from "../utils/instance";
+import authInstance from "../utils/interceptors";
 import { Schedule } from "types/schedule";
 import { handleError } from "../utils/helpers";
 import {

@@ -8,6 +8,7 @@ import "dotenv/config";
 import verifyTokenAuthMiddleware from "./middleware/verifyTokenAuthMiddleware";
 
 import authRoute from "./routes/auth";
+import totalCharts from "./routes/totalChart";
 import schedulesRoute from "./routes/schedules";
 import resumesRoute from "./routes/resumes";
 import charts from "./routes/charts";

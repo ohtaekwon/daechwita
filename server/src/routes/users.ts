@@ -65,7 +65,6 @@ const usersRoute = [
       const uid = req.headers.authorization?.split(" ")[1].trim();
       if (!uid) throw Error("유저 아이디가 없습니다.");
 
-      console.log("---------pass------", id);
       const users = await collection(dbService, "users");
       const q = query(users, where("uid", "==", id));
       const usersSnapshot = await getDocs(q);
@@ -114,25 +113,16 @@ const usersRoute = [
         params: { id },
       } = req;
       try {
-        console.log("-------여기 지남-----", id, body);
         const userRef = doc(dbService, "users", id);
 
         if (!userRef) throw Error("유저 정보가 없습니다.");
-        console.log("-------userRef 지남--------");
 
         const updatedRef = await updateDoc(userRef, {
           ...body,
           createdAt: serverTimestamp(),
         });
-        console.log("updatedRef", updatedRef);
         const snapShot = await getDoc(userRef);
-        console.log("스냅샷", snapShot.data());
 
-        if (snapShot.exists()) {
-          console.log("still exists");
-        } else {
-          console.log("it worked!");
-        }
         res.send(snapShot.data());
 
         return {

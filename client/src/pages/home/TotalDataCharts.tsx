@@ -23,12 +23,12 @@ const TotalDataCharts = () => {
    * @constant totalCompanyOfSchedules 전체 이력서 데이터로 schedules의 company 데이터
    * @constant totalTagOfResume 전체 입사 지원 현황 데이터로 resumes의 tag 데이터
    */
-  const { data: totalCompanyOfSchedules } = useQuery<
+  const { data: totalCompanyOfSchedules, isLoading: CIsLoading } = useQuery<
     { company: string; count: number }[]
   >(QueryKeys.TOTAL_CHART_SCHEDULES_BY_CATEGORY("company"), () =>
     getTotalSchedulesByCategory("company")
   );
-  const { data: totalTagOfResumes } = useQuery<
+  const { data: totalTagOfResumes, isLoading: TisLoading } = useQuery<
     { tag: string; count: number }[]
   >(QueryKeys.TOTAL_CHART_RESUMES_BY_CATEGORY("tag"), () =>
     getTotalResumesByCategory("tag")
@@ -101,23 +101,35 @@ const TotalDataCharts = () => {
         placeItems="center"
         css={gridStyle}
       >
-        <Chart
-          type="bar"
-          subOption={{
-            text: "유저들이 가장 많이 지원한 기업 TOP 20",
-            categories: ["TOP 20 기업"],
-          }}
-          series={checkSeries(totalSchedulesCompany)}
-        />
-        <Chart
-          type="treemap"
-          subOption={{ text: "다른 사람들이 가장 많이 쓴 자소서 유형 TOP20" }}
-          series={[
-            {
-              data: totalResumesTag?.map(({ tag: x, count: y }) => ({ x, y })),
-            },
-          ]}
-        />
+        {CIsLoading ? (
+          <div>Loading....</div>
+        ) : (
+          <Chart
+            type="bar"
+            subOption={{
+              text: "유저들이 가장 많이 지원한 기업 TOP 20",
+              categories: ["TOP 20 기업"],
+            }}
+            series={checkSeries(totalSchedulesCompany)}
+          />
+        )}
+
+        {TisLoading ? (
+          <div>Loading....</div>
+        ) : (
+          <Chart
+            type="treemap"
+            subOption={{ text: "다른 사람들이 가장 많이 쓴 자소서 유형 TOP20" }}
+            series={[
+              {
+                data: totalResumesTag?.map(({ tag: x, count: y }) => ({
+                  x,
+                  y,
+                })),
+              },
+            ]}
+          />
+        )}
       </Grid>
     </>
   );

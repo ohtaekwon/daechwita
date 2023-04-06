@@ -1,8 +1,8 @@
 import React from "react";
-import AdditionalSelect from "./additionalSelect";
-import FormItem, { TagInput, TextWrite, TitleInput } from "./resumesForm";
-import { OptionBox } from "./optionBox";
-import ImageBox from "./imageBox";
+import WriteResumeAdditionalSelect from "./WriteResumeAdditionalSelect";
+import FormItem, { TagInput, TextWrite, TitleInput } from "./WriteResumeForm";
+import WriteResumeOptionBox from "./WriteResumeOptionBox";
+import WriteResumeImageBox from "./WriteResumeImageBox";
 
 /**
  * @description memo 파일입니다. 무분별한 리랜더링을 제어하기 위한 기능입니다.
@@ -12,16 +12,16 @@ import ImageBox from "./imageBox";
  * 태그 / 제목 / 텍스트 입력폼
  */
 
-const AdditionalImagePropsAreEqual = (
+const WriteResumeImageBoxPropsAreEqual = (
   prevAdditionalProps: { imageFile: any },
   nextAdditionalProps: { imageFile: any }
 ) => {
   return prevAdditionalProps.imageFile === nextAdditionalProps.imageFile;
 };
 
-export const MemoizedImageBox = React.memo(
-  ImageBox,
-  AdditionalImagePropsAreEqual
+export const MemoizedWriteResumeImageBox = React.memo(
+  WriteResumeImageBox,
+  WriteResumeImageBoxPropsAreEqual
 );
 
 /**
@@ -40,8 +40,9 @@ const AdditionalSelectPropsAreEqual = (
     prevAdditionalProps.department === nextAdditionalProps.department
   );
 };
-export const MemoizedAdditionalSelect = React.memo(
-  AdditionalSelect,
+
+export const MemoizedWriteResumeAdditionalSelect = React.memo(
+  WriteResumeAdditionalSelect,
   AdditionalSelectPropsAreEqual
 );
 
@@ -116,11 +117,14 @@ export const MemoizedTextWrite = React.memo(TextWrite, TextPropsAreEqual);
  * @param nextProps
  * @returns boolean
  */
-const OptionBoxPropsAreEqual = (
+const WriteResumeOptionBoxPropsAreEqual = (
   prevOptionBoxProps: { toggle: boolean },
   nextOptionBoxProps: { toggle: boolean }
 ) => {
   return prevOptionBoxProps.toggle === nextOptionBoxProps.toggle;
 };
 
-export const MemoizedOptionBox = React.memo(OptionBox, OptionBoxPropsAreEqual);
+export const MemoizedWriteResumeOptionBox = React.memo(
+  WriteResumeOptionBox,
+  WriteResumeOptionBoxPropsAreEqual
+);

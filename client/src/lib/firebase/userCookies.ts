@@ -18,7 +18,7 @@ export const getUserFromCookie = () => {
 export const setUserCookie = (user: any) => {
   cookies.set("Daechwita", JSON.stringify(user), {
     /**
-     * firebase id tokens이 만료가 일치하도록 쿠키만료를 설정
+     * tokens이 만료가 일치하도록 쿠키만료를 설정
      */
     expires: 24 / 24, // 24시간 설정
   });

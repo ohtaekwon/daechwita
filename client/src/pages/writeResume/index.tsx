@@ -16,12 +16,15 @@ import { useInputReducer } from "hooks/app/useInputReducer";
 import useItems, { ITEM_KEY } from "hooks/app/useItems";
 import useModal from "hooks/app/useGoBack";
 
-import { deleteResume, getResume } from "lib/apis/api/resumes";
-import { MemoizedAdditionalSelect, MemoizedImageBox } from "./memorized";
+import { getResume } from "lib/apis/api/resumes";
+import {
+  MemoizedWriteResumeAdditionalSelect,
+  MemoizedWriteResumeImageBox,
+} from "./Memorized";
 
 import Modal from "components/Modal";
-import { OptionBox } from "./optionBox";
-import { FormList } from "./resumesForm";
+import WriteResumeOptionBox from "./WriteResumeOptionBox";
+import { FormList } from "./WriteResumeForm";
 
 import Section from "_common/components/Section";
 import Text from "_common/components/Text";
@@ -285,13 +288,13 @@ const WriteResume = () => {
 
           <Flex css={flexStyle}>
             {/* 이미지 선택 컴포넌트 */}
-            <MemoizedImageBox
+            <MemoizedWriteResumeImageBox
               imageFile={imageFile}
               onClear={handleClear}
               onImageUpload={handleClickImageUpload}
             />
             {/* additionalSelect (회사/부서명) 추가 선택 컴포넌트*/}
-            <MemoizedAdditionalSelect
+            <MemoizedWriteResumeAdditionalSelect
               company={applyState.company}
               department={applyState.department}
               setAdditionalInfo={setApplyState}
@@ -310,7 +313,7 @@ const WriteResume = () => {
         </Section>
 
         {/* optionBox 사이드 옵션 박스 컴포넌트 */}
-        <OptionBox
+        <WriteResumeOptionBox
           toggle={toggle}
           handleSubmit={handleSubmit}
           handleSelect={handleSelect}

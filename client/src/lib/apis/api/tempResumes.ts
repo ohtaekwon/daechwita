@@ -1,12 +1,4 @@
-import {
-  requestDelete,
-  requestGet,
-  requestPost,
-  requestPut,
-} from "../utils/methods";
-
 import { handleError } from "../utils/helpers";
-import { Resume } from "types/index.types";
 import { createResume, updateResume } from "./resumes";
 
 export const basePath = "/api/v1/resumes";

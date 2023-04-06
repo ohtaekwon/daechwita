@@ -1,7 +1,9 @@
-import { authInstance } from "../utils/instance";
+// import authInstance from "../utils/interceptors";
 
 import { handleError } from "../utils/helpers";
 import { requestGet } from "../utils/methods";
+import { authInstance, baseInstance } from "../utils/instance";
+import { getUserFromCookie } from "lib/firebase/userCookies";
 
 const dict = {
   resumes: "자기소개서",
@@ -47,7 +49,8 @@ export const getTotalSchedulesByCategory = async (
     console.info(`전체 입사지원형황 데이터를 가져오는 중입니다.`);
     const apiRoute =
       allServerDataApiRoutes.getTotalSchedulesByCategory(category);
-    const { data } = await requestGet(authInstance, apiRoute);
+    const { data } = await requestGet(baseInstance, apiRoute);
+    console.info(`전체 입사지원형황 데이터를 반환하였습니다.`);
     return data;
   } catch (error) {
     console.error(
@@ -62,7 +65,9 @@ export const getTotalResumesByCategory = async (category: ResumesCategory) => {
   try {
     console.info(`전체 자기소개 데이터를 가져오는 중입니다.`);
     const apiRoute = allServerDataApiRoutes.getTotalResumesByCategory(category);
-    const { data } = await requestGet(authInstance, apiRoute);
+    const { data } = await requestGet(baseInstance, apiRoute);
+    console.info(`전체 자기소개 데이터를 반환하였습니다.`);
+
     return data;
   } catch (error) {
     console.error(
@@ -80,7 +85,7 @@ export const getUserSchedulesByCategory = async (
     console.info(`사용자의 입사지원현황 데이터를 가져오는 중입니다.`);
     const apiRoute =
       allServerDataApiRoutes.getUserSchedulesByCategory(category);
-    const { data } = await requestGet(authInstance, apiRoute);
+    const { data } = await requestGet(baseInstance, apiRoute);
     return data;
   } catch (error) {
     console.error(
@@ -104,7 +109,7 @@ export const getUserResumesByCategory = async ({
       category,
       publishing,
     });
-    const { data } = await requestGet(authInstance, apiRoute);
+    const { data } = await requestGet(baseInstance, apiRoute);
     return data;
   } catch (error) {
     console.error(
@@ -119,11 +124,11 @@ export const getUserResumesAll = async () => {
   try {
     console.info(`사용자의 자기소개서 데이터를 가져오는 중입니다.`);
     const apiRoute = allServerDataApiRoutes.getUserResumesAll();
-    const { data } = await requestGet(authInstance, apiRoute);
+    const { data } = await requestGet(baseInstance, apiRoute);
     return data;
   } catch (error) {
     console.error(
-      "사용자의 자기소개 데이터를 가져오는 도중 에러가 발생하였습니다."
+      "자기소개서 작성현황 데이터를 가져오는 도중 에러가 발생하였습니다."
     );
     const { code, message } = handleError(error);
     return { error: { code, message } };

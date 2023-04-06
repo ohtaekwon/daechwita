@@ -14,7 +14,8 @@ import TempResumes from "pages/tempResumes";
 const url = process.env.PUBLIC_URL;
 const img = `url(${url}/images/bg_color.jpg)`;
 
-const SignInRouter = () => {
+// const Home = React.lazy(() => import("pages/Home"));
+const AuthCompletedRouter = () => {
   return (
     <>
       <Routes>
@@ -38,4 +39,4 @@ const SignInRouter = () => {
     </>
   );
 };
-export default SignInRouter;
+export default AuthCompletedRouter;

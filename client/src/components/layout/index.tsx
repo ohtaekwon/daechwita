@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 
 import * as Styled from "./index.styles";
@@ -36,7 +36,9 @@ export const Layout = React.forwardRef(function Layout(
         {...rest}
       >
         {inHeader && <Header transparent />}
-        <Outlet />
+        <Suspense fallback={<h1>Loading..........</h1>}>
+          <Outlet />
+        </Suspense>
       </Styled.Layout>
     </>
   );

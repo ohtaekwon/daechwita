@@ -1,9 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { getUserFromCookie } from "lib/firebase/userCookies";
 
-// const cookie = getUserFromCookie();
-// const newCookie = cookie || "";
-
 /**
  * @constant baseUrl SERVER URL
  */
@@ -18,7 +15,9 @@ const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
 const basicApi = (url: string, options?: any): AxiosInstance => {
   const instance = axios.create({
     baseURL: url,
-    headers: {},
+    headers: {
+      Authorization: `Bearer ${getUserFromCookie()}`,
+    },
   });
   return instance;
 };
@@ -34,11 +33,24 @@ const authApi = (url: string, options?: any): AxiosInstance => {
   return axios.create({
     baseURL: url,
     headers: {
-      // "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${getUserFromCookie()}`, // 토큰값으로 uid
+      "content-type": "application/json;charset=UTF-8",
+      // Authorization: `Bearer ${getUserFromCookie()}`, // 토큰값으로 uid
     },
     ...options,
   });
 };
+
 export const baseInstance = basicApi(baseUrl!, { withCredentials: true });
 export const authInstance = authApi(baseUrl!, { withCredentials: true });
+
+const preAuthInstance = authApi(baseUrl!, { withCredentials: true });
+
+preAuthInstance.interceptors.request.use((config) => {
+  const token = getUserFromCookie();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default preAuthInstance;

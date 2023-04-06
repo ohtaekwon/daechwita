@@ -19,7 +19,7 @@ const inputStyle = css`
   border: 0;
   box-shadow: 0 4px 12px 0 rgb(0 0 0 / 40%), 0 4px 12px 0 rgb(0 0 0 /36%);
 `;
-export const OptionBox = React.forwardRef(function OptionBox(
+const WriteResumeOptionBox = React.forwardRef(function WriteResumeOptionBox(
   {
     toggle,
     handleSubmit,
@@ -146,6 +146,7 @@ export const OptionBox = React.forwardRef(function OptionBox(
     </Box>
   );
 });
+export default WriteResumeOptionBox;
 const boxStyle = css`
   position: absolute;
   box-shadow: rgb(0 0 0 / 10%) 10px 10px 30px;

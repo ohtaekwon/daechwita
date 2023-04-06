@@ -42,11 +42,6 @@ const Auth = () => {
          * @description LOGIN
          */
         data = await signInWithEmailAndPassword(authService, email, password);
-
-        // data = await login({
-        //   email: email,
-        //   password: password,
-        // });
       } else {
         /**
          * @description SIGNUP
@@ -56,13 +51,7 @@ const Auth = () => {
           refs?.emailRef.current,
           refs?.passwordRef.current
         );
-
-        // data = await signUp({
-        //   email: refs.emailRef.current,
-        //   password: refs.passwordRef.current,
-        // });
       }
-      // const userData = mapUserData(data .user)
 
       const token = await data.user.getIdToken();
 

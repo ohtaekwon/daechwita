@@ -8,7 +8,7 @@ import Button from "_common/components/Button";
 import Text from "_common/components/Text";
 import { media } from "utils/media";
 
-const ImageBox = ({
+const WriteResumeImageBox = ({
   imageFile,
   onClear,
   onImageUpload,
@@ -84,7 +84,7 @@ const ImageBox = ({
     </>
   );
 };
-export default ImageBox;
+export default WriteResumeImageBox;
 
 const imageBoxStyle = css`
   ${media[0]} {

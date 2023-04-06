@@ -15,7 +15,7 @@ import {
   MemoizedTagInput,
   MemoizedTextWrite,
   MemoizedTitleInput,
-} from "./memorized";
+} from "./Memorized";
 
 export const FormList = ({
   list,

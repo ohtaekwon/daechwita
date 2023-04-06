@@ -1,4 +1,4 @@
-import { authInstance } from "../utils/instance";
+import authInstance from "../utils/interceptors";
 import { handleError } from "../utils/helpers";
 import { requestGet, requestPost, requestPut } from "../utils/methods";
 

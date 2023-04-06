@@ -41,9 +41,11 @@ const MyDataCharts = ({}) => {
     getUserSchedulesByCategory("department")
   );
 
-  const { data: userTagOfResumes, refetch: userTagOfResumesRefetch } = useQuery<
-    { tag: string; count: number }[]
-  >(
+  const {
+    data: userTagOfResumes,
+    error: Terror,
+    refetch: userTagOfResumesRefetch,
+  } = useQuery<{ tag: string; count: number }[]>(
     QueryKeys.USER_CHART_RESUMES_BY_CATEGORY("tag"),
     () => getUserResumesByCategory({ category: "tag", publishing: true }),
     {
@@ -52,7 +54,7 @@ const MyDataCharts = ({}) => {
     }
   );
 
-  const { data: userAllOfResumes } = useQuery<{
+  const { data: userAllOfResumes, error: Aerror } = useQuery<{
     isPublishing: number;
     isNotPublishing: number;
   }>(QueryKeys.USER_CHART_ALL_RESUMES(), () => getUserResumesAll());
@@ -85,7 +87,6 @@ const MyDataCharts = ({}) => {
 
   // 나의 입사 지원 현황
   React.useEffect(() => {
-    console.log("useEffect");
     /**
      * @description userColumnOfSchedules에서 column 전처리
      */
@@ -165,6 +166,9 @@ const MyDataCharts = ({}) => {
       userTagOfResumesRefetch();
     };
   }, []);
+
+  if (Terror) return <div>Error: {(Terror as Error).message}</div>;
+  if (Aerror) return <div>Error: {(Aerror as Error).message}</div>;
 
   return (
     <>

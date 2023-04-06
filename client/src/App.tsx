@@ -1,23 +1,19 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-
 import Router from "routes/Router";
-import "./lib/apis/utils/global";
+import { useNavigate } from "react-router-dom";
 import { authService } from "lib/firebase/firebase.config";
 import { getUserFromCookie } from "lib/firebase/userCookies";
 import { useRecoilValue } from "recoil";
 import { tokenAtom } from "store/atoms";
-import cookies from "js-cookie";
+import "./lib/apis/utils/global";
 
 function App() {
-  // const cookie = cookies.get("Daechwita");
-
   const token = useRecoilValue(tokenAtom);
   const navigate = useNavigate();
   const [init, setInit] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
-  const handleAuthStatus = async (cookie: any) => {
+  const handleAuthStatus = async (cookie: string) => {
     if (!cookie) {
       await authService.signOut();
       navigate("/");
@@ -26,7 +22,6 @@ function App() {
 
   React.useEffect(() => {
     authService.onAuthStateChanged((user) => {
-      console.log("여기는 user", user);
       if (user) {
         setIsLoggedIn(true);
       } else {
@@ -41,9 +36,9 @@ function App() {
     handleAuthStatus(cookie);
   }, []);
 
-  console.log(token);
-
-  return <>{init ? <Router isLoggedIn={isLoggedIn} /> : "loading..."}</>;
+  return (
+    <>{init ? <Router isLoggedIn={isLoggedIn} /> : <h1>"loading..."</h1>}</>
+  );
 }
 
 export default App;

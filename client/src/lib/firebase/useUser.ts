@@ -29,9 +29,8 @@ const useUser = () => {
       await authService.signOut();
       removeUserCookie();
       setToken("");
-
       // 모든 캐시된 데이터를 무효화
-      await queryClient.invalidateQueries();
+      await queryClient.clear();
       navigate("/");
     } catch (error) {
       console.log(error);
