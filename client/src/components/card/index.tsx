@@ -676,19 +676,88 @@ export const TempResumeCard = ({
   tag,
   colors,
 }: React.PropsWithChildren<TempCardProps>) => {
+  const navigate = useNavigate();
   return (
-    <Styled.TempWrapper>
+    <Styled.TempWrapper
+      css={css`
+        height: 200px;
+        margin: 1rem 0;
+        background: #fff;
+        box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
+          rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+      `}
+    >
       <Flex alignItems="center">
-        <Box width="300px" height="300px">
+        <Box width="300px" height="200px">
           <img
             src={imgUrl}
             alt="이미지가 없습니다."
             loading="lazy"
             css={tempImg}
+            onClick={() => navigate(`/resumes/write/${id}`)}
           />
         </Box>
-        <Text>{resumes.apply.company}</Text>
-        <Text>{resumes.apply.department}</Text>
+        <Box width="100%" height="200px" display="flex" direction="column">
+          <Flex
+            width="100%"
+            css={css`
+              border-bottom: 1px solid #000;
+              padding: 1rem 0;
+            `}
+          >
+            <Text
+              fontWeight={700}
+              fontSize="xl"
+              css={titleStyle}
+              marginRight={20}
+              onClick={() => navigate(`/resumes/write/${id}`)}
+            >
+              회사명 : {resumes.apply.company}
+            </Text>
+            <Text
+              fontWeight={700}
+              fontSize="xl"
+              css={titleStyle}
+              onClick={() => navigate(`/resumes/write/${id}`)}
+            >
+              부서명 : {resumes.apply.department}
+            </Text>
+          </Flex>
+
+          {resumes.documents.map((doc, index) => (
+            <Flex
+              key={doc.id}
+              direction="column"
+              css={css`
+                padding: 0 1rem;
+              `}
+            >
+              {index === 0 && (
+                <>
+                  <Text
+                    fontSize="lg"
+                    marginTop={20}
+                    marginRight={20}
+                    marginBottom={5}
+                  >
+                    유형 : {doc.tag}
+                  </Text>
+                  <Text fontSize="lg" marginRight={20} marginBottom={5}>
+                    제목 : {doc.title}
+                  </Text>
+                  <Text
+                    fontSize="lg"
+                    marginRight={20}
+                    marginBottom={5}
+                    css={textStyle}
+                  >
+                    본문 : {doc.text}
+                  </Text>
+                </>
+              )}
+            </Flex>
+          ))}
+        </Box>
       </Flex>
     </Styled.TempWrapper>
   );
@@ -701,4 +770,19 @@ const tempImg = css`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+`;
+const titleStyle = css`
+  height: 30px;
+  cursor: pointer;
+`;
+
+const textStyle = css`
+  width: 900px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; // 원하는 라인수
+  -webkit-box-orient: vertical;
 `;

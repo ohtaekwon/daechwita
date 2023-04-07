@@ -157,6 +157,12 @@ export interface InputProps {
    * @default 'inherit'
    */
   placeholderColor?: keyof typeof theme.colors;
+
+  /**
+   * input박스가 focus될 때의 색상
+   * @default 'inherit'
+   */
+  focusColor?: keyof typeof theme.colors;
 }
 
 export type InputType =

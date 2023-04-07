@@ -49,10 +49,9 @@ const resumesRoute = [
           ? JSON.parse(publishing as string)
           : false;
 
-        const resumes = await collection(dbService, "resumes"); // resumes 컬렉션에 접근
-        // 쿼리 조건문
-        const queryOptions: any = [orderBy("createdAt", "desc")]; // 가장 최근이 먼저 나오도록
-        queryOptions.unshift(where("uid", "==", uid)); // 해당 uid값이 있는 스케쥴 정보를 select
+        const resumes = await collection(dbService, "resumes");
+        const queryOptions: any = [orderBy("createdAt", "desc")];
+        queryOptions.unshift(where("uid", "==", uid));
 
         if (newLatest) {
           queryOptions.unshift(where("publishing", "==", newPublishing));

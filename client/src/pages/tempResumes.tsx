@@ -27,9 +27,10 @@ const TempResumes = () => {
     hasNextPage,
     isSuccess,
     isFetchingNextPage,
+    refetch,
     status,
   } = useInfiniteQuery<ResumesType[]>(
-    QueryKeys.RESUMES(),
+    QueryKeys.TEMP(),
     ({ pageParam = "" }) =>
       getAllResumes({ publishing: false, pageParam }).then(
         getTempResumesService
@@ -40,6 +41,7 @@ const TempResumes = () => {
       },
     }
   );
+  console.log(data);
 
   /** *@description  resumes 데이터를 위한 상태관리 */
   const [tempResumes, setTempResumes] = React.useState<
@@ -70,6 +72,14 @@ const TempResumes = () => {
     document.body.style.backgroundColor = theme.colors.lightBlue_50;
     return () => {
       document.body.style.backgroundColor = theme.colors.transparent;
+    };
+  }, []);
+
+  React.useEffect(() => {
+    refetch();
+
+    return () => {
+      refetch();
     };
   }, []);
 

@@ -5,9 +5,6 @@ import MyDataCharts from "./MyDataCharts";
 
 import { theme } from "styles";
 import { useQueryClient } from "react-query";
-import Button from "_common/components/Button";
-import basicInstance from "lib/apis/utils/instance";
-import preAuthInstance from "lib/apis/utils/instance";
 
 const Home = () => {
   const queryClient = useQueryClient();
@@ -24,25 +21,12 @@ const Home = () => {
     };
   }, []);
 
-  const handleMock = async () => {
-    const { data } = await preAuthInstance.get(
-      "/api/v1/user/schedules?category=column"
-    );
-    console.log(data);
-
-    return data;
-  };
-
-  React.useEffect(() => {
-    handleMock();
-  }, []);
   return (
     <>
       {/* <Button variant="primary" onClick={handleClear}>
         버튼
       </Button> */}
       <TotalDataCharts />
-
       <MyDataCharts />
     </>
   );

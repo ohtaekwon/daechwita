@@ -57,7 +57,6 @@ const getSpeech = (text: any) => {
 const Interview = () => {
   const ref = React.useRef<HTMLInputElement>(null);
   const [value, setValue] = React.useState<string>("");
-  // const {speech}=useSpeech(value)
 
   //음성 변환 목소리 preload
   React.useEffect(() => {

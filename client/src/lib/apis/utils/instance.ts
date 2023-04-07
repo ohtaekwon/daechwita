@@ -1,5 +1,6 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 import { getUserFromCookie } from "lib/firebase/userCookies";
+import useLogout from "hooks/app/useLogout";
 
 /**
  * @constant baseUrl SERVER URL
@@ -12,15 +13,13 @@ const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
  * @param url cors url
  * @param options 추가 옵션
  */
-const basicApi = (url: string, options?: any): AxiosInstance => {
-  const instance = axios.create({
-    baseURL: url,
-    headers: {
-      Authorization: `Bearer ${getUserFromCookie()}`,
-    },
-  });
-  return instance;
-};
+export const baseInstance = axios.create({
+  baseURL: baseUrl,
+  headers: {
+    Authorization: `Bearer ${getUserFromCookie()}`,
+  },
+  withCredentials: true,
+});
 
 /**
  * 인증 필요한 API Axios Instance
@@ -29,28 +28,53 @@ const basicApi = (url: string, options?: any): AxiosInstance => {
  * @param options 추가 옵션
  * @description 인증된 axios 사용할 떄, cookie에서 Token을 가져와서 Authorization에 넣어줍니다.
  */
-const authApi = (url: string, options?: any): AxiosInstance => {
-  return axios.create({
-    baseURL: url,
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      // Authorization: `Bearer ${getUserFromCookie()}`, // 토큰값으로 uid
-    },
-    ...options,
-  });
-};
-
-export const baseInstance = basicApi(baseUrl!, { withCredentials: true });
-export const authInstance = authApi(baseUrl!, { withCredentials: true });
-
-const preAuthInstance = authApi(baseUrl!, { withCredentials: true });
-
-preAuthInstance.interceptors.request.use((config) => {
-  const token = getUserFromCookie();
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+const authInstance = axios.create({
+  baseURL: baseUrl,
+  headers: {
+    "content-type": "application/json;charset=UTF-8",
+  },
+  withCredentials: true,
 });
 
-export default preAuthInstance;
+/**
+ 1. 요청 인터셉터 (2개의 콜백 함수를 받습니다.)
+ */
+authInstance.interceptors.request.use(
+  // HTTP Authorization 요청 헤더에 jwt-token을 넣음
+  // 서버측 미들웨어에서 이를 확인하고 검증한 후 해당 API에 요청함.
+  async (config) => {
+    const token = getUserFromCookie();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+/**
+ 2. 응답 인터셉터 (2개의 콜백 함수를 받습니다.)
+ */
+authInstance.interceptors.response.use(
+  (response) => {
+    // 응답이 성공적으로 처리된 경우
+    console.log("응답을 받았습니다.");
+    return response;
+  },
+  (error) => {
+    // 응답이 에러인 경우
+
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      console.log("찾을 수 없습니다.");
+      useLogout();
+      // window.location.href = "/";
+      // return Promise.reject(error);
+    }
+    return Promise.reject(error);
+  }
+);
+export { authInstance };

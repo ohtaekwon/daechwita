@@ -29,35 +29,43 @@ const MyDataCharts = ({}) => {
    * @constant  userTagOfResumes 유저의 자기소개서(Resumes)의 데이터 중 Tag 데이터 (treemap 차트)
    * @constant userAllOfResumes 유저의 자기소개서(Resumes) 데이터 중 완료와 임시글 (donut 차트)
    */
-  const { data: userColumnOfSchedules } = useQuery<
-    { column: ColumnType; count: number }[]
-  >(QueryKeys.USER_CHART_SCHEDULES_BY_CATEGORY("column"), () =>
-    getUserSchedulesByCategory("column")
+  const { data: userColumnOfSchedules } = useQuery<{
+    data: { column: ColumnType; count: number }[];
+  }>(
+    QueryKeys.USER_CHART_SCHEDULES_BY_CATEGORY("column"),
+    () => getUserSchedulesByCategory("column"),
+    { refetchOnMount: "always" }
   );
 
-  const { data: userDepartmentOfSchedules } = useQuery<
-    { department: string; count: number }[]
-  >(QueryKeys.USER_CHART_SCHEDULES_BY_CATEGORY("department"), () =>
-    getUserSchedulesByCategory("department")
+  const { data: userDepartmentOfSchedules } = useQuery<{
+    data: { department: string; count: number }[];
+  }>(
+    QueryKeys.USER_CHART_SCHEDULES_BY_CATEGORY("department"),
+    () => getUserSchedulesByCategory("department"),
+    { refetchOnMount: "always" }
   );
 
   const {
     data: userTagOfResumes,
     error: Terror,
     refetch: userTagOfResumesRefetch,
-  } = useQuery<{ tag: string; count: number }[]>(
+  } = useQuery<{ data: { tag: string; count: number }[] }>(
     QueryKeys.USER_CHART_RESUMES_BY_CATEGORY("tag"),
     () => getUserResumesByCategory({ category: "tag", publishing: true }),
     {
       enabled: true, // 요청 활성화
-      refetchOnMount: true, // 페이지 마운트시 refetch
+      refetchOnMount: "always", // 페이지 마운트시 refetch
     }
   );
 
   const { data: userAllOfResumes, error: Aerror } = useQuery<{
-    isPublishing: number;
-    isNotPublishing: number;
-  }>(QueryKeys.USER_CHART_ALL_RESUMES(), () => getUserResumesAll());
+    data: {
+      isPublishing: number;
+      isNotPublishing: number;
+    };
+  }>(QueryKeys.USER_CHART_ALL_RESUMES(), () => getUserResumesAll(), {
+    refetchOnMount: "always",
+  });
 
   /**
    * @description 마이 데이터
@@ -90,24 +98,23 @@ const MyDataCharts = ({}) => {
     /**
      * @description userColumnOfSchedules에서 column 전처리
      */
-    if (!userColumnOfSchedules) return;
+    if (!userColumnOfSchedules?.data) return;
+    const snapshot = [...userColumnOfSchedules.data];
+    const sortedData = [
+      ...snapshot.sort((a, b) =>
+        scheduleChartDict[a.column] < scheduleChartDict[b.column]
+          ? -1
+          : scheduleChartDict[a.column] > scheduleChartDict[b.column]
+          ? 1
+          : 0
+      ),
+    ].map(({ column, count }) => ({
+      column: scheduleChartDict[column],
+      count: [count],
+    }));
+    if (!sortedData) return;
 
-    const columnOfSchedules = userColumnOfSchedules.sort((a, b) =>
-      scheduleChartDict[a.column] < scheduleChartDict[b.column]
-        ? -1
-        : scheduleChartDict[a.column] > scheduleChartDict[b.column]
-        ? 1
-        : 0
-    );
-    const refinedColumnOfUserSchedules = columnOfSchedules.map(
-      ({ column, count }) => ({
-        column: scheduleChartDict[column],
-        count: [count],
-      })
-    );
-    if (!refinedColumnOfUserSchedules) return;
-
-    setUserSchedulesColumn(refinedColumnOfUserSchedules);
+    setUserSchedulesColumn(sortedData);
 
     return () => setUserSchedulesColumn([]);
   }, [userColumnOfSchedules]);
@@ -117,10 +124,10 @@ const MyDataCharts = ({}) => {
     /**
      * @description userDepartmentOfSchedules에서 department 전처리
      */
-    if (!userDepartmentOfSchedules) return;
+    if (!userDepartmentOfSchedules?.data) return;
 
-    const refinedDepartmentOfUserDepartment = userDepartmentOfSchedules
-      .sort((a, b) => b.count - a.count)
+    const refinedDepartmentOfUserDepartment = userDepartmentOfSchedules.data
+      ?.sort((a, b) => b.count - a.count)
       .slice(0, 20);
 
     setUserSchedulesDepartment(refinedDepartmentOfUserDepartment);
@@ -133,15 +140,16 @@ const MyDataCharts = ({}) => {
     /**
      * @description userTagOfResumes에서 tag 전처리
      */
-    if (!userTagOfResumes) return;
+    if (!userTagOfResumes?.data) return;
+    const snapshot = [...userTagOfResumes?.data];
 
-    const tagOfResumes = userTagOfResumes
-      ?.sort((a, b) => b.count - a.count)
-      .splice(0, 20);
+    const sortedData = [
+      ...snapshot?.sort((a, b) => b.count - a.count).splice(0, 20),
+    ];
 
-    if (!tagOfResumes) return;
+    if (!sortedData) return;
 
-    setResumesTag(tagOfResumes);
+    setResumesTag(sortedData);
 
     return () => setResumesTag([]);
   }, [userTagOfResumes]);
@@ -150,8 +158,9 @@ const MyDataCharts = ({}) => {
     /**
      * @description 완료/임시글
      */
-    if (!userAllOfResumes) return;
-    setResumesAll(userAllOfResumes);
+    if (!userAllOfResumes?.data) return;
+    const snapshot = { ...userAllOfResumes?.data };
+    setResumesAll(snapshot);
 
     return () => setResumesAll({ isNotPublishing: 0, isPublishing: 0 });
   }, [userAllOfResumes]);

@@ -17,7 +17,6 @@ type User = {
 };
 const useUser = () => {
   const [token, setToken] = useRecoilState(tokenAtom);
-
   const [user, setUser] = React.useState<User>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -27,10 +26,9 @@ const useUser = () => {
   const logout = async () => {
     try {
       await authService.signOut();
+      await queryClient.clear(); // 모든 캐시된 데이터를 무효화
       removeUserCookie();
       setToken("");
-      // 모든 캐시된 데이터를 무효화
-      await queryClient.clear();
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -49,10 +47,6 @@ const useUser = () => {
       }
     });
     // 쿠키 가져와서 user state에 넣는다.
-    // const userFromCookie = getUserFromCookie();
-    // setUser(userFromCookie);
-
-    // clean-up componentWillUnmount
     return () => {
       cancelAuthListener();
     };

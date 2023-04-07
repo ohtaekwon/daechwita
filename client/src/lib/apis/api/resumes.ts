@@ -1,4 +1,3 @@
-import authInstance from "../utils/interceptors";
 import {
   requestDelete,
   requestGet,
@@ -7,6 +6,7 @@ import {
 } from "../utils/methods";
 import { handleError } from "../utils/helpers";
 import { Resume } from "types/index.types";
+import { authInstance } from "../utils/instance";
 
 export const basePath = "/api/v1/resumes";
 

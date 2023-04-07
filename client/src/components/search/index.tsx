@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
+import _ from "lodash";
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -12,20 +13,26 @@ import Button from "_common/components/Button";
 import Form from "_common/components/Form";
 import Section from "_common/components/Section";
 import { media } from "utils/media";
+import { useRecoilState } from "recoil";
+import { SelectType, keywordAtom, selectAtom } from "store/atoms";
 
 const Search = () => {
   const navigate = useNavigate();
-  const [select, setSelect] = React.useState("all");
-  const [search, onChange] = useInput("");
+  const [select, setSelect] = useRecoilState(selectAtom);
+  const [keyword, setKeyword] = useRecoilState(keywordAtom);
 
   const onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelect(e.target.value);
+    setSelect(e.target.value as SelectType);
   };
 
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+    _.debounce(() => console.log("called debounceSomethingFunc"), 5000);
+  };
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log("serarch", search);
-    navigate(`/resumes?${select}=${search}`);
+    console.log("select", select);
+    // navigate(`/resumes?${select}=${keyword}`);
   };
   return (
     <>
@@ -70,7 +77,11 @@ const Search = () => {
                 border: 0;
               `}
             >
-              <option value="all">전체</option>
+              <option value="none" selected>
+                선택
+              </option>
+              <option value="company">회사</option>
+              <option value="department">부서</option>
               <option value="tag">유형</option>
               <option value="title">제목</option>
               <option value="text">본문</option>
@@ -79,7 +90,7 @@ const Search = () => {
               type="text"
               name="search"
               placeholder="검색어를 입력해주세요"
-              value={search}
+              value={keyword}
               onChange={onChange}
               // 스타일
               variant="search_1"

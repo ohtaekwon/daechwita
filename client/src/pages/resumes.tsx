@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 import _ from "lodash";
 import { useInfiniteQuery } from "react-query";
-import { getClient, QueryKeys } from "queryClient";
+import { QueryKeys } from "queryClient";
 import { AiOutlinePlusSquare } from "react-icons/ai";
+import { useRecoilValue } from "recoil";
+import { selectAtom } from "store/atoms";
 
 import { getAllResumes } from "lib/apis/api/resumes";
 import { getResumesService } from "lib/apis/service/getResumes";
@@ -23,10 +25,14 @@ import { media } from "utils/media";
 
 import { ResumesType } from "types/resumes";
 import { theme } from "styles";
+import { keywordAtom } from "store/atoms";
 
 const Resumes = () => {
-  const queryClient = getClient();
   const navigate = useNavigate();
+
+  /** *@description search의 select박스와 검색 Keyword의 전역상태 */
+  // const select = useRecoilValue(selectAtom);
+  const keyword = useRecoilValue(keywordAtom);
 
   /** *@description  resumes 데이터를 위한 상태관리 */
   const [resumes, setResumes] = React.useState<ResumesType[][] | undefined>([]);
@@ -87,6 +93,18 @@ const Resumes = () => {
     if (!data?.pages) return;
     setResumes(data?.pages);
   }, [data?.pages]);
+
+  // React.useEffect(() => {
+  //   // if (select === "company") {
+  //   //   setResumes((allData: any) => {
+  //   //     return allData?.filter((page: any) =>
+  //   //       page.filter((item: any) => item.resumes.apply.company === keyword)
+  //   //     );
+  //   //   });
+  //   // } else {
+  //   //   setResumes(data?.pages);
+  //   // }
+  // }, [keyword]);
 
   if (error) return null;
   if (isLoading)

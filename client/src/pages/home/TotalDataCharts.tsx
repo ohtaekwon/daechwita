@@ -23,14 +23,14 @@ const TotalDataCharts = () => {
    * @constant totalCompanyOfSchedules 전체 이력서 데이터로 schedules의 company 데이터
    * @constant totalTagOfResume 전체 입사 지원 현황 데이터로 resumes의 tag 데이터
    */
-  const { data: totalCompanyOfSchedules, isLoading: CIsLoading } = useQuery<
-    { company: string; count: number }[]
-  >(QueryKeys.TOTAL_CHART_SCHEDULES_BY_CATEGORY("company"), () =>
+  const { data: totalCompanyOfSchedules, isLoading: CIsLoading } = useQuery<{
+    data: { company: string; count: number }[];
+  }>(QueryKeys.TOTAL_CHART_SCHEDULES_BY_CATEGORY("company"), () =>
     getTotalSchedulesByCategory("company")
   );
-  const { data: totalTagOfResumes, isLoading: TisLoading } = useQuery<
-    { tag: string; count: number }[]
-  >(QueryKeys.TOTAL_CHART_RESUMES_BY_CATEGORY("tag"), () =>
+  const { data: totalTagOfResumes, isLoading: TisLoading } = useQuery<{
+    data: { tag: string; count: number }[];
+  }>(QueryKeys.TOTAL_CHART_RESUMES_BY_CATEGORY("tag"), () =>
     getTotalResumesByCategory("tag")
   );
 
@@ -52,7 +52,7 @@ const TotalDataCharts = () => {
      */
     if (!totalCompanyOfSchedules) return;
 
-    const companyOfSchedules = totalCompanyOfSchedules
+    const companyOfSchedules = totalCompanyOfSchedules.data
       ?.map(({ company: name, count: data }) => ({ name, data }))
       .sort((a, b) => b.data - a.data)
       .splice(0, 20);
@@ -74,12 +74,12 @@ const TotalDataCharts = () => {
      */
     if (!totalTagOfResumes) return;
 
-    const tagOfResumes = totalTagOfResumes
+    const tagOfResumes = totalTagOfResumes.data
       .sort((a, b) => b.count - a.count)
       .slice(0, 20);
 
     if (!tagOfResumes) return;
-    setTotalResumesTag(totalTagOfResumes);
+    setTotalResumesTag(totalTagOfResumes.data);
 
     return () => setTotalResumesTag([]);
   }, [totalTagOfResumes]);

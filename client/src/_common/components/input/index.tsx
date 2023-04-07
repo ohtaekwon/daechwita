@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import React from "react";
 
 import * as Styled from "./index.styles";
@@ -44,6 +46,7 @@ const Input = React.forwardRef(function Input(
     /** @description 기타 옵션 설정 */
     opacity = "inherit",
     cursor = "auto",
+    focusColor = "inherit",
     children,
     ...rest
   }: React.PropsWithChildren<Props>,
@@ -90,6 +93,7 @@ const Input = React.forwardRef(function Input(
       /** @description 기타 옵션 설정 */
       cursor={cursor}
       opacity={opacity}
+      focusColor={focusColor}
       /** @description ref 설정 */
       ref={forwardedRef}
       {...rest}

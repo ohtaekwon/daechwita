@@ -9,7 +9,7 @@ export const getClient = (() => {
           queries: {
             cacheTime: Infinity,
             staleTime: Infinity,
-            // refetchOnMount: false,
+            refetchOnMount: false,
             refetchOnWindowFocus: false,
             refetchOnReconnect: true,
             retry: false,
@@ -24,6 +24,7 @@ export const QueryKeys = {
   RESUMES: () => [...QueryKeys.all, "resumes"] as const,
   SCHEDULES: () => [...QueryKeys.all, "schedules"] as const,
   CHARTS: () => [...QueryKeys.all, "charts"] as const,
+  TEMP: () => [...QueryKeys.all, "temp"] as const,
 
   TOTAL_CHART_RESUMES: () =>
     [...QueryKeys.CHARTS(), "total", "resumes"] as const,

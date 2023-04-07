@@ -8,7 +8,7 @@ import Interview from "pages/Interview";
 import WriteResume from "pages/WriteResume/index";
 
 import { Layout } from "components/Layout";
-import TempResumes from "pages/tempResumes";
+import TempResumes from "pages/TempResumes";
 // import WriteResume from "components/writeResume";
 
 const url = process.env.PUBLIC_URL;

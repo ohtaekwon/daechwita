@@ -7,12 +7,14 @@ import "dotenv/config";
 
 import verifyTokenAuthMiddleware from "./middleware/verifyTokenAuthMiddleware";
 
-import authRoute from "./routes/auth";
+import authMiddleware from "./middleware/authMiddleware";
+
 import totalCharts from "./routes/totalChart";
+import usersCharts from "./routes/usersChart";
+import authRoute from "./routes/auth";
 import schedulesRoute from "./routes/schedules";
 import resumesRoute from "./routes/resumes";
-import charts from "./routes/charts";
-import authMiddleware from "./middleware/authMiddleware";
+// import charts from "./routes/charts";
 
 /**
  * 서버 구동
@@ -41,9 +43,15 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const routes = [...authRoute, ...charts, ...resumesRoute, ...schedulesRoute];
+const routes = [
+  ...authRoute,
+  ...totalCharts,
+  ...usersCharts,
+  ...resumesRoute,
+  ...schedulesRoute,
+];
 
-const passMiddleWare = authRoute.map(({ method, route, handler }) => route);
+const passMiddleWare = totalCharts.map(({ method, route, handler }) => route);
 
 routes.forEach(({ method, route, handler }) => {
   const newRoute = passMiddleWare.includes(route);

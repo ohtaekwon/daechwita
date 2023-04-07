@@ -1,10 +1,6 @@
 import * as express from "express";
 import * as jwt from "jsonwebtoken";
-
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { authService } from "../firebase";
 import admin from "../firebaseAdmin";
 

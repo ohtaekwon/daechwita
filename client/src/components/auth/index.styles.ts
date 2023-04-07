@@ -4,11 +4,6 @@ import styled from "@emotion/styled";
 export const Wrapper = styled.div`
   width: 600px;
   height: 200px;
-
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
 `;
 
 export const bodyStyle = css`
@@ -16,7 +11,6 @@ export const bodyStyle = css`
   width: 100%;
   height: 100%;
   place-items: center;
-  /* background: #f2f2f2; */
   background: -webkit-linear-gradient(left, #a445b2, #fa4299);
 `;
 export const formStyle = css`
@@ -46,7 +40,7 @@ export const inputStyle = css`
   border-bottom-width: 2px;
   transition: all 0.4s ease;
   :focus {
-    border-color: #fc83bb;
+    border-color: #4484dd;
   }
 `;
 export const anchorStyle = css`
@@ -66,11 +60,18 @@ export const submitStyle = css`
   border-radius: 5px;
   border: 1px solid lightgrey;
   border-bottom-width: 2px;
-  background: -webkit-linear-gradient(left, #a445b2, #fa4299);
+  background: -webkit-linear-gradient(left, #7733e4, #4484dd);
   color: #fff;
   font-size: 20px;
   font-weight: 500;
   padding-left: 0;
   border: 0;
   cursor: pointer;
+`;
+
+export const validateTextStyle = css`
+  font-size: 13px;
+  color: red;
+  text-align: center;
+  margin: 3px;
 `;

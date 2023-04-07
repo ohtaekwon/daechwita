@@ -63,6 +63,9 @@ export const Input = styled.input<Required<InputProps>>`
   ::placeholder {
     color: ${({ placeholderColor }) => placeholderColor};
   }
+  :focus {
+    border-color: ${({ focusColor }) => focusColor};
+  }
 
   ${({ type }) => {
     switch (type) {
