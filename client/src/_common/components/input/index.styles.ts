@@ -97,12 +97,9 @@ export const Input = styled.input<Required<InputProps>>`
           color: ${theme.colors.gray_900}!important;
           font-size: 1.5rem;
 
-          transition: background-color 0.15s ease-in-out,
-            border-color 0.15s ease-in-out, color 0.15s ease-in-out;
-          &:hover {
-            border-color: ${theme.colors.zinc_500};
-            background-color: ${theme.colors.zinc_200};
-            color: ${theme.colors.black};
+          &:focus {
+            border-color: red;
+            color: ${theme.colors.tdred_200};
           }
         `;
       }
@@ -112,7 +109,7 @@ export const Input = styled.input<Required<InputProps>>`
           background-color: ${theme.colors.white}!important;
           border-color: ${theme.colors.amber}!important;
           color: ${theme.colors.back}!important;
-          transition: background-color 0.15s ease-in-out,
+          transition: background-color 0.15s ease-in-out
             border-color 0.15s ease-in-out, color 0.15s ease-in-out;
           
           &:focus{

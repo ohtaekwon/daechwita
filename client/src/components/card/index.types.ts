@@ -37,6 +37,7 @@ export interface CommonCard extends HTMLAttributes<HTMLDivElement> {
 export interface ResumeCardProps extends CommonCard {
   toggle: boolean;
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  loading: boolean;
 }
 
 export interface TempCardProps extends CommonCard {}

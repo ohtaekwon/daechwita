@@ -1,20 +1,19 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Home from "pages/Home";
-import Resumes from "pages/Resumes";
-import Schedules from "pages/Schedules";
 import Interview from "pages/Interview";
-import WriteResume from "pages/WriteResume/index";
 
 import { Layout } from "components/Layout";
-import TempResumes from "pages/TempResumes";
-// import WriteResume from "components/writeResume";
 
 const url = process.env.PUBLIC_URL;
 const img = `url(${url}/images/bg_color.jpg)`;
 
-// const Home = React.lazy(() => import("pages/Home"));
+const Home = React.lazy(() => import("pages/Home"));
+const Resumes = React.lazy(() => import("pages/Resumes"));
+const WriteResume = React.lazy(() => import("pages/WriteResume"));
+const Schedules = React.lazy(() => import("pages/Schedules"));
+const TempResumes = React.lazy(() => import("pages/TempResumes"));
+
 const AuthCompletedRouter = () => {
   return (
     <>

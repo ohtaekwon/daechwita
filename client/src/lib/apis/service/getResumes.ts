@@ -6,7 +6,10 @@ import { randomButtonColor } from "utils/helpers";
  * @param rowData getResume를 통해 반환된 Promise 값을 정제
  */
 export const getResumesService = (rowData: { data: ResumesType[] }) => {
-  return rowData.data.map(
+  const newData = rowData.data.sort(
+    (a, b) => b.updatedAt?.seconds! - a.updatedAt?.seconds!
+  );
+  return newData?.map(
     ({
       id,
       uid,

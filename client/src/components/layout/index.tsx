@@ -7,6 +7,7 @@ import { Props } from "./index.types";
 
 import Search from "components/Search";
 import Header from "components/Header";
+import Spinner from "components/Spinner";
 
 export const Layout = React.forwardRef(function Layout(
   {
@@ -36,7 +37,7 @@ export const Layout = React.forwardRef(function Layout(
         {...rest}
       >
         {inHeader && <Header transparent />}
-        <Suspense fallback={<h1>Loading..........</h1>}>
+        <Suspense fallback={<Spinner individualLoader />}>
           <Outlet />
         </Suspense>
       </Styled.Layout>

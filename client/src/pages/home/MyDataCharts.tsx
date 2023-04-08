@@ -18,6 +18,7 @@ import { emoji, scheduleChartDict } from "utils/constants";
 import { checkSeries } from "utils/helpers";
 import { media } from "utils/media";
 import { ColumnType } from "types/schedule";
+import Skeleton from "components/Skeleton";
 
 const MyDataCharts = ({}) => {
   /**
@@ -29,7 +30,11 @@ const MyDataCharts = ({}) => {
    * @constant  userTagOfResumes 유저의 자기소개서(Resumes)의 데이터 중 Tag 데이터 (treemap 차트)
    * @constant userAllOfResumes 유저의 자기소개서(Resumes) 데이터 중 완료와 임시글 (donut 차트)
    */
-  const { data: userColumnOfSchedules } = useQuery<{
+  const {
+    data: userColumnOfSchedules,
+    isLoading: columnIsLoading,
+    error: columnError,
+  } = useQuery<{
     data: { column: ColumnType; count: number }[];
   }>(
     QueryKeys.USER_CHART_SCHEDULES_BY_CATEGORY("column"),
@@ -37,7 +42,11 @@ const MyDataCharts = ({}) => {
     { refetchOnMount: "always" }
   );
 
-  const { data: userDepartmentOfSchedules } = useQuery<{
+  const {
+    data: userDepartmentOfSchedules,
+    isLoading: departmentIsLoading,
+    error: departmentError,
+  } = useQuery<{
     data: { department: string; count: number }[];
   }>(
     QueryKeys.USER_CHART_SCHEDULES_BY_CATEGORY("department"),
@@ -47,7 +56,8 @@ const MyDataCharts = ({}) => {
 
   const {
     data: userTagOfResumes,
-    error: Terror,
+    isLoading: tagIsLoading,
+    error: tagError,
     refetch: userTagOfResumesRefetch,
   } = useQuery<{ data: { tag: string; count: number }[] }>(
     QueryKeys.USER_CHART_RESUMES_BY_CATEGORY("tag"),
@@ -58,7 +68,11 @@ const MyDataCharts = ({}) => {
     }
   );
 
-  const { data: userAllOfResumes, error: Aerror } = useQuery<{
+  const {
+    data: userAllOfResumes,
+    isLoading: allIsLoading,
+    error: allError,
+  } = useQuery<{
     data: {
       isPublishing: number;
       isNotPublishing: number;
@@ -176,8 +190,9 @@ const MyDataCharts = ({}) => {
     };
   }, []);
 
-  if (Terror) return <div>Error: {(Terror as Error).message}</div>;
-  if (Aerror) return <div>Error: {(Aerror as Error).message}</div>;
+  console.log(columnError, departmentError, tagError, allError);
+  if (columnError || departmentError || tagError || allError)
+    return <div>Error</div>;
 
   return (
     <>
@@ -206,6 +221,7 @@ const MyDataCharts = ({}) => {
         css={newGridStyle}
       >
         <Chart
+          loading={columnIsLoading}
           type="bar"
           subOption={{
             text: "나의 입사 지원 현황",
@@ -218,7 +234,9 @@ const MyDataCharts = ({}) => {
             }))
           )}
         />
+
         <Chart
+          loading={departmentIsLoading}
           type="polarArea"
           subOption={{
             label: userSchedulesDepartment.map(({ department }) => department),
@@ -244,6 +262,7 @@ const MyDataCharts = ({}) => {
         css={newGridStyle}
       >
         <Chart
+          loading={tagIsLoading}
           type="treemap"
           subOption={{ text: "나의 가장 많이 쓴 자소서 유형 TOP 20" }}
           series={
@@ -261,6 +280,7 @@ const MyDataCharts = ({}) => {
         />
 
         <Chart
+          loading={allIsLoading}
           type="donut"
           series={
             userResumesAll?.isPublishing || userResumesAll?.isNotPublishing

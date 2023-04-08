@@ -39,4 +39,5 @@ export interface Props extends HTMLAttributes<HTMLDivElement>, ChartProps {
   subOption?: SubOption;
   width?: string | number;
   height?: string | number;
+  loading?: boolean;
 }

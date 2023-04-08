@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getUserFromCookie } from "lib/firebase/userCookies";
+import { getUserFromCookie, removeUserCookie } from "lib/firebase/userCookies";
 import useLogout from "hooks/app/useLogout";
 
 /**
@@ -70,8 +70,8 @@ authInstance.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       console.log("찾을 수 없습니다.");
-      useLogout();
-      // window.location.href = "/";
+      removeUserCookie();
+      window.location.href = "/";
       // return Promise.reject(error);
     }
     return Promise.reject(error);

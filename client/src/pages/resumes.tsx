@@ -6,7 +6,7 @@ import _ from "lodash";
 import { useInfiniteQuery } from "react-query";
 import { QueryKeys } from "queryClient";
 import { AiOutlinePlusSquare } from "react-icons/ai";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { selectAtom } from "store/atoms";
 
 import { getAllResumes } from "lib/apis/api/resumes";
@@ -26,13 +26,15 @@ import { media } from "utils/media";
 import { ResumesType } from "types/resumes";
 import { theme } from "styles";
 import { keywordAtom } from "store/atoms";
+import Skeleton from "components/Skeleton";
+import Spinner from "components/Spinner";
 
 const Resumes = () => {
   const navigate = useNavigate();
 
   /** *@description search의 select박스와 검색 Keyword의 전역상태 */
-  // const select = useRecoilValue(selectAtom);
-  const keyword = useRecoilValue(keywordAtom);
+  const [select, setSelect] = useRecoilState(selectAtom);
+  const [keyword, setKeyword] = useRecoilState(keywordAtom);
 
   /** *@description  resumes 데이터를 위한 상태관리 */
   const [resumes, setResumes] = React.useState<ResumesType[][] | undefined>([]);
@@ -90,37 +92,102 @@ const Resumes = () => {
   }, []);
 
   React.useEffect(() => {
+    setKeyword("");
+    setSelect("none");
+  }, []);
+
+  React.useEffect(() => {
     if (!data?.pages) return;
-    setResumes(data?.pages);
-  }, [data?.pages]);
 
-  // React.useEffect(() => {
-  //   // if (select === "company") {
-  //   //   setResumes((allData: any) => {
-  //   //     return allData?.filter((page: any) =>
-  //   //       page.filter((item: any) => item.resumes.apply.company === keyword)
-  //   //     );
-  //   //   });
-  //   // } else {
-  //   //   setResumes(data?.pages);
-  //   // }
-  // }, [keyword]);
+    if (!keyword) {
+      setResumes(data?.pages);
+    } else {
+      const snapshot = data?.pages;
 
-  if (error) return null;
-  if (isLoading)
+      if (select === "company") {
+        const newData = snapshot.map((page) =>
+          page.filter((item) => {
+            const newCompany = item.resumes.apply.company.replace(/\s+/g, "");
+            const newKeyword = keyword.replace(/\s+/g, "");
+            return newCompany.length >= newKeyword.length
+              ? newCompany.includes(newKeyword)
+              : newKeyword.includes(newCompany);
+          })
+        );
+        setResumes(newData);
+      } else if (select === "department") {
+        const newData = snapshot.map((page) =>
+          page.filter((item) => {
+            const newDep = item.resumes.apply.department.replace(/\s+/g, "");
+            const newKeyword = keyword.replace(/\s+/g, "");
+            return newDep.length >= newKeyword.length
+              ? newDep.includes(newKeyword)
+              : newKeyword.includes(newDep);
+          })
+        );
+        setResumes(newData);
+      } else if (select === "tag") {
+        const newData = snapshot.map((page) =>
+          page.filter((item) => {
+            const newItemTag = item.tag.map((t) => t?.replace(/\s+/g, ""));
+            const newKeyword = keyword.replace(/\s+/g, "");
+            return newItemTag.find((t) =>
+              t && t?.length > newKeyword.length
+                ? t?.includes(newKeyword)
+                : newKeyword.includes(t!)
+            );
+          })
+        );
+        setResumes(newData);
+      } else if (select === "title") {
+        const newData = snapshot.map((page) =>
+          page.filter((item) => {
+            const newItemTitle = item.resumes.documents.map((d) =>
+              d.title?.replace(/\s+/g, "")
+            );
+            const newKeyword = keyword.replace(/\s+/g, "");
+            return newItemTitle.find((title) =>
+              title && title?.length > newKeyword.length
+                ? title?.includes(newKeyword)
+                : newKeyword.includes(title!)
+            );
+          })
+        );
+        setResumes(newData);
+      } else if (select === "text") {
+        const newData = snapshot.map((page) =>
+          page.filter((item) => {
+            const newItemText = item.resumes.documents.map((d) =>
+              d.text?.replace(/\s+/g, "")
+            );
+            const newKeyword = keyword.replace(/\s+/g, "");
+            return newItemText.find((text) =>
+              text && text?.length > newKeyword.length
+                ? text?.includes(newKeyword)
+                : newKeyword.includes(text!)
+            );
+          })
+        );
+        setResumes(newData);
+      } else {
+        setResumes(data?.pages);
+      }
+    }
+    // return () => {
+    //   setKeyword("");
+    //   // setResumes([]);
+    // };
+  }, [data?.pages, select, keyword]);
+
+  if (error)
     return (
-      <Text
-        fontSize="xxxl"
-        fontWeight={700}
-        textAlign="center"
-        css={css`
-          height: 10px;
-          padding: 2rem 0;
-        `}
-      >
-        로딩중입니다.
-      </Text>
+      <Grid placeItems="center" css={errorStyle}>
+        <h1 css={errorTextStyle}> Error - 재접속해주시기 바랍니다.</h1>
+      </Grid>
     );
+  if (isLoading) return <Spinner individualLoader />;
+
+  console.log(resumes);
   return (
     <>
       <Text
@@ -145,7 +212,7 @@ const Resumes = () => {
       >
         <Grid
           gridTemplateColumns="repeat(4, 1fr)"
-          gridTemplateRows="repeat(4, 1fr)"
+          // gridTemplateRows="repeat(4, 1fr)"
           placeItems="center"
           css={gridStyle}
         >
@@ -195,6 +262,7 @@ const Resumes = () => {
                   toggle={toggle}
                   colors={colors}
                   setToggle={setToggle}
+                  loading={isLoading}
                 />
               )
             )
@@ -215,6 +283,7 @@ export default Resumes;
 const gridStyle = css`
   padding: 1rem 0;
   width: 100%;
+  height: 100%;
 
   ${media[0]} {
     grid-template-columns: repeat(1, 1fr);
@@ -235,4 +304,13 @@ const fetchMoreStyle = css`
   padding-bottom: 1px;
   margin-bottom: 5rem;
   height: 100px;
+`;
+
+const errorStyle = css`
+  width: 100%;
+  height: 100%;
+`;
+const errorTextStyle = css`
+  font-size: 4rem;
+  color: red;
 `;

@@ -23,9 +23,6 @@ const Home = () => {
 
   return (
     <>
-      {/* <Button variant="primary" onClick={handleClear}>
-        버튼
-      </Button> */}
       <TotalDataCharts />
       <MyDataCharts />
     </>

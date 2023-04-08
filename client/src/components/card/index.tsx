@@ -37,6 +37,7 @@ import {
 } from "utils/helpers";
 import { emoji, scheduleDict } from "utils/constants";
 import { media } from "utils/media";
+import Skeleton from "components/Skeleton";
 
 /**
  * @description The Card Components About 입사 지원 현황
@@ -261,6 +262,7 @@ export const ResumeCard = ({
   colors,
   toggle,
   setToggle,
+  loading,
 }: React.PropsWithChildren<ResumeCardProps>) => {
   const navigate = useNavigate();
   const queryClient = getClient();
@@ -310,170 +312,180 @@ export const ResumeCard = ({
       <Styled.Wrapper
         onMouseLeave={_.debounce(() => setFrontToBack(false), 1000)}
       >
-        <Box
-          variant={frontToBack ? "front" : "gray_200_border"}
-          width="100%"
-          height="420px"
-          zIndex={10}
-          position="absolute"
-        >
-          <div css={rightPosition}>
-            <Button areaLabel="update" onClick={showModal} variant="primary">
-              <AiOutlineSearch color="white" />
-            </Button>
-            <Button
-              areaLabel="delete"
-              onClick={showModal}
-              variant="tdred_400_fill"
+        {loading && <Skeleton height="100%" width="100%" />}
+        {!loading && (
+          <>
+            <Box
+              variant={frontToBack ? "front" : "gray_200_border"}
+              width="100%"
+              height="420px"
+              zIndex={10}
+              position="absolute"
             >
-              <FaTrashAlt color="white" />
-            </Button>
-          </div>
+              <div css={rightPosition}>
+                <Button
+                  areaLabel="update"
+                  onClick={showModal}
+                  variant="primary"
+                >
+                  <AiOutlineSearch color="white" />
+                </Button>
+                <Button
+                  areaLabel="delete"
+                  onClick={showModal}
+                  variant="tdred_400_fill"
+                >
+                  <FaTrashAlt color="white" />
+                </Button>
+              </div>
 
-          <Flex direction="column" backgroundColor="transparent">
-            <img
-              src={imgUrl}
-              alt="이미지가 없습니다."
-              loading="lazy"
-              css={imageStyle}
-            />
-            <Text
-              fontSize="xxl"
-              fontWeight={900}
-              paddingTop={10}
-              paddingBottom={10}
-              paddingLeft={10}
-              paddingRight={10}
+              <Flex direction="column" backgroundColor="transparent">
+                <img
+                  src={imgUrl}
+                  alt="이미지가 없습니다."
+                  loading="lazy"
+                  css={imageStyle}
+                />
+                <Text
+                  fontSize="xxl"
+                  fontWeight={900}
+                  paddingTop={10}
+                  paddingBottom={10}
+                  paddingLeft={10}
+                  paddingRight={10}
+                >
+                  {getFirstSecondHalf(firebaseDate)}
+                </Text>
+                <Flex css={marginStyle}>
+                  <Text
+                    fontSize="lg"
+                    fontWeight={700}
+                    marginLeft={10}
+                    marginRight={10}
+                  >
+                    지원 회사 :
+                  </Text>
+                  <Text fontSize="lg">{resumes.apply.company}</Text>
+                </Flex>
+                <Flex css={marginStyle}>
+                  <Text
+                    fontSize="lg"
+                    fontWeight={700}
+                    marginLeft={10}
+                    marginRight={10}
+                  >
+                    지원 부서 :
+                  </Text>
+                  <Text fontSize="lg" marginBottom={5}>
+                    {resumes.apply.department}
+                  </Text>
+                </Flex>
+                <Flex direction="column" css={marginStyle}>
+                  <Text
+                    fontSize="md"
+                    fontWeight={500}
+                    marginLeft={10}
+                    marginBottom={5}
+                    whiteSpace="nowrap"
+                    style={{ width: "100%" }}
+                  >
+                    생성일 : {getFirebaseTimeToDate(firebaseDate)}
+                  </Text>
+                  <Text
+                    fontSize="md"
+                    fontWeight={500}
+                    marginLeft={10}
+                    marginBottom={5}
+                    whiteSpace="nowrap"
+                  >
+                    수정일 : {getFirebaseTimeToDate(updateDate)}
+                  </Text>
+                </Flex>
+
+                {tag[0] !== "" && (
+                  <Flex
+                    width="100%"
+                    height="100%"
+                    wrap="wrap"
+                    css={css`
+                      padding: 0.5rem; ;
+                    `}
+                  >
+                    {getSortedArray(tag).map((item, index) =>
+                      !item ? null : index < 3 ? (
+                        <Button
+                          key={`${tag}-${index}`}
+                          variant={colors[index]}
+                          marginRight={5}
+                          marginBottom={5}
+                        >
+                          <FaHashtag />
+                          {item}
+                        </Button>
+                      ) : null
+                    )}
+                    {tag.length > 3 && (
+                      <Button
+                        variant="default"
+                        onClick={() => setFrontToBack(true)}
+                      >
+                        더보기
+                      </Button>
+                    )}
+                  </Flex>
+                )}
+              </Flex>
+            </Box>
+
+            {/* 뒷 면 */}
+            <Box
+              variant="back"
+              zIndex={5}
+              position="absolute"
+              width="100%"
+              height="420px"
             >
-              {getFirstSecondHalf(firebaseDate)}
-            </Text>
-            <Flex css={marginStyle}>
-              <Text
-                fontSize="lg"
-                fontWeight={700}
-                marginLeft={10}
-                marginRight={10}
-              >
-                지원 회사 :
-              </Text>
-              <Text fontSize="lg">{resumes.apply.company}</Text>
-            </Flex>
-            <Flex css={marginStyle}>
-              <Text
-                fontSize="lg"
-                fontWeight={700}
-                marginLeft={10}
-                marginRight={10}
-              >
-                지원 부서 :
-              </Text>
-              <Text fontSize="lg" marginBottom={5}>
-                {resumes.apply.department}
-              </Text>
-            </Flex>
-            <Flex direction="column" css={marginStyle}>
-              <Text
-                fontSize="md"
-                fontWeight={500}
-                marginLeft={10}
-                marginBottom={5}
-                whiteSpace="nowrap"
-                style={{ width: "100%" }}
-              >
-                생성일 : {getFirebaseTimeToDate(firebaseDate)}
-              </Text>
-              <Text
-                fontSize="md"
-                fontWeight={500}
-                marginLeft={10}
-                marginBottom={5}
-                whiteSpace="nowrap"
-              >
-                수정일 : {getFirebaseTimeToDate(updateDate)}
-              </Text>
-            </Flex>
-
-            {tag[0] !== "" && (
+              <img
+                src={process.env.PUBLIC_URL + "images/resume_alt_01.jpg"}
+                css={css`
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  z-index: 6;
+                  opacity: 0.6;
+                `}
+              />
               <Flex
                 width="100%"
                 height="100%"
+                backgroundColor="transparent"
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
                 wrap="wrap"
                 css={css`
-                  padding: 0.5rem; ;
+                  z-index: 7;
+                  position: absolute;
+                  margin: auto;
+                  padding: 1rem;
                 `}
               >
-                {getSortedArray(tag).map((item, index) =>
-                  !item ? null : index < 3 ? (
-                    <Button
-                      key={`${tag}-${index}`}
-                      variant={colors[index]}
-                      marginRight={5}
-                      marginBottom={5}
-                    >
-                      <FaHashtag />
-                      {item}
-                    </Button>
-                  ) : null
-                )}
-                {tag.length > 3 && (
+                {tag.map((item, index) => (
                   <Button
-                    variant="default"
-                    onClick={() => setFrontToBack(true)}
+                    key={`${item}-${index}`}
+                    variant={colors[index]}
+                    radius={15}
+                    marginTop={5}
+                    marginBottom={5}
                   >
-                    더보기
+                    <FaHashtag />
+                    {item}
                   </Button>
-                )}
+                ))}
               </Flex>
-            )}
-          </Flex>
-        </Box>
-        {/* 뒷 면 */}
-        <Box
-          variant="back"
-          zIndex={5}
-          position="absolute"
-          width="100%"
-          height="420px"
-        >
-          <img
-            src={process.env.PUBLIC_URL + "images/resume_alt_01.jpg"}
-            css={css`
-              position: absolute;
-              width: 100%;
-              height: 100%;
-              z-index: 6;
-              opacity: 0.6;
-            `}
-          />
-          <Flex
-            width="100%"
-            height="100%"
-            backgroundColor="transparent"
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            wrap="wrap"
-            css={css`
-              z-index: 7;
-              position: absolute;
-              margin: auto;
-              padding: 1rem;
-            `}
-          >
-            {tag.map((item, index) => (
-              <Button
-                key={`${item}-${index}`}
-                variant={colors[index]}
-                radius={15}
-                marginTop={5}
-                marginBottom={5}
-              >
-                <FaHashtag />
-                {item}
-              </Button>
-            ))}
-          </Flex>
-        </Box>
+            </Box>
+          </>
+        )}
       </Styled.Wrapper>
       {/* 삭제하기 버튼 모달창 */}
       <Modal
@@ -701,14 +713,14 @@ export const TempResumeCard = ({
           <Flex
             width="100%"
             css={css`
-              border-bottom: 1px solid #000;
-              padding: 1rem 0;
+              padding: 1rem;
             `}
           >
             <Text
               fontWeight={700}
               fontSize="xl"
               css={titleStyle}
+              color="indigo_600"
               marginRight={20}
               onClick={() => navigate(`/resumes/write/${id}`)}
             >
@@ -718,6 +730,7 @@ export const TempResumeCard = ({
               fontWeight={700}
               fontSize="xl"
               css={titleStyle}
+              color="indigo_600"
               onClick={() => navigate(`/resumes/write/${id}`)}
             >
               부서명 : {resumes.apply.department}

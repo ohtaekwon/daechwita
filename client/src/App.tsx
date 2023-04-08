@@ -1,14 +1,13 @@
-import React from "react";
-import Router from "routes/Router";
+import React, { Suspense } from "react";
 import { useNavigate } from "react-router-dom";
+import "./lib/apis/utils/global";
 import { authService } from "lib/firebase/firebase.config";
 import { getUserFromCookie } from "lib/firebase/userCookies";
-import { useRecoilValue } from "recoil";
-import { tokenAtom } from "store/atoms";
-import "./lib/apis/utils/global";
+import ProgressBar from "components/ProgressBar";
+
+const Router = React.lazy(() => import("routes/Router"));
 
 function App() {
-  const token = useRecoilValue(tokenAtom);
   const navigate = useNavigate();
   const [init, setInit] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -21,6 +20,11 @@ function App() {
   };
 
   React.useEffect(() => {
+    const cookie = getUserFromCookie();
+    handleAuthStatus(cookie);
+  }, []);
+
+  React.useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
@@ -31,23 +35,12 @@ function App() {
     });
   }, []);
 
-  React.useEffect(() => {
-    const cookie = getUserFromCookie();
-    handleAuthStatus(cookie);
-  }, []);
-
   return (
-    <>{init ? <Router isLoggedIn={isLoggedIn} /> : <h1>"loading..."</h1>}</>
+    <>
+      {init && <Router isLoggedIn={isLoggedIn} />}
+      {!init && <ProgressBar backgroundColor="violet_900" loadingTime={1} />}
+    </>
   );
 }
 
 export default App;
-
-// React.useEffect(() => {
-//   if (token) {
-//     setIsLoggedIn(true);
-//   } else {
-//     setIsLoggedIn(false);
-//   }
-//   setInit(true);
-// }, []);

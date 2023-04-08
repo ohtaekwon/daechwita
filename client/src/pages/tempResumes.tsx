@@ -17,6 +17,7 @@ import Grid from "_common/components/Grid";
 import { media } from "utils/media";
 import { ResumesType } from "types/resumes";
 import { theme } from "styles";
+import Spinner from "components/Spinner";
 
 const TempResumes = () => {
   const {
@@ -41,7 +42,6 @@ const TempResumes = () => {
       },
     }
   );
-  console.log(data);
 
   /** *@description  resumes 데이터를 위한 상태관리 */
   const [tempResumes, setTempResumes] = React.useState<
@@ -83,21 +83,14 @@ const TempResumes = () => {
     };
   }, []);
 
-  if (error) return null;
-  if (isLoading)
+  if (error)
     return (
-      <Text
-        fontSize="xxxl"
-        fontWeight={700}
-        textAlign="center"
-        css={css`
-          height: 10px;
-          padding: 2rem 0;
-        `}
-      >
-        로딩중입니다.
-      </Text>
+      <Grid placeItems="center" css={errorStyle}>
+        <h1 css={errorTextStyle}> Error - 재접속해주시기 바랍니다.</h1>
+      </Grid>
     );
+  if (isLoading) return <Spinner individualLoader />;
+
   return (
     <>
       <Text
@@ -176,4 +169,12 @@ const fetchMoreStyle = css`
   padding-bottom: 1px;
   margin-bottom: 5rem;
   height: 100px;
+`;
+const errorStyle = css`
+  width: 100%;
+  height: 100%;
+`;
+const errorTextStyle = css`
+  font-size: 4rem;
+  color: red;
 `;

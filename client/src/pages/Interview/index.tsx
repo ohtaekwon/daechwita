@@ -2,8 +2,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { FcSpeaker } from "react-icons/fc";
-
-import Spinner from "components/Spinner";
+import * as Styled from "./index.styles";
 
 import Button from "_common/components/Button";
 import Input from "_common/components/Input";
@@ -84,16 +83,7 @@ const Interview = () => {
   }, []);
 
   return (
-    <Flex
-      as="section"
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      width="100%"
-      css={css`
-        min-height: 100vh;
-      `}
-    >
+    <Styled.Wrapper>
       <Text
         fontSize="xxxl"
         fontWeight={700}
@@ -119,7 +109,11 @@ const Interview = () => {
         스피커 버튼을 클릭하면 음성이 <br />
         나옵니다.
       </Text>
-      <Spinner />
+      <Styled.SpinWrapper>
+        <Styled.SpinContainer>
+          <Styled.SpinInner />
+        </Styled.SpinContainer>
+      </Styled.SpinWrapper>
       <Flex
         as="div"
         height="50px"
@@ -158,7 +152,7 @@ const Interview = () => {
           <FcSpeaker size={30} />
         </Button>
       </Flex>
-    </Flex>
+    </Styled.Wrapper>
   );
 };
 

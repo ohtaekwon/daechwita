@@ -5,7 +5,8 @@ import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 
-import useInput from "hooks/app/useInput";
+import { useRecoilState } from "recoil";
+import { SelectType, keywordAtom, selectAtom } from "store/atoms";
 
 import Input from "_common/components/Input";
 import Box from "_common/components/Box";
@@ -13,27 +14,38 @@ import Button from "_common/components/Button";
 import Form from "_common/components/Form";
 import Section from "_common/components/Section";
 import { media } from "utils/media";
-import { useRecoilState } from "recoil";
-import { SelectType, keywordAtom, selectAtom } from "store/atoms";
+
+const options = [
+  { value: "none", name: "선택" },
+  { value: "company", name: "회사" },
+  { value: "department", name: "부서" },
+  { value: "tag", name: "유형" },
+  { value: "title", name: "제목" },
+  { value: "text", name: "본문" },
+];
 
 const Search = () => {
   const navigate = useNavigate();
   const [select, setSelect] = useRecoilState(selectAtom);
   const [keyword, setKeyword] = useRecoilState(keywordAtom);
+  const [value, setValue] = React.useState("");
 
-  const onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const onSelect = _.debounce((e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelect(e.target.value as SelectType);
-  };
+  }, 1000);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-    _.debounce(() => console.log("called debounceSomethingFunc"), 5000);
+    setValue(e.target.value);
   };
+
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log("select", select);
+    if (select === "none") return alert("세부항목을 선택해주세요");
+    setKeyword(value);
     // navigate(`/resumes?${select}=${keyword}`);
   };
+  React.useEffect(() => {}, [select]);
+
   return (
     <>
       <Section
@@ -77,20 +89,17 @@ const Search = () => {
                 border: 0;
               `}
             >
-              <option value="none" selected>
-                선택
-              </option>
-              <option value="company">회사</option>
-              <option value="department">부서</option>
-              <option value="tag">유형</option>
-              <option value="title">제목</option>
-              <option value="text">본문</option>
+              {options.map(({ value, name }, index) => (
+                <option key={`${value}-${index}`} value={value}>
+                  {name}
+                </option>
+              ))}
             </select>
             <Input
               type="text"
               name="search"
               placeholder="검색어를 입력해주세요"
-              value={keyword}
+              value={value}
               onChange={onChange}
               // 스타일
               variant="search_1"

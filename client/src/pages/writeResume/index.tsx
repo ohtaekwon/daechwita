@@ -184,11 +184,11 @@ const WriteResume = () => {
      * @default resumeId @default body publishing의 기본값 false에서 true로 변환
      */
     if (!resumeId) return alert("먼저 저장을 완료 하셔야합니다.");
+    await alert("해당 자기소개서를 저장하셨습니까?");
     await onPublish({
       id: resumeId,
       publishing: true,
     });
-    await alert("해당 자기소개서를 저장하셨습니까?");
     await navigate("/resumes", { replace: false });
   };
 

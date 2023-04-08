@@ -14,6 +14,7 @@ import Grid from "_common/components/Grid";
 
 import { SchedulesEnum, SchedulesType } from "types/schedule";
 import { media } from "utils/media";
+import Spinner from "components/Spinner";
 
 const Schedules = () => {
   const { data, isLoading, isError } = useQuery<SchedulesType>(
@@ -29,48 +30,58 @@ const Schedules = () => {
       document.body.style.backgroundImage = "none";
     };
   }, []);
+
+  if (isError)
+    return (
+      <Grid placeItems="center" css={errorStyle}>
+        <h1 css={errorTextStyle}> Error - 재접속해주시기 바랍니다.</h1>
+      </Grid>
+    );
+  if (isLoading) return <Spinner individualLoader />;
   return (
-    <Grid
-      as="section"
-      padding="2rem"
-      display="grid"
-      gridTemplateColumns="repeat(4, 1fr)"
-      css={gridStyle}
-    >
-      {isLoading && <div>로딩 중입니다...</div>}
-      {!isLoading && (
-        <DndProvider backend={HTML5Backend}>
-          <Column
-            className={`col__${SchedulesEnum.FIRST}`}
-            column="first"
-            data={data?.first}
-            badge
-            addBtn
-          />
-          <Column
-            className={`col__${SchedulesEnum.SECOND}`}
-            column="second"
-            data={data?.second}
-            badge
-            addBtn
-          />
-          <Column
-            className={`col__${SchedulesEnum.THIRD}`}
-            column="third"
-            data={data?.third}
-            badge
-            addBtn
-          />
-          <Column
-            className={`col__${SchedulesEnum.FINAL}`}
-            column="final"
-            data={data?.final}
-            badge
-            addBtn
-          />
-        </DndProvider>
-      )}
-    </Grid>
+    <>
+      <Grid
+        as="section"
+        padding="2rem"
+        display="grid"
+        placeItems="center"
+        gridTemplateColumns="repeat(4, 1fr)"
+        css={gridStyle}
+      >
+        {!isLoading && (
+          <DndProvider backend={HTML5Backend}>
+            <Column
+              className={`col__${SchedulesEnum.FIRST}`}
+              column="first"
+              data={data?.first}
+              badge
+              addBtn
+            />
+            <Column
+              className={`col__${SchedulesEnum.SECOND}`}
+              column="second"
+              data={data?.second}
+              badge
+              addBtn
+            />
+            <Column
+              className={`col__${SchedulesEnum.THIRD}`}
+              column="third"
+              data={data?.third}
+              badge
+              addBtn
+            />
+            <Column
+              className={`col__${SchedulesEnum.FINAL}`}
+              column="final"
+              data={data?.final}
+              badge
+              addBtn
+            />
+          </DndProvider>
+        )}
+      </Grid>
+    </>
   );
 };
 
@@ -89,44 +100,12 @@ const gridStyle = css`
   ${media[2]} {
     grid-template-columns: repeat(4, 1fr);
   }
-
-  /* @media screen and (min-width: 320px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  @media screen and (min-width: 420px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  @media screen and (min-width: 520px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  @media screen and (min-width: 620px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  @media screen and (min-width: 720px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  @media screen and (min-width: 820px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (min-width: 920px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (min-width: 1020px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (min-width: 1120px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (min-width: 1220px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (min-width: 1280px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (min-width: 1380px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (min-width: 1480px) {
-    grid-template-columns: repeat(4, 1fr);
-  } */
+`;
+const errorStyle = css`
+  width: 100%;
+  height: 100%;
+`;
+const errorTextStyle = css`
+  font-size: 4rem;
+  color: red;
 `;
