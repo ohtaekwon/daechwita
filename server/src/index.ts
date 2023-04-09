@@ -5,8 +5,6 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 import "dotenv/config";
 
-import verifyTokenAuthMiddleware from "./middleware/verifyTokenAuthMiddleware";
-
 import authMiddleware from "./middleware/authMiddleware";
 
 import totalCharts from "./routes/totalChart";
@@ -14,7 +12,6 @@ import usersCharts from "./routes/usersChart";
 import authRoute from "./routes/auth";
 import schedulesRoute from "./routes/schedules";
 import resumesRoute from "./routes/resumes";
-import searchRoute from "./routes/search";
 // import charts from "./routes/charts";
 
 /**
@@ -50,7 +47,6 @@ const routes = [
   ...usersCharts,
   ...resumesRoute,
   ...schedulesRoute,
-  ...searchRoute,
 ];
 
 const passMiddleWare = totalCharts.map(({ method, route, handler }) => route);
