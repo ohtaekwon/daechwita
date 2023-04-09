@@ -4,7 +4,7 @@ import { getUserFromCookie, removeUserCookie } from "lib/firebase/userCookies";
 /**
  * @constant baseUrl SERVER URL
  */
-const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
+const baseUrl = process.env.REACT_APP_SERVER_PRODUCTION_BASE_URL;
 
 /**
  * 기본 API Axios Instance

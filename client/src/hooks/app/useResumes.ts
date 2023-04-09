@@ -176,7 +176,4 @@ export default useResumes;
 //     ...copyResumes[targetIndex],
 //     // newData
 //   });
-
-//   console.log("resumesData", response);
-//   console.log("mutateData", mutateData);
 // },
