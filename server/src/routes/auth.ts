@@ -63,9 +63,7 @@ const authRoute = [
           },
           secreteKey!
         );
-        // const decode = jwt.verify(token, secreteKey!);
 
-        // console.log(decode);
         res.send(token);
       } catch (error) {
         res.send(500).send({ error: error });
@@ -82,7 +80,6 @@ const authRoute = [
       // JWT 토큰 검증
       const decodedToken = jwt.verify(token, secreteKey!);
 
-      console.log(decodedToken);
       // Firebase Authentication에서 로그아웃
       await admin
         .auth()

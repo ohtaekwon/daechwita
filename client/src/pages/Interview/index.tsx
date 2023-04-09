@@ -15,8 +15,6 @@ const getSpeech = (text: any) => {
   //디바이스에 내장된 voice를 가져온다.
   const setVoiceList = () => {
     voices = window.speechSynthesis.getVoices();
-    // return voices[12];
-    // console.log(voices[12]);
   };
 
   setVoiceList();

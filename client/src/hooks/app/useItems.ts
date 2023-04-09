@@ -45,7 +45,7 @@ function useItems(column: ITEM_KEY.DOCUMENTS, addItem: Item) {
 
   const _delete = React.useCallback(
     (id: string) => {
-      console.log(`item -  ${id}을 삭제 중입니다...`);
+      console.log(`item - ${id}을 삭제 중입니다...`);
       setItemList((allItems) => {
         const snapshot = allItems[column];
         return {

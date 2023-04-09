@@ -190,7 +190,6 @@ const MyDataCharts = ({}) => {
     };
   }, []);
 
-  console.log(columnError, departmentError, tagError, allError);
   if (columnError || departmentError || tagError || allError)
     return <div>Error</div>;
 

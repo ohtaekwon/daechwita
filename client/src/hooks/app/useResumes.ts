@@ -111,17 +111,13 @@ function useResumes(queryClient: QueryClient, QueryKeys: QueryKeysType) {
 
   const { mutate: onDelete } = useMutation((id: string) => deleteResume(id), {
     onMutate: async (id) => {
-      console.log(id);
       // await queryClient.cancelQueries(QueryKeys.RESUMES());
       // const response = queryClient.getQueriesData(QueryKeys.RESUMES());
       // const [key, resumesData] = response[0];
-
       // if (!resumesData) return null;
-
       // const targetIndex = (resumesData as ResumesType[]).findIndex(
       //   (item) => item.id === id
       // );
-
       // if (!resumesData || targetIndex === undefined || targetIndex < 0) return;
       // const copyResumes = [...(resumesData as ResumesType[])];
       // copyResumes.splice(targetIndex, 1);

@@ -39,7 +39,7 @@ function App() {
             setUserCookie(idToken);
           })
           .catch((error) => {
-            console.log(error);
+            console.error(error);
           });
       } else {
         setIsLoggedIn(false);
@@ -56,7 +56,7 @@ function App() {
         <ProgressBar
           backgroundColor="violet_900"
           loadingTime={1}
-          loadingText="준비중입니다..."
+          loadingText="준비중입니다."
         />
       )}
     </>

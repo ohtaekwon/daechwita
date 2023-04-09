@@ -31,7 +31,7 @@ const useUser = () => {
       setToken("");
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

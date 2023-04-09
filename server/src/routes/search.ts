@@ -39,11 +39,14 @@ const searchRoute = [
         if (tag) {
         } else if (company) {
           const keyword = (company as string).replace(/\s+/g, "");
-          console.log("keyword", keyword);
-          queryOptions.unshift(where("apply.company", "==", keyword));
+
+          queryOptions.unshift(where("apply.company", ">=", keyword));
+          queryOptions.unshift(where("apply.company", "<", keyword));
         } else if (department) {
           const keyword = (department as string).replace(/\s+/g, "");
+
           queryOptions.unshift(where("apply.department", ">=", keyword));
+          queryOptions.unshift(where("apply.department", "<", keyword));
         }
         queryOptions.unshift(limit(PAGE_SIZE));
 

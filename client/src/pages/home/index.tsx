@@ -14,7 +14,6 @@ const Home = () => {
   };
 
   React.useEffect(() => {
-    console.log("Home useEffect");
     document.body.style.backgroundColor = theme.colors.lightBlue_50;
     return () => {
       document.body.style.backgroundColor = theme.colors.transparent;

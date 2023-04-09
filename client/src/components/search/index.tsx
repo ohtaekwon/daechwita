@@ -16,7 +16,7 @@ import Section from "_common/components/Section";
 import { media } from "utils/media";
 
 const options = [
-  { value: "none", name: "선택" },
+  { value: "", name: "선택" },
   { value: "company", name: "회사" },
   { value: "department", name: "부서" },
   { value: "tag", name: "유형" },
@@ -32,7 +32,7 @@ const Search = () => {
 
   const onSelect = _.debounce((e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelect(e.target.value as SelectType);
-  }, 1000);
+  }, 500);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -40,11 +40,10 @@ const Search = () => {
 
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (select === "none") return alert("세부항목을 선택해주세요");
+    if (!select) return alert("세부항목을 선택해주세요");
     setKeyword(value);
     // navigate(`/resumes?${select}=${keyword}`);
   };
-  React.useEffect(() => {}, [select]);
 
   return (
     <>

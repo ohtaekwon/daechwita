@@ -279,18 +279,13 @@ function useColumn(queryKey: QueryKeysType["SCHEDULES"], column: ColumnType) {
       toIndex: number;
     }) => {
       if (fromIndex > toIndex) {
-        // await throttle(() => console.log("대기"), 1500);
-        console.log("아래로 이동");
         return updateSchedules(fromId, { index: toIndex - 1 });
       } else {
-        // await throttle(() => console.log("대기"), 1500);
-        console.log("위로 이동");
         return updateSchedules(fromId, { index: toIndex + 1 });
       }
     },
     {
       onMutate: async () => {
-        await throttle(() => console.log("대기", 1500));
         queryClient.invalidateQueries(queryKey(), {
           exact: false,
           refetchInactive: true,

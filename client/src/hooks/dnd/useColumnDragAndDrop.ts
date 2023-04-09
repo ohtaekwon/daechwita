@@ -40,41 +40,11 @@ function useColumnDragAndDrop<T extends HTMLElement>(
 
       if (draggedItemIndex === hoveredItemIndex) return; // 이동하지 않은 경우
 
-      // handleDropHover({
-      //   fromId: item.id,
-      //   fromIndex: draggedItemIndex,
-      //   toIndex: hoveredItemIndex,
-      // });
-
       const isDraggedItemAboveHovered = draggedItemIndex < hoveredItemIndex; // 위에 올려질 인덱스가 뒤에 있을 경우
       const isDraggedItemBelowHovered = !isDraggedItemAboveHovered; // 위에 올려질 인덱스가 앞에 있을 경우
 
       const drop = monitor.didDrop();
       const move = monitor.getDropResult();
-
-      // const { x: mouseX, y: mouseY } = monitor.getClientOffset() as XYCoord;
-      // const hoveredBoundingRect = ref.current.getBoundingClientRect();
-      // const stand = monitor.getInitialSourceClientOffset()?.y || 0;
-      // const compare = hoveredBoundingRect.y || 0;
-
-      // const hoveredMiddleHeight =
-      //   (hoveredBoundingRect.bottom - hoveredBoundingRect.top) / 2;
-
-      // const mouseYRelativeToHovered = mouseY - hoveredBoundingRect.top;
-
-      // const isMouseYAboveHoveredMiddleHeight =
-      //   mouseYRelativeToHovered < hoveredMiddleHeight;
-
-      // const isMouseYBelowHoveredMiddleHeight =
-      //   mouseYRelativeToHovered > hoveredMiddleHeight;
-
-      // if (isDraggedItemAboveHovered && isMouseYAboveHoveredMiddleHeight) {
-      //   return;
-      // }
-
-      // if (isDraggedItemBelowHovered && isMouseYBelowHoveredMiddleHeight) {
-      //   return;
-      // }
 
       if (drop && move) {
         handleDropHover({
@@ -138,34 +108,8 @@ function useColumnDragAndDrop<T extends HTMLElement>(
         return;
       }
 
-      // console.log("드래그된 아이템 인덱스", draggedItemIndex);
-      // console.log("호버된 아이템 인덱스", hoveredItemIndex);
-
       // 다 통과되면 실제 작업 실행
       // '드래그된 해당 아이템의 인덱스'와 '위에 올려진 해당 아이템의 인덱스'를 swap
-
-      // console.log("절대 위치", stand, "상대 위치", compare);
-
-      if (Math.abs(stand - compare) < 20) {
-        console.log("원위치");
-        return (item.index = hoveredItemIndex);
-      } else if (draggedItemIndex < hoveredItemIndex) {
-        console.log("위로 이동");
-      } else {
-        console.log("아래로 이동");
-      }
-
-      // handleDropHover({
-      //   fromId: item.id,
-      //   fromIndex: draggedItemIndex,
-      //   toIndex: hoveredItemIndex,
-      // });
-
-      // console.log("didDrop", monitor.didDrop());
-
-      // console.log("canDrop", monitor.canDrop());
-
-      // console.log("isOver", monitor.isOver());
 
       // 참고: 여기에서 모니터 항목을 변경하고 있기 때문에
       // 일반적으로 mutation을 피하는 것이 좋지만,

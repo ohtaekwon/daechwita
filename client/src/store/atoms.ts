@@ -6,7 +6,7 @@ export type SelectType =
   | "text"
   | "company"
   | "department"
-  | "none";
+  | "";
 export const resumesIdAtom = atom<string>({
   key: "RESUMES_ID",
   default: "",
@@ -19,7 +19,7 @@ export const tokenAtom = atom<string>({
 
 export const selectAtom = atom<SelectType>({
   key: "SELECT",
-  default: "none",
+  default: "",
 });
 
 export const keywordAtom = atom<string>({

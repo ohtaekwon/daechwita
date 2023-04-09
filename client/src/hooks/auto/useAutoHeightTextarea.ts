@@ -31,9 +31,6 @@ function useAutoHeightTextarea() {
           [event.target.value.length]: 0,
         }); // Dictionary에서 삭제
       }
-      // if (checkItemContent.length < 19) {
-      //   setLineHeight(0);
-      // }
     }
   };
 
@@ -49,8 +46,6 @@ function useAutoHeightTextarea() {
       }); // 줄바꿈 위치 저장
     }
   };
-  // console.log("checkItemContent", checkItemContent);
-  // console.log("lineBreakIndexDict", lineBreakIndexDict);
 
   return {
     textAreaRef,
