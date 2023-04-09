@@ -54,6 +54,7 @@ const resumesRoute = [
         queryOptions.unshift(where("uid", "==", uid));
 
         if (newLatest) {
+          // 가장 최근에 POST한 RESUME
           queryOptions.unshift(where("publishing", "==", newPublishing));
           queryOptions.unshift(limit(1));
         } else {
@@ -78,6 +79,7 @@ const resumesRoute = [
             ...d,
           });
         });
+
         res.send({ data });
       } catch (error) {
         res.status(404).send({ error: error });

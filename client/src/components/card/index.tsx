@@ -26,6 +26,7 @@ import Input from "_common/components/Input";
 
 import Modal from "components/Modal";
 
+import useModal from "hooks/app/useGoBack";
 import useResumes from "hooks/app/useResumes";
 import useColumnDragAndDrop from "hooks/dnd/useColumnDragAndDrop";
 import { useInputReducer } from "hooks/app/useInputReducer";

@@ -24,13 +24,7 @@ const searchRoute = [
     handler: async (req: express.Request, res: express.Response) => {
       try {
         const {
-          query: {
-            all = "",
-            tag = "",
-            company = "",
-            department = "",
-            page = "",
-          },
+          query: { tag = "", company = "", department = "", page = "" },
         } = req;
         // 토큰에서 uid 가져오기
         const uid = (req as any).decodedToken!.uid;
@@ -42,6 +36,20 @@ const searchRoute = [
         queryOptions.unshift(where("publishing", "==", true));
 
         // queryOptions.unshift(where("apply.", "==", true));
+        if (tag) {
+        } else if (company) {
+          const keyword = (company as string).replace(/\s+/g, "");
+          console.log("keyword", keyword);
+          queryOptions.unshift(where("apply.company", "==", keyword));
+        } else if (department) {
+          const keyword = (department as string).replace(/\s+/g, "");
+          queryOptions.unshift(where("apply.department", ">=", keyword));
+        }
+        queryOptions.unshift(limit(PAGE_SIZE));
+
+        const q = firebaseQuery(resumes, ...queryOptions);
+        const resumesSnapshot = await getDocs(q);
+        const data: DocumentData[] = [];
 
         if (page) {
           const snapshot = await getDoc(
@@ -49,16 +57,6 @@ const searchRoute = [
           );
           queryOptions.push(startAfter(snapshot));
         }
-        if (all) {
-        } else if (tag) {
-        } else if (company) {
-        } else if (department) {
-        }
-        queryOptions.unshift(limit(PAGE_SIZE));
-
-        const q = firebaseQuery(resumes, ...queryOptions);
-        const resumesSnapshot = await getDocs(q);
-        const data: DocumentData[] = [];
 
         resumesSnapshot.forEach((doc) => {
           const d = doc.data();

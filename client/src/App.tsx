@@ -2,7 +2,11 @@ import React, { Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import "./lib/apis/utils/global";
 import { authService } from "lib/firebase/firebase.config";
-import { getUserFromCookie } from "lib/firebase/userCookies";
+import {
+  getUserFromCookie,
+  removeUserCookie,
+  setUserCookie,
+} from "lib/firebase/userCookies";
 import ProgressBar from "components/ProgressBar";
 
 const Router = React.lazy(() => import("routes/Router"));
@@ -28,8 +32,18 @@ function App() {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
+        user
+          .getIdToken(true)
+          .then((idToken) => {
+            removeUserCookie();
+            setUserCookie(idToken);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       } else {
         setIsLoggedIn(false);
+        removeUserCookie();
       }
       setInit(true);
     });
@@ -38,7 +52,13 @@ function App() {
   return (
     <>
       {init && <Router isLoggedIn={isLoggedIn} />}
-      {!init && <ProgressBar backgroundColor="violet_900" loadingTime={1} />}
+      {!init && (
+        <ProgressBar
+          backgroundColor="violet_900"
+          loadingTime={1}
+          loadingText="준비중입니다..."
+        />
+      )}
     </>
   );
 }

@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { css } from "@emotion/react";
 import { ImCancelCircle } from "react-icons/im";
 import { AiOutlinePlusSquare } from "react-icons/ai";
-
 import { getClient, QueryKeys } from "queryClient";
 import { useRecoilState } from "recoil";
 import { v4 as uuid } from "uuid";
@@ -307,7 +306,6 @@ const WriteResume = () => {
               list={items.documents}
               deleteForm={_delete}
               onChange={update}
-              toggle={toggle}
             />
           </Grid>
         </Section>
@@ -415,7 +413,6 @@ const WriteResume = () => {
             </Button>
           </Box>
         )}
-        {/* {!toolToggle  } */}
       </div>
       {/* 뒤로가기 할때 모달창 */}
       <Modal

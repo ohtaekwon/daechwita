@@ -1,4 +1,4 @@
-import { ElementType, HTMLAttributes } from "react";
+import { HTMLAttributes } from "react";
 
 type Refs = {
   emailRef: React.RefObject<HTMLInputElement>;

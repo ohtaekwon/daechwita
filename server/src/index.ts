@@ -14,6 +14,7 @@ import usersCharts from "./routes/usersChart";
 import authRoute from "./routes/auth";
 import schedulesRoute from "./routes/schedules";
 import resumesRoute from "./routes/resumes";
+import searchRoute from "./routes/search";
 // import charts from "./routes/charts";
 
 /**
@@ -49,6 +50,7 @@ const routes = [
   ...usersCharts,
   ...resumesRoute,
   ...schedulesRoute,
+  ...searchRoute,
 ];
 
 const passMiddleWare = totalCharts.map(({ method, route, handler }) => route);

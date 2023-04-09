@@ -64,11 +64,11 @@ const WriteResumeAdditionalSelect = React.forwardRef(
               margin: 8px 0;
             `}
           >
-            부서명
+            직무명
             <Input
               type="text"
               name="department"
-              placeholder="부서를 입력해주세요"
+              placeholder="직무를 입력해주세요"
               className="input__department"
               value={department}
               onChange={setAdditionalInfo}

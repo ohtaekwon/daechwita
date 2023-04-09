@@ -26,8 +26,10 @@ import { media } from "utils/media";
 import { ResumesType } from "types/resumes";
 import { theme } from "styles";
 import { keywordAtom } from "store/atoms";
-import Skeleton from "components/Skeleton";
 import Spinner from "components/Spinner";
+import { getUserFromCookie } from "lib/firebase/userCookies";
+
+const VALIDATION = /\s+/g;
 
 const Resumes = () => {
   const navigate = useNavigate();
@@ -69,11 +71,13 @@ const Resumes = () => {
   );
   /** @description 화면 맨 마지막에 도달할 시, 다음 id값을 기준으로 데이터패칭 */
   React.useEffect(() => {
-    if (!intersecting || !isSuccess || !hasNextPage || isFetchingNextPage) {
+    if (!intersecting || !isSuccess || !hasNextPage) {
       return;
     }
     fetchNextPage();
   }, [intersecting]);
+  console.log(intersecting, hasNextPage);
+  // || isFetchingNextPage
 
   /**
    * @description Resumes 서버 데이터의 상태관리를 위한 훅 Resumes의 쿼리 데이터를 useMutation하여 CRUD를 하는 훅
@@ -102,13 +106,16 @@ const Resumes = () => {
     if (!keyword) {
       setResumes(data?.pages);
     } else {
-      const snapshot = data?.pages;
+      const snapshot = [...data?.pages];
 
       if (select === "company") {
         const newData = snapshot.map((page) =>
           page.filter((item) => {
-            const newCompany = item.resumes.apply.company.replace(/\s+/g, "");
-            const newKeyword = keyword.replace(/\s+/g, "");
+            const newCompany = item.resumes.apply.company.replace(
+              VALIDATION,
+              ""
+            );
+            const newKeyword = keyword.replace(VALIDATION, "");
             return newCompany.length >= newKeyword.length
               ? newCompany.includes(newKeyword)
               : newKeyword.includes(newCompany);
@@ -118,8 +125,11 @@ const Resumes = () => {
       } else if (select === "department") {
         const newData = snapshot.map((page) =>
           page.filter((item) => {
-            const newDep = item.resumes.apply.department.replace(/\s+/g, "");
-            const newKeyword = keyword.replace(/\s+/g, "");
+            const newDep = item.resumes.apply.department.replace(
+              VALIDATION,
+              ""
+            );
+            const newKeyword = keyword.replace(VALIDATION, "");
             return newDep.length >= newKeyword.length
               ? newDep.includes(newKeyword)
               : newKeyword.includes(newDep);
@@ -129,7 +139,7 @@ const Resumes = () => {
       } else if (select === "tag") {
         const newData = snapshot.map((page) =>
           page.filter((item) => {
-            const newItemTag = item.tag.map((t) => t?.replace(/\s+/g, ""));
+            const newItemTag = item.tag.map((t) => t?.replace(VALIDATION, ""));
             const newKeyword = keyword.replace(/\s+/g, "");
             return newItemTag.find((t) =>
               t && t?.length > newKeyword.length
@@ -143,9 +153,9 @@ const Resumes = () => {
         const newData = snapshot.map((page) =>
           page.filter((item) => {
             const newItemTitle = item.resumes.documents.map((d) =>
-              d.title?.replace(/\s+/g, "")
+              d.title?.replace(VALIDATION, "")
             );
-            const newKeyword = keyword.replace(/\s+/g, "");
+            const newKeyword = keyword.replace(VALIDATION, "");
             return newItemTitle.find((title) =>
               title && title?.length > newKeyword.length
                 ? title?.includes(newKeyword)
@@ -158,9 +168,9 @@ const Resumes = () => {
         const newData = snapshot.map((page) =>
           page.filter((item) => {
             const newItemText = item.resumes.documents.map((d) =>
-              d.text?.replace(/\s+/g, "")
+              d.text?.replace(VALIDATION, "")
             );
-            const newKeyword = keyword.replace(/\s+/g, "");
+            const newKeyword = keyword.replace(VALIDATION, "");
             return newItemText.find((text) =>
               text && text?.length > newKeyword.length
                 ? text?.includes(newKeyword)
@@ -179,6 +189,7 @@ const Resumes = () => {
     // };
   }, [data?.pages, select, keyword]);
 
+  console.log(getUserFromCookie());
   if (error)
     return (
       <Grid placeItems="center" css={errorStyle}>
@@ -187,7 +198,6 @@ const Resumes = () => {
     );
   if (isLoading) return <Spinner individualLoader />;
 
-  console.log(resumes);
   return (
     <>
       <Text

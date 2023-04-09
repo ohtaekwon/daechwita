@@ -13,8 +13,7 @@ import { setUserCookie } from "lib/firebase/userCookies";
 
 import FirebaseAuth from "components/Auth";
 import Grid from "_common/components/Grid";
-import { errorToKR } from "components/Auth/errorDict";
-import { emailRegEx, passwordRegEx } from "utils/validate";
+import { errorToKR } from "components/Auth/errorHandle";
 
 const Auth = () => {
   const [token, setToken] = useRecoilState(tokenAtom);
