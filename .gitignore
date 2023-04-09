@@ -5,7 +5,7 @@
 client/node_modules
 server/node_modules
 server/package-lock.json
-server/serviceAccountKey.json
+server/src/serviceAccountKey.json
 
 /.pnp
 .pnp.js
