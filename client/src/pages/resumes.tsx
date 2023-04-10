@@ -27,7 +27,6 @@ import { ResumesType } from "types/resumes";
 import { theme } from "styles";
 import { keywordAtom } from "store/atoms";
 import Spinner from "components/Spinner";
-import { getUserFromCookie } from "lib/firebase/userCookies";
 
 const VALIDATION = /\s+/g;
 

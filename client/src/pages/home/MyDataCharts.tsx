@@ -18,7 +18,6 @@ import { emoji, scheduleChartDict } from "utils/constants";
 import { checkSeries } from "utils/helpers";
 import { media } from "utils/media";
 import { ColumnType } from "types/schedule";
-import Skeleton from "components/Skeleton";
 
 const MyDataCharts = ({}) => {
   /**
