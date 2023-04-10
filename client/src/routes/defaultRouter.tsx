@@ -1,7 +1,7 @@
 import React from "react";
-import Auth from "pages/Auth";
 import { Route, Routes } from "react-router-dom";
 import { Layout } from "components/Layout";
+import Auth from "pages/Auth";
 
 const DefaultRouter = () => {
   return (
