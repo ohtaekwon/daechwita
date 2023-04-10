@@ -1,7 +1,8 @@
 import React from "react";
 import AuthCompletedRouter from "./AuthCompletedRouter";
 import DefaultRouter from "./DefaultRouter";
-import { QueryClientProvider, useQueryClient } from "react-query";
+
+import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { getClient } from "queryClient";
 

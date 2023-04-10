@@ -29,7 +29,6 @@ const TempResumes = () => {
     isSuccess,
     isFetchingNextPage,
     refetch,
-    status,
   } = useInfiniteQuery<ResumesType[]>(
     QueryKeys.TEMP(),
     ({ pageParam = "" }) =>
