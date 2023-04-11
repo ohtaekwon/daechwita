@@ -1,6 +1,4 @@
 import React from "react";
-import { UseMutateFunction } from "react-query";
-import { AxiosResponse } from "axios";
 import { useDrop } from "react-dnd";
 
 import { ColumnType, DragItem, Schedule, DnDAcceptKey } from "types/schedule";
@@ -39,6 +37,7 @@ function useColumnDrop(column: ColumnType, handleDrop: OnDrop) {
       if (!dragItem || dragItem.from === column) {
         return;
       }
+
       handleDrop({ id });
     },
 

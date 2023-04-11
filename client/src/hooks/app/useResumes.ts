@@ -3,11 +3,11 @@ import { v4 as uuid } from "uuid";
 import { QueryClient, useMutation } from "react-query";
 
 import { createResume, deleteResume, updateResume } from "lib/apis/api/resumes";
-import { Resume, ResumesType } from "types/index.types";
 import { ItemList } from "./useItems";
 import { useRecoilState } from "recoil";
 import { resumesIdAtom } from "store/atoms";
 import { QueryKeysType } from "queryClient";
+import { Resume } from "types/resumes";
 
 /**
  * @description Resumes 서버 데이터의 상태관리를 위한 훅

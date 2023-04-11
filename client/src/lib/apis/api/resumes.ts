@@ -5,8 +5,8 @@ import {
   requestPut,
 } from "../utils/methods";
 import { handleError } from "../utils/helpers";
-import { Resume } from "types/index.types";
 import { authInstance } from "../utils/instance";
+import { ResumeApi } from "types/resumes";
 
 export const basePath = "/api/v1/resumes";
 
@@ -80,13 +80,13 @@ export const getAllResumes = async ({ publishing = true, pageParam = "" }) => {
 export const createResume = async (payload: unknown = {}) => {
   try {
     console.info("자기소개서를 작성성 중 입니다...");
-    const { data }: { data: Resume } = await requestPost(
+    const { data }: { data: ResumeApi } = await requestPost(
       authInstance,
       basePath,
       payload
     );
     console.info(`임시 자기소개서 ${data?.id!}가 반환되었습니다!`);
-    return data as Resume;
+    return data as ResumeApi;
   } catch (error) {
     console.error(`자기소개서를 작성하던 중 에러가 발생하였습니다!`);
     const { code, message } = handleError(error);

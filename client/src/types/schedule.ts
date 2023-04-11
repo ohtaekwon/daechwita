@@ -8,7 +8,14 @@ export enum SchedulesEnum {
 export enum DnDAcceptKey {
   SCHEDULES = "schedules",
 }
-
+type Apply = {
+  department: string;
+  company: string;
+};
+type CreatedAt = {
+  seconds: number;
+  nanoseconds: number;
+};
 export type TimeType = {
   seconds: number;
   nanoseconds: number;
@@ -49,4 +56,14 @@ export interface OriginScheduleType {
   column: ColumnType;
   createdAt: TimeType;
   updatedAt?: TimeType;
+}
+export interface SchedulesServiceType {
+  id: string;
+  uid: string;
+  index: number;
+  column: "first" | "second" | "third" | "final";
+  application: Apply;
+  text: string;
+  title: string;
+  createdAt: CreatedAt;
 }

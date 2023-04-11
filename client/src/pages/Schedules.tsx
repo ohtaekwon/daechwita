@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { QueryKeys } from "queryClient";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { useRecoilValue } from "recoil";
 
 import { getAllSchedules } from "lib/apis/api/schedules";
 import { getSchedulesList } from "lib/apis/service/getSchedulesList";
@@ -17,9 +18,10 @@ import { media } from "utils/media";
 import Spinner from "components/Spinner";
 
 const Schedules = () => {
-  const { data, isLoading, isError } = useQuery<SchedulesType>(
+  const { data, isLoading, isError, refetch } = useQuery<SchedulesType>(
     QueryKeys.SCHEDULES(),
-    () => getAllSchedules().then(getSchedulesList)
+    () => getAllSchedules().then(getSchedulesList),
+    { refetchOnMount: "always" }
   );
 
   React.useEffect(() => {
@@ -30,6 +32,8 @@ const Schedules = () => {
       document.body.style.backgroundImage = "none";
     };
   }, []);
+
+  // console.log("data", toggle, data);
 
   if (isError)
     return (

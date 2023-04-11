@@ -1,11 +1,11 @@
-import { ResumesType } from "types/index.types";
+import { ResumesServiceType } from "types/resumes";
 import { randomButtonColor } from "utils/helpers";
 
 /**
  * GET Resumes 데이터 정제
  * @param rowData getResume를 통해 반환된 Promise 값을 정제
  */
-export const getResumesService = (rowData: { data: ResumesType[] }) => {
+export const getResumesService = (rowData: { data: ResumesServiceType[] }) => {
   const newData = rowData.data.sort(
     (a, b) => b.updatedAt?.seconds! - a.updatedAt?.seconds!
   );
@@ -18,7 +18,7 @@ export const getResumesService = (rowData: { data: ResumesType[] }) => {
       createdAt,
       documents,
       updatedAt,
-    }: ResumesType) => {
+    }: ResumesServiceType) => {
       return {
         id,
         uid,
@@ -45,7 +45,9 @@ export const getResumesService = (rowData: { data: ResumesType[] }) => {
  * @param rowData getResume를 통해 반환된 Promise 값을 정제
  * publishing이 False인 것만 반환하도록 한다.
  */
-export const getTempResumesService = (rowData: { data: ResumesType[] }) => {
+export const getTempResumesService = (rowData: {
+  data: ResumesServiceType[];
+}) => {
   const newData =
     rowData.data.filter((item) => item.publishing === false) || [];
   return newData.map(
@@ -58,7 +60,7 @@ export const getTempResumesService = (rowData: { data: ResumesType[] }) => {
       documents,
       updatedAt,
       publishing,
-    }: ResumesType) => {
+    }: ResumesServiceType) => {
       return {
         id,
         uid,
