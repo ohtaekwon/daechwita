@@ -5,7 +5,6 @@ import { getUserFromCookie, removeUserCookie } from "lib/firebase/userCookies";
  * @constant baseUrl SERVER URL
  */
 const baseUrl = process.env.REACT_APP_SERVER_PRODUCTION_BASE_URL;
-
 /**
  * 기본 API Axios Instance
  *
@@ -31,9 +30,9 @@ const authInstance = axios.create({
   baseURL: baseUrl,
   headers: {
     "content-type": "application/json;charset=UTF-8",
-    "Access-Control-Allow-Origin": baseUrl,
+    "Access-Control-Allow-Origin": "*",
   },
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 /**
