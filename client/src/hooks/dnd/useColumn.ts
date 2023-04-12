@@ -14,7 +14,6 @@ import {
   SchedulesType,
   TimeType,
 } from "types/schedule";
-import { throttle } from "utils/helpers";
 import { AxiosResponse } from "axios";
 
 /**
@@ -259,7 +258,7 @@ function useColumn(queryKey: QueryKeysType["SCHEDULES"], column: ColumnType) {
         index: Date.now() + Math.random() * 2,
       }),
     {
-      onMutate: async () => {
+      onSuccess: async () => {
         queryClient.invalidateQueries(queryKey(), {
           exact: false,
           refetchInactive: true,
@@ -285,7 +284,7 @@ function useColumn(queryKey: QueryKeysType["SCHEDULES"], column: ColumnType) {
       }
     },
     {
-      onMutate: async () => {
+      onSuccess: async () => {
         queryClient.invalidateQueries(queryKey(), {
           exact: false,
           refetchInactive: true,

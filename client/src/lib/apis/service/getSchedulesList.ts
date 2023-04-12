@@ -1,10 +1,10 @@
-import { SchedulesType } from "types/index.types";
+import { SchedulesServiceType } from "types/schedule";
 
 /**
  * GET Schedule의 데이터 정제
  *
  */
-export const getSchedulesList = (rowData: SchedulesType[]) => {
+export const getSchedulesList = (rowData: SchedulesServiceType[]) => {
   const newArray: any = { first: [], second: [], third: [], final: [] };
   let newData = rowData.sort((a, b) => b.index - a.index);
   newData
@@ -16,7 +16,7 @@ export const getSchedulesList = (rowData: SchedulesType[]) => {
         index,
         application: { department, company },
         createdAt,
-      }: SchedulesType) => {
+      }: SchedulesServiceType) => {
         return {
           id,
           uid,
