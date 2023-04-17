@@ -45,8 +45,44 @@ npm run start
 
 - [웹 사이트](https://daechwita-v8od.vercel.app/)
 - [API 명세서](https://github.com/ohtaekwon/daechwita/wiki)
-- 프로젝트 정리 및 후기
+- [프론트엔드 레포](https://github.com/ohtaekwon/daechwita/tree/main/client)
+- [백엔드 레포](https://github.com/ohtaekwon/daechwita/tree/main/server)
+- [프로젝트 정리 및 후기](https://velog.io/@taetae-5/%EB%8C%80%EC%B7%A8%ED%83%80-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9B%84%EA%B8%B0)
 
 ### 🛠 Architecture
 
 ![Architecture](./assets/architecture.png)
+
+### 구현 영상
+
+#### 로그인
+
+![로그인](https://user-images.githubusercontent.com/75871005/232441937-414212de-53d3-4831-9de3-b7bdb46eb58c.gif)
+
+#### 입사지원현황 페이지
+
+![입사지원현황](https://user-images.githubusercontent.com/75871005/232443844-96727632-df7e-453f-b3ca-f90e0d982df7.gif)
+
+#### 드래그앤드랍
+
+![드래그앤드랍](https://user-images.githubusercontent.com/75871005/232443886-5d18928e-f259-4906-a3a4-51faae580ae0.gif)
+
+#### 자기소개 페이지
+
+![자기소개 페이지](https://user-images.githubusercontent.com/75871005/232444628-994ce589-8ee5-4d76-8e82-d86879b4ee02.gif)
+
+#### 자기소개서 작성 - 임시저장
+
+![임시저장](https://user-images.githubusercontent.com/75871005/232443911-658197c0-a043-4fac-a8c7-df7dfd76ce3a.gif)
+
+#### 자기소개서 작성 - 출간 및 이미지 업로드
+
+![출간하기](https://user-images.githubusercontent.com/75871005/232445165-b198b925-fecd-4bfc-b2e2-a90fef730ab4.gif)
+
+#### 자기소개 페이지 - 검색
+
+![검색](https://user-images.githubusercontent.com/75871005/232445967-8d2426c5-c626-4155-b777-1b1ff2017896.gif)
+
+#### 반응형
+
+![반응형](https://user-images.githubusercontent.com/75871005/232444449-79f9b057-c239-42dd-b992-03265347bb42.gif)
